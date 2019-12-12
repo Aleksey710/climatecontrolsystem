@@ -1,0 +1,21 @@
+# Ignore any file named foo.txt.
+#foo.txt
+Makefile
+/bin/ClimateControlSystem
+
+
+# Ignore (generated) html files,
+#*.html
+/build/ClimateControlSystem/*
+/build/modbus/*
+/lib/*
+
+
+# except foo.html which is maintained by hand.
+#!foo.html
+
+
+
+# Ignore objects and archives.
+#*.[oa]
+*.pro.user

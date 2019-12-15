@@ -29,5 +29,8 @@ Save and connect the TF card to your Pi then power up.
 (Touch input working well means that the LED firmware is Rev2.1. If the LCD firmware is 1.1, see #About LCD revision)
 Note: Resolution of Ubuntu Mate OS or Windows 10 IoT Core OS can also be set properly by editing config.txt.
 
+Описание настроек
+http://wikihandbk.com/wiki/Raspberry_Pi:%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D0%BA%D0%B0/config.txt#.D0.9E.D0.BF.D1.86.D0.B8.D0.B8_.D0.B4.D0.BB.D1.8F_.D1.80.D0.B5.D0.B6.D0.B8.D0.BC.D0.B0_HDMI
+
 
 

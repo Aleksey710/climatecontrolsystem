@@ -1,0 +1,13 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Terminal
+Name[ru]=LXTerminal
+GenericName[ru]=Терминал
+Comment[ru]=Использовать командную строку
+TryExec=lxterminal
+Exec=lxterminal
+Icon=lxterminal
+Type=Application
+StartupNotify=true
+Categories=GTK;Utility;TerminalEmulator;
+Hidden=true

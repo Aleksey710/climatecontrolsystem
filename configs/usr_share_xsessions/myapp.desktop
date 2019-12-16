@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=Web Browser
+Comment=Use a web browser as your session
+Exec=/opt/ClimateControlSystem/ClimateControlSystem
+TryExec=/opt/ClimateControlSystem/ClimateControlSystem
+Icon=google-chrome
+Type=Application

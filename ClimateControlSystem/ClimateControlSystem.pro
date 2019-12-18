@@ -37,8 +37,9 @@ CONFIG += console
 INCLUDEPATH += $$ROOT_PATH/ExternalLibraries/Easyloggingpp
 INCLUDEPATH += $$ROOT_PATH/ExternalLibraries/libmodbus/modbus/$$LIBMODBUS
 INCLUDEPATH += $$ROOT_PATH/ExternalLibraries/libmodbus/modbus/$$LIBMODBUS/src
-INCLUDEPATH += $$ROOT_PATH/ExternalLibraries/libmodbus/modbus/$$LIBMODBUS/src/isi
 
+INCLUDEPATH += $$ROOT_PATH/InternalLibraries/Utils
+INCLUDEPATH += $$ROOT_PATH/InternalLibraries/ModbusWrapper
 
 INCLUDEPATH += ./
 #############################################################
@@ -50,9 +51,6 @@ SOURCES += \
 
 HEADERS += \
     Widget.h \
-    Log.h \
-    AbstractFactory.h \
-    CheckAppUniq.h
 
 
 FORMS += \
@@ -73,6 +71,8 @@ DISTFILES += \
 #############################################################
 LIBS += \
     -L$$ROOT_PATH/lib \
+    -lModbusWrapper \
+    -lUtils \
     -lmodbus \
     -leasylogging++ \
     -lz \

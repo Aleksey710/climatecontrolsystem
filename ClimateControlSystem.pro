@@ -1,8 +1,13 @@
 TEMPLATE = subdirs
 
-SUBDIRS += ExternalLibraries 
+SUBDIRS += ExternalLibraries
+SUBDIRS += InternalLibraries
 SUBDIRS += ClimateControlSystem
 
 
-ClimateControlSystem.depends = \
+InternalLibraries.depends = \
     ExternalLibraries \
+
+
+ClimateControlSystem.depends = \
+    InternalLibraries \

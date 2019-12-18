@@ -1,19 +1,14 @@
 # Ignore any file named foo.txt.
-#foo.txt
-Makefile
 /bin/ClimateControlSystem
+Makefile
+.qmake.stash
 
-
-# Ignore (generated) html files,
-#*.html
-/build/ClimateControlSystem/*
-/build/modbus/*
+/build/**
 /lib/*
 
 
 # except foo.html which is maintained by hand.
 #!foo.html
-
 
 
 # Ignore objects and archives.

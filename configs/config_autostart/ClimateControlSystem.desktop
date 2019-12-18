@@ -1,0 +1,6 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Connect
+Comment=Checks internet connectivity
+Exec=/usr/bin/chromium-browser -incognito --noerrdialogs --kiosk http://google.ru
+Hidden=true

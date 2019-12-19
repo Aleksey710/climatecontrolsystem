@@ -1,10 +1,10 @@
-#ifndef MODBUSMASTERUNIT_H
-#define MODBUSMASTERUNIT_H
+#ifndef CLIMATECONTROLSYSTEM_H
+#define CLIMATECONTROLSYSTEM_H
 //------------------------------------------------------------------------------------
 //#include <>
 //#include <>
 //#include <>
-//#include <>
+#include <QString>
 #include <QObject>
 
 
@@ -14,23 +14,15 @@
 //#include ""
 //------------------------------------------------------------------------------------
 //!
-class ModbusMasterUnit : public QObject
+class ClimateControlSystem : public QObject
 {
         Q_OBJECT
-
     public:
-        explicit ModbusMasterUnit();
+        explicit ClimateControlSystem(QObject *parent = nullptr);
+        virtual ~ClimateControlSystem();
 
-        virtual ~ModbusMasterUnit();
-
-
-    public:
-
-    private:
-
-
-    private:
+    signals:
 
 };
 //------------------------------------------------------------------------------------
-#endif // MODBUSMASTERUNIT_H
+#endif // CLIMATECONTROLSYSTEM_H

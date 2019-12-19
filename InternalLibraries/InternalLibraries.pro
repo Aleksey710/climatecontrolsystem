@@ -1,8 +1,19 @@
 TEMPLATE = subdirs
 
 SUBDIRS += Utils
+SUBDIRS += DataModel
+SUBDIRS += AbstractConfigurator
 SUBDIRS += ModbusWrapper 
 SUBDIRS += ModbusMasterUnit
+
+
+DataModel.depends = \
+    Utils \
+
+
+AbstractConfigurator.depends = \
+    Utils \
+    DataModel \
 
 
 ModbusWrapper.depends = \
@@ -10,4 +21,6 @@ ModbusWrapper.depends = \
 
 
 ModbusMasterUnit.depends = \
-    ModbusWrapper \
+    Utils \
+    DataModel \
+    AbstractConfigurator

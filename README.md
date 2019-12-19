@@ -33,4 +33,29 @@ Note: Resolution of Ubuntu Mate OS or Windows 10 IoT Core OS can also be set pro
 http://wikihandbk.com/wiki/Raspberry_Pi:%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D0%BA%D0%B0/config.txt#.D0.9E.D0.BF.D1.86.D0.B8.D0.B8_.D0.B4.D0.BB.D1.8F_.D1.80.D0.B5.D0.B6.D0.B8.D0.BC.D0.B0_HDMI
 
 
+//----------------------------------------
+Очистка 
+git clean -dxf
+make clean
+
+sudo ./fixQualifiedLibraryPaths /mnt/rasp-pi-rootfs/ /usr/bin/arm-linux-gnueabihf-g++
+
+
+
+./configure -opengl es2 -device linux-rasp-pi-g++ -device-option CROSS_COMPILE=/usr/bin/arm-linux-gnueabihf- \
+-sysroot /mnt/rasp-pi-rootfs -opensource -confirm-license -optimized-qmake \
+-reduce-exports -release -make libs -prefix /usr/local/qt5pi \
+-hostprefix /usr/local/qt5pi
+
+BASEPATH=~/Projects/RaspberryPI/raspi # базовый путь, где все наши манипуляции происходят (без слэша на конце)
+./configure -skip wayland -skip script -skip webengine -no-pch -no-kms -qt-xcb -no-use-gold-linker -nomake tests -nomake examples \
+-reduce-exports -eglfs  -release -opengl es2 -device linux-rasp-pi3-g++ -device-option \
+CROSS_COMPILE=/usr/bin/arm-linux-gnueabihf- -sysroot /mnt/rasp-pi-rootfs \
+-opensource -confirm-license -make libs -prefix /usr/local/qt5pi -extprefix /usr/local/qt5pi -hostprefix /usr/local/qt5pi -v
+
+sudo mount -o loop,offset=62914560 2019-09-26-raspbian-buster.img /mnt/rasp-pi-rootfs
+
+sudo fdisk -l /home/grey/Raspbian/2019-09-26-raspbian-buster
+
+
 

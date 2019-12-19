@@ -1,12 +1,8 @@
 #############################################################
-TARGET = ClimateControlSystem
+TARGET = AbstractConfigurator
 
 #############################################################
-ROOT_PATH=..
-
-LIBMODBUS=libmodbus-3.1.3-ascii
-#LIBMODBUS=libmodbus-3.1.4
-# $$LIBMODBUS
+ROOT_PATH=../..
 
 #############################################################
 
@@ -17,46 +13,38 @@ include($$ROOT_PATH/ClimateControlSystem.pri)
 include($$ROOT_PATH/easylogging++.pri)
 
 #############################################################
+TEMPLATE    = lib
+CONFIG      += staticlib
+
+DEPENDPATH  = $$ROOT_PATH/lib
+DESTDIR     = $$ROOT_PATH/lib
+QT -= gui
+QT -= widget
 QT += core
-QT += network
-QT += gui
-QT += widgets
-QT += xml
-QT += sql
-
-
-#############################################################
-
-TEMPLATE    = app
-DEPENDPATH += $$ROOT_PATH/bin/
-DESTDIR     = $$ROOT_PATH/bin/
-
-CONFIG += console
 
 #############################################################
 INCLUDEPATH += $$ROOT_PATH/ExternalLibraries/Easyloggingpp
+INCLUDEPATH += $$ROOT_PATH/ExternalLibraries/qmqtt/qmqtt/mqtt
 INCLUDEPATH += $$ROOT_PATH/ExternalLibraries/libmodbus/modbus/$$LIBMODBUS
 INCLUDEPATH += $$ROOT_PATH/ExternalLibraries/libmodbus/modbus/$$LIBMODBUS/src
+INCLUDEPATH += $$ROOT_PATH/ExternalLibraries/libmodbus/modbus/$$LIBMODBUS/src/isi
 
-INCLUDEPATH += $$ROOT_PATH/InternalLibraries/Utils
-INCLUDEPATH += $$ROOT_PATH/InternalLibraries/ModbusWrapper
+INCLUDEPATH += $$ROOT_PATH/InternalLibraries/Utils/
+
 
 INCLUDEPATH += ./
 #############################################################
 
 SOURCES += \
-    ClimateControlSystem.cpp \
-    main.cpp \
-    Widget.cpp
+    AbstractConfigurator.cpp
 
 
 HEADERS += \
-    ClimateControlSystem.h \
-    Widget.h \
+    AbstractConfigurator.h
 
 
 FORMS += \
-    Widget.ui
+
 
 
 RESOURCES += \
@@ -66,20 +54,11 @@ RESOURCES += \
 OTHER_FILES += \
 
 
-
-DISTFILES += \
-    $$ROOT_PATH/bin/easylogging++.conf
-
 #############################################################
 LIBS += \
     -L$$ROOT_PATH/lib \
-    -lModbusWrapper \
-    -AbstractConfigurator \
-    -lDataModel \
     -lUtils \
-    -lmodbus \
-    -leasylogging++ \
-
+    -leasylogging++
 
 
 #############################################################

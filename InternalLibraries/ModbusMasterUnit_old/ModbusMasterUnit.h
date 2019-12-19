@@ -14,7 +14,7 @@
 //#include ""
 //------------------------------------------------------------------------------------
 //!
-class ModbusMasterUnit : public QObject
+class ModbusMasterUnit
 {
         Q_OBJECT
 

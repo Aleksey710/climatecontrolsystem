@@ -18,8 +18,7 @@
 class ModbusMasterConfigurator : public AbstractConfigurator
 {
     public:
-        explicit ModbusMasterConfigurator(const QString &configuratorName,
-                                          const QString &fileName,
+        explicit ModbusMasterConfigurator(const QString &configuratorName,                                    
                                           QObject *parent);
 
         virtual ~ModbusMasterConfigurator();

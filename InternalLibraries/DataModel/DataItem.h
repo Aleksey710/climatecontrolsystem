@@ -17,20 +17,25 @@ class DataItem : public QObject
     Q_OBJECT
     public:
         explicit DataItem(const QString id,
+                          const QString title,
+                          const QVariant value,
+                          const QString dataType,
                           QObject *parent = nullptr);
 
         virtual ~DataItem();
 
-        inline double data()
-            { return m_data; }
+        inline QVariant data()
+            { return m_value; }
 
     public slots:
-        inline void setData(const double &value)
+        inline void setData(const QVariant &value)
             {
-                if(m_data != value)
+                if(m_value != value)
                 {
-                    m_data = value;
-                    SEND_TO_LOG( QString("%1 setData(%2)").arg(objectName()).arg(m_data) );
+                    m_value = value;
+
+                    SEND_TO_LOG( QString("%1 setData[%2]").arg(objectName()).arg(m_value.toString()) );
+
                     emit dataChanged();
                 }
             }
@@ -40,7 +45,9 @@ class DataItem : public QObject
 
     private:
         const QString m_id;
-        double m_data;
+        const QString m_title;
+        const QString m_dataType;
+        QVariant m_value;
 
 };
 //------------------------------------------------------------------------------------

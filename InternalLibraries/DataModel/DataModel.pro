@@ -15,22 +15,26 @@ include($$ROOT_PATH/easylogging++.pri)
 #############################################################
 TEMPLATE    = lib
 CONFIG      += staticlib
-
 DEPENDPATH  = $$ROOT_PATH/lib
 DESTDIR     = $$ROOT_PATH/lib
+
+
+#TEMPLATE    = app
+#DEPENDPATH += $$ROOT_PATH/bin/
+#DESTDIR     = $$ROOT_PATH/bin/
+
+
+
 QT -= gui
-QT -= widget
+QT -= widgets
 QT += core
 
 
 #############################################################
 INCLUDEPATH += $$ROOT_PATH/ExternalLibraries/Easyloggingpp
-INCLUDEPATH += $$ROOT_PATH/ExternalLibraries/qmqtt/qmqtt/mqtt
-INCLUDEPATH += $$ROOT_PATH/ExternalLibraries/libmodbus/modbus/$$LIBMODBUS
-INCLUDEPATH += $$ROOT_PATH/ExternalLibraries/libmodbus/modbus/$$LIBMODBUS/src
-INCLUDEPATH += $$ROOT_PATH/ExternalLibraries/libmodbus/modbus/$$LIBMODBUS/src/isi
 
 INCLUDEPATH += $$ROOT_PATH/InternalLibraries/Utils/
+INCLUDEPATH += $$ROOT_PATH/InternalLibraries/AbstractConfigurator
 
 
 INCLUDEPATH += ./
@@ -39,11 +43,13 @@ INCLUDEPATH += ./
 SOURCES += \
     DataItem.cpp \
     DataModel.cpp \
+    DataModelConfigurator.cpp
 
 
 HEADERS += \
     DataItem.h \
     DataModel.h \
+    DataModelConfigurator.h
 
 
 
@@ -61,6 +67,7 @@ OTHER_FILES += \
 #############################################################
 LIBS += \
     -L$$ROOT_PATH/lib \
+    -lAbstractConfigurator \
     -lUtils \
     -leasylogging++
 

@@ -24,10 +24,6 @@ QT += core
 
 #############################################################
 INCLUDEPATH += $$ROOT_PATH/ExternalLibraries/Easyloggingpp
-INCLUDEPATH += $$ROOT_PATH/ExternalLibraries/qmqtt/qmqtt/mqtt
-INCLUDEPATH += $$ROOT_PATH/ExternalLibraries/libmodbus/modbus/$$LIBMODBUS
-INCLUDEPATH += $$ROOT_PATH/ExternalLibraries/libmodbus/modbus/$$LIBMODBUS/src
-INCLUDEPATH += $$ROOT_PATH/ExternalLibraries/libmodbus/modbus/$$LIBMODBUS/src/isi
 
 INCLUDEPATH += $$ROOT_PATH/InternalLibraries/Utils/
 

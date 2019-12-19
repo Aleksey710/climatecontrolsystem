@@ -39,6 +39,8 @@ INCLUDEPATH += $$ROOT_PATH/ExternalLibraries/libmodbus/modbus/$$LIBMODBUS
 INCLUDEPATH += $$ROOT_PATH/ExternalLibraries/libmodbus/modbus/$$LIBMODBUS/src
 
 INCLUDEPATH += $$ROOT_PATH/InternalLibraries/Utils
+INCLUDEPATH += $$ROOT_PATH/InternalLibraries/DataModel
+INCLUDEPATH += $$ROOT_PATH/InternalLibraries/AbstractConfigurator
 INCLUDEPATH += $$ROOT_PATH/InternalLibraries/ModbusWrapper
 
 INCLUDEPATH += ./
@@ -73,9 +75,9 @@ DISTFILES += \
 #############################################################
 LIBS += \
     -L$$ROOT_PATH/lib \
-    -lModbusWrapper \
-    -AbstractConfigurator \
+#    -lModbusWrapper \
     -lDataModel \
+    -lAbstractConfigurator \
     -lUtils \
     -lmodbus \
     -leasylogging++ \

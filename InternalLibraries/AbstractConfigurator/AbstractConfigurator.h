@@ -20,7 +20,6 @@ class AbstractConfigurator : public QObject
         Q_OBJECT
     public:
         explicit AbstractConfigurator(const QString &configuratorName,
-                                      const QString &fileName,
                                       QObject *parent = nullptr);
 
         virtual ~AbstractConfigurator();

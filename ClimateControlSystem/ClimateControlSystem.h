@@ -10,6 +10,9 @@
 
 
 #include "Log.h"
+#include "DataModel.h"
+#include "DataModelConfigurator.h"
+//#include ""
 //#include ""
 //#include ""
 //------------------------------------------------------------------------------------
@@ -22,6 +25,9 @@ class ClimateControlSystem : public QObject
         virtual ~ClimateControlSystem();
 
     signals:
+
+    private:
+        DataModel *m_dataModel;
 
 };
 //------------------------------------------------------------------------------------

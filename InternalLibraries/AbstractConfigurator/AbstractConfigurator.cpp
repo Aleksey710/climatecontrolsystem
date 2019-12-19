@@ -3,19 +3,16 @@
 //------------------------------------------------------------------------------------
 //!
 AbstractConfigurator::AbstractConfigurator(const QString &configuratorName,
-                                           const QString &fileName,
                                            QObject *parent)
                      : QObject(parent),
                        m_configuratorName ( configuratorName )
 {
-    //setObjectName("AbstractConfigurator");
+    setObjectName(m_configuratorName);
 
-
-    setup( loadFile(fileName) );
 
 
     //-------------------------------------------------------------------
-    SEND_TO_LOG( QString("%1 - создан").arg(objectName()) );
+    //SEND_TO_LOG( QString("%1 - создан").arg(objectName()) );
 }
 //------------------------------------------------------------------------------------
 //!
@@ -37,7 +34,17 @@ QJsonObject AbstractConfigurator::loadFile(const QString &fileName)
 
     QByteArray fileArray = loadFile.readAll();
 
-    return QJsonDocument::fromJson(fileArray).object();
+    QJsonParseError jsonParseError;
+    QJsonDocument jsonDocument = QJsonDocument::fromJson(fileArray, &jsonParseError);
+
+    if(jsonParseError.error == QJsonParseError::ParseError::NoError )
+    {
+        return jsonDocument.object();
+    } else
+    {
+        SEND_TO_LOG( QString("%1 - ошибка формата [%2]").arg(objectName()).arg(jsonParseError.errorString()) );
+        return QJsonObject();
+    }
 }
 //------------------------------------------------------------------------------------
 //!

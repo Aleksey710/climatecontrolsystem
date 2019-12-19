@@ -3,10 +3,8 @@
 //------------------------------------------------------------------------------------
 //!
 ModbusMasterConfigurator::ModbusMasterConfigurator(const QString &configuratorName,
-                                                   const QString &fileName,
                                                    QObject *parent)
                          :AbstractConfigurator(configuratorName,
-                                               fileName,
                                                parent)
 {
 

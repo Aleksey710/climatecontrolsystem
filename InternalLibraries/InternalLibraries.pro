@@ -1,6 +1,7 @@
 TEMPLATE = subdirs
 
-SUBDIRS += Utils
+SUBDIRS += Utils \
+    AbstractDisplayWidget
 SUBDIRS += AbstractConfigurator
 SUBDIRS += DataModel
 SUBDIRS += ModbusWrapper 

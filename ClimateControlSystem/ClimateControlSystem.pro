@@ -48,12 +48,14 @@ INCLUDEPATH += ./
 
 SOURCES += \
     ClimateControlSystem.cpp \
+    MainDisplayWidget.cpp \
     main.cpp \
     Widget.cpp
 
 
 HEADERS += \
     ClimateControlSystem.h \
+    MainDisplayWidget.h \
     Widget.h \
 
 

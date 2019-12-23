@@ -12,6 +12,7 @@
 #include "Log.h"
 #include "DataModel.h"
 #include "DataModelConfigurator.h"
+#include "MainDisplayWidget.h"
 //#include ""
 //#include ""
 //#include ""
@@ -28,6 +29,7 @@ class ClimateControlSystem : public QObject
 
     private:
         DataModel *m_dataModel;
+        MainDisplayWidget  *m_mainDisplayWidget;
 
 };
 //------------------------------------------------------------------------------------

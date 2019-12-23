@@ -17,6 +17,9 @@ ClimateControlSystem::ClimateControlSystem(QObject *parent)
     DataModelConfigurator dataModelConfigurator(m_dataModel);
 
 
+
+    m_mainDisplayWidget = new MainDisplayWidget(m_dataModel);
+
     //-------------------------------------------------------------------
     SEND_TO_LOG( QString("ClimateControlSystem - создан") );
 }
@@ -24,8 +27,7 @@ ClimateControlSystem::ClimateControlSystem(QObject *parent)
 //!
 ClimateControlSystem::~ClimateControlSystem()
 {
-
-
+    m_mainDisplayWidget->close();
 
     //-------------------------------------------------------------------
     SEND_TO_LOG( QString("ClimateControlSystem - удален") );

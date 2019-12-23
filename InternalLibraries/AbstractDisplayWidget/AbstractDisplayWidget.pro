@@ -1,5 +1,5 @@
 #############################################################
-TARGET = ModbusMasterUnit
+TARGET = AbstractConfigurator
 
 #############################################################
 ROOT_PATH=../..
@@ -16,49 +16,35 @@ include($$ROOT_PATH/easylogging++.pri)
 TEMPLATE    = lib
 CONFIG      += staticlib
 
-DEPENDPATH  += $$ROOT_PATH/lib
+DEPENDPATH  = $$ROOT_PATH/lib
 DESTDIR     = $$ROOT_PATH/lib
-
-QT -= gui
+QT += gui
+QT += widgets
 QT += core
-QT += network
-QT += serialbus
-QT += serialport
-
 
 #############################################################
 INCLUDEPATH += $$ROOT_PATH/ExternalLibraries/Easyloggingpp
-INCLUDEPATH += $$ROOT_PATH/ExternalLibraries/qmqtt/qmqtt/mqtt
-INCLUDEPATH += $$ROOT_PATH/ExternalLibraries/libmodbus/modbus/$$LIBMODBUS
-INCLUDEPATH += $$ROOT_PATH/ExternalLibraries/libmodbus/modbus/$$LIBMODBUS/src
-INCLUDEPATH += $$ROOT_PATH/ExternalLibraries/libmodbus/modbus/$$LIBMODBUS/src/isi
 
 INCLUDEPATH += $$ROOT_PATH/InternalLibraries/Utils/
-INCLUDEPATH += $$ROOT_PATH/InternalLibraries/AbstractConfigurator
-INCLUDEPATH += $$ROOT_PATH/InternalLibraries/ModbusWrapper/
+
 
 INCLUDEPATH += ./
 #############################################################
+
 SOURCES += \
-    ModbusMasterUnit.cpp \
-    ModbusMasterConfigurator.cpp
+#    main.cpp \
+    AbstractDisplayWidget.cpp
 
-
-
-HEADERS  += \
-    ModbusConnection.h \
-    ModbusConnectionSettings.h \
-    ModbusMasterUnit.h \
-    ModbusMasterConfigurator.h
-
-
+HEADERS += \
+    AbstractDisplayWidget.h
 
 FORMS += \
-
+    AbstractDisplayWidget.ui
 
 
 
 RESOURCES += \
+
 
 
 OTHER_FILES += \
@@ -67,13 +53,8 @@ OTHER_FILES += \
 #############################################################
 LIBS += \
     -L$$ROOT_PATH/lib \
-    -lModbusWrapper \
-    -lAbstractConfigurator \
-    -lDataModel \
     -lUtils \
-    -lmodbus \
     -leasylogging++
 
 
 #############################################################
-

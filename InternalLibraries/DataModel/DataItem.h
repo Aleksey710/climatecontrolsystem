@@ -14,7 +14,7 @@
 //!
 class DataItem : public QObject
 {
-    Q_OBJECT
+        Q_OBJECT
     public:
         explicit DataItem(const QString id,
                           const QString title,

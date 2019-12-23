@@ -32,9 +32,11 @@ class ModbusMasterUnit : public QObject
     public slots:
         void reconnect(const ModbusConnectionSettings &modbusConnectionSettings);
 
-        void readRequest(const int serverAddress, QModbusDataUnit &dataUnit);
-        void writeRequest(const int serverAddress, QModbusDataUnit &dataUnit);
-        void readWriteRequest(const int serverAddress, QModbusDataUnit &dataUnit);
+        void readRequest(const int serverAddress, QModbusDataUnit &readDataUnit);
+        void writeRequest(const int serverAddress, QModbusDataUnit &writeDataUnit);
+        void readWriteRequest(const int serverAddress,
+                              QModbusDataUnit &readDataUnit,
+                              QModbusDataUnit &writeDataUnit);
 
     private slots:
         void readReady();

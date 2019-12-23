@@ -34,13 +34,14 @@ QT += core
 INCLUDEPATH += $$ROOT_PATH/ExternalLibraries/Easyloggingpp
 
 INCLUDEPATH += $$ROOT_PATH/InternalLibraries/Utils/
-INCLUDEPATH += $$ROOT_PATH/InternalLibraries/AbstractConfigurator
+INCLUDEPATH += $$ROOT_PATH/InternalLibraries/AbstractConfigurator/
 
 
 INCLUDEPATH += ./
 #############################################################
 
 SOURCES += \
+    main.cpp \
     DataItem.cpp \
     DataModel.cpp \
     DataModelConfigurator.cpp

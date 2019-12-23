@@ -32,7 +32,7 @@ class MainDisplayWidget : public QWidget
     private:
         DataModel       m_dataModel;
 
-        QWidget         *m_mainWidget;
+        //QWidget         *m_mainWidget;
 
         QVBoxLayout     *m_mainLayout;
 

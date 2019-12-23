@@ -18,6 +18,7 @@ CONFIG      += staticlib
 
 DEPENDPATH  = $$ROOT_PATH/lib
 DESTDIR     = $$ROOT_PATH/lib
+
 QT -= gui
 QT -= widget
 QT += core

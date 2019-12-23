@@ -42,6 +42,7 @@ INCLUDEPATH += $$ROOT_PATH/InternalLibraries/Utils
 INCLUDEPATH += $$ROOT_PATH/InternalLibraries/DataModel
 INCLUDEPATH += $$ROOT_PATH/InternalLibraries/AbstractConfigurator
 INCLUDEPATH += $$ROOT_PATH/InternalLibraries/ModbusWrapper
+INCLUDEPATH += $$ROOT_PATH/InternalLibraries/ModbusMasterUnit
 
 INCLUDEPATH += ./
 #############################################################
@@ -80,7 +81,7 @@ LIBS += \
 #    -lModbusWrapper \
     -lDataModel \
     -lAbstractConfigurator \
-    -lUtils \
+#    -lUtils \
     -lmodbus \
     -leasylogging++ \
 

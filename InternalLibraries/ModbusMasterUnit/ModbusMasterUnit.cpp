@@ -201,12 +201,12 @@ void ModbusMasterUnit::reconnect(const ModbusConnectionSettings &modbusConnectio
 }
 //------------------------------------------------------------------------------------
 //!
-void ModbusMasterUnit::readRequest(const int serverAddress, QModbusDataUnit &dataUnit)
+void ModbusMasterUnit::readRequest(const int serverAddress, QModbusDataUnit &readDataUnit)
 {
     if (!m_modbusDevice)
         return;
 
-    if (auto *reply = m_modbusDevice->sendReadRequest(dataUnit, serverAddress))
+    if (auto *reply = m_modbusDevice->sendReadRequest(readDataUnit, serverAddress))
     {
         if (!reply->isFinished())
             connect(reply, &QModbusReply::finished, this, &ModbusMasterUnit::readReady);
@@ -221,7 +221,7 @@ void ModbusMasterUnit::readRequest(const int serverAddress, QModbusDataUnit &dat
 }
 //------------------------------------------------------------------------------------
 //!
-void ModbusMasterUnit::writeRequest(const int serverAddress, QModbusDataUnit &dataUnit)
+void ModbusMasterUnit::writeRequest(const int serverAddress, QModbusDataUnit &writeDataUnit)
 {
     if (!m_modbusDevice)
         return;
@@ -238,7 +238,7 @@ void ModbusMasterUnit::writeRequest(const int serverAddress, QModbusDataUnit &da
             dataUnit.setValue(i, writeModel->m_holdingRegisters[i + writeUnit.startAddress()]);
     }
 */
-    if ( auto *reply = m_modbusDevice->sendWriteRequest(dataUnit, serverAddress) )
+    if ( auto *reply = m_modbusDevice->sendWriteRequest(writeDataUnit, serverAddress) )
     {
         if (!reply->isFinished())
         {
@@ -276,7 +276,9 @@ void ModbusMasterUnit::writeRequest(const int serverAddress, QModbusDataUnit &da
 }
 //------------------------------------------------------------------------------------
 //!
-void ModbusMasterUnit::readWriteRequest(const int serverAddress, QModbusDataUnit &dataUnit)
+void ModbusMasterUnit::readWriteRequest(const int serverAddress,
+                                        QModbusDataUnit &readDataUnit,
+                                        QModbusDataUnit &writeDataUnit)
 {
     if (!m_modbusDevice)
         return;
@@ -297,7 +299,7 @@ void ModbusMasterUnit::readWriteRequest(const int serverAddress, QModbusDataUnit
     }
     */
 
-    if ( auto *reply = m_modbusDevice->sendReadWriteRequest(readRequest(), dataUnit, serverAddress) )
+    if ( auto *reply = m_modbusDevice->sendReadWriteRequest(readDataUnit, writeDataUnit, serverAddress) )
     {
         if (!reply->isFinished())
             connect(reply, &QModbusReply::finished, this, &ModbusMasterUnit::readReady);

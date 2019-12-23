@@ -3,11 +3,11 @@
 //!
 DataModelConfigurator::DataModelConfigurator(DataModel *dataModel,
                                              QObject *parent)
-                      :AbstractConfigurator("DataModelConfigurator",
+                      :AbstractConfigurator(QString("DataModelConfigurator"),
                                             parent),
                        m_dataModel ( dataModel )
 {
-    setup( loadFile("./conf/data.conf") );
+    setup( loadFile( QString("./conf/data.conf") ) );
 
     //-------------------------------------------------------------------
     SEND_TO_LOG( QString("%1 - создан").arg(objectName()) );

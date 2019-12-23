@@ -28,8 +28,8 @@ class ClimateControlSystem : public QObject
     signals:
 
     private:
-        DataModel *m_dataModel;
-        MainDisplayWidget  *m_mainDisplayWidget;
+        DataModel           *m_dataModel;
+        MainDisplayWidget   *m_mainDisplayWidget;
 
 };
 //------------------------------------------------------------------------------------

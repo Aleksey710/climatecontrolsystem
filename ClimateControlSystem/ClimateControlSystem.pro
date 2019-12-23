@@ -50,18 +50,15 @@ INCLUDEPATH += ./
 SOURCES += \
     ClimateControlSystem.cpp \
     MainDisplayWidget.cpp \
-    main.cpp \
-    Widget.cpp
+    main.cpp
 
 
 HEADERS += \
     ClimateControlSystem.h \
     MainDisplayWidget.h \
-    Widget.h \
 
 
-FORMS += \
-    Widget.ui
+FORMS +=
 
 
 RESOURCES += \
@@ -78,11 +75,11 @@ DISTFILES += \
 #############################################################
 LIBS += \
     -L$$ROOT_PATH/lib \
-#    -lModbusWrapper \
+#    -lModbusMasterUnit \
     -lDataModel \
     -lAbstractConfigurator \
 #    -lUtils \
-    -lmodbus \
+#    -lmodbus \
     -leasylogging++ \
 
 

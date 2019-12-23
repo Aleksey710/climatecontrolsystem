@@ -19,6 +19,13 @@ CONFIG      += staticlib
 DEPENDPATH  = $$ROOT_PATH/lib
 DESTDIR     = $$ROOT_PATH/lib
 
+#------------------------------------------------------------
+#TEMPLATE    = app
+#DEPENDPATH += $$ROOT_PATH/bin/
+#DESTDIR     = $$ROOT_PATH/bin/
+
+#SOURCES += main.cpp
+#############################################################
 QT -= gui
 QT -= widget
 QT += core
@@ -33,7 +40,7 @@ INCLUDEPATH += ./
 #############################################################
 
 SOURCES += \
-    AbstractConfigurator.cpp
+    AbstractConfigurator.cpp \
 
 
 HEADERS += \

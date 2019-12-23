@@ -13,7 +13,6 @@
 #include "Log.h"
 #include "DataModel.h"
 #include "DataModelConfigurator.h"
-#include "MainDisplayWidget.h"
 //#include ""
 //#include ""
 //#include ""

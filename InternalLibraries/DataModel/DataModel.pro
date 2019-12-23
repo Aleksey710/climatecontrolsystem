@@ -18,13 +18,14 @@ CONFIG      += staticlib
 DEPENDPATH  = $$ROOT_PATH/lib
 DESTDIR     = $$ROOT_PATH/lib
 
-
+#------------------------------------------------------------
 #TEMPLATE    = app
 #DEPENDPATH += $$ROOT_PATH/bin/
 #DESTDIR     = $$ROOT_PATH/bin/
 
+#SOURCES += main.cpp
 
-
+#############################################################
 QT -= gui
 QT -= widgets
 QT += core
@@ -41,7 +42,6 @@ INCLUDEPATH += ./
 #############################################################
 
 SOURCES += \
-    main.cpp \
     DataItem.cpp \
     DataModel.cpp \
     DataModelConfigurator.cpp

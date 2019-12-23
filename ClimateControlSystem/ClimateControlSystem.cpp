@@ -14,7 +14,7 @@ ClimateControlSystem::ClimateControlSystem(QObject *parent)
     //-------------------------------------------------------------------
 
 
-    DataModelConfigurator dataModelConfigurator(m_dataModel);
+    DataModelConfigurator dataModelConfigurator(m_dataModel, this);
 
 
 

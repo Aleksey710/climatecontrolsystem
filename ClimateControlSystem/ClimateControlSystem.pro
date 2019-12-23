@@ -23,6 +23,8 @@ QT += gui
 QT += widgets
 QT += xml
 QT += sql
+QT += serialbus
+QT += serialport
 
 
 #############################################################

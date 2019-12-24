@@ -4,23 +4,24 @@
 #include <QObject>
 #include <QThread>
 
-#include "ModbusConnectionInterrogator.h"
+#include "ModbusConnectionSettings.h"
 //------------------------------------------------------------------------------------
 //!
-class ModbusConnectionController : public QObject
+class ModbusConnectionController : public QThread
 {
         Q_OBJECT
 
     public:
         ModbusConnectionController(const ModbusConnectionSettings &modbusConnectionSettings)
+            :m_modbusConnectionSettings ( modbusConnectionSettings )
         {
-            ModbusConnectionInterrogator *interrogator
-                = new ModbusConnectionInterrogator(modbusConnectionSettings);
+//            ModbusConnectionInterrogator *interrogator
+//                = new ModbusConnectionInterrogator(modbusConnectionSettings);
 
-            interrogator->moveToThread(&m_thread);
+//            interrogator->moveToThread(&m_thread);
 
-            connect(&m_thread, &QThread::finished,
-                    interrogator, &QObject::deleteLater);
+//            connect(&m_thread, &QThread::finished,
+//                    interrogator, &QObject::deleteLater);
 
 //            connect(this, &ModbusConnectionController::operate,
 //                    interrogator, &ModbusConnectionInterrogator::doWork);
@@ -28,23 +29,34 @@ class ModbusConnectionController : public QObject
 //            connect(interrogator, &ModbusConnectionInterrogator::resultReady,
 //                    this, &ModbusConnectionController::handleResults);
 
-            m_thread.start();
+//            m_thread.start();
         }
 
         ~ModbusConnectionController()
         {
-            m_thread.quit();
-            m_thread.wait();
+//            m_thread.quit();
+//            m_thread.wait();
+        }
+
+        void run() override
+        {
+            QString result;
+                      /* ... here is the expensive or blocking operation ... */
+                      emit resultReady(result);
         }
 
     public slots:
         //void handleResults(const QString &);
 
     signals:
-        //void operate(const QString &);
+          void resultReady(const QString &s);
 
     private:
-        QThread m_thread;
+          ModbusConnectionSettings m_modbusConnectionSettings;
+
+          //ModbusMasterHandler m_modbusMasterHandler;
+
+          //QList<ModbusRequest> m_requestList;
 };
 //------------------------------------------------------------------------------------
 #endif // MODBUSCONNECTIONCONTROLLER_H

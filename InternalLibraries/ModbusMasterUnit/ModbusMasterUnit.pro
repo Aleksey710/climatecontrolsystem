@@ -40,7 +40,6 @@ INCLUDEPATH += $$ROOT_PATH/InternalLibraries/DataModel/
 INCLUDEPATH += ./
 #############################################################
 SOURCES += \
-    ModbusConnectionInterrogator.cpp \
     ModbusMasterHandler.cpp \
     ModbusMasterUnit.cpp \
     ModbusMasterConfigurator.cpp
@@ -50,7 +49,6 @@ SOURCES += \
 HEADERS  += \
     ModbusConnection.h \
     ModbusConnectionController.h \
-    ModbusConnectionInterrogator.h \
     ModbusConnectionSettings.h \
     ModbusMasterHandler.h \
     ModbusMasterUnit.h \

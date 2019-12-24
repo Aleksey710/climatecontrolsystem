@@ -119,5 +119,17 @@ void ModbusMasterConfigurator::registerParsing(const QJsonObject &registerJsonOb
 
 
 }
+//------------------------------------------------------------------------------------
+//!
+void ModbusMasterConfigurator::startWorkInAThread(const ModbusConnectionSettings &modbusConnectionSettings)
+{
+    ModbusConnectionController *modbusConnectionController
+            = new ModbusConnectionController(modbusConnectionSettings);
+//    connect(modbusConnectionController, &ModbusConnectionController::resultReady,
+//            this, &MyObject::handleResults);
 
+    connect(modbusConnectionController, &ModbusConnectionController::finished,
+            modbusConnectionController, &QObject::deleteLater);
+    modbusConnectionController->start();
+}
 

@@ -18,7 +18,7 @@
 #include "AbstractConfigurator.h"
 #include "ModbusConnection.h"
 #include "ModbusConnectionSettings.h"
-//#include ""
+#include "ModbusConnectionController.h"
 //#include ""
 //------------------------------------------------------------------------------------
 //!
@@ -29,6 +29,9 @@ class ModbusMasterConfigurator : public AbstractConfigurator
                                           QObject *parent = nullptr);
 
         virtual ~ModbusMasterConfigurator();
+
+        void startWorkInAThread(const ModbusConnectionSettings &modbusConnectionSettings);
+
 
     private:
         virtual void setup(const QJsonObject &jsonObject) override;

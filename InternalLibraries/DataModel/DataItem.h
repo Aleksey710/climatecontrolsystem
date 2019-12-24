@@ -27,6 +27,9 @@ class DataItem : public QObject
         inline QVariant data()
             { return m_value; }
 
+        inline QVariant title()
+            { return m_title; }
+
     public slots:
         inline void setData(const QVariant &value)
             {

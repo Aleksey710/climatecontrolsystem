@@ -2,14 +2,7 @@
 #define MODBUSCONNECTIONSETTINGS_H
 //------------------------------------------------------------------------------------
 #include <QString>
-/*
-int parity = QSerialPort::EvenParity;
-int baud = QSerialPort::Baud19200;
-int dataBits = QSerialPort::Data8;
-int stopBits = QSerialPort::OneStop;
-int responseTime = 1000;
-int numberOfRetries = 3;
-*/
+
 #include "ModbusConnection.h"
 //------------------------------------------------------------------------------------
 //!
@@ -17,7 +10,9 @@ class ModbusConnectionSettings
 {
     public:
         //------------------------------------------------------------------------------------
-        ModbusConnectionSettings(const QString &__serialPortNameParameter,
+        ModbusConnectionSettings(const ModbusConnection &__modbusConnectionType,
+                                 //
+                                 const QString &__serialPortNameParameter,
                                  const int __serialParityParameter,
                                  const int __serialBaudRateParameter,
                                  const int __serialDataBitsParameter,
@@ -26,11 +21,11 @@ class ModbusConnectionSettings
                                  const QString &__networkAddressParameter,
                                  const int __networkPortParameter,
                                  //
-                                 const ModbusConnection &__modbusConnectionType,
-                                 //
-                                 const int __responseTime,
-                                 const int __numberOfRetries)
-            :serialPortNameParameter ( __serialPortNameParameter ),
+                                 const int __responseTime = 100,
+                                 const int __numberOfRetries = 3)
+            :modbusConnectionType ( __modbusConnectionType ),
+             //
+             serialPortNameParameter ( __serialPortNameParameter ),
              serialParityParameter ( __serialParityParameter ),
              serialBaudRateParameter ( __serialBaudRateParameter ),
              serialDataBitsParameter ( __serialDataBitsParameter ),
@@ -38,8 +33,6 @@ class ModbusConnectionSettings
              //
              networkAddressParameter ( __networkAddressParameter ),
              networkPortParameter ( __networkPortParameter ),
-             //
-             modbusConnectionType ( __modbusConnectionType ),
              //
              responseTime ( __responseTime ),
              numberOfRetries ( __numberOfRetries )
@@ -76,6 +69,8 @@ class ModbusConnectionSettings
         }
 */
         //------------------------------------------------------------------------------------
+        ModbusConnection modbusConnectionType;
+
         QString serialPortNameParameter;
         int serialParityParameter;
         int serialBaudRateParameter;
@@ -85,11 +80,8 @@ class ModbusConnectionSettings
         QString networkAddressParameter;
         int networkPortParameter;
 
-        ModbusConnection modbusConnectionType;
-
         int responseTime;
         int numberOfRetries;
-
 };
 //------------------------------------------------------------------------------------
 //!

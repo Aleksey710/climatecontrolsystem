@@ -77,7 +77,7 @@ DISTFILES += \
 #############################################################
 LIBS += \
     -L$$ROOT_PATH/lib \
-#    -lModbusMasterUnit \
+    -lModbusMasterUnit \
     -lDataModel \
     -lAbstractConfigurator \
 #    -lUtils \

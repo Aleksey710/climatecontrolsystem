@@ -27,6 +27,16 @@ class DataModel : public QObject
         inline DataItem* getItem(const QString &id)
             { return m_dataModel.value(id); }
 
+    public slots:
+        inline void setData(const QString &id, const QVariant &value)
+        {
+            DataItem *dataItem = m_dataModel.value(id, Q_NULLPTR);
+            if(dataItem)
+            {
+                dataItem->setData(value);
+            }
+        }
+
 
     private:
         QHash<QString, DataItem*>   m_dataModel;

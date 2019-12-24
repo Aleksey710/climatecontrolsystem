@@ -2,9 +2,11 @@
 #define MODBUSMASTERCONFIGURATOR_H
 //------------------------------------------------------------------------------------
 //#include <>
-//#include <>
-//#include <>
-//#include <QtCore/qglobal.h>
+#include <QModbusPdu>
+#include <QSerialPort>
+#include <QJsonObject>
+#include <QJsonValue>
+#include <QJsonArray>
 #include <QMultiHash>
 #include <QHash>
 #include <QList>
@@ -12,26 +14,31 @@
 
 
 #include "Log.h"
+#include "DataModel.h"
 #include "AbstractConfigurator.h"
+#include "ModbusConnection.h"
+#include "ModbusConnectionSettings.h"
+//#include ""
+//#include ""
 //------------------------------------------------------------------------------------
 //!
 class ModbusMasterConfigurator : public AbstractConfigurator
 {
     public:
-        explicit ModbusMasterConfigurator(const QString &configuratorName,                                    
-                                          QObject *parent);
+        explicit ModbusMasterConfigurator(DataModel *dataModel,
+                                          QObject *parent = nullptr);
 
         virtual ~ModbusMasterConfigurator();
 
     private:
-        virtual void setup(const QJsonObject &jsonObject);
+        virtual void setup(const QJsonObject &jsonObject) override;
+
+        void connectionParsing(const QJsonObject &connectionJsonObject);
+        void deviceParsing(const QJsonObject &deviceJsonObject);
+        void registerParsing(const QJsonObject &registerJsonObject);
 
     private:
-
-
-    private:
-
-
+        DataModel *m_dataModel;
 };
 //------------------------------------------------------------------------------------
 #endif // MODBUSMASTERCONFIGURATOR_H

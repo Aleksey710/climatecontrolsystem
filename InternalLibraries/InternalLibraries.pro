@@ -4,7 +4,7 @@ SUBDIRS += Utils \
     AbstractDisplayWidget
 SUBDIRS += AbstractConfigurator
 SUBDIRS += DataModel
-SUBDIRS += ModbusWrapper 
+#SUBDIRS += ModbusWrapper
 SUBDIRS += ModbusMasterUnit
 
 
@@ -18,8 +18,8 @@ DataModel.depends = \
     AbstractConfigurator \
 
 
-ModbusWrapper.depends = \
-    Utils \
+#ModbusWrapper.depends = \
+#    Utils \
 
 
 ModbusMasterUnit.depends = \

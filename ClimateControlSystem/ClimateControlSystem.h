@@ -12,6 +12,7 @@
 #include "Log.h"
 #include "DataModel.h"
 #include "DataModelConfigurator.h"
+#include "ModbusMasterConfigurator.h"
 #include "MainDisplayWidget.h"
 //#include ""
 //#include ""

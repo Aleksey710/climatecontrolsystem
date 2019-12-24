@@ -16,9 +16,9 @@ ClimateControlSystem::ClimateControlSystem(QObject *parent)
 
     DataModelConfigurator dataModelConfigurator(m_dataModel, this);
 
+    //ModbusMasterConfigurator modbusMasterConfigurator();
 
-
-    m_mainDisplayWidget = new MainDisplayWidget(m_dataModel);
+    //m_mainDisplayWidget = new MainDisplayWidget(m_dataModel);
 
     //-------------------------------------------------------------------
     SEND_TO_LOG( QString("ClimateControlSystem - создан") );

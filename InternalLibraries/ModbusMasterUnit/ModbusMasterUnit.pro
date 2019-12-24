@@ -35,11 +35,13 @@ INCLUDEPATH += $$ROOT_PATH/ExternalLibraries/libmodbus/modbus/$$LIBMODBUS/src/is
 
 INCLUDEPATH += $$ROOT_PATH/InternalLibraries/Utils/
 INCLUDEPATH += $$ROOT_PATH/InternalLibraries/AbstractConfigurator
-INCLUDEPATH += $$ROOT_PATH/InternalLibraries/ModbusWrapper/
+INCLUDEPATH += $$ROOT_PATH/InternalLibraries/DataModel/
 
 INCLUDEPATH += ./
 #############################################################
 SOURCES += \
+    ModbusConnectionInterrogator.cpp \
+    ModbusMasterHandler.cpp \
     ModbusMasterUnit.cpp \
     ModbusMasterConfigurator.cpp
 
@@ -47,7 +49,10 @@ SOURCES += \
 
 HEADERS  += \
     ModbusConnection.h \
+    ModbusConnectionController.h \
+    ModbusConnectionInterrogator.h \
     ModbusConnectionSettings.h \
+    ModbusMasterHandler.h \
     ModbusMasterUnit.h \
     ModbusMasterConfigurator.h
 
@@ -67,9 +72,8 @@ OTHER_FILES += \
 #############################################################
 LIBS += \
     -L$$ROOT_PATH/lib \
-    -lModbusWrapper \
-    -lAbstractConfigurator \
     -lDataModel \
+    -lAbstractConfigurator \
     -lUtils \
     -lmodbus \
     -leasylogging++

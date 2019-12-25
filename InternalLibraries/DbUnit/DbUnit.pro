@@ -24,11 +24,14 @@ TEMPLATE    = app
 DEPENDPATH += $$ROOT_PATH/bin/
 DESTDIR     = $$ROOT_PATH/bin/
 
-SOURCES += main.cpp
+CONFIG += console
+
+SOURCES += main.cpp \
+    ConfigEditForm.cpp
 
 #############################################################
-QT -= gui
-QT -= widget
+QT += gui
+QT += widgets
 QT += core
 QT += sql
 
@@ -41,6 +44,7 @@ INCLUDEPATH += ./
 #############################################################
 
 HEADERS += \
+    ConfigEditForm.h \
     DbUnit.h
 
 SOURCES += \
@@ -50,6 +54,7 @@ SOURCES += \
 
 
 FORMS += \
+    ConfigEditForm.ui
 
 
 

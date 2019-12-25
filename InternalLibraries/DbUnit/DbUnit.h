@@ -26,17 +26,17 @@ class DbUnit : public QObject
         explicit DbUnit(QObject *parent = nullptr);
         virtual ~DbUnit();
 
-        QSqlError createConnection(const QString &driver,
-                                   const QString &dbName,
-                                   const QString &host,
-                                   const QString &user,
-                                   const QString &passwd,
-                                   int port);
 
         void addConnection();
 
+        void openDb();
+        void createDb();
+
     signals:
 
+
+    private:
+        QString m_dbFileAddress;
 };
 //------------------------------------------------------------------------------------
 #endif // DBUNIT_H

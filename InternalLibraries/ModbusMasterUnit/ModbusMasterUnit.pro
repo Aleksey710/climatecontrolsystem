@@ -20,6 +20,7 @@ DEPENDPATH  += $$ROOT_PATH/lib
 DESTDIR     = $$ROOT_PATH/lib
 
 QT -= gui
+QT -= widgets
 QT += core
 QT += network
 QT += serialbus

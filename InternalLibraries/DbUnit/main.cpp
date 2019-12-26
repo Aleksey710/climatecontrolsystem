@@ -14,10 +14,13 @@
 
 //#include ""
 //#include ""
+//#include ""
+//#include ""
 #include "Log.h"
 #include "CheckAppUniq.h"
 #include "DbUnit.h"
 #include "ConfigEditForm.h"
+#include "NumericKeypadWidget.h"
 //------------------------------------------------------------------------------------
 #include "easylogging++.h"
 
@@ -98,10 +101,13 @@ int main(int argc, char *argv[])
 
     //--------------------------------------------
 
-    DbUnit dbUnit;
+    std::shared_ptr<DbUnit> dbUnit = std::make_shared<DbUnit>();
 
-    ConfigEditForm configEditForm;
-    configEditForm.show();
+    std::shared_ptr<ConfigEditForm> configEditForm = std::make_shared<ConfigEditForm>();
+    configEditForm->show();
+
+//    std::shared_ptr<NumericKeypadWidget> numericKeypadWidget = std::make_shared<NumericKeypadWidget>();
+//    numericKeypadWidget->show();
 
     //------------------------------------
     //QTimer::singleShot(3*1000, qApp, SLOT(quit()));

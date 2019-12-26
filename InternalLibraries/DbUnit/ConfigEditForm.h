@@ -3,12 +3,18 @@
 //------------------------------------------------------------------------------------
 #include <QWidget>
 #include <QTableView>
+#include <QTableWidget>
 #include <QSqlTableModel>
+#include <QMessageBox>
+#include <QSqlError>
+#include <QHeaderView>
+#include <QApplication>
+//#include <>
+//#include <>
+//#include <>
 
-//------------------------------------------------------------------------------------
-namespace Ui {
-class ConfigEditForm;
-}
+
+#include "NumericKeypadWidget.h"
 //------------------------------------------------------------------------------------
 //!
 class ConfigEditForm : public QWidget
@@ -17,12 +23,14 @@ class ConfigEditForm : public QWidget
 
     public:
         explicit ConfigEditForm(QWidget *parent = nullptr);
-        ~ConfigEditForm();
+        virtual ~ConfigEditForm();
+
+    private slots:
+        void onClicked(const QModelIndex &index);
 
     private:
-        Ui::ConfigEditForm *ui;
-
-        QTableView *m_view;
+        QSqlTableModel *m_model;
+        QTableView *m_tableView;
 };
 //------------------------------------------------------------------------------------
 #endif // CONFIGEDITFORM_H

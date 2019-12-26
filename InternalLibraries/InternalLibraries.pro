@@ -2,7 +2,8 @@ TEMPLATE = subdirs
 
 SUBDIRS += Utils \
     AbstractDisplayWidget \
-    DbUnit
+    DbUnit \
+    ScriptUnit
 SUBDIRS += AbstractConfigurator
 SUBDIRS += DataModel
 #SUBDIRS += ModbusWrapper

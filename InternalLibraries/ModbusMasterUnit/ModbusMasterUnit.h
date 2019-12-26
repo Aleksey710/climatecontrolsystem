@@ -38,6 +38,9 @@ class ModbusMasterUnit : public QObject
     private slots:
 
     private:
+        QStringList initQueryModbusUnitStringList();
+
+    private:
         std::shared_ptr<ModbusMasterHandler> m_modbusMasterHandler;
 };
 //------------------------------------------------------------------------------------

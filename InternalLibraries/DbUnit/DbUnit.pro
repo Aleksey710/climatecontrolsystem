@@ -27,7 +27,7 @@ DESTDIR     = $$ROOT_PATH/bin/
 CONFIG += console
 
 SOURCES += main.cpp \
-    ConfigEditForm.cpp
+
 
 #############################################################
 QT += gui
@@ -45,16 +45,19 @@ INCLUDEPATH += ./
 
 HEADERS += \
     ConfigEditForm.h \
-    DbUnit.h
+    DbUnit.h \
+    NumericButton.h \
+    NumericKeypadWidget.h
 
 SOURCES += \
-    DbUnit.cpp
+    ConfigEditForm.cpp \
+    DbUnit.cpp \
+    NumericButton.cpp \
+    NumericKeypadWidget.cpp
 
 
 
-
-FORMS += \
-    ConfigEditForm.ui
+FORMS +=
 
 
 

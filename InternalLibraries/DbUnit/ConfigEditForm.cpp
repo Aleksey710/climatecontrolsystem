@@ -6,6 +6,8 @@ ConfigEditForm::ConfigEditForm(const QString &groupName,
                                QWidget *parent)
                :QWidget(parent)
 {
+    setObjectName("ConfigEditForm");
+
     QString m_dbFileAddress ( qApp->applicationDirPath()+"/conf/db.sqlite" );
 
     QSqlDatabase db(QSqlDatabase::database(m_dbFileAddress));
@@ -65,11 +67,14 @@ ConfigEditForm::ConfigEditForm(const QString &groupName,
     setLayout(mainLayout);
 
     setWindowTitle(tr("ConfigEditForm [%1]").arg(groupName));
+
+    SEND_TO_LOG(QString("%1 - создан").arg(objectName()));
 }
 //------------------------------------------------------------------------------------
 //!
 ConfigEditForm::~ConfigEditForm()
 {
+    SEND_TO_LOG(QString("%1 - удален").arg(objectName()));
 }
 //------------------------------------------------------------------------------------
 //!

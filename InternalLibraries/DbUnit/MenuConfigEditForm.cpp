@@ -6,9 +6,9 @@ MenuConfigEditForm::MenuConfigEditForm(const QList<MenuItemData> &menuItemDataLi
                                        QWidget *parent)
                    :QWidget(parent)
 {
-    QGridLayout *mainLayout = new QGridLayout;
+    QGridLayout *menuLayout = new QGridLayout;
+    QGridLayout *editLayout = new QGridLayout;
 
-    //QGridLayout *mainLayout = new QGridLayout;
     for (int i = 0; i < menuItemDataList.size(); ++i)
     {
         MenuItemData menuItemData = menuItemDataList.at(i);
@@ -22,16 +22,18 @@ MenuConfigEditForm::MenuConfigEditForm(const QList<MenuItemData> &menuItemDataLi
             ConfigEditForm *configEditForm = new ConfigEditForm(menuItemData.name);
 
             connect(configEditForm, &QWidget::destroyed,[=](){
-
+                setLayout(menuLayout);
             });
 
+            editLayout->addWidget(configEditForm);
+            setLayout(editLayout);
             configEditForm->show();
         });
 
-        mainLayout->addWidget(button);
+        menuLayout->addWidget(button);
     }
 
-    setLayout(mainLayout);
+    setLayout(menuLayout);
 
     setWindowTitle(tr("MenuConfigEditForm"));
 

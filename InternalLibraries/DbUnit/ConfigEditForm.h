@@ -1,15 +1,15 @@
 #ifndef CONFIGEDITFORM_H
 #define CONFIGEDITFORM_H
 //------------------------------------------------------------------------------------
+#include <QApplication>
 #include <QWidget>
 #include <QTableView>
-#include <QTableWidget>
+#include <QSqlRelationalTableModel>
 #include <QSqlTableModel>
-#include <QMessageBox>
+#include <QSqlQueryModel>
 #include <QSqlError>
 #include <QHeaderView>
-#include <QApplication>
-//#include <>
+#include <QSqlQuery>
 //#include <>
 //#include <>
 
@@ -22,14 +22,15 @@ class ConfigEditForm : public QWidget
         Q_OBJECT
 
     public:
-        explicit ConfigEditForm(QWidget *parent = nullptr);
+        explicit ConfigEditForm(const QString &groupName = "temp",
+                                QWidget *parent = nullptr);
         virtual ~ConfigEditForm();
 
     private slots:
         void onClicked(const QModelIndex &index);
 
     private:
-        QSqlTableModel *m_model;
+        QSqlQueryModel *m_model;
         QTableView *m_tableView;
 };
 //------------------------------------------------------------------------------------

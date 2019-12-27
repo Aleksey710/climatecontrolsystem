@@ -20,6 +20,7 @@
 #include "CheckAppUniq.h"
 #include "DbUnit.h"
 #include "ConfigEditForm.h"
+#include "MenuConfigEditForm.h"
 #include "NumericKeypadWidget.h"
 //------------------------------------------------------------------------------------
 #include "easylogging++.h"
@@ -103,11 +104,15 @@ int main(int argc, char *argv[])
 
     std::shared_ptr<DbUnit> dbUnit = std::make_shared<DbUnit>();
 
-    std::shared_ptr<ConfigEditForm> configEditForm = std::make_shared<ConfigEditForm>();
-    configEditForm->show();
+//    std::shared_ptr<ConfigEditForm> configEditForm = std::make_shared<ConfigEditForm>();
+//    configEditForm->show();
 
 //    std::shared_ptr<NumericKeypadWidget> numericKeypadWidget = std::make_shared<NumericKeypadWidget>();
 //    numericKeypadWidget->show();
+
+    std::shared_ptr<MenuConfigEditForm> menuConfigEditForm
+            = std::make_shared<MenuConfigEditForm>(dbUnit->menuItemDataList());
+    menuConfigEditForm->show();
 
     //------------------------------------
     //QTimer::singleShot(3*1000, qApp, SLOT(quit()));

@@ -26,7 +26,8 @@ DESTDIR     = $$ROOT_PATH/bin/
 
 CONFIG += console
 
-SOURCES += main.cpp \
+SOURCES += main.cpp
+
 
 
 #############################################################
@@ -46,6 +47,9 @@ INCLUDEPATH += ./
 HEADERS += \
     ConfigEditForm.h \
     DbUnit.h \
+    MenuConfigEditForm.h \
+    MenuItemData.h \
+    MenuPushButton.h \
     NumericButton.h \
     NumericKeypadWidget.h
 
@@ -53,7 +57,8 @@ SOURCES += \
     ConfigEditForm.cpp \
     DbUnit.cpp \
     NumericButton.cpp \
-    NumericKeypadWidget.cpp
+    NumericKeypadWidget.cpp \
+    MenuConfigEditForm.cpp
 
 
 

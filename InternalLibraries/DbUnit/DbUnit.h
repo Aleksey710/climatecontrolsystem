@@ -14,7 +14,7 @@
 
 
 #include "Log.h"
-//#include ""
+#include "MenuItemData.h"
 //#include ""
 //#include ""
 //------------------------------------------------------------------------------------
@@ -34,24 +34,30 @@ class DbUnit : public QObject
         void openDb();
         void createDb();
 
+        QList<MenuItemData> menuItemDataList();
+
+
     signals:
 
 
     private:
-        void createGroups(QSqlQuery &query);
-        void createOffsetGroup(QSqlQuery &query);
-        void createTempGroup(QSqlQuery &query);
-        void createBatGroup(QSqlQuery &query);
-        void createLimGroup(QSqlQuery &query);
-        void createGenGroup(QSqlQuery &query);
-        void createVoltGroup(QSqlQuery &query);
-        void createAvgGroup(QSqlQuery &query);
-        void createDelayGroup(QSqlQuery &query);
-        void createWagonGroup(QSqlQuery &query);
-        void createPasswordGroup(QSqlQuery &query);
-        void createScreenGroup(QSqlQuery &query);
-        void createCondGroup(QSqlQuery &query);
-        void createResistGroup(QSqlQuery &query);
+        void exequteQuery(const QString &query);
+        void exequteQueryList(const QStringList &queryStringList);
+
+        void createGroups(QStringList &queryStringList);
+        void createOffsetGroup(QStringList &queryStringList);
+        void createTempGroup(QStringList &queryStringList);
+        void createBatGroup(QStringList &queryStringList);
+        void createLimGroup(QStringList &queryStringList);
+        void createGenGroup(QStringList &queryStringList);
+        void createVoltGroup(QStringList &queryStringList);
+        void createAvgGroup(QStringList &queryStringList);
+        void createDelayGroup(QStringList &queryStringList);
+        void createWagonGroup(QStringList &queryStringList);
+        void createPasswordGroup(QStringList &queryStringList);
+        void createScreenGroup(QStringList &queryStringList);
+        void createCondGroup(QStringList &queryStringList);
+        void createResistGroup(QStringList &queryStringList);
 
     private:
         QString m_dbFileAddress;

@@ -6,7 +6,7 @@ ConfigEditForm::ConfigEditForm(const QString &groupName,
                                QWidget *parent)
                :QWidget(parent)
 {
-    setObjectName("ConfigEditForm");
+    setObjectName(QString("ConfigEditForm[%1]").arg(groupName));
 
     QString m_dbFileAddress ( qApp->applicationDirPath()+"/conf/db.sqlite" );
 

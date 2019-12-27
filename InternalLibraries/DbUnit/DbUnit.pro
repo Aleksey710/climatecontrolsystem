@@ -49,7 +49,6 @@ HEADERS += \
     DbUnit.h \
     MenuConfigEditForm.h \
     MenuItemData.h \
-    MenuPushButton.h \
     NumericButton.h \
     NumericKeypadWidget.h
 

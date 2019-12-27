@@ -17,7 +17,6 @@
 
 
 #include "MenuItemData.h"
-#include "MenuPushButton.h"
 #include "ConfigEditForm.h"
 //#include ".h"
 //#include ".h"
@@ -33,6 +32,9 @@ class MenuConfigEditForm : public QWidget
         virtual ~MenuConfigEditForm();
 
     signals:
+
+    private:
+        QWidget *m_menuWidget;
 
 };
 //------------------------------------------------------------------------------------

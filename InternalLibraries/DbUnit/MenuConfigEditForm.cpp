@@ -10,16 +10,19 @@ MenuConfigEditForm::MenuConfigEditForm(const QList<MenuItemData> &menuItemDataLi
 
     QGridLayout *mainLayout = new QGridLayout;
 
+    mainLayout->setVerticalSpacing(1);
+    mainLayout->setHorizontalSpacing(1);
+
     //std::shared_ptr<QWidget> menuWidget = std::make_shared<QWidget>();
     m_menuWidget = new QWidget();
-    connect(m_menuWidget, &QWidget::destroyed,[](){ qDebug()<< "menuWidget destroyed"; });
+    //connect(m_menuWidget, &QWidget::destroyed,[](){ qDebug()<< "menuWidget destroyed"; });
 
     QGridLayout *menuLayout = new QGridLayout;
 
     QFont buttonFont = font();
-    buttonFont.setPointSize(buttonFont.pointSize() + 5);
+    buttonFont.setPointSize(buttonFont.pointSize() + 1);
 
-    //int buttonHeight = 60;
+    int buttonHeight = 20;
 
     for (int i = 0; i < menuItemDataList.size(); ++i)
     {
@@ -29,7 +32,7 @@ MenuConfigEditForm::MenuConfigEditForm(const QList<MenuItemData> &menuItemDataLi
                                               .arg(menuItemData.title)
                                               .arg(menuItemData.name));
 
-        //button->setFixedHeight(buttonHeight);
+        button->setFixedHeight(buttonHeight);
         button->setFont(buttonFont);
 
         //! Обработка отпускания кнопки меню
@@ -58,7 +61,7 @@ MenuConfigEditForm::MenuConfigEditForm(const QList<MenuItemData> &menuItemDataLi
         menuLayout->addWidget(button);
     }
 
-    menuLayout->addItem(new QSpacerItem(10,500),500, 0);
+    menuLayout->addItem(new QSpacerItem(10,200),200, 0);
 
     //! Назначить слой меню виджету меню
     m_menuWidget->setLayout(menuLayout);

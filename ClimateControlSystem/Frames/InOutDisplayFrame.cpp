@@ -11,12 +11,14 @@ InOutDisplayFrame::InOutDisplayFrame(QWidget *parent)
 
     setObjectName("InOutDisplayFrame");
 
-    setStyleSheet(//"font: 12px; "
-                  //"font-weight: bold; "
-                  "margin: 0px, 0px, 0px, 0px;"
-                  "padding: 0px, 0px, 0px, 0px; "
-                  //"border:  1px solid black; "
-                  );
+//    m_mainLayout->setMargin(0);
+
+//    setStyleSheet(//"font: 12px; "
+//                  //"font-weight: bold; "
+//                  "margin: 0px, 0px, 0px, 0px;"
+//                  "padding: 0px, 0px, 0px, 0px; "
+//                  //"border:  1px solid black; "
+//                  );
 
 
 

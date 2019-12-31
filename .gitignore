@@ -1,5 +1,10 @@
 # Ignore any file named foo.txt.
+/bin/DbUnit
+/bin/ModbusMasterUnit
+/bin/ScriptUnit
+/bin/DataModel
 /bin/ClimateControlSystem
+
 Makefile
 .qmake.stash
 

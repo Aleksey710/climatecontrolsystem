@@ -131,7 +131,7 @@ void MainDisplayWidget::setupFrames()
 void MainDisplayWidget::setupMenu()
 {
     QFont buttonFont = font();
-    buttonFont.setPointSize(buttonFont.pointSize() + 18);
+    buttonFont.setPointSize(buttonFont.pointSize() + 10);
 
     int buttonHeight = 60;
     //-------------------------------------------------------------------

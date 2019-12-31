@@ -19,7 +19,7 @@ class DataModelConfigurator : public AbstractConfigurator
 {
         Q_OBJECT
     public:
-        explicit DataModelConfigurator(DataModel *dataModel,
+        explicit DataModelConfigurator(std::shared_ptr<DataModel> dataModel,
                                        QObject *parent = nullptr);
         virtual ~DataModelConfigurator();
 
@@ -36,7 +36,7 @@ class DataModelConfigurator : public AbstractConfigurator
         void itemParsing(const QJsonObject &itemJsonObject);
 
     private:
-        DataModel *m_dataModel;
+        std::weak_ptr<DataModel> m_dataModel;
 
 };
 //------------------------------------------------------------------------------------

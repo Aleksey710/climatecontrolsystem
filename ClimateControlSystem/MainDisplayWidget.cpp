@@ -1,10 +1,12 @@
 #include "MainDisplayWidget.h"
 //------------------------------------------------------------------------------------
 //!
-MainDisplayWidget::MainDisplayWidget(DataModel *dataModel,
+MainDisplayWidget::MainDisplayWidget(const std::shared_ptr<DataModel> &dataModel,
+                                     const std::shared_ptr<DbUnit> &dbUnit,
                                      QWidget *parent)
                   : QWidget(parent),
-                    m_dataModel ( dataModel )
+                    m_dataModel ( dataModel ),
+                    m_dbUnit ( dbUnit )
 {
     SEND_TO_LOG("Запуск MainDisplayWidget ");
 
@@ -68,14 +70,10 @@ MainDisplayWidget::MainDisplayWidget(DataModel *dataModel,
     //createHeader();
 
     //-----------------------------------------------------------
-    //! Создать главный слой - разделение меню и отображения
-    m_frameLayout = new QVBoxLayout();
+    setupFrames();
 
-    m_frameLayout->setMargin(0);
-
-    //! Добавить виджет на главный слой
-    m_mainLayout->addLayout(m_frameLayout);
-
+    setupMenu();
+    //-----------------------------------------------------------
     QString str("ИНИЦИАЛИЗАЦИЯ");
 
     m_curentWidget = new QLabel(QString("<font size=\"30\" color=\"red\" face=\"Arial\">%1</font>").arg(str));
@@ -92,3 +90,150 @@ MainDisplayWidget::~MainDisplayWidget()
 }
 //------------------------------------------------------------------------------------
 //!
+void MainDisplayWidget::setupFrames()
+{
+    //! Создать главный слой - разделение меню и отображения
+    m_frameLayout = new QVBoxLayout();
+
+    m_frameLayout->setMargin(0);
+
+    //! Добавить виджет на главный слой
+    m_mainLayout->addLayout(m_frameLayout);
+
+    //-----------------------------------------------------------
+    MainFrame *mainFrame = new MainFrame();
+    m_framesList.append(mainFrame);
+
+    //-----------------------------------------------------------
+    InOutDisplayFrame *inOutDisplayFrame = new InOutDisplayFrame();
+    m_framesList.append(inOutDisplayFrame);
+
+    //-----------------------------------------------------------
+    CarInformationFrame *carInformationFrame = new CarInformationFrame();
+    m_framesList.append(carInformationFrame);
+
+    //-----------------------------------------------------------
+    // В случае, если объект уже удален, то p будет пустым указателем
+    if( std::shared_ptr<DbUnit> p = m_dbUnit.lock() )
+    {
+        //std::shared_ptr<MenuConfigEditForm> menuConfigEditForm
+        //        = std::make_shared<MenuConfigEditForm>(p->menuItemDataList());
+
+        m_framesList.append( new MenuConfigEditForm( p->menuItemDataList() ) );
+    }
+
+    //-------------------------------------------------------------------
+    m_curentFrameId = 0;
+    m_frameLayout->addWidget(m_framesList[0]);
+}
+//------------------------------------------------------------------------------------
+//!
+void MainDisplayWidget::setupMenu()
+{
+    QFont buttonFont = font();
+    buttonFont.setPointSize(buttonFont.pointSize() + 18);
+
+    int buttonHeight = 60;
+    //-------------------------------------------------------------------
+    m_menuLayout = new QHBoxLayout();
+
+    //-------------------------------------------------------------------
+    QPushButton *mainFrameButton = new QPushButton("На главную");
+
+    mainFrameButton->setFixedHeight(buttonHeight);
+    mainFrameButton->setFont(buttonFont);
+
+    connect(mainFrameButton, &QPushButton::clicked,
+            [=](){
+
+        if(m_curentFrameId == 0)
+            return;
+
+        m_framesList[m_curentFrameId]->setHidden(true);
+        m_frameLayout->removeWidget( m_framesList[m_curentFrameId] );
+
+        m_curentFrameId = 0;
+
+        m_frameLayout->addWidget( m_framesList[m_curentFrameId] );
+        m_framesList[m_curentFrameId]->setHidden(false);
+    });
+
+    m_menuLayout->addWidget(mainFrameButton);
+    //-------------------------------------------------------------------
+    QPushButton *previousFrameButton = new QPushButton("Предыдущий экран");
+
+    previousFrameButton->setFixedHeight(buttonHeight);
+    previousFrameButton->setFont(buttonFont);
+
+    connect(previousFrameButton, &QPushButton::clicked,
+            [=](){
+
+        m_framesList[m_curentFrameId]->setHidden(true);
+        m_frameLayout->removeWidget( m_framesList[m_curentFrameId] );
+
+        if(m_curentFrameId == 0)
+        {
+            m_curentFrameId = m_framesList.size() - 1;
+        } else
+        {
+            m_curentFrameId = m_curentFrameId - 1;
+        }
+
+        m_frameLayout->addWidget( m_framesList[m_curentFrameId] );
+        m_framesList[m_curentFrameId]->setHidden(false);
+    });
+
+    m_menuLayout->addWidget(previousFrameButton);
+    //-------------------------------------------------------------------
+    QPushButton *nextFrameButton = new QPushButton("Следующий экран");
+
+    nextFrameButton->setFixedHeight(buttonHeight);
+    nextFrameButton->setFont(buttonFont);
+
+    connect(nextFrameButton, &QPushButton::clicked,
+            [=](){
+
+        m_framesList[m_curentFrameId]->setHidden(true);
+        m_frameLayout->removeWidget( m_framesList[m_curentFrameId] );
+
+        if(m_curentFrameId == (m_framesList.size()-1))
+        {
+            m_curentFrameId = 0;
+        } else
+        {
+            m_curentFrameId = m_curentFrameId + 1;
+        }
+
+        m_frameLayout->addWidget( m_framesList[m_curentFrameId] );
+        m_framesList[m_curentFrameId]->setHidden(false);
+    });
+
+    m_menuLayout->addWidget(nextFrameButton);
+    //-------------------------------------------------------------------
+    /*
+    QPushButton *nextButton = new QPushButton("Следующий экран");
+
+    mainFrameButton->setFixedHeight(50);
+
+    connect(nextButton, &QPushButton::click,
+            [=](){
+
+    });
+    m_menuLayout->addWidget(nextButton);
+    */
+    //-------------------------------------------------------------------
+    m_mainLayout->addLayout(m_menuLayout);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

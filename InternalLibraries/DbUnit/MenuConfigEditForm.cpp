@@ -16,6 +16,11 @@ MenuConfigEditForm::MenuConfigEditForm(const QList<MenuItemData> &menuItemDataLi
 
     QGridLayout *menuLayout = new QGridLayout;
 
+    QFont buttonFont = font();
+    buttonFont.setPointSize(buttonFont.pointSize() + 5);
+
+    //int buttonHeight = 60;
+
     for (int i = 0; i < menuItemDataList.size(); ++i)
     {
         MenuItemData menuItemData = menuItemDataList.at(i);
@@ -24,11 +29,14 @@ MenuConfigEditForm::MenuConfigEditForm(const QList<MenuItemData> &menuItemDataLi
                                               .arg(menuItemData.title)
                                               .arg(menuItemData.name));
 
+        //button->setFixedHeight(buttonHeight);
+        button->setFont(buttonFont);
+
         //! Обработка отпускания кнопки меню
         connect(button, &QPushButton::released, [=](){
 
             //! Создать форму
-            ConfigEditForm *configEditForm = new ConfigEditForm(menuItemData.name);
+            ConfigEditFrame *configEditForm = new ConfigEditFrame(menuItemData.name);
 
             //! При закрытии формы
             connect(configEditForm, &QWidget::destroyed,[=](){
@@ -50,6 +58,8 @@ MenuConfigEditForm::MenuConfigEditForm(const QList<MenuItemData> &menuItemDataLi
         menuLayout->addWidget(button);
     }
 
+    menuLayout->addItem(new QSpacerItem(10,500),500, 0);
+
     //! Назначить слой меню виджету меню
     m_menuWidget->setLayout(menuLayout);
 
@@ -59,7 +69,7 @@ MenuConfigEditForm::MenuConfigEditForm(const QList<MenuItemData> &menuItemDataLi
     //! Задать виджету слой
     setLayout(mainLayout);
 
-    setGeometry(200,200,500,300);
+    //setGeometry(200,200,500,300);
     setWindowTitle(tr("MenuConfigEditForm"));
 
     SEND_TO_LOG(QString("%1 - создан").arg(objectName()));

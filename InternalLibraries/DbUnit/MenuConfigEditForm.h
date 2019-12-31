@@ -12,12 +12,14 @@
 #include <QSqlQuery>
 #include <QPushButton>
 #include <QStandardItem>
+#include <QSpacerItem>
+//#include <>
 //#include <>
 //#include <>
 
 
 #include "MenuItemData.h"
-#include "ConfigEditForm.h"
+#include "ConfigEditFrame.h"
 //#include ".h"
 //#include ".h"
 //#include ".h"

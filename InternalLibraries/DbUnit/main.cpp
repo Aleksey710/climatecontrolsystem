@@ -19,7 +19,7 @@
 #include "Log.h"
 #include "CheckAppUniq.h"
 #include "DbUnit.h"
-#include "ConfigEditForm.h"
+#include "ConfigEditFrame.h"
 #include "MenuConfigEditForm.h"
 #include "NumericKeypadWidget.h"
 //------------------------------------------------------------------------------------

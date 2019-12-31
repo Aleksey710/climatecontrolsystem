@@ -42,25 +42,38 @@ INCLUDEPATH += $$ROOT_PATH/ExternalLibraries/libmodbus/modbus/$$LIBMODBUS/src
 
 INCLUDEPATH += $$ROOT_PATH/InternalLibraries/Utils
 INCLUDEPATH += $$ROOT_PATH/InternalLibraries/DataModel
+INCLUDEPATH += $$ROOT_PATH/InternalLibraries/DbUnit
 INCLUDEPATH += $$ROOT_PATH/InternalLibraries/AbstractConfigurator
 INCLUDEPATH += $$ROOT_PATH/InternalLibraries/ModbusWrapper
 INCLUDEPATH += $$ROOT_PATH/InternalLibraries/ModbusMasterUnit
 
 INCLUDEPATH += ./
+INCLUDEPATH += ./Frames
 #############################################################
 
 SOURCES += \
     ClimateControlSystem.cpp \
+    Frames/AbstractFrames.cpp \
+    Frames/CarInformationFrame.cpp \
+    Frames/InOutDisplayFrame.cpp \
+    Frames/MainFrame.cpp \
     MainDisplayWidget.cpp \
     main.cpp
 
 
 HEADERS += \
     ClimateControlSystem.h \
+    Frames/AbstractFrames.h \
+    Frames/CarInformationFrame.h \
+    Frames/InOutDisplayFrame.h \
+    Frames/MainFrame.h \
     MainDisplayWidget.h \
 
 
-FORMS +=
+FORMS += \
+    Frames/CarInformationFrame.ui \
+    Frames/InOutDisplayFrame.ui \
+    Frames/MainFrame.ui
 
 
 RESOURCES += \
@@ -78,6 +91,7 @@ DISTFILES += \
 LIBS += \
     -L$$ROOT_PATH/lib \
     -lModbusMasterUnit \
+    -lDbUnit \
     -lDataModel \
     -lAbstractConfigurator \
 #    -lUtils \

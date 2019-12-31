@@ -13,20 +13,20 @@ include($$ROOT_PATH/ClimateControlSystem.pri)
 include($$ROOT_PATH/easylogging++.pri)
 
 #############################################################
-#TEMPLATE    = lib
-#CONFIG      += staticlib
+TEMPLATE    = lib
+CONFIG      += staticlib
 
-#DEPENDPATH  = $$ROOT_PATH/lib
-#DESTDIR     = $$ROOT_PATH/lib
+DEPENDPATH  = $$ROOT_PATH/lib
+DESTDIR     = $$ROOT_PATH/lib
 
 #------------------------------------------------------------
-TEMPLATE    = app
-DEPENDPATH += $$ROOT_PATH/bin/
-DESTDIR     = $$ROOT_PATH/bin/
+#TEMPLATE    = app
+#DEPENDPATH += $$ROOT_PATH/bin/
+#DESTDIR     = $$ROOT_PATH/bin/
 
-CONFIG += console
+#CONFIG += console
 
-SOURCES += main.cpp
+#SOURCES += main.cpp
 
 
 
@@ -45,7 +45,7 @@ INCLUDEPATH += ./
 #############################################################
 
 HEADERS += \
-    ConfigEditForm.h \
+    ConfigEditFrame.h \
     DbUnit.h \
     MenuConfigEditForm.h \
     MenuItemData.h \
@@ -53,11 +53,11 @@ HEADERS += \
     NumericKeypadWidget.h
 
 SOURCES += \
-    ConfigEditForm.cpp \
     DbUnit.cpp \
     NumericButton.cpp \
     NumericKeypadWidget.cpp \
-    MenuConfigEditForm.cpp
+    MenuConfigEditForm.cpp \
+    ConfigEditFrame.cpp
 
 
 

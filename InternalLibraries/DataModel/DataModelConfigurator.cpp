@@ -1,7 +1,7 @@
 #include "DataModelConfigurator.h"
 //------------------------------------------------------------------------------------
 //!
-DataModelConfigurator::DataModelConfigurator(DataModel *dataModel,
+DataModelConfigurator::DataModelConfigurator(std::shared_ptr<DataModel> dataModel,
                                              QObject *parent)
                       :AbstractConfigurator(QString("DataModelConfigurator"),
                                             parent),
@@ -72,7 +72,14 @@ void DataModelConfigurator::itemParsing(const QJsonObject &itemJsonObject)
         v = QVariant( value );
     }
 
-    m_dataModel->appendItem( id, new DataItem(id,title,value,dataType,this) );
+    if( std::shared_ptr<DataModel> p = m_dataModel.lock() )
+    {
+        p->appendItem( id, new DataItem(id,
+                                        title,
+                                        value,
+                                        dataType,
+                                        this) );
+    }
 }
 
 

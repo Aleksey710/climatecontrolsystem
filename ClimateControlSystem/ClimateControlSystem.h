@@ -14,9 +14,9 @@
 #include "DataModelConfigurator.h"
 #include "ModbusMasterConfigurator.h"
 #include "MainDisplayWidget.h"
-//#include ""
-//#include ""
-//#include ""
+#include "DbUnit.h"
+//#include ".h"
+//#include ".h"
 //------------------------------------------------------------------------------------
 //!
 class ClimateControlSystem : public QObject
@@ -29,7 +29,9 @@ class ClimateControlSystem : public QObject
     signals:
 
     private:
-        DataModel           *m_dataModel;
+        std::shared_ptr<DbUnit>     m_dbUnit    = std::make_shared<DbUnit>();
+        std::shared_ptr<DataModel>  m_dataModel = std::make_shared<DataModel>();
+
         MainDisplayWidget   *m_mainDisplayWidget;
 
 };

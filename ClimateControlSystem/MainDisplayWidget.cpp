@@ -30,7 +30,7 @@ MainDisplayWidget::MainDisplayWidget(const std::shared_ptr<DataModel> &dataModel
     setLayout(m_mainLayout);
 
 #ifdef Q_OS_LINUX
-    setWindowState(Qt::WindowFullScreen);
+    //setWindowState(Qt::WindowFullScreen);
 #endif
 //    setWindowFlags( Qt::CustomizeWindowHint
 //                   | Qt::FramelessWindowHint
@@ -68,18 +68,22 @@ MainDisplayWidget::MainDisplayWidget(const std::shared_ptr<DataModel> &dataModel
     //-----------------------------------------------------------
     //! Создание заголовка
     //createHeader();
-
-    //-----------------------------------------------------------
-    setupFrames();
-
-    setupMenu();
     //-----------------------------------------------------------
     QString str("ИНИЦИАЛИЗАЦИЯ");
 
     m_curentWidget = new QLabel(QString("<font size=\"30\" color=\"red\" face=\"Arial\">%1</font>").arg(str));
 
+    //-----------------------------------------------------------
+    setupFrames();
+
+    setupMenu();
+
     //m_frameLayout->addWidget(m_curentWidget);
 
+    //-----------------------------------------------------------
+    setGeometry(0,0,800,480);
+    setSizePolicy(QSizePolicy::Fixed,
+                  QSizePolicy::Fixed);
     show();
 }
 //------------------------------------------------------------------------------------

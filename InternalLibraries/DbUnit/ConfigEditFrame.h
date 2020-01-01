@@ -10,7 +10,7 @@
 #include <QSqlError>
 #include <QHeaderView>
 #include <QSqlQuery>
-//#include <>
+#include <QLabel>
 //#include <>
 
 
@@ -24,13 +24,18 @@ class ConfigEditFrame : public QWidget
 
     public:
         explicit ConfigEditFrame(const QString &groupName = "temp",
-                                QWidget *parent = nullptr);
+                                 const QString &groupTitle = "Error",
+                                 QWidget *parent = nullptr);
         virtual ~ConfigEditFrame();
 
     private slots:
+        void updateModelData();
         void onClicked(const QModelIndex &index);
 
     private:
+        QString m_groupName;
+        QString m_groupTitle;
+
         QSqlQueryModel *m_model;
         QTableView *m_tableView;
 };

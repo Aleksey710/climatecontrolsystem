@@ -72,7 +72,7 @@ NumericKeypadWidget::NumericKeypadWidget(const double &value,
     //--------------------------------------------------------
     QRect rect;
     rect = geometry();
-    rect.moveTo(100, 100);
+    rect.moveTo(20, 20);
     rect.setWidth(300);
     rect.setHeight(400);
     setGeometry(rect);

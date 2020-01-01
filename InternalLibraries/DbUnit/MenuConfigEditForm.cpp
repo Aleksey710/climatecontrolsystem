@@ -39,7 +39,8 @@ MenuConfigEditForm::MenuConfigEditForm(const QList<MenuItemData> &menuItemDataLi
         connect(button, &QPushButton::released, [=](){
 
             //! Создать форму
-            ConfigEditFrame *configEditForm = new ConfigEditFrame(menuItemData.name);
+            ConfigEditFrame *configEditForm = new ConfigEditFrame(menuItemData.name,
+                                                                  menuItemData.title);
 
             //! При закрытии формы
             connect(configEditForm, &QWidget::destroyed,[=](){

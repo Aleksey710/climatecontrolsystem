@@ -65,7 +65,7 @@ QList<MenuItemData> DbUnit::menuItemDataList()
     {
         QSqlError err = db.lastError();
 
-        SEND_TO_LOG( QString("%1 - Error menuItemDataList [%3]")
+        SEND_TO_LOG( QString("%1 - Error menuItemDataList [%2]")
                      .arg(objectName()).arg(err.text()))
     } else
     {
@@ -368,9 +368,62 @@ void DbUnit::createBatGroup(QStringList &queryStringList)
 //!
 void DbUnit::createLimGroup(QStringList &queryStringList)
 {
-//    queryStringList.append("INSERT INTO `data_model` (`group_id`,`name`,`title`,`value`) "
-//                 "VALUES ((SELECT `id` FROM `groups` WHERE `name`='lim'), "
-//                 "'', '', );");
+    queryStringList.append(
+        "INSERT INTO `data_model` (`group_id`,`name`,`title`,`value`) "
+        "VALUES ((SELECT `id` FROM `groups` WHERE `name`='lim'), "
+        "'micb', 'Мінімум струм батареї', -150);");
+    queryStringList.append(
+        "INSERT INTO `data_model` (`group_id`,`name`,`title`,`value`) "
+        "VALUES ((SELECT `id` FROM `groups` WHERE `name`='lim'), "
+        "'macb', 'Максимум струм батареї', 160);");
+    queryStringList.append(
+        "INSERT INTO `data_model` (`group_id`,`name`,`title`,`value`) "
+        "VALUES ((SELECT `id` FROM `groups` WHERE `name`='lim'), "
+        "'micg', 'Мінімум струм генератора', 0);");
+    queryStringList.append(
+        "INSERT INTO `data_model` (`group_id`,`name`,`title`,`value`) "
+        "VALUES ((SELECT `id` FROM `groups` WHERE `name`='lim'), "
+        "'macg', 'Максимум струм генератора', 250);");
+    queryStringList.append(
+        "INSERT INTO `data_model` (`group_id`,`name`,`title`,`value`) "
+        "VALUES ((SELECT `id` FROM `groups` WHERE `name`='lim'), "
+        "'mivn', 'Мінімум напруга бортової мережі', 0);");
+    queryStringList.append(
+        "INSERT INTO `data_model` (`group_id`,`name`,`title`,`value`) "
+        "VALUES ((SELECT `id` FROM `groups` WHERE `name`='lim'), "
+        "'mavn', 'Максимум напруга бортової мережі', 200);");
+    queryStringList.append(
+        "INSERT INTO `data_model` (`group_id`,`name`,`title`,`value`) "
+        "VALUES ((SELECT `id` FROM `groups` WHERE `name`='lim'), "
+        "'mitb', 'Мінімум температура котла', 0);");
+    queryStringList.append(
+        "INSERT INTO `data_model` (`group_id`,`name`,`title`,`value`) "
+        "VALUES ((SELECT `id` FROM `groups` WHERE `name`='lim'), "
+        "'matb', 'Максимум температура котла', 110);");
+    queryStringList.append(
+        "INSERT INTO `data_model` (`group_id`,`name`,`title`,`value`) "
+        "VALUES ((SELECT `id` FROM `groups` WHERE `name`='lim'), "
+        "'mito', 'Мінімум температура ззовні', -40);");
+    queryStringList.append(
+        "INSERT INTO `data_model` (`group_id`,`name`,`title`,`value`) "
+        "VALUES ((SELECT `id` FROM `groups` WHERE `name`='lim'), "
+        "'mato', 'Максимум температура ззовні', 60);");
+    queryStringList.append(
+        "INSERT INTO `data_model` (`group_id`,`name`,`title`,`value`) "
+        "VALUES ((SELECT `id` FROM `groups` WHERE `name`='lim'), "
+        "'miti', 'Мінімум температура салону', -20);");
+    queryStringList.append(
+        "INSERT INTO `data_model` (`group_id`,`name`,`title`,`value`) "
+        "VALUES ((SELECT `id` FROM `groups` WHERE `name`='lim'), "
+        "'mati', 'Максимум температура салону', 60);");
+    queryStringList.append(
+        "INSERT INTO `data_model` (`group_id`,`name`,`title`,`value`) "
+        "VALUES ((SELECT `id` FROM `groups` WHERE `name`='lim'), "
+        "'mitaf', 'Мінімум температура припливної вентиляції', -40);");
+    queryStringList.append(
+        "INSERT INTO `data_model` (`group_id`,`name`,`title`,`value`) "
+        "VALUES ((SELECT `id` FROM `groups` WHERE `name`='lim'), "
+        "'mataf', 'Максимум температура припливної вентиляції', 100);");
 }
 //------------------------------------------------------------------------------------
 //!
@@ -389,34 +442,88 @@ void DbUnit::createGenGroup(QStringList &queryStringList)
 //!
 void DbUnit::createVoltGroup(QStringList &queryStringList)
 {
-//    queryStringList.append("INSERT INTO `data_model` (`group_id`,`name`,`title`,`value`) "
-//                 "VALUES ((SELECT `id` FROM `groups` WHERE `name`='volt'), "
-//                 "'', '', );");
-//    queryStringList.append("INSERT INTO `data_model` (`group_id`,`name`,`title`,`value`) "
-//                 "VALUES ((SELECT `id` FROM `groups` WHERE `name`='volt'), "
-//                 "'', '', );");
-//    queryStringList.append("INSERT INTO `data_model` (`group_id`,`name`,`title`,`value`) "
-//                 "VALUES ((SELECT `id` FROM `groups` WHERE `name`='volt'), "
-//                 "'', '', );");
-//    queryStringList.append("INSERT INTO `data_model` (`group_id`,`name`,`title`,`value`) "
-//               "VALUES ((SELECT `id` FROM `groups` WHERE `name`='volt'), "
-//               "'', '', );");
+    queryStringList.append(
+        "INSERT INTO `data_model` (`group_id`,`name`,`title`,`value`) "
+        "VALUES ((SELECT `id` FROM `groups` WHERE `name`='volt'), "
+        "'mabn', 'Максимальна напруга бортової  мережі, V', 150);");
+    queryStringList.append(
+        "INSERT INTO `data_model` (`group_id`,`name`,`title`,`value`) "
+        "VALUES ((SELECT `id` FROM `groups` WHERE `name`='volt'), "
+        "'maibn', 'Iнтервал перевищення напруги бортової мережі, мСек', 2000);");
+    queryStringList.append(
+        "INSERT INTO `data_model` (`group_id`,`name`,`title`,`value`) "
+        "VALUES ((SELECT `id` FROM `groups` WHERE `name`='volt'), "
+        "'mibn', 'Мінімальна напруга бортової мережі, V', 70);");
+    queryStringList.append(
+        "INSERT INTO `data_model` (`group_id`,`name`,`title`,`value`) "
+        "VALUES ((SELECT `id` FROM `groups` WHERE `name`='volt'), "
+        "'miibn', 'Iнтервал заниження напруги бортової мережі, мСек', 10000);");
 }
 //------------------------------------------------------------------------------------
 //!
 void DbUnit::createAvgGroup(QStringList &queryStringList)
 {
-//    queryStringList.append("INSERT INTO `data_model` (`group_id`,`name`,`title`,`value`) "
-//                 "VALUES ((SELECT `id` FROM `groups` WHERE `name`='avg'), "
-//                 "'', '', );");
+    queryStringList.append(
+        "INSERT INTO `data_model` (`group_id`,`name`,`title`,`value`) "
+        "VALUES ((SELECT `id` FROM `groups` WHERE `name`='avg'), "
+        "'coupe', 'Температура салону', 10);");
+    queryStringList.append(
+        "INSERT INTO `data_model` (`group_id`,`name`,`title`,`value`) "
+        "VALUES ((SELECT `id` FROM `groups` WHERE `name`='avg'), "
+        "'airflow', 'Температура припливної вентиляції', 10);");
+    queryStringList.append(
+        "INSERT INTO `data_model` (`group_id`,`name`,`title`,`value`) "
+        "VALUES ((SELECT `id` FROM `groups` WHERE `name`='avg'), "
+        "'out', 'Температура ззовні', 10);");
+    queryStringList.append(
+        "INSERT INTO `data_model` (`group_id`,`name`,`title`,`value`) "
+        "VALUES ((SELECT `id` FROM `groups` WHERE `name`='avg'), "
+        "'boiler', 'Температура котла', 10);");
+    queryStringList.append(
+        "INSERT INTO `data_model` (`group_id`,`name`,`title`,`value`) "
+        "VALUES ((SELECT `id` FROM `groups` WHERE `name`='avg'), "
+        "'bat', 'Струм батареї', 5);");
+    queryStringList.append(
+        "INSERT INTO `data_model` (`group_id`,`name`,`title`,`value`) "
+        "VALUES ((SELECT `id` FROM `groups` WHERE `name`='avg'), "
+        "'gen', 'Струм генератора', 5);");
+    queryStringList.append(
+        "INSERT INTO `data_model` (`group_id`,`name`,`title`,`value`) "
+        "VALUES ((SELECT `id` FROM `groups` WHERE `name`='avg'), "
+        "'volt', 'Напруга мережі', 5);");
 }
 //------------------------------------------------------------------------------------
 //!
 void DbUnit::createDelayGroup(QStringList &queryStringList)
 {
-//    queryStringList.append("INSERT INTO `data_model` (`group_id`,`name`,`title`,`value`) "
-//                 "VALUES ((SELECT `id` FROM `groups` WHERE `name`='delay'), "
-//                 "'', '', );");
+    queryStringList.append(
+        "INSERT INTO `data_model` (`group_id`,`name`,`title`,`value`) "
+        "VALUES ((SELECT `id` FROM `groups` WHERE `name`='delay'), "
+        "'vvodsd', 'Час простою перед наступним включенням ВВО, мСек', 5000);");
+    queryStringList.append(
+        "INSERT INTO `data_model` (`group_id`,`name`,`title`,`value`) "
+        "VALUES ((SELECT `id` FROM `groups` WHERE `name`='delay'), "
+        "'vvosod', 'Затримка включення ВВО, мСек', 5000);");
+    queryStringList.append(
+        "INSERT INTO `data_model` (`group_id`,`name`,`title`,`value`) "
+        "VALUES ((SELECT `id` FROM `groups` WHERE `name`='delay'), "
+        "'vvord', 'Затримка відповіді включення ВВО від БВВ, мСек', 5000);");
+    queryStringList.append(
+        "INSERT INTO `data_model` (`group_id`,`name`,`title`,`value`) "
+        "VALUES ((SELECT `id` FROM `groups` WHERE `name`='delay'), "
+        "'dlhon', 'Затримка включення НВО, мСек', 5000);");
+    queryStringList.append(
+        "INSERT INTO `data_model` (`group_id`,`name`,`title`,`value`) "
+        "VALUES ((SELECT `id` FROM `groups` WHERE `name`='delay'), "
+        "'dlhoff', 'Затримка виключення НВО, мСек', 5000);");
+    queryStringList.append(
+        "INSERT INTO `data_model` (`group_id`,`name`,`title`,`value`) "
+        "VALUES ((SELECT `id` FROM `groups` WHERE `name`='delay'), "
+        "'dlhr', 'Затримка відповіді включення НВО від БВВ, мСек', 5000);");
+    queryStringList.append(
+        "INSERT INTO `data_model` (`group_id`,`name`,`title`,`value`) "
+        "VALUES ((SELECT `id` FROM `groups` WHERE `name`='delay'), "
+        "'dlh', 'Затримка повторного включення НВО, мСек', 15000);");
 }
 //------------------------------------------------------------------------------------
 //!

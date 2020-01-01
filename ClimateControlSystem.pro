@@ -18,6 +18,17 @@ ClimateControlSystem.depends = \
 # libqt5script5 \
 # libqt5serialport5 \
 # libqt5serialbus5 \
+# libqt5sql5-sqlite \
+
+HEADERS += \
+    ClimateControlSystem/Frames/Widgets/AbstractDisplayWidget.h
+
+SOURCES += \
+    ClimateControlSystem/Frames/Widgets/AbstractDisplayWidget.cpp
+
+CONFIG += qt
+
+QT += widgets
 
 
 

@@ -60,69 +60,6 @@ QScriptValue redefinedScriptPrint(QScriptContext *context, QScriptEngine *engine
     return engine->undefinedValue();
 }
 //------------------------------------------------------------------------------------
-QScriptValue getRandomColor(QScriptContext *context, QScriptEngine *engine)
-{
-    Q_UNUSED(context);
-
-//    "function getRandomColor() { "
-//        "var letters = '0123456789ABCDEF'; "
-//        "var color = '#'; "
-//        "for (var i = 0; i < 6; i++ ) "
-//        "{ "
-//            "color += letters[Math.floor(Math.random() * 16)]; "
-//        "} "
-//        "return color; "
-//    "} "
-
-    SEND_TO_LOG( QString("getRandomColor()") );
-
-    return engine->undefinedValue();
-}
-//------------------------------------------------------------------------------------
-//!
-//QScriptValue regToFloat3210(QScriptContext *context, QScriptEngine *engine)
-//{
-//    quint16 r0 = context->argument(0).toUInt16();
-//    quint16 r1 = context->argument(1).toUInt16();
-
-//    //SEND_TO_LOG( QString("RegToFloat(%1, %2)").arg(r0).arg(r1) );
-
-//    float value = RegToFloatWorker(r0, r1);
-
-//    return engine->newVariant( value );
-//}
-//------------------------------------------------------------------------------------
-//!
-//float regToFloat3210Worker(const quint16 &r0, const quint16 &r1)
-//{
-//    uint32_t v32;
-
-//    float    f;
-//    float*   pf;
-
-//    pf = &f;
-//    //---------------------------------------------------------
-//    v32 = uint32_t(r0) << 16;
-//    v32 = v32 | r1;
-
-//    pf = (float *)&v32;
-
-//    //!------------------------------
-//    //! Обработка отключения устройства
-//    if(*pf < float(0.01))
-//        *pf = 0;
-//    //!------------------------------
-
-////    SEND_TO_LOG( QString("RegToFloat(%1, %2) "
-////                         //"{%3, %4, %5, %6} "
-////                         "= %3")
-////                 .arg(r0).arg(r1)
-////                 //.arg(r[0]).arg(r[1]).arg(r[2]).arg(r[3])
-////                 .arg(*vf));
-
-//    return *pf;
-//}
-//------------------------------------------------------------------------------------
 //!
 QScriptValue RegToFloat(QScriptContext *context, QScriptEngine *engine)
 {

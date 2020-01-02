@@ -13,20 +13,20 @@ include($$ROOT_PATH/ClimateControlSystem.pri)
 include($$ROOT_PATH/easylogging++.pri)
 
 #############################################################
-#TEMPLATE    = lib
-#CONFIG      += staticlib
+TEMPLATE    = lib
+CONFIG      += staticlib
 
-#DEPENDPATH  = $$ROOT_PATH/lib
-#DESTDIR     = $$ROOT_PATH/lib
+DEPENDPATH  = $$ROOT_PATH/lib
+DESTDIR     = $$ROOT_PATH/lib
 
 #------------------------------------------------------------
-TEMPLATE    = app
-DEPENDPATH += $$ROOT_PATH/bin/
-DESTDIR     = $$ROOT_PATH/bin/
+#TEMPLATE    = app
+#DEPENDPATH += $$ROOT_PATH/bin/
+#DESTDIR     = $$ROOT_PATH/bin/
 
-CONFIG += console
+#CONFIG += console
 
-SOURCES += main.cpp
+#SOURCES += main.cpp
 #############################################################
 QT += core
 QT += gui
@@ -46,7 +46,7 @@ INCLUDEPATH += ./View
 
 HEADERS += \
     CustomFunctions.h \
-    DataSources/MpuDataSourceScriptObject.h \
+    DataSources/DataSourceScriptObject.h \
     ScriptEngine.h \
     ScriptObject.h \
     ScriptUnit.h \
@@ -55,10 +55,10 @@ HEADERS += \
 
 
 SOURCES += \
+    DataSources/DataSourceScriptObject.cpp \
     ScriptUnit.cpp \
     CustomFunctions.cpp \
     ScriptEngine.cpp \
-    DataSources/MpuDataSourceScriptObject.cpp \
     View/RegisterDataProcessingForm.cpp \
     View/ScriptHighlighter.cpp
 

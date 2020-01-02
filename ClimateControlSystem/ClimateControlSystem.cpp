@@ -3,8 +3,7 @@
 //------------------------------------------------------------------------------------
 //!
 ClimateControlSystem::ClimateControlSystem(QObject *parent)
-                     :QObject(parent),
-                      m_dataModel ( new DataModel(this) )
+                     :QObject(parent)
 {
     SEND_TO_LOG("*****************************************************************************************");
     SEND_TO_LOG("************                                      ***************************************");

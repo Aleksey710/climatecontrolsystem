@@ -99,7 +99,7 @@ int main(int argc, char *argv[])
     ClimateControlSystem climateControlSystem;
 
     //------------------------------------
-    QTimer::singleShot(1*60*1000, qApp, SLOT(quit()));
+    //QTimer::singleShot(1*60*1000, qApp, SLOT(quit()));
     //------------------------------------
     int exitCode = app->exec();
 

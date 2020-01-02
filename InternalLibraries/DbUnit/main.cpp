@@ -22,6 +22,8 @@
 #include "ConfigEditFrame.h"
 #include "MenuConfigEditForm.h"
 #include "NumericKeypadWidget.h"
+//
+#include "ClimateDeviceArchiveForm.h"
 //------------------------------------------------------------------------------------
 #include "easylogging++.h"
 
@@ -110,9 +112,15 @@ int main(int argc, char *argv[])
 //    std::shared_ptr<NumericKeypadWidget> numericKeypadWidget = std::make_shared<NumericKeypadWidget>();
 //    numericKeypadWidget->show();
 
-    std::shared_ptr<MenuConfigEditForm> menuConfigEditForm
-            = std::make_shared<MenuConfigEditForm>(dbUnit->menuItemDataList());
-    menuConfigEditForm->show();
+    //------------------------------------
+//    std::shared_ptr<MenuConfigEditForm> menuConfigEditForm
+//            = std::make_shared<MenuConfigEditForm>(dbUnit->settingsMenuItemList());
+//    menuConfigEditForm->show();
+
+    //------------------------------------
+    std::shared_ptr<ClimateDeviceArchiveForm> climateDeviceArchiveForm
+            = std::make_shared<ClimateDeviceArchiveForm>();
+    climateDeviceArchiveForm->show();
 
     //------------------------------------
     //QTimer::singleShot(3*1000, qApp, SLOT(quit()));

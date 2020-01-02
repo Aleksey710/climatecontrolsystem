@@ -1,5 +1,5 @@
-#ifndef MPUDATASOURCESCRIPTOBJECT_H
-#define MPUDATASOURCESCRIPTOBJECT_H
+#ifndef DATASOURCESCRIPTOBJECT_H
+#define DATASOURCESCRIPTOBJECT_H
 //------------------------------------------------------------------------------------
 #include <QObject>
 #include <QVariant>
@@ -24,21 +24,21 @@
 //------------------------------------------------------------------------------------
 //class MqttProcessingUnit;
 
-class MpuDataSourceScriptObject;
+class DataSourceScriptObject;
 //------------------------------------------------------------------------------------
 // Для наследников QObject декларировать и использовать только указатель
-Q_DECLARE_METATYPE(MpuDataSourceScriptObject*);
+Q_DECLARE_METATYPE(DataSourceScriptObject*);
 //------------------------------------------------------------------------------------
 //!
-class MpuDataSourceScriptObject : public QObject, protected QScriptable
+class DataSourceScriptObject : public QObject, protected QScriptable
 {
         Q_OBJECT
     public:
-        explicit MpuDataSourceScriptObject(const QString &topicName,
-                                           const QString &variablePartName,
-                                           MpuDataSourceScriptObject *parent = Q_NULLPTR);
+        explicit DataSourceScriptObject(const QString &topicName,
+                                        const QString &variablePartName,
+                                        DataSourceScriptObject *parent = Q_NULLPTR);
 
-        virtual ~MpuDataSourceScriptObject();
+        virtual ~DataSourceScriptObject();
 
         inline QString topicName() const
             { return m_topicName; }
@@ -81,4 +81,4 @@ class MpuDataSourceScriptObject : public QObject, protected QScriptable
         bool        m_alarmState;
 };
 //------------------------------------------------------------------------------------
-#endif // MPUDATASOURCESCRIPTOBJECT_H
+#endif // DATASOURCESCRIPTOBJECT_H

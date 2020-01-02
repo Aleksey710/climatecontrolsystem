@@ -29,7 +29,7 @@ class ScriptUnit : public QObject
     signals:
 
     public:
-        static ScriptEngine *m_scriptEngine;
+        static std::shared_ptr<ScriptEngine> m_scriptEngine;
 
 };
 //------------------------------------------------------------------------------------

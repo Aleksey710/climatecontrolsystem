@@ -1,5 +1,6 @@
 #include "ConfigEditFrame.h"
 
+#include "DbUnit.h"
 //------------------------------------------------------------------------------------
 //!
 ConfigEditFrame::ConfigEditFrame(const QString &groupName,
@@ -15,9 +16,9 @@ ConfigEditFrame::ConfigEditFrame(const QString &groupName,
     QGridLayout *mainLayout = new QGridLayout;
 
     //-----------------------------------------------------------------
-    QLabel *label = new QLabel(groupTitle);
+    QLabel *titleLabel = new QLabel(groupTitle);
 
-    mainLayout->addWidget(label);
+    mainLayout->addWidget(titleLabel);
 
     //-----------------------------------------------------------------
     m_tableView = new QTableView();
@@ -46,8 +47,6 @@ ConfigEditFrame::ConfigEditFrame(const QString &groupName,
     //-----------------------------------------------------------------
     setLayout(mainLayout);
 
-    setWindowTitle(tr("ConfigEditForm [%1]").arg(groupName));
-
     SEND_TO_LOG(QString("%1 - создан").arg(objectName()));
 }
 //------------------------------------------------------------------------------------
@@ -60,19 +59,17 @@ ConfigEditFrame::~ConfigEditFrame()
 //!
 void ConfigEditFrame::updateModelData()
 {
-    QString dbFileAddress ( qApp->applicationDirPath()+"/conf/db.sqlite" );
-    QSqlDatabase db(QSqlDatabase::database(dbFileAddress));
+    QSqlDatabase db(QSqlDatabase::database(DbUnit::dbName()));
 
     m_model->setQuery(QString("SELECT "
-                              //"`groups`.`title`,"
-                              "`data_model`.`name`,"
-                              "`data_model`.`title`,"
-                              "`data_model`.`value` "
-                              "FROM `data_model`, `groups` "
+                              "`data`.`name`,"
+                              "`data`.`title`,"
+                              "`data`.`value` "
+                              "FROM `data`, `groups` "
                               "WHERE "
-                              "`data_model`.`group_id`= "
+                              "`data`.`group_id`= "
                               "(SELECT `id` FROM `groups` WHERE `name`='%1') AND "
-                              "`data_model`.`group_id`=`groups`.`id`"
+                              "`data`.`group_id`=`groups`.`id`"
                               ";")
                       .arg(m_groupName),
                       db
@@ -97,13 +94,12 @@ void ConfigEditFrame::onClicked(const QModelIndex &index)
                 [=](){
 
             QString queryStr = QString(
-                "UPDATE `data_model` "
+                "UPDATE `data` "
                 "SET `value` = %1 "
-                "WHERE `data_model`.`name`='%2';"
+                "WHERE `name`='%2';"
             ).arg(numericKeypadWidget->value()).arg(name);
 
-            QString dbFileAddress ( qApp->applicationDirPath()+"/conf/db.sqlite" );
-            QSqlDatabase db(QSqlDatabase::database(dbFileAddress));
+            QSqlDatabase db(QSqlDatabase::database( DbUnit::dbName() ));
             QSqlQuery query(queryStr,db);
             if( !query.exec() )
             {

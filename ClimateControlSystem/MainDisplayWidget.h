@@ -24,6 +24,10 @@
 #include "ConfigEditFrame.h"
 #include "MenuConfigEditForm.h"
 #include "DbUnit.h"
+//
+#include "ClimateDeviceArchiveForm.h"
+#include "ElectricalEquipmentArchiveForm.h"
+#include "ElectricalEquipmentOperatingTimeArchiveForm.h"
 //#include ""
 //#include ""
 //------------------------------------------------------------------------------------
@@ -46,8 +50,6 @@ class MainDisplayWidget : public QWidget
     private:
         std::weak_ptr<DataModel>    m_dataModel;
         std::weak_ptr<DbUnit>       m_dbUnit;
-
-        //QWidget         *m_mainWidget;
 
         QVBoxLayout     *m_mainLayout;
 

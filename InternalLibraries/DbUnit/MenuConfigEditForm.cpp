@@ -46,16 +46,18 @@ MenuConfigEditForm::MenuConfigEditForm(const QList<MenuItemData> &menuItemDataLi
             connect(configEditForm, &QWidget::destroyed,[=](){
                 //! Убрать со слоя форму редактирования
                 mainLayout->removeWidget(configEditForm);
+
                 //! Поместить на слой форму меню
                 mainLayout->addWidget(m_menuWidget);
+                m_menuWidget->setVisible(true);
             });
 
             //! Убрать со слоя форму меню
             mainLayout->removeWidget(m_menuWidget);
+            m_menuWidget->setVisible(false);
+
             //! Поместить на слой форму редактирования
             mainLayout->addWidget(configEditForm);
-
-            //configEditForm->show();
         });
 
         //! Добавить кнопку меню на слой меню
@@ -72,9 +74,6 @@ MenuConfigEditForm::MenuConfigEditForm(const QList<MenuItemData> &menuItemDataLi
 
     //! Задать виджету слой
     setLayout(mainLayout);
-
-    //setGeometry(200,200,500,300);
-    setWindowTitle(tr("MenuConfigEditForm"));
 
     SEND_TO_LOG(QString("%1 - создан").arg(objectName()));
 }

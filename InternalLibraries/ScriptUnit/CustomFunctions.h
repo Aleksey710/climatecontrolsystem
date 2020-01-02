@@ -21,14 +21,6 @@
 
 QScriptValue redefinedScriptPrint(QScriptContext *context, QScriptEngine *engine);
 
-QScriptValue getRandomColor(QScriptContext *context, QScriptEngine *engine);
-
-//------------------------------------------------------------------------------------
-//float regToFloat3210Worker(const quint16 &r0, const quint16 &r1);
-
-//QScriptValue regToFloat3210(QScriptContext *context, QScriptEngine *engine);
-//------------------------------------------------------------------------------------
-
 float RegToFloatWorker(const quint16 &r0, const quint16 &r1);
 //! RegToFloat(reg0, reg1);
 QScriptValue RegToFloat(QScriptContext *context, QScriptEngine *engine);

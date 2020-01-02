@@ -1,11 +1,11 @@
-#include "MpuDataSourceScriptObject.h"
+#include "DataSourceScriptObject.h"
 
 #include "ScriptUnit.h"
 //------------------------------------------------------------------------------------
 //!
-MpuDataSourceScriptObject::MpuDataSourceScriptObject(const QString &topicName,
+DataSourceScriptObject::DataSourceScriptObject(const QString &topicName,
                                                      const QString &variablePartName,
-                                                     MpuDataSourceScriptObject *parent)
+                                                     DataSourceScriptObject *parent)
                           :QObject(parent),
                            m_topicName ( topicName ),
                            m_fullName ( variablePartName ),
@@ -30,12 +30,12 @@ MpuDataSourceScriptObject::MpuDataSourceScriptObject(const QString &topicName,
 }
 //------------------------------------------------------------------------------------
 //!
-MpuDataSourceScriptObject::~MpuDataSourceScriptObject()
+DataSourceScriptObject::~DataSourceScriptObject()
 {
 }
 //------------------------------------------------------------------------------------
 //! Приход данных от источника данных
-void MpuDataSourceScriptObject::setJsonObject(const QJsonObject &jsonObject)
+void DataSourceScriptObject::setJsonObject(const QJsonObject &jsonObject)
 {
 //    SEND_TO_LOG( QString("%1 - setJsonObject - %2").arg(m_fullName)
 //                 .arg(QString(QJsonDocument(jsonObject).toJson(QJsonDocument::Indented))) );

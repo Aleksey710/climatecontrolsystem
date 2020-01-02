@@ -1,7 +1,6 @@
 #ifndef CONFIGEDITFRAME_H
 #define CONFIGEDITFRAME_H
 //------------------------------------------------------------------------------------
-#include <QApplication>
 #include <QWidget>
 #include <QTableView>
 #include <QSqlRelationalTableModel>
@@ -12,8 +11,15 @@
 #include <QSqlQuery>
 #include <QLabel>
 //#include <>
+//#include <>
+//#include <>
 
-
+//#include ".h"
+//#include ".h"
+//#include ".h"
+//#include ".h"
+//#include ".h"
+//#include ".h"
 #include "Log.h"
 #include "NumericKeypadWidget.h"
 //------------------------------------------------------------------------------------

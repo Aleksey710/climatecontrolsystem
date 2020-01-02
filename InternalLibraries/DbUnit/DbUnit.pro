@@ -29,7 +29,6 @@ DESTDIR     = $$ROOT_PATH/lib
 #SOURCES += main.cpp
 
 
-
 #############################################################
 QT += gui
 QT += widgets
@@ -42,9 +41,14 @@ INCLUDEPATH += $$ROOT_PATH/InternalLibraries/Utils/
 
 
 INCLUDEPATH += ./
+INCLUDEPATH += ./ArchiveForms
 #############################################################
 
 HEADERS += \
+    ArchiveForms/AbstractArchiveForm.h \
+    ArchiveForms/ClimateDeviceArchiveForm.h \
+    ArchiveForms/ElectricalEquipmentArchiveForm.h \
+    ArchiveForms/ElectricalEquipmentOperatingTimeArchiveForm.h \
     ConfigEditFrame.h \
     DbUnit.h \
     MenuConfigEditForm.h \
@@ -52,12 +56,16 @@ HEADERS += \
     NumericButton.h \
     NumericKeypadWidget.h
 
+
+
 SOURCES += \
     DbUnit.cpp \
     NumericButton.cpp \
     NumericKeypadWidget.cpp \
     MenuConfigEditForm.cpp \
-    ConfigEditFrame.cpp
+    ConfigEditFrame.cpp \
+    ArchiveForms/AbstractArchiveForm.cpp \
+
 
 
 

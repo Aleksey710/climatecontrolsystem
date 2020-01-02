@@ -1,13 +1,13 @@
 #include "ScriptUnit.h"
 
 //------------------------------------------------------------------------------------
-ScriptEngine* ScriptUnit::m_scriptEngine = Q_NULLPTR;
+std::shared_ptr<ScriptEngine> ScriptUnit::m_scriptEngine = std::make_shared<ScriptEngine>();
 //------------------------------------------------------------------------------------
 //!
 ScriptUnit::ScriptUnit(QObject *parent)
            : QObject(parent)
 {
-    m_scriptEngine = new ScriptEngine(this);
+
 }
 //------------------------------------------------------------------------------------
 //!

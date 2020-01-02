@@ -9,13 +9,10 @@ ScriptEngine::ScriptEngine(QObject *parent)
     SEND_TO_LOG( QString("%1 - создание и инициализация скриптового обработчика (%2)")
           .arg(objectName()).arg( (quint64)thread() ) );
 
-    //-------------------------------------------
-    QScriptValue fun = newFunction( redefinedScriptPrint );
-    globalObject().setProperty("print", fun);
-
     appendCommon();
 
     emit ready();
+
     //-------------------------------------------
     SEND_TO_LOG( QString("%1 - скриптовый обработчик создан и инициализирован (%2)")
           .arg(objectName()).arg( (quint64)thread() ) );
@@ -36,9 +33,6 @@ void ScriptEngine::appendCommon()
     //------------------------------------------------------------------------------------
     QScriptValue redefinedScriptPrint_sv = newFunction( redefinedScriptPrint );
     globalObject().setProperty("print", redefinedScriptPrint_sv);
-
-    QScriptValue getRandomColor_sv = newFunction( getRandomColor );
-    globalObject().setProperty("getRandomColor", getRandomColor_sv);
 
     QScriptValue RegToFloat_sv = newFunction( RegToFloat );
     globalObject().setProperty("RegToFloat", RegToFloat_sv);

@@ -15,6 +15,7 @@
 #include "ModbusMasterConfigurator.h"
 #include "MainDisplayWidget.h"
 #include "DbUnit.h"
+#include "ScriptUnit.h"
 //#include ".h"
 //#include ".h"
 //------------------------------------------------------------------------------------

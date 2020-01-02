@@ -25,6 +25,8 @@ QT += xml
 QT += sql
 QT += serialbus
 QT += serialport
+QT += script
+QT += scripttools
 
 
 #############################################################
@@ -42,10 +44,14 @@ INCLUDEPATH += $$ROOT_PATH/ExternalLibraries/libmodbus/modbus/$$LIBMODBUS/src
 
 INCLUDEPATH += $$ROOT_PATH/InternalLibraries/Utils
 INCLUDEPATH += $$ROOT_PATH/InternalLibraries/DataModel
+
 INCLUDEPATH += $$ROOT_PATH/InternalLibraries/DbUnit
+INCLUDEPATH += $$ROOT_PATH/InternalLibraries/DbUnit/ArchiveForms
+
 INCLUDEPATH += $$ROOT_PATH/InternalLibraries/AbstractConfigurator
 INCLUDEPATH += $$ROOT_PATH/InternalLibraries/ModbusWrapper
 INCLUDEPATH += $$ROOT_PATH/InternalLibraries/ModbusMasterUnit
+INCLUDEPATH += $$ROOT_PATH/InternalLibraries/ScriptUnit
 
 INCLUDEPATH += ./
 INCLUDEPATH += ./Frames
@@ -90,6 +96,7 @@ DISTFILES += \
 #############################################################
 LIBS += \
     -L$$ROOT_PATH/lib \
+    -lScriptUnit \
     -lModbusMasterUnit \
     -lDbUnit \
     -lDataModel \

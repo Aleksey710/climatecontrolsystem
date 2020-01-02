@@ -22,29 +22,33 @@
 class DbUnit : public QObject
 {
         Q_OBJECT
+
     public:
-        explicit DbUnit(const QString &dbFileAddress =
-                            QString ( qApp->applicationDirPath()+"/conf/db.sqlite" ),
-                        QObject *parent = nullptr);
+        static QString m_dbFileAddress;
+
+    public:
+        explicit DbUnit(QObject *parent = nullptr);
         virtual ~DbUnit();
 
-        inline QString dbName()
+        inline static QString dbName()
             { return m_dbFileAddress; }
 
-        void openDb();
-        void createDb();
-
-        QList<MenuItemData> menuItemDataList();
+        QList<MenuItemData> settingsMenuItemList();
 
 
     signals:
 
 
     private:
+        void openDb();
+        void createDb();
+
         void exequteQuery(const QString &query);
         void exequteQueryList(const QStringList &queryStringList);
 
-        void createGroups(QStringList &queryStringList);
+        //------------------------------------------------------
+        void setupSettings(QStringList &queryStringList);
+
         void createOffsetGroup(QStringList &queryStringList);
         void createTempGroup(QStringList &queryStringList);
         void createBatGroup(QStringList &queryStringList);
@@ -59,8 +63,12 @@ class DbUnit : public QObject
         void createCondGroup(QStringList &queryStringList);
         void createResistGroup(QStringList &queryStringList);
 
+        //------------------------------------------------------
+        void setupArchiveEvents(QStringList &queryStringList);
+
+
+
     private:
-        QString m_dbFileAddress;
 };
 //------------------------------------------------------------------------------------
 #endif // DBUNIT_H

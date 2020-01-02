@@ -117,13 +117,27 @@ void MainDisplayWidget::setupFrames()
     m_framesList.append(carInformationFrame);
 
     //-----------------------------------------------------------
+    ClimateDeviceArchiveForm *climateDeviceArchiveForm = new ClimateDeviceArchiveForm();
+    m_framesList.append(climateDeviceArchiveForm);
+
+    //-----------------------------------------------------------
+    ElectricalEquipmentArchiveForm *electricalEquipmentArchiveForm
+        = new ElectricalEquipmentArchiveForm();
+    m_framesList.append(electricalEquipmentArchiveForm);
+
+    //-----------------------------------------------------------
+    ElectricalEquipmentOperatingTimeArchiveForm *electricalEquipmentOperatingTimeArchiveForm
+        = new ElectricalEquipmentOperatingTimeArchiveForm();
+    m_framesList.append(electricalEquipmentOperatingTimeArchiveForm);
+
+    //-----------------------------------------------------------
     // В случае, если объект уже удален, то p будет пустым указателем
     if( std::shared_ptr<DbUnit> p = m_dbUnit.lock() )
     {
         //std::shared_ptr<MenuConfigEditForm> menuConfigEditForm
         //        = std::make_shared<MenuConfigEditForm>(p->menuItemDataList());
 
-        m_framesList.append( new MenuConfigEditForm( p->menuItemDataList() ) );
+        m_framesList.append( new MenuConfigEditForm( p->settingsMenuItemList() ) );
     }
 
     //-------------------------------------------------------------------

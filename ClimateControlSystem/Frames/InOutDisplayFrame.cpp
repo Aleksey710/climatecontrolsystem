@@ -20,8 +20,21 @@ InOutDisplayFrame::InOutDisplayFrame(QWidget *parent)
 //                  //"border:  1px solid black; "
 //                  );
 
+    //--------------------------------------
+    ScriptObject *scriptObject1 = ScriptUnit::getScriptObject("settings.resist.val");
+    if(scriptObject1)
+    {
+        connect(scriptObject1, &ScriptObject::dataChanged, [=](){
+            ui->leTempCorrection->setText(QString("%1").arg(scriptObject1->data()));
+        });
+    }
+//    settings.resist.val
+//    settings.screen.delay
+//    settings.screen.max
+//    settings.screen.min
+//    settings.screen.opt
 
-
+    //--------------------------------------
 
     SEND_TO_LOG( QString("%1 - создан").arg(objectName()) );
 }

@@ -25,6 +25,9 @@ ConfigEditFrame::ConfigEditFrame(const QString &groupName,
     connect(m_tableView, &QAbstractItemView::clicked, this, &ConfigEditFrame::onClicked);
     m_tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
     m_tableView->horizontalHeader()->setStretchLastSection(true);
+
+    m_tableView->verticalHeader()->hide();
+
     mainLayout->addWidget(m_tableView);
 
     //-----------------------------------------------------------------

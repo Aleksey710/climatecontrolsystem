@@ -10,8 +10,8 @@
 
 
 #include "Log.h"
-#include "DataModel.h"
-#include "DataModelConfigurator.h"
+//#include "DataModel.h"
+//#include "DataModelConfigurator.h"
 #include "ModbusMasterConfigurator.h"
 #include "MainDisplayWidget.h"
 #include "DbUnit.h"
@@ -30,8 +30,8 @@ class ClimateControlSystem : public QObject
     signals:
 
     private:
-        std::shared_ptr<DbUnit>     m_dbUnit    = std::make_shared<DbUnit>();
-        std::shared_ptr<DataModel>  m_dataModel = std::make_shared<DataModel>();
+        std::shared_ptr<DbUnit>     m_dbUnit;
+        std::shared_ptr<ScriptUnit> m_scriptUnit;
 
         MainDisplayWidget   *m_mainDisplayWidget;
 

@@ -15,8 +15,7 @@
 
 
 #include "Log.h"
-#include "DataModel.h"
-#include "DataModelConfigurator.h"
+#include "ScriptUnit.h"
 //
 #include "MainFrame.h"
 #include "InOutDisplayFrame.h"
@@ -36,8 +35,7 @@ class MainDisplayWidget : public QWidget
 {
         Q_OBJECT
     public:
-        explicit MainDisplayWidget(const std::shared_ptr<DataModel> &dataModel,
-                                   const std::shared_ptr<DbUnit> &dbUnit,
+        explicit MainDisplayWidget(const std::shared_ptr<DbUnit> &dbUnit,
                                    QWidget *parent = nullptr);
         virtual ~MainDisplayWidget();
 
@@ -48,7 +46,6 @@ class MainDisplayWidget : public QWidget
         void setupMenu();
 
     private:
-        std::weak_ptr<DataModel>    m_dataModel;
         std::weak_ptr<DbUnit>       m_dbUnit;
 
         QVBoxLayout     *m_mainLayout;

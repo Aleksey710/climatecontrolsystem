@@ -66,7 +66,7 @@ QList<MenuItemData> DbUnit::settingsMenuItemList()
 
     QSqlQuery query("SELECT `name`,`title` "
                     "FROM `groups` "
-                    "WHERE `type_id`=(SELECT `id` FROM `types` WHERE `type`='settings')"
+                    "WHERE `type_id`=(SELECT `id` FROM `types` WHERE `name`='settings')"
                     ";", db);
 
     if( !query.exec() )
@@ -142,11 +142,11 @@ void DbUnit::createDb()
     queryStringList.append(
         "CREATE TABLE IF NOT EXISTS `types` ( "
         "`id` INTEGER NOT NULL PRIMARY KEY, "
-        "`type` TEXT NOT NULL "
+        "`name` TEXT NOT NULL "
         "); "
         );
 
-    queryStringList.append("INSERT INTO `types` (`id`,`type`) VALUES (1, 'settings');");
+    queryStringList.append("INSERT INTO `types` (`id`,`name`) VALUES (1, 'settings');");
 
     queryStringList.append(
         "CREATE TABLE IF NOT EXISTS `groups` ( "
@@ -188,67 +188,67 @@ void DbUnit::createDb()
 void DbUnit::setupSettings(QStringList &queryStringList)
 {
     queryStringList.append("INSERT INTO `groups` (`type_id`,`name`,`title`) "
-                           "VALUES ((SELECT `id` FROM `types` WHERE `type`='settings'),'offset',"
+                           "VALUES ((SELECT `id` FROM `types` WHERE `name`='settings'),'offset',"
                            "'Корекція дельт для аналогових входів');");
     createOffsetGroup(queryStringList);
 
     queryStringList.append("INSERT INTO `groups` (`type_id`,`name`,`title`) "
-                           "VALUES ((SELECT `id` FROM `types` WHERE `type`='settings'),'temp', "
+                           "VALUES ((SELECT `id` FROM `types` WHERE `name`='settings'),'temp', "
                            "'Налаштування для температур');");
     createTempGroup(queryStringList);
 
     queryStringList.append("INSERT INTO `groups` (`type_id`,`name`,`title`) "
-                           "VALUES ((SELECT `id` FROM `types` WHERE `type`='settings'),'bat', "
+                           "VALUES ((SELECT `id` FROM `types` WHERE `name`='settings'),'bat', "
                            "'Налаштування для батареї');");
     createBatGroup(queryStringList);
 
     queryStringList.append("INSERT INTO `groups` (`type_id`,`name`,`title`) "
-                           "VALUES ((SELECT `id` FROM `types` WHERE `type`='settings'),'lim', "
+                           "VALUES ((SELECT `id` FROM `types` WHERE `name`='settings'),'lim', "
                            "'Ліміти які відображаються на головній сторінці');");
     createLimGroup(queryStringList);
 
     queryStringList.append("INSERT INTO `groups` (`type_id`,`name`,`title`) "
-                           "VALUES ((SELECT `id` FROM `types` WHERE `type`='settings'),'gen', "
+                           "VALUES ((SELECT `id` FROM `types` WHERE `name`='settings'),'gen', "
                            "'Налаштування для генератора');");
     createGenGroup(queryStringList);
 
     queryStringList.append("INSERT INTO `groups` (`type_id`,`name`,`title`) "
-                           "VALUES ((SELECT `id` FROM `types` WHERE `type`='settings'),'volt', "
+                           "VALUES ((SELECT `id` FROM `types` WHERE `name`='settings'),'volt', "
                            "'Налаштування для бортовий мережі');");
     createVoltGroup(queryStringList);
 
     queryStringList.append("INSERT INTO `groups` (`type_id`,`name`,`title`) "
-                           "VALUES ((SELECT `id` FROM `types` WHERE `type`='settings'),'avg', "
+                           "VALUES ((SELECT `id` FROM `types` WHERE `name`='settings'),'avg', "
                            "'Затримки накопичення');");
     createAvgGroup(queryStringList);
 
     queryStringList.append("INSERT INTO `groups` (`type_id`,`name`,`title`) "
-                           "VALUES ((SELECT `id` FROM `types` WHERE `type`='settings'),'delay', "
+                           "VALUES ((SELECT `id` FROM `types` WHERE `name`='settings'),'delay', "
                            "'Налаштування затримок НВО та ВВО');");
     createDelayGroup(queryStringList);
 
     queryStringList.append("INSERT INTO `groups` (`type_id`,`name`,`title`) "
-                           "VALUES ((SELECT `id` FROM `types` WHERE `type`='settings'),'wagon', "
+                           "VALUES ((SELECT `id` FROM `types` WHERE `name`='settings'),'wagon', "
                            "'Налаштування параметрів вагону');");
     createWagonGroup(queryStringList);
 
     queryStringList.append("INSERT INTO `groups` (`type_id`,`name`,`title`) "
-                           "VALUES ((SELECT `id` FROM `types` WHERE `type`='settings'),'password', "
+                           "VALUES ((SELECT `id` FROM `types` WHERE `name`='settings'),'password', "
                            "'Зміна пароля');");
     createPasswordGroup(queryStringList);
 
     queryStringList.append("INSERT INTO `groups` (`type_id`,`name`,`title`) "
-                           "VALUES ((SELECT `id` FROM `types` WHERE `type`='settings'),'screen', "
+                           "VALUES ((SELECT `id` FROM `types` WHERE `name`='settings'),'screen', "
                            "'Налаштування параметрів экрану');");
     createScreenGroup(queryStringList);
 
     queryStringList.append("INSERT INTO `groups` (`type_id`,`name`,`title`) "
-                           "VALUES ((SELECT `id` FROM `types` WHERE `type`='settings'),'cond', "
+                           "VALUES ((SELECT `id` FROM `types` WHERE `name`='settings'),'cond', "
                            "'Налаштування кондиціонера');");
     createCondGroup(queryStringList);
 
     queryStringList.append("INSERT INTO `groups` (`type_id`,`name`,`title`) "
-                           "VALUES ((SELECT `id` FROM `types` WHERE `type`='settings'),'resist', "
+                           "VALUES ((SELECT `id` FROM `types` WHERE `name`='settings'),'resist', "
                            "'Аварія при порушенні ізоляції');");
     createResistGroup(queryStringList);
 
@@ -715,22 +715,34 @@ void DbUnit::setupArchiveEvents(QStringList &queryStringList)
         );
 
     //--------------------------------------
+    const int testDataCount = 15;
 
-    queryStringList.append( QString(
-        "INSERT INTO `events` (`datetime`,`event_group_id`,`event_type_id`) "
-        "VALUES ('%1',1,1);"
-        ).arg(QDateTime::currentMSecsSinceEpoch())
-    );
-    queryStringList.append( QString(
-        "INSERT INTO `events` (`datetime`,`event_group_id`,`event_type_id`) "
-        "VALUES (%1,2,1);"
-        ).arg(QDateTime::currentMSecsSinceEpoch())
-    );
-    queryStringList.append( QString(
-        "INSERT INTO `events` (`datetime`,`event_group_id`,`event_type_id`) "
-        "VALUES (%1,3,1);"
-        ).arg(QDateTime::currentMSecsSinceEpoch())
-    );
+    for(int i = 0; i < testDataCount; ++i)
+    {
+        queryStringList.append( QString(
+            "INSERT INTO `events` (`datetime`,`event_group_id`,`event_type_id`) "
+            "VALUES ('%1',1,1);"
+            ).arg(QDateTime::currentMSecsSinceEpoch()+i*1000)
+        );
+    }
+    //------
+    for(int i = 0; i < testDataCount; ++i)
+    {
+        queryStringList.append( QString(
+            "INSERT INTO `events` (`datetime`,`event_group_id`,`event_type_id`) "
+            "VALUES (%1,2,1);"
+            ).arg(QDateTime::currentMSecsSinceEpoch()+i*1000)
+        );
+    }
+    //------
+    for(int i = 0; i < testDataCount; ++i)
+    {
+        queryStringList.append( QString(
+            "INSERT INTO `events` (`datetime`,`event_group_id`,`event_type_id`) "
+            "VALUES (%1,3,1);"
+            ).arg(QDateTime::currentMSecsSinceEpoch()+i*1000)
+        );
+    }
 
     //--------------------------------------
 }

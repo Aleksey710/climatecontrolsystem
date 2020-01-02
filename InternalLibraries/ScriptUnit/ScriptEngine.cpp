@@ -11,8 +11,6 @@ ScriptEngine::ScriptEngine(QObject *parent)
 
     appendCommon();
 
-    emit ready();
-
     //-------------------------------------------
     SEND_TO_LOG( QString("%1 - скриптовый обработчик создан и инициализирован (%2)")
           .arg(objectName()).arg( (quint64)thread() ) );
@@ -34,8 +32,8 @@ void ScriptEngine::appendCommon()
     QScriptValue redefinedScriptPrint_sv = newFunction( redefinedScriptPrint );
     globalObject().setProperty("print", redefinedScriptPrint_sv);
 
-    QScriptValue RegToFloat_sv = newFunction( RegToFloat );
-    globalObject().setProperty("RegToFloat", RegToFloat_sv);
+    QScriptValue regToFloat_sv = newFunction( regToFloat );
+    globalObject().setProperty("regToFloat", regToFloat_sv);
 
     //------------------------------------------------------------------------------------
     SEND_TO_LOG( QString("%1 - стандартные функции добавлены").arg(objectName()) );

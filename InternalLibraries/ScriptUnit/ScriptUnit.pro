@@ -38,6 +38,8 @@ QT += scripttools
 INCLUDEPATH += $$ROOT_PATH/ExternalLibraries/Easyloggingpp
 INCLUDEPATH += $$ROOT_PATH/InternalLibraries/Utils/
 
+INCLUDEPATH += $$ROOT_PATH/InternalLibraries/DbUnit
+INCLUDEPATH += $$ROOT_PATH/InternalLibraries/DbUnit/ArchiveForms
 
 INCLUDEPATH += ./
 INCLUDEPATH += ./DataSources
@@ -50,15 +52,18 @@ HEADERS += \
     ScriptEngine.h \
     ScriptObject.h \
     ScriptUnit.h \
+    ScriptUnitConfigurator.h \
     View/RegisterDataProcessingForm.h \
     View/ScriptHighlighter.h
 
 
 SOURCES += \
     DataSources/DataSourceScriptObject.cpp \
+    ScriptObject.cpp \
     ScriptUnit.cpp \
     CustomFunctions.cpp \
     ScriptEngine.cpp \
+    ScriptUnitConfigurator.cpp \
     View/RegisterDataProcessingForm.cpp \
     View/ScriptHighlighter.cpp
 
@@ -82,6 +87,7 @@ OTHER_FILES += \
 #############################################################
 LIBS += \
     -L$$ROOT_PATH/lib \
+    -lDbUnit \
     -lUtils \
     -leasylogging++
 

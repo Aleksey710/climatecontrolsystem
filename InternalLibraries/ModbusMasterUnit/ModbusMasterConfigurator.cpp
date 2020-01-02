@@ -2,13 +2,16 @@
 
 //------------------------------------------------------------------------------------
 //!
-ModbusMasterConfigurator::ModbusMasterConfigurator(DataModel *dataModel,
-                                                   QObject *parent)
+ModbusMasterConfigurator::ModbusMasterConfigurator(QObject *parent)
+                         :QObject(parent)
+/*
                          :AbstractConfigurator("ModbusMasterConfigurator",
                                                parent),
                           m_dataModel ( dataModel )
+                          */
 {
-    setup( loadFile( QString("./conf/modbus.conf") ) );
+    setObjectName("ModbusMasterConfigurator");
+    //setup( loadFile( QString("./conf/modbus.conf") ) );
 
     //-------------------------------------------------------------------
     SEND_TO_LOG( QString("%1 - создан").arg(objectName()) );
@@ -21,15 +24,14 @@ ModbusMasterConfigurator::~ModbusMasterConfigurator()
 }
 //------------------------------------------------------------------------------------
 //!
+/*
 void ModbusMasterConfigurator::setup(const QJsonObject &confJsonObject)
 {
     SEND_TO_LOG( QString("%1 - конфигурирование запущено").arg(objectName()) );
 
-    //---------------------------------------------------
-    /*
-    QByteArray dataArray = QJsonDocument(confJsonObject).toJson(QJsonDocument::Indented);
-    SEND_TO_LOG( QString("%1 \r\n %2").arg(objectName()).arg( dataArray.data() ) );
-    */
+    //---------------------------------------------------    
+    // QByteArray dataArray = QJsonDocument(confJsonObject).toJson(QJsonDocument::Indented);
+    // SEND_TO_LOG( QString("%1 \r\n %2").arg(objectName()).arg( dataArray.data() ) );
     //---------------------------------------------------
 
     QJsonArray connectionsJsonArray = confJsonObject.value("connections").toArray();
@@ -40,6 +42,7 @@ void ModbusMasterConfigurator::setup(const QJsonObject &confJsonObject)
         connectionParsing(connectionJsonObject);
     }
 }
+*/
 //------------------------------------------------------------------------------------
 //!
 void ModbusMasterConfigurator::connectionParsing(const QJsonObject &connectionJsonObject)

@@ -12,6 +12,7 @@
 //#include ""
 //#include ""
 #include "Log.h"
+#include "ScriptUnit.h"
 //------------------------------------------------------------------------------------
 //!
 class AbstractFrames : public QWidget

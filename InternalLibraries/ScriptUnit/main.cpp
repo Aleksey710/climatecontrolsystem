@@ -18,6 +18,7 @@
 //#include ""
 #include "Log.h"
 #include "CheckAppUniq.h"
+#include "DbUnit.h"
 #include "ScriptUnit.h"
 
 //------------------------------------------------------------------------------------
@@ -100,13 +101,10 @@ int main(int argc, char *argv[])
 
     //--------------------------------------------
 
-//    std::shared_ptr<DbUnit> dbUnit = std::make_shared<DbUnit>();
+    std::shared_ptr<DbUnit> dbUnit = std::make_shared<DbUnit>();
 
-//    std::shared_ptr<ConfigEditForm> configEditForm = std::make_shared<ConfigEditForm>();
-//    configEditForm->show();
+    std::shared_ptr<ScriptUnit> scriptUnit = std::make_shared<ScriptUnit>();
 
-//    std::shared_ptr<NumericKeypadWidget> numericKeypadWidget = std::make_shared<NumericKeypadWidget>();
-//    numericKeypadWidget->show();
 
     //------------------------------------
     //QTimer::singleShot(3*1000, qApp, SLOT(quit()));

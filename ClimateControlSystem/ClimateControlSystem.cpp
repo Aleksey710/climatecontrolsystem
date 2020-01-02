@@ -12,13 +12,12 @@ ClimateControlSystem::ClimateControlSystem(QObject *parent)
     SEND_TO_LOG("*****************************************************************************************");
     //-------------------------------------------------------------------
 
-
-    DataModelConfigurator dataModelConfigurator(m_dataModel, this);
+    m_dbUnit        = std::make_shared<DbUnit>();
+    m_scriptUnit    = std::make_shared<ScriptUnit>();
 
     //ModbusMasterConfigurator modbusMasterConfigurator();
 
-    m_mainDisplayWidget = new MainDisplayWidget(m_dataModel,
-                                                m_dbUnit);
+    m_mainDisplayWidget = new MainDisplayWidget(m_dbUnit);
 
     //-------------------------------------------------------------------
     SEND_TO_LOG( QString("ClimateControlSystem - создан") );

@@ -56,12 +56,6 @@ class DataSourceScriptObject : public QObject, protected QScriptable
         Q_INVOKABLE inline void setData(const double &data)
             { m_value = data; }
 
-        Q_INVOKABLE inline bool alarmState() const
-            { return m_alarmState; }
-
-        Q_INVOKABLE inline QJsonArray errorArray() const
-            { return m_errorArray; }
-
     signals:
         Q_INVOKABLE void dataStateChanged();
 
@@ -71,14 +65,6 @@ class DataSourceScriptObject : public QObject, protected QScriptable
         QString     m_fullName;
 
         double      m_value;
-
-        //! Массив описаний системных ошибок
-        //! (при отсутствии системной аварии - пуст)
-        QJsonArray  m_errorArray;
-
-        //! true - системная авария
-        //! false - отсутствие системной аварии
-        bool        m_alarmState;
 };
 //------------------------------------------------------------------------------------
 #endif // DATASOURCESCRIPTOBJECT_H

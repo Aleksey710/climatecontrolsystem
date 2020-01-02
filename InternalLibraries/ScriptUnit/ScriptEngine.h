@@ -42,7 +42,7 @@ class ScriptEngine : public QScriptEngine
         virtual ~ScriptEngine();
 
     signals:
-        void ready();
+
 
     public slots:
         void evaluate(const QString &scriptText,

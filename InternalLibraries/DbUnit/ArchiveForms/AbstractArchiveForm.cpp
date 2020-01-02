@@ -20,6 +20,7 @@ void AbstractArchiveForm::setup()
     //-----------------------------------------------------------------
     QGridLayout *mainLayout = new QGridLayout;
 
+    //mainLayout->setMargin(1);
     //-----------------------------------------------------------------
     QLabel *titleLabel = new QLabel( headLabel() );
 
@@ -27,8 +28,26 @@ void AbstractArchiveForm::setup()
 
     //-----------------------------------------------------------------
     QTableView *tableView = new QTableView();
+
     tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
     tableView->horizontalHeader()->setStretchLastSection(true);
+
+    tableView->verticalHeader()->setDefaultSectionSize(9);
+
+    /*
+    tableView->setStyleSheet(
+        "QTableView"
+        "::item"
+        //":focus "
+        "{"
+        "padding: 0px; "
+        "margin: 0px;"
+        "color: #ff0000;"
+        "background-color : transparent;"
+        "selection-color : black;"
+        "}");
+    */
+
     mainLayout->addWidget(tableView);
 
     //-----------------------------------------------------------------

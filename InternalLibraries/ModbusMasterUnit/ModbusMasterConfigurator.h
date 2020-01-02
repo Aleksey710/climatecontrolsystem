@@ -14,18 +14,19 @@
 
 
 #include "Log.h"
-#include "DataModel.h"
-#include "AbstractConfigurator.h"
+//#include "DataModel.h"
+//#include "AbstractConfigurator.h"
 #include "ModbusConnection.h"
 #include "ModbusConnectionSettings.h"
 #include "ModbusConnectionController.h"
 //#include ""
 //------------------------------------------------------------------------------------
 //!
-class ModbusMasterConfigurator : public AbstractConfigurator
+class ModbusMasterConfigurator : public QObject /*AbstractConfigurator*/
 {
+        Q_OBJECT
     public:
-        explicit ModbusMasterConfigurator(DataModel *dataModel,
+        explicit ModbusMasterConfigurator(/*DataModel *dataModel,*/
                                           QObject *parent = nullptr);
 
         virtual ~ModbusMasterConfigurator();
@@ -34,14 +35,14 @@ class ModbusMasterConfigurator : public AbstractConfigurator
 
 
     private:
-        virtual void setup(const QJsonObject &jsonObject) override;
+        //virtual void setup(const QJsonObject &jsonObject) override;
 
         void connectionParsing(const QJsonObject &connectionJsonObject);
         void deviceParsing(const QJsonObject &deviceJsonObject);
         void registerParsing(const QJsonObject &registerJsonObject);
 
     private:
-        DataModel *m_dataModel;
+        //DataModel *m_dataModel;
 };
 //------------------------------------------------------------------------------------
 #endif // MODBUSMASTERCONFIGURATOR_H

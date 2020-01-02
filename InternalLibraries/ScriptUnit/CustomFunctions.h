@@ -21,9 +21,9 @@
 
 QScriptValue redefinedScriptPrint(QScriptContext *context, QScriptEngine *engine);
 
-float RegToFloatWorker(const quint16 &r0, const quint16 &r1);
+float regToFloatWorker(const quint16 &r0, const quint16 &r1);
 //! RegToFloat(reg0, reg1);
-QScriptValue RegToFloat(QScriptContext *context, QScriptEngine *engine);
+QScriptValue regToFloat(QScriptContext *context, QScriptEngine *engine);
 
 
 //------------------------------------------------------------------------------------

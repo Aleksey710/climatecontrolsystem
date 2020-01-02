@@ -5,11 +5,16 @@
 #include <QVariant>
 #include <QList>
 #include <QScriptable>
+#include <QTimer>
+#include <QRandomGenerator>
+//#include <>
 //#include <>
 //#include <>
 
-//#include ""
-//#include ""
+//#include ".h"
+//#include ".h"
+//#include ".h"
+
 //------------------------------------------------------------------------------------
 class ScriptObject;
 //------------------------------------------------------------------------------------
@@ -21,22 +26,38 @@ class ScriptObject : public QObject, protected QScriptable
 {
         Q_OBJECT
     public:
-        inline explicit ScriptObject(const QString &name,
-                                     QObject *parent = Q_NULLPTR)
-            : QObject(parent)
-            { setObjectName(name); }
+        explicit ScriptObject(const QString &name,
+                              const double &value,
+                              ScriptObject *parent = Q_NULLPTR);
 
         inline virtual ~ScriptObject()
             { }
 
-        Q_INVOKABLE inline void setData(const QVariant &value, int role = Qt::DisplayRole)
-            { emit specificDataChanged(value, role); }
+        inline QString fullName() const
+            { return m_fullName; }
+
+        ScriptObject* getChildren(const QString &name);
+
+        //--------------------------------------------------
+        Q_INVOKABLE inline double data() const
+            { return value; }
+
+        Q_INVOKABLE inline void setData(const double &__value)
+            {
+                if(value != __value)
+                {
+                    value = __value;
+                    dataChanged();
+                }
+            }
 
     signals:
-        Q_INVOKABLE void specificDataChanged(const QVariant &value, int role);
+        Q_INVOKABLE void dataChanged();
 
     protected:
+        QString     m_fullName;
 
+        double      value;
 
 };
 //------------------------------------------------------------------------------------

@@ -4,13 +4,12 @@
 //------------------------------------------------------------------------------------
 //!
 DataSourceScriptObject::DataSourceScriptObject(const QString &topicName,
-                                                     const QString &variablePartName,
-                                                     DataSourceScriptObject *parent)
+                                               const QString &variablePartName,
+                                               DataSourceScriptObject *parent)
                           :QObject(parent),
                            m_topicName ( topicName ),
                            m_fullName ( variablePartName ),
-                           m_value ( 0 ),
-                           m_alarmState ( true )
+                           m_value ( 0 )
 
 {
     setObjectName(variablePartName);
@@ -20,10 +19,8 @@ DataSourceScriptObject::DataSourceScriptObject(const QString &topicName,
         m_fullName.prepend( QString("%1.").arg(parent->fullName()) );
     }
 
-    m_errorArray = QJsonArray{ QString("Source[%1] - start system!!!").arg(m_fullName) };
-
     //! Начальная инициализация
-    ScriptUnit::m_scriptEngine->evaluate(QString("%1=0;").arg(m_fullName));
+    //ScriptUnit::scriptEngine()->evaluate(QString("%1=0;").arg(m_fullName));
 
 //    SEND_TO_LOG( QString("MpuDataSourceScriptObject[%1] - setJsonObject - script:\n"
 //                 "%2").arg(fullName()).arg(script) );

@@ -1,11 +1,9 @@
 #include "MainDisplayWidget.h"
 //------------------------------------------------------------------------------------
 //!
-MainDisplayWidget::MainDisplayWidget(const std::shared_ptr<DataModel> &dataModel,
-                                     const std::shared_ptr<DbUnit> &dbUnit,
+MainDisplayWidget::MainDisplayWidget(const std::shared_ptr<DbUnit> &dbUnit,
                                      QWidget *parent)
                   : QWidget(parent),
-                    m_dataModel ( dataModel ),
                     m_dbUnit ( dbUnit )
 {
     SEND_TO_LOG("Запуск MainDisplayWidget ");

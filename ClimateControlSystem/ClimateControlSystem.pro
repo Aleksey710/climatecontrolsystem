@@ -63,6 +63,7 @@ SOURCES += \
     Frames/CarInformationFrame.cpp \
     Frames/InOutDisplayFrame.cpp \
     Frames/MainFrame.cpp \
+    Frames/Widgets/AbstractDisplayWidget.cpp \
     MainDisplayWidget.cpp \
     main.cpp
 
@@ -73,6 +74,7 @@ HEADERS += \
     Frames/CarInformationFrame.h \
     Frames/InOutDisplayFrame.h \
     Frames/MainFrame.h \
+    Frames/Widgets/AbstractDisplayWidget.h \
     MainDisplayWidget.h \
 
 
@@ -80,6 +82,8 @@ FORMS += \
     Frames/CarInformationFrame.ui \
     Frames/InOutDisplayFrame.ui \
     Frames/MainFrame.ui
+
+
 
 
 RESOURCES += \
@@ -99,8 +103,8 @@ LIBS += \
     -lScriptUnit \
     -lModbusMasterUnit \
     -lDbUnit \
-    -lDataModel \
-    -lAbstractConfigurator \
+#    -lDataModel \
+#    -lAbstractConfigurator \
 #    -lUtils \
 #    -lmodbus \
     -leasylogging++ \

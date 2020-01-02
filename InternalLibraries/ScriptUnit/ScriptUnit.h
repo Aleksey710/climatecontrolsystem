@@ -3,19 +3,21 @@
 //------------------------------------------------------------------------------------
 #include <QObject>
 #include <QString>
-//#include <QSqlDatabase>
-//#include <QSqlError>
-//#include <QSqlQuery>
+#include <QSqlDatabase>
+#include <QSqlError>
+#include <QSqlQuery>
 #include <QTimer>
-//#include <>
-//#include <>
+#include <QSqlRecord>
+#include <QHash>
 //#include <>
 //#include <>
 
 
 #include "Log.h"
 #include "ScriptEngine.h"
-//#include ""
+#include "ScriptUnitConfigurator.h"
+#include "DbUnit.h"
+#include "ScriptObject.h"
 //#include ""
 //#include ""
 //------------------------------------------------------------------------------------
@@ -23,13 +25,14 @@
 class ScriptUnit : public QObject
 {
         Q_OBJECT
-
-    public:
-        static std::shared_ptr<ScriptEngine> m_scriptEngine;
-
     public:
         explicit ScriptUnit(QObject *parent = nullptr);
         virtual ~ScriptUnit();
+
+        inline static ScriptEngine* scriptEngine()
+            { return m_scriptEngine; }
+
+        static ScriptObject* getScriptObject(const QString &name);
 
     signals:
 
@@ -40,9 +43,14 @@ class ScriptUnit : public QObject
 
 
     private:
-        void setupData();
+        QByteArray loadFile(const QString &fileName);
+
+        void setupSettingsData();
 
     private:
+        static ScriptEngine *m_scriptEngine;
+
+        static QHash<QString, ScriptObject*> m_rootObjects;
 
         std::shared_ptr<QTimer> m_mainLoopTimer;
 };

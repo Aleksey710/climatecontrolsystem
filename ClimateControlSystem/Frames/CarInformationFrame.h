@@ -4,7 +4,9 @@
 #include <QObject>
 #include <QWidget>
 #include <QString>
-//#include <>
+#include <QTimer>
+#include <QDateTime>
+#include <QStyle>
 //#include <>
 //#include <>
 

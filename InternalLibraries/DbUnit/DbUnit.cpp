@@ -170,8 +170,9 @@ void DbUnit::createDb()
         "ON UPDATE CASCADE "
         "MATCH [FULL], "
         "`name` TEXT NOT NULL, "
-        "`title`	TEXT NOT NULL, "
-        "`value`	REAL NOT NULL "
+        "`title` TEXT NOT NULL, "
+        //"`value` REAL NOT NULL "
+        "`value` REAL DEFAULT 0"
         "); "
     );
 

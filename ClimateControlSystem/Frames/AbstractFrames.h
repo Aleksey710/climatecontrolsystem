@@ -3,6 +3,9 @@
 //------------------------------------------------------------------------------------
 #include <QObject>
 #include <QWidget>
+#include <QLineEdit>
+#include <QLabel>
+//#include <>
 //#include <>
 //#include <>
 //#include <>
@@ -22,6 +25,9 @@ class AbstractFrames : public QWidget
         explicit AbstractFrames(QWidget *parent = nullptr);
         virtual ~AbstractFrames();
 
+    protected:
+        void setupDisplay(const QString &name, QLabel *label);
+        void setupDisplay(const QString &name, QLineEdit *lineEdit);
 
     signals:
 

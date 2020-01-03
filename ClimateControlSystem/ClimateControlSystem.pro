@@ -100,8 +100,8 @@ DISTFILES += \
 #############################################################
 LIBS += \
     -L$$ROOT_PATH/lib \
-    -lScriptUnit \
     -lModbusMasterUnit \
+    -lScriptUnit \
     -lDbUnit \
 #    -lDataModel \
 #    -lAbstractConfigurator \

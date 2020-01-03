@@ -28,6 +28,7 @@ class InOutDisplayFrame : public AbstractFrames
         explicit InOutDisplayFrame(QWidget *parent = nullptr);
         virtual ~InOutDisplayFrame();
 
+
     private:
         Ui::InOutDisplayFrame *ui;
 };

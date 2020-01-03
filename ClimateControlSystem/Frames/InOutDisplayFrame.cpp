@@ -21,18 +21,11 @@ InOutDisplayFrame::InOutDisplayFrame(QWidget *parent)
 //                  );
 
     //--------------------------------------
-    ScriptObject *scriptObject1 = ScriptUnit::getScriptObject("settings.resist.val");
-    if(scriptObject1)
-    {
-        connect(scriptObject1, &ScriptObject::dataChanged, [=](){
-            ui->leTempCorrection->setText(QString("%1").arg(scriptObject1->data()));
-        });
-    }
-//    settings.resist.val
-//    settings.screen.delay
-//    settings.screen.max
-//    settings.screen.min
-//    settings.screen.opt
+    setupDisplay("display.temp.t_ust",  ui->le_t_ust);
+    setupDisplay("display.temp.t_sal",  ui->le_t_sal);
+    setupDisplay("display.temp.t_pr",   ui->le_t_pr);
+    setupDisplay("display.temp.t_nv",   ui->le_t_nv);
+    setupDisplay("display.temp.t_kotl", ui->le_t_kotl);
 
     //--------------------------------------
 
@@ -44,7 +37,5 @@ InOutDisplayFrame::~InOutDisplayFrame()
 {
     delete ui;
 }
-//------------------------------------------------------------------------------------
-//!
 
 

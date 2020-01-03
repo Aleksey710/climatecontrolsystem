@@ -183,7 +183,7 @@
       </widget>
      </item>
      <item row="1" column="3">
-      <widget class="QLineEdit" name="lineEdit_2">
+      <widget class="QLineEdit" name="le_t_nv">
        <property name="font">
         <font>
          <pointsize>8</pointsize>
@@ -192,7 +192,7 @@
       </widget>
      </item>
      <item row="2" column="1">
-      <widget class="QLineEdit" name="lineEdit_3">
+      <widget class="QLineEdit" name="le_t_sal">
        <property name="font">
         <font>
          <pointsize>8</pointsize>
@@ -439,7 +439,7 @@
       </widget>
      </item>
      <item row="3" column="1">
-      <widget class="QLineEdit" name="lineEdit_4">
+      <widget class="QLineEdit" name="le_t_pr">
        <property name="font">
         <font>
          <pointsize>8</pointsize>
@@ -475,7 +475,7 @@
       </widget>
      </item>
      <item row="1" column="1">
-      <widget class="QLineEdit" name="leTempCorrection">
+      <widget class="QLineEdit" name="le_t_ust">
        <property name="font">
         <font>
          <pointsize>8</pointsize>
@@ -646,7 +646,7 @@
       </widget>
      </item>
      <item row="2" column="3">
-      <widget class="QLineEdit" name="lineEdit_9">
+      <widget class="QLineEdit" name="le_t_kotl">
        <property name="font">
         <font>
          <pointsize>8</pointsize>

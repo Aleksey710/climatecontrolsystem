@@ -9,12 +9,10 @@
 
 
 #include "Log.h"
-#include "Widget.h"
-#include "svn_version.h"
+#include "CheckAppUniq.h"
 #include "ModbusMasterUnit.h"
-#include "MqttModbusMasterConfigurator.h"
-#include "MqttUnitThread.h"
-#include "ManagerConfigurations.h"
+//#include ""
+//#include ""
 //#include ""
 //#include ""
 //------------------------------------------------------------------------------------
@@ -24,172 +22,91 @@ INITIALIZE_EASYLOGGINGPP
 
 #include "easyloggingCustom.h"
 //------------------------------------------------------------------------------------
-//!
-QCoreApplication* createApplication(int &argc, char *argv[])
+inline QString allVersion()
 {
-    for (int i = 1; i < argc; ++i)
-    {
-        if (!qstrcmp(argv[i], "-no-gui"))
-        {
-            return new QCoreApplication(argc, argv);
-        }
-    }
-    return new QApplication(argc, argv);
+    return QString("\r\n"
+       "********************************************************************\n"
+       "****                         VERSIONS                           ****\n"
+       "********************************************************************\n"
+       "Qt..................: %1 \n"
+       "OS..................: %2 \n"
+       "Make OS.............: %3 \n"
+       "App.................: %4 \n"
+       //"SVN.................: %5 \n"
+       "Date time created...: %6 \n"
+       "--------------------------------------------------------------------\n"
+       //"Build version.......: %7 \n"
+       "********************************************************************"
+       )
+       .arg( QString("%1.%2.%3")        .arg(QT_VERSION_MAJOR).arg(QT_VERSION_MINOR).arg(QT_VERSION_PATCH) )            // 1
+       .arg( QString("%1 %2 %3 %4")     .arg(DISTRIBUTION1).arg(DISTRIBUTION2).arg(DISTRIBUTION3).arg(DISTRIBUTION4) )  // 2
+       .arg( QString("%1 %2 Kernel: %3").arg(QMAKE_HOST_os).arg(QMAKE_HOST_arch).arg(QMAKE_HOST_version) )              // 3
+       .arg( QString("%1.%2.%3")        .arg(VERSION_MAJOR).arg(VERSION_MINOR).arg(VERSION_BUILD) )                     // 4
+       //.arg( SVNVersionString() )                                                                                       // 5
+       .arg( QString("%1 %2")           .arg(DATE_CREATED).arg(TIME_CREATED) )                                          // 6
+       //.arg( QString("%1")              .arg(BUILD_VERSION_CREATED) )                                                   // 7
+       ;
 }
 //------------------------------------------------------------------------------------
 //!
 int main(int argc, char *argv[])
 {
-    //------------------------------------------------------------------------------------
-#if QT_VERSION < 0x050000
-    //! Кодировка исходных текстов
-    QTextCodec *inCodec;
-    inCodec = QTextCodec::codecForName("UTF-8");
-    QTextCodec::setCodecForTr(inCodec);
-    QTextCodec::setCodecForCStrings(inCodec);
-#endif
-
-    //------------------------------------------------------------------------------------
-//    Q_INIT_RESOURCE(MainWindow);
-
+    //--------------------------------------------
     //! Получить список путей поиска плагинов
     QStringList paths = QCoreApplication::libraryPaths();
     //! Начинать поиск с внутренних плагинов
     paths.push_front("./plugins");
-
-    //"/opt/Qt5.7.1/5.7/gcc_64/plugins"
+    paths.push_front("./lib");
+    paths.push_front("./");
 
     //! Задать список каталогов для поиска плагинов
     QCoreApplication::setLibraryPaths(paths);
 
-    qDebug() << QCoreApplication::libraryPaths();
+    //qDebug() << QString("QCoreApplication::libraryPaths : ") << QCoreApplication::libraryPaths();
 
+    //---------------------------------------------------
     //! Настройка логирования
     loggerSetup(argc, argv);
 
-    //------------------------------------------------------------------------------------
-    SEND_TO_LOG(        "*****************************************************************************************");
-    SEND_TO_LOG(        "************     Запуск MqttModbusMasterUnit      ***************************************");
-    //SEND_TO_LOG(QString("************     %1     *********************************************************").arg(VERSVN));
+    //---------------------------------------------------
     SEND_TO_LOG( allVersion() );
 
+    //---------------------------------------------------
+    QScopedPointer<QApplication> app( new QApplication(argc, argv) );
 
-    //------------------------------------------------------------------------------------
-    //QScopedPointer<QCoreApplication> app(createApplication(argc, argv));
-    QCoreApplication *app = createApplication(argc, argv);
+    QCoreApplication::setApplicationName("ClimateControlSystem");
+    QCoreApplication::setApplicationVersion( allVersion() );
 
-    //ModbusMasterUnit::instance();
-    //ModbusMasterUnit::Instance().setParent(app);
-
-    if (qobject_cast<QApplication *>(app))
+    //---------------------------------------------------
+    //! Проверка, что приложение еще не запущено
+    bool is_running = checkAppUniq();
+    //---------------------------------------------------
+    // Если уже запущен один экземпляр приложения, то сообщаем ою этом пользователю
+    // и завершаем работу текущего экземпляра приложения
+    if(is_running)
     {
-        QObject *parent = new QObject();
+        SEND_TO_LOG("******************************************************************************************");
+        SEND_TO_LOG("**     Попытка запустить 2 экземпляра программы. Запуск прерван!!!                      **");
+        SEND_TO_LOG("**     Приложение уже запущено. Вы можете запустить только один экземпляр приложения.   **");
+        SEND_TO_LOG("******************************************************************************************");
 
-
-        parent->setObjectName("parent");
-
-        //-------------------------------------------
-        //! Для сервера !!!
-        //! Задать тип сетевой работы
-        ManagerConfigurations::Instance().setNetworkType(ManagerConfigs::Slave);
-
-        //! Не использовать базу!
-        ManagerConfigurations::Instance().setUsedDb(false);
-
-
-        QObject::connect(&( ManagerConfigurations::Instance() ), &ManagerConfigsThread::ready,
-                         [=](){
-
-            SEND_TO_LOG("Начальная инициализация базы завершена");
-
-            // start GUI version...
-            //-------------------------------------------
-            QString stationName = "test";
-            //QString stationName = "stolbovo";
-
-            //QString dpdName = "SSOD";
-            QString dpdName = "USOD1";
-
-            QString unitName = "MPU";
-
-            DbSettings dbSettings;
-
-            dbSettings.hostName     = "127.0.0.1";
-            //dbSettings.hostName     = "192.168.239.234";
-
-            dbSettings.dbName       = "test";
-            //dbSettings.dbName       = "stolbovo";
-
-            dbSettings.userName     = "scada_user";
-            dbSettings.userPassword = "simple_pass";
-            dbSettings.dbType       = "QMYSQL";
-            dbSettings.tableType    = "MyISAM";
-
-            MqttConnectionSettings mqttConnectionSettings(QHostAddress("127.0.0.1"),
-            //MqttConnectionSettings mqttConnectionSettings(QHostAddress("192.168.239.234"),
-                                                          1883,
-                                                          "admin",
-                                                          "admin");
-            //-------------------------------------------
-            //-------------------------------------------
-            //-------------------------------------------
-
-            MqttUnitThread *mqttUnitThread = new MqttUnitThread(parent);
-
-            QObject::connect(mqttUnitThread, &MqttUnitThread::initialized, [=](){
-
-                if(0)
-                {
-                    SEND_TO_LOG( QString("%1 - MqttModbusMasterUnit не будет запущен!!!").arg(parent->objectName()) );
-                    return;
-                }
-
-                SEND_TO_LOG( QString("%1 - завершена инициализация MqttModbusMasterUnit").arg(parent->objectName()) );
-
-                //-------------------------------------------
-
-                //qApp->quit();
-            });
-
-
-            mqttUnitThread->init<MqttModbusMasterUnit, MqttModbusMasterConfigurator>(stationName,
-                                                                                       dpdName,
-                                                                                       unitName,
-                                                                                       dbSettings,
-                                                                                       mqttConnectionSettings);
-
-
-            //-------------------------------------------
-            //-------------------------------------------
-            //-------------------------------------------
-        });
-
-        //-------------------------------------------
-        //! Проинициализировать менеджер конфигурации
-        ManagerConfigurations::Instance().setup();
-
-        //------------------------------------------------------------------------------------
-        //! Сначала создать клиента, чтоб он сработал по сигналу готовности менеджера конфигураций
-        //QTimer::singleShot(20000, qApp, SLOT(quit()));
-
-    } else {
-       // start non-GUI version...
-
+        return 1;
     }
 
+    //--------------------------------------------
+    std::shared_ptr<DbUnit>             dbUnit              = std::make_shared<DbUnit>();
+    std::shared_ptr<ScriptUnit>         scriptUnit          = std::make_shared<ScriptUnit>();
+    std::shared_ptr<ModbusMasterUnit>   modbusMasterUnit    = std::make_shared<ModbusMasterUnit>();
+
+
+    //------------------------------------
+    QTimer::singleShot(0.1*60*1000, qApp, SLOT(quit()));
     //------------------------------------
     int exitCode = app->exec();
 
     myCrashHandler(exitCode);
+
     //------------------------------------
-
-    ManagerConfigurations::destroy();
-
-
-    SEND_TO_LOG("*****************************************************************************************");
-    SEND_TO_LOG("************     НОРМАЛЬНОЕ ОКОНЧАНИЕ РАБОТЫ MqttModbusMasterUnit      ******************");
-    SEND_TO_LOG("*****************************************************************************************");
-
     return exitCode;
 }
 //------------------------------------------------------------------------------------

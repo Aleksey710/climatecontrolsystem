@@ -28,7 +28,9 @@ MainDisplayWidget::MainDisplayWidget(const std::shared_ptr<DbUnit> &dbUnit,
     setLayout(m_mainLayout);
 
 #ifdef Q_OS_LINUX
+#ifdef FULL_SCREEN
     setWindowState(Qt::WindowFullScreen);
+#endif
 #endif
 //    setWindowFlags( Qt::CustomizeWindowHint
 //                   | Qt::FramelessWindowHint
@@ -79,11 +81,11 @@ MainDisplayWidget::MainDisplayWidget(const std::shared_ptr<DbUnit> &dbUnit,
     //m_frameLayout->addWidget(m_curentWidget);
 
     //-----------------------------------------------------------
-/*
+#ifndef FULL_SCREEN
     setGeometry(0,0,800,480);
     setSizePolicy(QSizePolicy::Fixed,
                   QSizePolicy::Fixed);
-                  */
+#endif
     show();
 }
 //------------------------------------------------------------------------------------

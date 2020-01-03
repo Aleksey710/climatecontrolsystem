@@ -2,14 +2,32 @@
 #define MODBUSMASTERUNIT_H
 //------------------------------------------------------------------------------------
 #include <QObject>
+//
 #include <QModbusDataUnit>
 #include <QModbusReply>
 #include <QModbusClient>
 #include <QModbusTcpClient>
 #include <QModbusRtuSerialMaster>
-#include <QUrl>
+#include <QModbusPdu>
+//
 #include <QSerialPort>
+//
+#include <QJsonParseError>
+#include <QJsonObject>
+#include <QJsonValue>
+#include <QJsonArray>
+//
+#include <QUrl>
 #include <QThread>
+#include <QMultiHash>
+#include <QHash>
+#include <QList>
+#include <QDateTime>
+//#include <>
+//#include <>
+//#include <>
+
+//#include <>
 //#include <>
 //#include <>
 //#include <>
@@ -19,9 +37,12 @@
 #include "ModbusConnection.h"
 #include "ModbusConnectionSettings.h"
 #include "ModbusMasterHandler.h"
-//#include ""
-//#include ""
-//#include ""
+#include "ModbusConnectionController.h"
+//
+#include "ScriptObject.h"
+#include "ScriptUnit.h"
+//#include ".h"
+//#include ".h"
 //------------------------------------------------------------------------------------
 //!
 class ModbusMasterUnit : public QObject
@@ -38,10 +59,17 @@ class ModbusMasterUnit : public QObject
     private slots:
 
     private:
-        QStringList initQueryModbusUnitStringList();
+        QJsonObject loadFile(const QString &fileName);
+        void setup(const QJsonObject &jsonObject);
+
+        void connectionParsing(const QJsonObject &connectionJsonObject);
+        void deviceParsing(const QJsonObject &deviceJsonObject);
+
+        void startWorkInAThread(const ModbusConnectionSettings &modbusConnectionSettings);
 
     private:
-        std::shared_ptr<ModbusMasterHandler> m_modbusMasterHandler;
+        QHash <QString, ModbusConnectionSettings> m_modbusConnectionSettingsList;
+
 };
 //------------------------------------------------------------------------------------
 #endif // MODBUSMASTERUNIT_H

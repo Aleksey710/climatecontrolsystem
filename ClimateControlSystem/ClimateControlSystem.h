@@ -10,12 +10,10 @@
 
 
 #include "Log.h"
-//#include "DataModel.h"
-//#include "DataModelConfigurator.h"
-#include "ModbusMasterConfigurator.h"
 #include "MainDisplayWidget.h"
 #include "DbUnit.h"
 #include "ScriptUnit.h"
+#include "ModbusMasterUnit.h"
 //#include ".h"
 //#include ".h"
 //------------------------------------------------------------------------------------
@@ -30,8 +28,9 @@ class ClimateControlSystem : public QObject
     signals:
 
     private:
-        std::shared_ptr<DbUnit>     m_dbUnit;
-        std::shared_ptr<ScriptUnit> m_scriptUnit;
+        std::shared_ptr<DbUnit>             m_dbUnit;
+        std::shared_ptr<ScriptUnit>         m_scriptUnit;
+        std::shared_ptr<ModbusMasterUnit>   m_modbusMasterUnit;
 
         MainDisplayWidget   *m_mainDisplayWidget;
 

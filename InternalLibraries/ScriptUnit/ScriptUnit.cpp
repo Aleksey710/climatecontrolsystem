@@ -6,8 +6,7 @@ QHash<QString, ScriptObject*> ScriptUnit::m_rootObjects;
 //------------------------------------------------------------------------------------
 //!
 ScriptUnit::ScriptUnit(QObject *parent)
-           : QObject(parent),
-             m_mainLoopTimer ( std::make_shared<QTimer>(this) )
+           :QObject(parent)
 {
     setObjectName("ScriptUnit");
 
@@ -15,12 +14,7 @@ ScriptUnit::ScriptUnit(QObject *parent)
 
     setupSettingsData();
 
-    //loadFile( QString("./conf/data.conf") ) );
-
-    connect(m_mainLoopTimer.get(), &QTimer::timeout, [=](){
-
-    });
-
+    setupScript(loadFile( qApp->applicationDirPath()+"/conf/script.conf" ));
 
 
     SEND_TO_LOG( QString("%1 - создан").arg(objectName()))
@@ -29,6 +23,14 @@ ScriptUnit::ScriptUnit(QObject *parent)
 //!
 ScriptUnit::~ScriptUnit()
 {
+    QHashIterator<QString, ScriptObject*> i(m_rootObjects);
+    while (i.hasNext())
+    {
+        i.next();
+
+        i.value()->deleteLater();
+    }
+
     SEND_TO_LOG( QString("%1 - удален").arg(objectName()))
 }
 //------------------------------------------------------------------------------------
@@ -58,7 +60,61 @@ ScriptObject* ScriptUnit::getScriptObject(const QString &name)
     }
 
     //-------------------------------------------------
-    return groupScriptObject->getChildren(partNameList.at(2));
+    if(groupScriptObject)
+    {
+        return groupScriptObject->getChildren(partNameList.at(2));
+    }
+
+    return nullptr;
+}
+//------------------------------------------------------------------------------------
+//!
+ScriptObject* ScriptUnit::createScriptObject(const QString &type,
+                                             const QString &group,
+                                             const QString &data,
+                                             const QString &title,
+                                             const double &value)
+{
+    //------------------------
+    ScriptObject *rootScriptObject = m_rootObjects.value( type, nullptr );
+
+    if( !rootScriptObject )
+    {
+        rootScriptObject = new ScriptObject(type, 0, nullptr);
+        m_rootObjects.insert(type, rootScriptObject);
+
+        m_scriptEngine->addGlobalQbject(rootScriptObject);
+    }
+
+    //------------------------
+    ScriptObject *groupScriptObject = rootScriptObject->getChildren( group );
+
+    if( !groupScriptObject )
+    {
+        groupScriptObject = new ScriptObject(group, 0, rootScriptObject);
+    }
+    //------------------------
+    ScriptObject *scriptObject = groupScriptObject->getChildren( data );
+
+    if( !scriptObject )
+    {
+        scriptObject = new ScriptObject(data, value, groupScriptObject);
+
+        SEND_TO_LOG( QString("%1 - создан [%2]-[%3]")
+                     .arg(objectName())
+                     .arg(QString("%1.%2.%3").arg(type).arg(group).arg(data))
+                     .arg(title)
+                     );
+
+        return scriptObject;
+    } else
+    {
+        SEND_TO_LOG( QString("%1 - ERROR (Ошибка конфигурации[%2])")
+                     .arg(objectName())
+                     .arg(QString("%1.%2.%3").arg(type).arg(group).arg(data)) );
+    }
+
+    return nullptr;
 }
 //------------------------------------------------------------------------------------
 //!
@@ -86,7 +142,7 @@ void ScriptUnit::setupSettingsData()
     {
         QSqlError err = db.lastError();
 
-        SEND_TO_LOG( QString("%1 - Error [%2] [%3]")
+        SEND_TO_LOG( QString("%1 - ERROR (ошибка запроса [%2] [%3])")
                      .arg(objectName()).arg(query).arg(err.text()))
         return;
     }
@@ -105,65 +161,117 @@ void ScriptUnit::setupSettingsData()
         QString title = sqlQuery.value(title_id).toString();
         double value = sqlQuery.value(value_id).toDouble();
 
-        //------------------------
-        ScriptObject *rootScriptObject = m_rootObjects.value( type, nullptr );
-
-        if( !rootScriptObject )
-        {
-            rootScriptObject = new ScriptObject(type, 0, nullptr);
-            m_rootObjects.insert(type, rootScriptObject);
-
-            m_scriptEngine->addGlobalQbject(rootScriptObject);
-        }
-
-        //------------------------
-        ScriptObject *groupScriptObject = rootScriptObject->getChildren( group );
-
-        if( !groupScriptObject )
-        {
-            groupScriptObject = new ScriptObject(group, 0, rootScriptObject);
-        }
-        //------------------------
-        ScriptObject *scriptObject = groupScriptObject->getChildren( data );
-
-        if( !scriptObject )
-        {
-            scriptObject = new ScriptObject(data, value, groupScriptObject);
-
-            SEND_TO_LOG( QString("%1 - создан [%2]")
-                         .arg(objectName())
-                         .arg(QString("%1.%2.%3").arg(type).arg(group).arg(data)) );
-        } else
-        {
-            SEND_TO_LOG( QString("%1 - Ошибка конфигурации[%2]")
-                         .arg(objectName())
-                         .arg(QString("%1.%2.%3").arg(type).arg(group).arg(data)) );
-        }
+        createScriptObject(type, group, data, title, value);
     }
 }
 //------------------------------------------------------------------------------------
 //!
-QByteArray ScriptUnit::loadFile(const QString &fileName)
+QJsonObject ScriptUnit::loadFile(const QString &fileName)
 {
     QFile loadFile(fileName);
 
     if (!loadFile.open(QIODevice::ReadOnly))
     {
-        SEND_TO_LOG( QString("%1 - couldn't open file[%2]").arg(objectName()).arg(fileName) );
-        return QByteArray();
+        SEND_TO_LOG( QString("%1 - ERROR (couldn't open file[%2])").arg(objectName()).arg(fileName) );
+        return QJsonObject();
     }
 
-    return loadFile.readAll();
+    QByteArray fileArray = loadFile.readAll();
+
+    QJsonParseError jsonParseError;
+    QJsonDocument jsonDocument = QJsonDocument::fromJson(fileArray, &jsonParseError);
+
+    if(jsonParseError.error == QJsonParseError::ParseError::NoError )
+    {
+        return jsonDocument.object();
+    } else
+    {
+        SEND_TO_LOG( QString("%1 - ERROR (Ошибка формата [%2])").arg(objectName()).arg(jsonParseError.errorString()) );
+        return QJsonObject();
+    }
 }
 //------------------------------------------------------------------------------------
 //!
-void ScriptUnit::setupMainLoop(const QStringList &functionList)
+void ScriptUnit::setupScript(const QJsonObject &jsonObject)
 {
-    m_scriptEngine;
+    /*
+    QByteArray byteArray = QJsonDocument(jsonObject).toJson(QJsonDocument::Indented);
+    SEND_TO_LOG( QString("%1 \r\n %2").arg(objectName()).arg( byteArray.data() ) );
+    */
+    //---------------------------------------
+    setupData( jsonObject.value("data").toArray() );
+    setupFunctions ( jsonObject.value("functions").toArray() );
 }
 //------------------------------------------------------------------------------------
 //!
-void ScriptUnit::startMainLoopTimer(int msec)
+void ScriptUnit::setupData(const QJsonArray &jsonArray)
 {
-    m_mainLoopTimer->start(msec);
+    foreach (const QJsonValue &jsonValue, jsonArray)
+    {
+        const QJsonObject dataJsonObject = jsonValue.toObject();
+
+        QString name = dataJsonObject.value("name").toString();
+
+        QStringList partName = name.split(".");
+
+        if(partName.size()==3)
+        {
+            QString type    = partName[0];
+            QString group   = partName[1];
+            QString data    = partName[2];
+
+            if(type.isEmpty()  ||
+               group.isEmpty() ||
+               data.isEmpty()
+               )
+            {
+                SEND_TO_LOG( QString("%1 - ERROR (Не верный формат имени [%2].[%3].[%4])")
+                             .arg(objectName()).arg( type ).arg( group ).arg( data ) );
+            } else
+            {
+                QString title = dataJsonObject.value("title").toString();
+                double value = 0;
+
+                createScriptObject(type, group, data, title, value);
+            }
+        } else
+        {
+            SEND_TO_LOG( QString("%1 - ERROR (Не верный формат имени [%2])")
+                         .arg(objectName()).arg(name) );
+        }
+    }
 }
+//------------------------------------------------------------------------------------
+//!
+void ScriptUnit::setupFunctions(const QJsonArray &jsonArray)
+{
+    foreach (const QJsonValue &functionJsonValue, jsonArray)
+    {
+        //------------------------------------------
+        const QJsonObject functionJsonObject = functionJsonValue.toObject();
+
+        QString name = functionJsonObject.value("name").toString();
+
+        //------------------------------------------
+        QJsonArray sourcesArray = functionJsonObject.value("sources").toArray();
+
+        foreach (const QJsonValue &sourcesJsonValue, sourcesArray)
+        {
+            const QString sourceName = sourcesJsonValue.toString();
+
+            ScriptObject *scriptObject = getScriptObject(sourceName);
+
+            if( !scriptObject )
+            {
+                SEND_TO_LOG( QString("%1 - ERROR (Несуществующий источник [%2])")
+                             .arg(objectName()).arg( sourceName ) );
+            }
+        }
+        //------------------------------------------
+
+
+        //------------------------------------------
+    }
+}
+//------------------------------------------------------------------------------------
+//!

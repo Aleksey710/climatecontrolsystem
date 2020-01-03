@@ -12,10 +12,9 @@ ClimateControlSystem::ClimateControlSystem(QObject *parent)
     SEND_TO_LOG("*****************************************************************************************");
     //-------------------------------------------------------------------
 
-    m_dbUnit        = std::make_shared<DbUnit>();
-    m_scriptUnit    = std::make_shared<ScriptUnit>();
-
-    //ModbusMasterConfigurator modbusMasterConfigurator();
+    m_dbUnit            = std::make_shared<DbUnit>();
+    m_scriptUnit        = std::make_shared<ScriptUnit>();
+    m_modbusMasterUnit  = std::make_shared<ModbusMasterUnit>();
 
     m_mainDisplayWidget = new MainDisplayWidget(m_dbUnit);
 

@@ -1,10 +1,8 @@
 TEMPLATE = subdirs
 
 SUBDIRS += Utils
-#SUBDIRS += AbstractDisplayWidget
 SUBDIRS += DbUnit
 SUBDIRS += ScriptUnit
-#SUBDIRS += ModbusWrapper
 SUBDIRS += ModbusMasterUnit
 
 DbUnit.depends = \
@@ -13,14 +11,13 @@ DbUnit.depends = \
 
 ScriptUnit.depends = \
     Utils \
-
-
-#ModbusWrapper.depends = \
-#    Utils \
+    DbUnit
 
 
 ModbusMasterUnit.depends = \
     Utils \
+    DbUnit \
+    ScriptUnit
 
 
 

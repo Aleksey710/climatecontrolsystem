@@ -34,13 +34,10 @@ CarInformationFrame::CarInformationFrame(QWidget *parent)
     ui->lbCompany->setMaximumWidth(300);
 
     //-------------------------------------------------
-    ui->lbMicroProgVersion->setText("100");
-
-    ui->lbPoVersion->setText("200");
-
-    ui->lbVagon->setText("Вагон");
-
-    ui->lbStartUseDate->setText(QDateTime::currentDateTime().toString("yyyy.MM.dd"));
+    setupDisplay("settings.wagon.num",  ui->lbVagon);
+    setupDisplay("settings.wagon.sv",   ui->lbMicroProgVersion);
+    setupDisplay("settings.wagon.sv",   ui->lbPoVersion);
+    setupDisplay("settings.wagon.dd",   ui->lbStartUseDate);
 
     //-------------------------------------------------
     SEND_TO_LOG( QString("%1 - создан").arg(objectName()) );

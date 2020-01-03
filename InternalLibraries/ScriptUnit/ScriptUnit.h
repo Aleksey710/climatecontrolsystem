@@ -1,6 +1,7 @@
 #ifndef SCRIPTUNIT_H
 #define SCRIPTUNIT_H
 //------------------------------------------------------------------------------------
+#include <QCoreApplication>
 #include <QObject>
 #include <QString>
 #include <QSqlDatabase>
@@ -9,6 +10,12 @@
 #include <QTimer>
 #include <QSqlRecord>
 #include <QHash>
+#include <QJsonParseError>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
+#include <QJsonValue>
+#include <QStringList>
 //#include <>
 //#include <>
 
@@ -37,13 +44,19 @@ class ScriptUnit : public QObject
     signals:
 
     public slots:
-        void setupMainLoop(const QStringList &functionList);
-
-        void startMainLoopTimer(int msec = 1000);
 
 
-    private:
-        QByteArray loadFile(const QString &fileName);
+    private:        
+        ScriptObject* createScriptObject(const QString &type,
+                                         const QString &group,
+                                         const QString &data,
+                                         const QString &title,
+                                         const double &value);
+
+        QJsonObject loadFile(const QString &fileName);
+        void setupScript(const QJsonObject &jsonObject);
+        void setupData(const QJsonArray &jsonObject);
+        void setupFunctions(const QJsonArray &jsonObject);
 
         void setupSettingsData();
 
@@ -51,8 +64,6 @@ class ScriptUnit : public QObject
         static ScriptEngine *m_scriptEngine;
 
         static QHash<QString, ScriptObject*> m_rootObjects;
-
-        std::shared_ptr<QTimer> m_mainLoopTimer;
 };
 //------------------------------------------------------------------------------------
 #endif // SCRIPTUNIT_H

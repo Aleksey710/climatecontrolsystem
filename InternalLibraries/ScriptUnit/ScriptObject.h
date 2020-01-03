@@ -11,7 +11,7 @@
 //#include <>
 //#include <>
 
-//#include ".h"
+#include "Log.h"
 //#include ".h"
 //#include ".h"
 
@@ -30,8 +30,7 @@ class ScriptObject : public QObject, protected QScriptable
                               const double &value,
                               ScriptObject *parent = Q_NULLPTR);
 
-        inline virtual ~ScriptObject()
-            { }
+        virtual ~ScriptObject();
 
         inline QString fullName() const
             { return m_fullName; }

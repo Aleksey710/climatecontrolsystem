@@ -23,8 +23,8 @@
 #include <QHash>
 #include <QList>
 #include <QDateTime>
-//#include <>
-//#include <>
+#include <QQueue>
+#include <QSemaphore>
 //#include <>
 
 //#include <>
@@ -75,6 +75,8 @@ class ModbusMasterUnit : public QObject
     private:
         ModbusMasterHandler *m_handler;
 
+        QQueue<ModbusRequest*> m_requestQueue;
+        QSemaphore m_requestQueueSemaphore;
 };
 //------------------------------------------------------------------------------------
 #endif // MODBUSMASTERUNIT_H

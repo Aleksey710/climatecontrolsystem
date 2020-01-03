@@ -4,7 +4,8 @@
 //!
 ModbusMasterUnit::ModbusMasterUnit(QObject *parent)
                  :QObject(parent),
-                  m_handler ( new ModbusMasterHandler(this) )
+                  m_handler ( new ModbusMasterHandler(this) ),
+                  m_requestQueueSemaphore ( 10 )
 {
     setObjectName("ModbusMasterUnit");
     //-------------------------------------------
@@ -187,8 +188,25 @@ void ModbusMasterUnit::executeQuery(ModbusRequest *request)
     SEND_TO_LOG( QString("%1 - Постановка запроса в очередь на выполнение [%2]")
                  .arg(objectName()).arg(request->objectName()) );
 
-    m_handler->reconnect(request->connectionSettings());
+    //------------------------------------------------------------
+    if(m_requestQueueSemaphore.available() == 0)
+    {
+        SEND_TO_LOG( QString("%1 - Error(Очередь переполнена").arg(objectName()) );
+        return;
+    }
 
+    m_requestQueueSemaphore.acquire();
+    m_requestQueue.enqueue(request);
+
+    //------------------------------------------------------------
+    //------------------------------------------------------------
+    //! Из другого потока
+    //------------------------------------------------------------
+    ModbusRequest *requestFromQueue = m_requestQueue.dequeue();
+
+    m_handler->reconnect(requestFromQueue->connectionSettings());
+
+    m_requestQueueSemaphore.release();
 }
 //------------------------------------------------------------------------------------
 //!

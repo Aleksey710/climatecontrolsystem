@@ -10,7 +10,7 @@ Makefile
 
 /build/**
 /lib/**
-
+/InternalLibraries/Temp/**
 
 # except foo.html which is maintained by hand.
 #!foo.html

@@ -71,8 +71,6 @@ OTHER_FILES += \
 #############################################################
 LIBS += \
     -L$$ROOT_PATH/lib \
-    -lDataModel \
-    -lAbstractConfigurator \
     -lUtils \
     -lmodbus \
     -leasylogging++

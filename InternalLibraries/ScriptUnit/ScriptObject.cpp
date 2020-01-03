@@ -25,7 +25,7 @@ ScriptObject::ScriptObject(const QString &name,
     QTimer *timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, [=](){
 
-        double value = QRandomGenerator::global()->generate();
+        double value = QRandomGenerator::global()->bounded(0, 100);
 
         setData(value);
     });

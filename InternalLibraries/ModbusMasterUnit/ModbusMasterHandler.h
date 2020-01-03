@@ -41,7 +41,7 @@ class ModbusMasterHandler : public QObject
         void readReady();
 
     private:
-        void updateObjectName();
+
 
     private:
         QModbusClient *m_modbusDevice;

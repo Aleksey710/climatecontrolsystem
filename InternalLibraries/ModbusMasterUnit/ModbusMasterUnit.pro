@@ -19,13 +19,13 @@ CONFIG      += staticlib
 DEPENDPATH  += $$ROOT_PATH/lib
 DESTDIR     = $$ROOT_PATH/lib
 #------------------------------------------------------------
-TEMPLATE    = app
-DEPENDPATH += $$ROOT_PATH/bin/
-DESTDIR     = $$ROOT_PATH/bin/
+#TEMPLATE    = app
+#DEPENDPATH += $$ROOT_PATH/bin/
+#DESTDIR     = $$ROOT_PATH/bin/
 
-CONFIG += console
+#CONFIG += console
 
-SOURCES += main.cpp
+#SOURCES += main.cpp
 
 #############################################################
 QT += gui
@@ -53,7 +53,8 @@ INCLUDEPATH += ./
 #############################################################
 SOURCES += \
     ModbusMasterHandler.cpp \
-    ModbusMasterUnit.cpp
+    ModbusMasterUnit.cpp \
+    ModbusRequest.cpp
 
 
 
@@ -62,7 +63,8 @@ HEADERS  += \
     ModbusConnectionController.h \
     ModbusConnectionSettings.h \
     ModbusMasterHandler.h \
-    ModbusMasterUnit.h
+    ModbusMasterUnit.h \
+    ModbusRequest.h
 
 
 

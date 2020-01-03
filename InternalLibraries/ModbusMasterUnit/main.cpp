@@ -100,7 +100,7 @@ int main(int argc, char *argv[])
 
 
     //------------------------------------
-    QTimer::singleShot(0.1*60*1000, qApp, SLOT(quit()));
+    //QTimer::singleShot(0.1*60*1000, qApp, SLOT(quit()));
     //------------------------------------
     int exitCode = app->exec();
 

@@ -3,8 +3,11 @@
 //------------------------------------------------------------------------------------
 #include <QString>
 #include <QDebug>
+#include <QSerialPort>
 
 #include "ModbusConnection.h"
+//------------------------------------------------------------------------------------
+// #include "ModbusConnectionSettings.h"
 //------------------------------------------------------------------------------------
 //!
 class ModbusConnectionSettings
@@ -38,7 +41,47 @@ class ModbusConnectionSettings
              responseTime ( __responseTime ),
              numberOfRetries ( __numberOfRetries )
         {
+            //! Создать обработчик устройства
+            if (modbusConnectionType == Serial)
+            {
+                QString parityString;
 
+                switch (serialParityParameter)
+                {
+                    case QSerialPort::NoParity:
+                        parityString = "N";
+                        break;
+                    case QSerialPort::EvenParity:
+                        parityString = "E";
+                        break;
+                    case QSerialPort::OddParity:
+                        parityString = "O";
+                        break;
+                    case QSerialPort::SpaceParity:
+                        parityString = "S";
+                        break;
+                    case QSerialPort::MarkParity:
+                        parityString = "M";
+                        break;
+                    case QSerialPort::UnknownParity:
+                    default:
+                        parityString = "U";
+                        break;
+                }
+
+                connectionName = QString("RTU[%1(%2)%3%4%5]")
+                                 .arg(serialPortNameParameter)
+                                 .arg(serialBaudRateParameter)
+                                 .arg(serialDataBitsParameter)
+                                 .arg(parityString)
+                                 .arg(serialStopBitsParameter)
+                                 ;
+            } else if (modbusConnectionType == Tcp)
+            {
+                connectionName = QString("TCP[%1:%2]")
+                                .arg(networkAddressParameter)
+                                .arg(networkPortParameter);
+            }
         }
         //------------------------------------------------------------------------------------
 /*
@@ -70,6 +113,8 @@ class ModbusConnectionSettings
         }
 */
         //------------------------------------------------------------------------------------
+        QString connectionName;
+
         ModbusConnection modbusConnectionType;
 
         QString serialPortNameParameter;

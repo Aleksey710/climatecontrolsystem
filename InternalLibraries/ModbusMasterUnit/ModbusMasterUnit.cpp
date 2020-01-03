@@ -3,7 +3,8 @@
 //------------------------------------------------------------------------------------
 //!
 ModbusMasterUnit::ModbusMasterUnit(QObject *parent)
-                 :QObject(parent)
+                 :QObject(parent),
+                  m_handler ( new ModbusMasterHandler(this) )
 {
     setObjectName("ModbusMasterUnit");
     //-------------------------------------------
@@ -113,35 +114,18 @@ void ModbusMasterUnit::connectionParsing(const QJsonObject &connectionJsonObject
                                                       numberOfRetries);
 
     //----------------------------------------------------------------
-    QString connectionName;
-
-    switch (modbusConnectionType)
-    {
-        case ModbusConnection::Serial:
-            connectionName = QString("%1").arg(serialPortNameParameter);
-            break;
-        case ModbusConnection::Tcp:
-            connectionName = QString("%1:%2")
-                             .arg(networkAddressParameter)
-                             .arg(networkPortParameter);
-            break;
-        default:
-            break;
-    }
-
-    m_modbusConnectionSettingsList.insert(connectionName, modbusConnectionSettings);
-    //----------------------------------------------------------------
     QJsonArray devicesJsonArray                 = connectionJsonObject.value("devices").toArray();
 
     foreach (const QJsonValue &value, devicesJsonArray)
     {
         const QJsonObject deviceJsonObject = value.toObject();
-        deviceParsing(deviceJsonObject);
+        deviceParsing(modbusConnectionSettings, deviceJsonObject);
     }
 }
 //------------------------------------------------------------------------------------
 //!
-void ModbusMasterUnit::deviceParsing(const QJsonObject &deviceJsonObject)
+void ModbusMasterUnit::deviceParsing(const ModbusConnectionSettings &modbusConnectionSettings,
+                                     const QJsonObject &deviceJsonObject)
 {
     const int addr          = deviceJsonObject.value("addr").toInt();
     const QString title     = deviceJsonObject.value("title").toString();
@@ -186,6 +170,25 @@ void ModbusMasterUnit::deviceParsing(const QJsonObject &deviceJsonObject)
     QModbusDataUnit modbusDataUnit(type,
                                    newStartAddress,
                                    size);
+
+    //--------------------------------------------
+    ModbusRequest *modbusRequest = new ModbusRequest(modbusConnectionSettings,
+                                                     addr,
+                                                     1000,
+                                                     this);
+
+    connect(modbusRequest, &ModbusRequest::wantExecuteQuery,
+            this, &ModbusMasterUnit::executeQuery);
+}
+//------------------------------------------------------------------------------------
+//!
+void ModbusMasterUnit::executeQuery(ModbusRequest *request)
+{
+    SEND_TO_LOG( QString("%1 - Постановка запроса в очередь на выполнение [%2]")
+                 .arg(objectName()).arg(request->objectName()) );
+
+    m_handler->reconnect(request->connectionSettings());
+
 }
 //------------------------------------------------------------------------------------
 //!

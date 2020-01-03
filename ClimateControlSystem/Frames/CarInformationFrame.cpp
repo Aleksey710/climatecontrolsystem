@@ -24,7 +24,7 @@ CarInformationFrame::CarInformationFrame(QWidget *parent)
 
         QDateTime curentDT = QDateTime::currentDateTime();
 
-        ui->lbDate->setText( curentDT.toString("dd MMM yyyy") );
+        ui->lbDate->setText( curentDT.toString("d MMM yyyy") );
         ui->lcdTime->display( curentDT.toString("HH:mm") );
 
     });

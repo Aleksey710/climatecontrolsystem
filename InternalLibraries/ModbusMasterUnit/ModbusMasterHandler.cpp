@@ -4,7 +4,7 @@
 //!
 ModbusMasterHandler::ModbusMasterHandler(QObject *parent)
                     :QObject(parent),
-                      m_modbusDevice( nullptr )
+                     m_modbusDevice( nullptr )
 {
     setObjectName("ModbusMasterHandler");
     //-------------------------------------------
@@ -23,56 +23,6 @@ ModbusMasterHandler::~ModbusMasterHandler()
 }
 //------------------------------------------------------------------------------------
 //!
-void ModbusMasterHandler::updateObjectName()
-{
-    QString name;
-
-    //! Создать обработчик устройства
-    if (m_modbusConnectionSettings->modbusConnectionType == Serial)
-    {
-        QString parityString;
-
-        switch (m_modbusConnectionSettings->serialParityParameter)
-        {
-            case QSerialPort::NoParity:
-                parityString = "N";
-                break;
-            case QSerialPort::EvenParity:
-                parityString = "E";
-                break;
-            case QSerialPort::OddParity:
-                parityString = "O";
-                break;
-            case QSerialPort::SpaceParity:
-                parityString = "S";
-                break;
-            case QSerialPort::MarkParity:
-                parityString = "M";
-                break;
-            case QSerialPort::UnknownParity:
-            default:
-                parityString = "U";
-                break;
-        }
-
-        name = QString("RTU[%1(%2)%3%4%5]")
-               .arg(m_modbusConnectionSettings->serialPortNameParameter)
-               .arg(m_modbusConnectionSettings->serialBaudRateParameter)
-               .arg(m_modbusConnectionSettings->serialDataBitsParameter)
-               .arg(parityString)
-               .arg(m_modbusConnectionSettings->serialStopBitsParameter)
-                ;
-    } else if (m_modbusConnectionSettings->modbusConnectionType == Tcp)
-    {
-        name = QString("TCP[%1:%2]")
-               .arg(m_modbusConnectionSettings->networkAddressParameter)
-               .arg(m_modbusConnectionSettings->networkPortParameter);
-    }
-
-    setObjectName( QString("ModbusMasterUnit[%1]").arg(name) );
-}
-//------------------------------------------------------------------------------------
-//!
 void ModbusMasterHandler::reconnect(const ModbusConnectionSettings &modbusConnectionSettings)
 {
     m_modbusConnectionSettings = std::make_shared<ModbusConnectionSettings>( modbusConnectionSettings );
@@ -85,7 +35,7 @@ void ModbusMasterHandler::reconnect(const ModbusConnectionSettings &modbusConnec
         m_modbusDevice = nullptr;
     }
 
-    updateObjectName();
+    setObjectName( QString("ModbusMasterUnit[%1]").arg(m_modbusConnectionSettings->connectionName) );
 
     ModbusConnection modbusConnectionType = m_modbusConnectionSettings->modbusConnectionType;
 
@@ -154,7 +104,7 @@ void ModbusMasterHandler::reconnect(const ModbusConnectionSettings &modbusConnec
             m_modbusDevice->setConnectionParameter(QModbusDevice::SerialParityParameter,
                 m_modbusConnectionSettings->serialParityParameter);
             m_modbusDevice->setConnectionParameter(QModbusDevice::SerialBaudRateParameter,
-                m_modbusConnectionSettings->serialParityParameter);
+                m_modbusConnectionSettings->serialBaudRateParameter);
             m_modbusDevice->setConnectionParameter(QModbusDevice::SerialDataBitsParameter,
                 m_modbusConnectionSettings->serialDataBitsParameter);
             m_modbusDevice->setConnectionParameter(QModbusDevice::SerialStopBitsParameter,
@@ -174,6 +124,11 @@ void ModbusMasterHandler::reconnect(const ModbusConnectionSettings &modbusConnec
             SEND_TO_LOG( QString("%1 - Connect failed: %2")
                          .arg(objectName())
                          .arg(m_modbusDevice->errorString()) );
+        } else
+        {
+            SEND_TO_LOG( QString("%1 - [%2] - is connected")
+                         .arg(objectName())
+                         .arg(m_modbusConnectionSettings->connectionName) );
         }
     } else {
         m_modbusDevice->disconnectDevice();
@@ -304,6 +259,7 @@ void ModbusMasterHandler::readReady()
     if (reply->error() == QModbusDevice::NoError)
     {
         const QModbusDataUnit unit = reply->result();
+
         for (uint i = 0; i < unit.valueCount(); i++)
         {
             const QString entry = tr("Address: %1, Value: %2")

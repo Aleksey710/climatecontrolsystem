@@ -38,9 +38,11 @@
 #include "ModbusConnectionSettings.h"
 #include "ModbusMasterHandler.h"
 #include "ModbusConnectionController.h"
+#include "ModbusRequest.h"
 //
 #include "ScriptObject.h"
 #include "ScriptUnit.h"
+
 //#include ".h"
 //#include ".h"
 //------------------------------------------------------------------------------------
@@ -57,18 +59,21 @@ class ModbusMasterUnit : public QObject
     public slots:
 
     private slots:
+        void executeQuery(ModbusRequest *request);
+
 
     private:
         QJsonObject loadFile(const QString &fileName);
         void setup(const QJsonObject &jsonObject);
 
         void connectionParsing(const QJsonObject &connectionJsonObject);
-        void deviceParsing(const QJsonObject &deviceJsonObject);
+        void deviceParsing(const ModbusConnectionSettings &modbusConnectionSettings,
+                           const QJsonObject &deviceJsonObject);
 
         void startWorkInAThread(const ModbusConnectionSettings &modbusConnectionSettings);
 
     private:
-        QHash <QString, ModbusConnectionSettings> m_modbusConnectionSettingsList;
+        ModbusMasterHandler *m_handler;
 
 };
 //------------------------------------------------------------------------------------

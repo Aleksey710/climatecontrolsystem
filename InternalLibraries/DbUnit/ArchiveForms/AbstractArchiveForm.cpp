@@ -32,7 +32,7 @@ void AbstractArchiveForm::setup()
     tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
     tableView->horizontalHeader()->setStretchLastSection(true);
 
-    tableView->verticalHeader()->setDefaultSectionSize(18);
+    tableView->verticalHeader()->setDefaultSectionSize(20);
 
     /*
     tableView->setStyleSheet(

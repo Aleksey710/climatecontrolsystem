@@ -22,7 +22,7 @@ MenuConfigEditForm::MenuConfigEditForm(const QList<MenuItemData> &menuItemDataLi
     QFont buttonFont = font();
     buttonFont.setPointSize(buttonFont.pointSize() + 1);
 
-    int buttonHeight = 30;
+    int buttonHeight = 25;
 
     for (int i = 0; i < menuItemDataList.size(); ++i)
     {
@@ -64,7 +64,7 @@ MenuConfigEditForm::MenuConfigEditForm(const QList<MenuItemData> &menuItemDataLi
         menuLayout->addWidget(button);
     }
 
-    menuLayout->addItem(new QSpacerItem(10,10),1, 1);
+    menuLayout->addItem(new QSpacerItem(5,5),1, 1);
 
     //! Назначить слой меню виджету меню
     m_menuWidget->setLayout(menuLayout);

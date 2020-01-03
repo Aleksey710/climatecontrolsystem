@@ -13,19 +13,22 @@ include($$ROOT_PATH/ClimateControlSystem.pri)
 include($$ROOT_PATH/easylogging++.pri)
 
 #############################################################
+DEFINES += CIRCULAR_PROCESSING_REQUEST
+
+#############################################################
 TEMPLATE    = lib
 CONFIG      += staticlib
 
 DEPENDPATH  += $$ROOT_PATH/lib
 DESTDIR     = $$ROOT_PATH/lib
 #------------------------------------------------------------
-#TEMPLATE    = app
-#DEPENDPATH += $$ROOT_PATH/bin/
-#DESTDIR     = $$ROOT_PATH/bin/
+TEMPLATE    = app
+DEPENDPATH += $$ROOT_PATH/bin/
+DESTDIR     = $$ROOT_PATH/bin/
 
-#CONFIG += console
+CONFIG += console
 
-#SOURCES += main.cpp
+SOURCES += main.cpp
 
 #############################################################
 QT += gui

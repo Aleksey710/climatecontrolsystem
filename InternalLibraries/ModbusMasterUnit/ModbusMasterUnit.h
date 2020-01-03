@@ -45,6 +45,15 @@
 
 //#include ".h"
 //#include ".h"
+
+//-------------------------------------------------------------------------
+//! В ModbusMasterUnit.pro
+//! #define CIRCULAR_PROCESSING_REQUEST
+//!
+//! Решение1 - циклическое выполнение всех запросов(по очереди)
+//! ИЛИ
+//! Решение2 - периодическая постановка запросов в очередь на выполнение
+//!
 //------------------------------------------------------------------------------------
 //!
 class ModbusMasterUnit : public QObject
@@ -59,8 +68,11 @@ class ModbusMasterUnit : public QObject
     public slots:
 
     private slots:
-        void executeQuery(ModbusRequest *request);
+#ifdef CIRCULAR_PROCESSING_REQUEST
 
+#else
+        void executeQuery(ModbusRequest *request);
+#endif // CIRCULAR_PROCESSING_REQUES
 
     private:
         QJsonObject loadFile(const QString &fileName);
@@ -75,8 +87,20 @@ class ModbusMasterUnit : public QObject
     private:
         ModbusMasterHandler *m_handler;
 
+#ifdef CIRCULAR_PROCESSING_REQUEST
+        //! Решение1 - циклическое выполнение всех запросов(по очереди)
+        QList<ModbusRequest*> m_requestList;
+
+        const static int PERIOD_BETWEEN_REQUEST_MS = 1000;
+
+        QTimer *m_circularTimer;
+        int m_curentRequestId;
+#else
+        //! Решение2 - периодическая постановка запросов в очередь на выполнение
         QQueue<ModbusRequest*> m_requestQueue;
         QSemaphore m_requestQueueSemaphore;
+#endif // CIRCULAR_PROCESSING_REQUEST
+
 };
 //------------------------------------------------------------------------------------
 #endif // MODBUSMASTERUNIT_H

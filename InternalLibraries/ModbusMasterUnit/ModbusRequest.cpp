@@ -16,11 +16,16 @@ ModbusRequest::ModbusRequest(const ModbusConnectionSettings &connectionSettings,
                   .arg(deviceAddress)
                   );
 
+#ifndef CIRCULAR_PROCESSING_REQUEST
     QTimer *timer = new QTimer(this);
     connect(timer, &QTimer::timeout, [=](){
         emit wantExecuteQuery(this);
     });
     timer->start(period);
+#else
+
+#endif // CIRCULAR_PROCESSING_REQUEST
+
 }
 //------------------------------------------------------------------------------------
 //!

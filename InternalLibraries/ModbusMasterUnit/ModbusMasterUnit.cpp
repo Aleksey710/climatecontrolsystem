@@ -4,14 +4,49 @@
 //!
 ModbusMasterUnit::ModbusMasterUnit(QObject *parent)
                  :QObject(parent),
-                  m_handler ( new ModbusMasterHandler(this) ),
-                  m_requestQueueSemaphore ( 10 )
+                  m_handler ( new ModbusMasterHandler(this) )
+#ifdef CIRCULAR_PROCESSING_REQUEST
+                  ,m_circularTimer ( new QTimer(this) )
+                  ,m_curentRequestId ( 0 )
+#else
+                  ,m_requestQueueSemaphore ( 10 )
+#endif // CIRCULAR_PROCESSING_REQUEST
 {
     setObjectName("ModbusMasterUnit");
     //-------------------------------------------
 
     setup( loadFile( qApp->applicationDirPath()+"/conf/modbus.conf" ) );
 
+#ifdef CIRCULAR_PROCESSING_REQUEST
+    connect(m_circularTimer, &QTimer::timeout, [=](){
+
+        m_circularTimer->stop();
+
+        //--------------------------------------------------
+        ModbusRequest *request = m_requestList.at(m_curentRequestId);
+
+        SEND_TO_LOG( QString("%1 - Выполнение запроса [%2]-[%3]")
+                     .arg(objectName()).arg(m_curentRequestId).arg(request->objectName()) );
+
+        //--------------------------------------------------
+        m_curentRequestId++;
+
+        if(m_curentRequestId == m_requestList.size())
+        {
+            m_curentRequestId = 0;
+        }
+
+        //--------------------------------------------------
+        m_handler->reconnect(request->connectionSettings());
+
+        /*
+            Выполнение запроса
+        */
+
+        //--------------------------------------------------
+        m_circularTimer->start(PERIOD_BETWEEN_REQUEST_MS);
+    });
+#endif // CIRCULAR_PROCESSING_REQUES
 
     //-------------------------------------------
     SEND_TO_LOG( QString("%1 - создан").arg(objectName()) );
@@ -122,6 +157,10 @@ void ModbusMasterUnit::connectionParsing(const QJsonObject &connectionJsonObject
         const QJsonObject deviceJsonObject = value.toObject();
         deviceParsing(modbusConnectionSettings, deviceJsonObject);
     }
+#ifdef CIRCULAR_PROCESSING_REQUEST
+    //! Старт перебора запросов
+    m_circularTimer->start(PERIOD_BETWEEN_REQUEST_MS);
+#endif // CIRCULAR_PROCESSING_REQUES
 }
 //------------------------------------------------------------------------------------
 //!
@@ -177,14 +216,19 @@ void ModbusMasterUnit::deviceParsing(const ModbusConnectionSettings &modbusConne
                                                      addr,
                                                      1000,
                                                      this);
-
+#ifndef CIRCULAR_PROCESSING_REQUEST
     connect(modbusRequest, &ModbusRequest::wantExecuteQuery,
             this, &ModbusMasterUnit::executeQuery);
+#else
+    m_requestList.append(modbusRequest);
+#endif // CIRCULAR_PROCESSING_REQUEST
 }
 //------------------------------------------------------------------------------------
 //!
+#ifndef CIRCULAR_PROCESSING_REQUEST
 void ModbusMasterUnit::executeQuery(ModbusRequest *request)
 {
+
     SEND_TO_LOG( QString("%1 - Постановка запроса в очередь на выполнение [%2]")
                  .arg(objectName()).arg(request->objectName()) );
 
@@ -202,12 +246,16 @@ void ModbusMasterUnit::executeQuery(ModbusRequest *request)
     //------------------------------------------------------------
     //! Из другого потока
     //------------------------------------------------------------
+    SEND_TO_LOG( QString("%1 - Выемка запроса из очереди на выполнение [%2]")
+                 .arg(objectName()).arg(request->objectName()) );
+
     ModbusRequest *requestFromQueue = m_requestQueue.dequeue();
 
     m_handler->reconnect(requestFromQueue->connectionSettings());
 
     m_requestQueueSemaphore.release();
 }
+#endif // CIRCULAR_PROCESSING_REQUEST
 //------------------------------------------------------------------------------------
 //!
 void ModbusMasterUnit::startWorkInAThread(const ModbusConnectionSettings &modbusConnectionSettings)

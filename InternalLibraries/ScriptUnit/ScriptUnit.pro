@@ -16,6 +16,9 @@ include($$ROOT_PATH/easylogging++.pri)
 TEMPLATE    = lib
 CONFIG      += staticlib
 
+QT -= gui
+QT -= widgets
+
 DEPENDPATH  = $$ROOT_PATH/lib
 DESTDIR     = $$ROOT_PATH/lib
 
@@ -24,13 +27,23 @@ DESTDIR     = $$ROOT_PATH/lib
 #DEPENDPATH += $$ROOT_PATH/bin/
 #DESTDIR     = $$ROOT_PATH/bin/
 
+#QT += gui
+#QT += widgets
+
 #CONFIG += console
 
-#SOURCES += main.cpp
+#HEADERS += \
+#    View/RegisterDataProcessingForm.h \
+#    View/ScriptHighlighter.h
+
+#SOURCES += main.cpp \
+#    View/RegisterDataProcessingForm.cpp \
+#    View/ScriptHighlighter.cpp
+
+#FORMS += \
+#    View/RegisterDataProcessingForm.ui
 #############################################################
 QT += core
-QT += gui
-QT += widgets
 QT += sql
 QT += script
 QT += scripttools
@@ -42,38 +55,24 @@ INCLUDEPATH += $$ROOT_PATH/InternalLibraries/DbUnit
 INCLUDEPATH += $$ROOT_PATH/InternalLibraries/DbUnit/ArchiveForms
 
 INCLUDEPATH += ./
-INCLUDEPATH += ./DataSources
 INCLUDEPATH += ./View
 #############################################################
 
 HEADERS += \
     CustomFunctions.h \
-    DataSources/DataSourceScriptObject.h \
     ScriptEngine.h \
     ScriptObject.h \
     ScriptUnit.h \
-    ScriptUnitConfigurator.h \
-    View/RegisterDataProcessingForm.h \
-    View/ScriptHighlighter.h
 
 
 SOURCES += \
-    DataSources/DataSourceScriptObject.cpp \
     ScriptObject.cpp \
     ScriptUnit.cpp \
     CustomFunctions.cpp \
     ScriptEngine.cpp \
-    ScriptUnitConfigurator.cpp \
-    View/RegisterDataProcessingForm.cpp \
-    View/ScriptHighlighter.cpp
-
-
-
-
 
 
 FORMS += \
-    View/RegisterDataProcessingForm.ui
 
 
 

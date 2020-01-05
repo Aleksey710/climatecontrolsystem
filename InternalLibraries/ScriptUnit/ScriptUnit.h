@@ -22,7 +22,6 @@
 
 #include "Log.h"
 #include "ScriptEngine.h"
-#include "ScriptUnitConfigurator.h"
 #include "DbUnit.h"
 #include "ScriptObject.h"
 //#include ""

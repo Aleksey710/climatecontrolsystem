@@ -6,7 +6,9 @@ ModbusRequest::ModbusRequest(const ModbusConnectionSettings &connectionSettings,
                              const quint16 serverAddress,
                              const QModbusPdu::FunctionCode functionCode,
                              const QModbusDataUnit &modbusDataUnit,
+#ifndef CIRCULAR_PROCESSING_REQUEST
                              const int period,
+#endif // CIRCULAR_PROCESSING_REQUEST
                              QObject *parent)
               :QObject(parent),
                m_connectionSettings ( connectionSettings ),

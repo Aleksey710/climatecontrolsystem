@@ -272,7 +272,9 @@ void ModbusMasterUnit::deviceParsing(const ModbusConnectionSettings &modbusConne
                                                      serverAddress,
                                                      functionCode,
                                                      modbusDataUnit,
+#ifndef CIRCULAR_PROCESSING_REQUEST
                                                      1000,
+#endif // CIRCULAR_PROCESSING_REQUEST
                                                      this);
 #ifndef CIRCULAR_PROCESSING_REQUEST
     connect(modbusRequest, &ModbusRequest::wantExecuteQuery,

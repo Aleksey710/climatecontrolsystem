@@ -4,7 +4,8 @@
 //!
 ModbusMasterHandler::ModbusMasterHandler(QObject *parent)
                     :QObject(parent),
-                     m_modbusDevice( nullptr )
+                     m_modbusDevice ( nullptr ),
+                     m_curentModbusRequest ( nullptr )
 {
     setObjectName("ModbusMasterHandler");
     //-------------------------------------------
@@ -25,6 +26,7 @@ ModbusMasterHandler::~ModbusMasterHandler()
 //!
 void ModbusMasterHandler::exequteRequest(ModbusRequest *request)
 {
+    m_curentModbusRequest = request;
     SEND_TO_LOG( QString("%1 - -----------------------------").arg(objectName()) );
     SEND_TO_LOG( QString("%1 - --- start exequte request ---").arg(objectName()) );
     //! Подключение
@@ -307,6 +309,9 @@ void ModbusMasterHandler::replyHandler(QModbusReply *reply)
     {
         const QModbusDataUnit unit = reply->result();
 
+        //-----------------------------------
+        m_curentModbusRequest->setModbusDataUnit(unit);
+        //-----------------------------------
         for (uint i = 0; i < unit.valueCount(); i++)
         {
             const QString entry = tr("Address: %1, Value: %2")
@@ -334,6 +339,7 @@ void ModbusMasterHandler::replyHandler(QModbusReply *reply)
 
     reply->deleteLater();
 
+    //-----------------------------------
     SEND_TO_LOG( QString("%1 - --- end exequte request -----").arg(objectName()) );
     SEND_TO_LOG( QString("%1 - -----------------------------").arg(objectName()) );
 

@@ -1,16 +1,26 @@
 #ifndef MODBUSREQUEST_H
 #define MODBUSREQUEST_H
 //------------------------------------------------------------------------------------
+#include <tuple>
 #include <QObject>
 #include <QModbusDataUnit>
 #include <QTimer>
 #include <QModbusPdu>
 //#include <>
 //#include <>
+//#include <>
+//#include <>
+//#include <>
 
 
+//#include ".h"
+//#include ".h"
+//#include ".h"
 
+#include "Log.h"
 #include "ModbusConnectionSettings.h"
+#include "ScriptObject.h"
+#include "ScriptUnit.h"
 //------------------------------------------------------------------------------------
 //!
 class ModbusRequest : public QObject
@@ -18,11 +28,11 @@ class ModbusRequest : public QObject
         Q_OBJECT
     public:
         explicit ModbusRequest(const ModbusConnectionSettings &connectionSettings,
-                               const quint16 serverAddress,
-                               const QModbusPdu::FunctionCode functionCode,
-                               const QModbusDataUnit &modbusDataUnit,
+                               const quint16 &serverAddress,
+                               const QModbusPdu::FunctionCode &functionCode,
+                               QList< std::tuple<int, QString, QString> > &registerList, // Будет отсортирован
 #ifndef CIRCULAR_PROCESSING_REQUEST
-                               const int period,
+                               const int &period,
 #endif // CIRCULAR_PROCESSING_REQUEST
                                QObject *parent = nullptr);
         virtual ~ModbusRequest();
@@ -39,6 +49,8 @@ class ModbusRequest : public QObject
         inline QModbusDataUnit& modbusDataUnit()
             { return m_modbusDataUnit; }
 
+        void setModbusDataUnit(const QModbusDataUnit &dataUnit);
+
     public slots:
         void processRequest();
 
@@ -47,10 +59,15 @@ class ModbusRequest : public QObject
         void wantExecuteQuery(ModbusRequest *request);
 
     private:
-        ModbusConnectionSettings    m_connectionSettings;
-        quint16                     m_serverAddress;
-        QModbusPdu::FunctionCode    m_functionCode;
-        QModbusDataUnit             m_modbusDataUnit;
+        QModbusDataUnit::RegisterType registerTypeFromFunctionCode(const QModbusPdu::FunctionCode &functionCode);
+
+    private:
+        ModbusConnectionSettings        m_connectionSettings;
+        quint16                         m_serverAddress;
+        QModbusPdu::FunctionCode        m_functionCode;
+        QModbusDataUnit                 m_modbusDataUnit;
+
+        QHash<quint16, ScriptObject*>   m_scriptObjectList;
 };
 //------------------------------------------------------------------------------------
 #endif // MODBUSREQUEST_H

@@ -189,93 +189,33 @@ void ModbusMasterUnit::deviceParsing(const ModbusConnectionSettings &modbusConne
     const QString title                         = deviceJsonObject.value("title").toString();
     const QModbusPdu::FunctionCode functionCode = static_cast<QModbusPdu::FunctionCode>(deviceJsonObject.value("functionCode").toInt());
 
-    QJsonArray registersJsonArray   = deviceJsonObject.value("registers").toArray();
+    QJsonArray registersJsonArray               = deviceJsonObject.value("registers").toArray();
 
-    QList<int> addressRegList;
+    QList< std::tuple<int, QString, QString> > registerList;
 
     foreach (const QJsonValue &value, registersJsonArray)
     {
         const QJsonObject registerJsonObject = value.toObject();
 
         const int id          = registerJsonObject.value("id").toInt();
-        addressRegList.append(id);
-
         const QString name    = registerJsonObject.value("name").toString();
         const QString title   = registerJsonObject.value("title").toString();
 
-        ScriptObject *scriptObject = ScriptUnit::getScriptObject(name);
-        if(scriptObject)
-        {
-            SEND_TO_LOG( QString("%1 - modbus register connected [%2])")
-                         .arg(objectName()).arg(name) );
+        std::tuple<int, QString, QString> reg = std::make_tuple(id, name, title);
 
-    //        connect(scriptObject, &ScriptObject::dataChanged, [=](){
-    //            label->setText(QString("%1").arg(scriptObject->data()));
-    //        });
-        } else
-        {
-            SEND_TO_LOG( QString("%1 - ERROR (У регистра нет назначения [%2])")
-                         .arg(objectName()).arg(name) );
-        }
+        registerList.append( reg );
     }
-
-    //--------------------------------------------
-    //! Отсортировать адреса по возростающей
-    std::sort(addressRegList.begin(), addressRegList.end(), [] (int lh, int rh) { return lh < rh; });
-
-    int newStartAddress = addressRegList.at(0);
-    int size = addressRegList.last() - addressRegList.first();
-
-    //--------------------------------------------
-    QModbusDataUnit::RegisterType type;
-
-    //! Выполнение запроса
-    switch (functionCode)
-    {
-        case QModbusPdu::Invalid:                   type = QModbusDataUnit::Invalid;            break;
-        //-------------------------
-        case QModbusPdu::ReadCoils:                 type = QModbusDataUnit::Coils;              break;
-        case QModbusPdu::ReadDiscreteInputs:        type = QModbusDataUnit::DiscreteInputs;     break;
-        case QModbusPdu::ReadHoldingRegisters:      type = QModbusDataUnit::HoldingRegisters;   break;
-        case QModbusPdu::ReadInputRegisters:        type = QModbusDataUnit::InputRegisters;     break;
-        case QModbusPdu::WriteSingleCoil:           type = QModbusDataUnit::Coils;              break;
-        case QModbusPdu::WriteSingleRegister:       type = QModbusDataUnit::HoldingRegisters;   break;
-        //-------------------------
-        case QModbusPdu::ReadExceptionStatus:       type = QModbusDataUnit::Invalid;            break;
-        case QModbusPdu::Diagnostics:               type = QModbusDataUnit::Invalid;            break;
-        case QModbusPdu::GetCommEventCounter:       type = QModbusDataUnit::Invalid;            break;
-        case QModbusPdu::GetCommEventLog:           type = QModbusDataUnit::Invalid;            break;
-        //-------------------------
-        case QModbusPdu::WriteMultipleCoils:        type = QModbusDataUnit::Coils;              break;
-        case QModbusPdu::WriteMultipleRegisters:    type = QModbusDataUnit::HoldingRegisters;   break;
-        //-------------------------
-        case QModbusPdu::ReportServerId:
-        case QModbusPdu::ReadFileRecord:
-        case QModbusPdu::WriteFileRecord:
-        case QModbusPdu::MaskWriteRegister:
-        case QModbusPdu::ReadFifoQueue:
-        case QModbusPdu::EncapsulatedInterfaceTransport:
-        case QModbusPdu::UndefinedFunctionCode:
-        default:
-            type = QModbusDataUnit::Invalid;
-            SEND_TO_LOG( QString("%1 - Попытка выполнить необрабатываемую функцию [%2]")
-                         .arg(objectName()).arg(functionCode) );
-            break;
-    }
-    //--------------------------------------------
-    QModbusDataUnit modbusDataUnit(type,
-                                   newStartAddress,
-                                   size);
 
     //--------------------------------------------
     ModbusRequest *modbusRequest = new ModbusRequest(modbusConnectionSettings,
                                                      serverAddress,
-                                                     functionCode,
-                                                     modbusDataUnit,
+                                                     functionCode,                                                
+                                                     registerList,
 #ifndef CIRCULAR_PROCESSING_REQUEST
                                                      1000,
 #endif // CIRCULAR_PROCESSING_REQUEST
                                                      this);
+
 #ifndef CIRCULAR_PROCESSING_REQUEST
     connect(modbusRequest, &ModbusRequest::wantExecuteQuery,
             this, &ModbusMasterUnit::executeQuery);

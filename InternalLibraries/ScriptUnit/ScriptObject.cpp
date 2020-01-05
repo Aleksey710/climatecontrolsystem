@@ -21,7 +21,7 @@ ScriptObject::ScriptObject(const QString &name,
 
     //----------------------------------------------------------
     //! test
-
+/*
     QTimer *timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, [=](){
 
@@ -30,7 +30,7 @@ ScriptObject::ScriptObject(const QString &name,
         setData(value);
     });
     timer->start(1000);
-
+*/
     //----------------------------------------------------------
     //SEND_TO_LOG( QString("%1 - создан").arg(objectName()))
 }

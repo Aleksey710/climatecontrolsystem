@@ -13,39 +13,47 @@ ModbusMasterUnit::ModbusMasterUnit(QObject *parent)
 #endif // CIRCULAR_PROCESSING_REQUEST
 {
     setObjectName("ModbusMasterUnit");
-    //-------------------------------------------
 
+    //-------------------------------------------
     setup( loadFile( qApp->applicationDirPath()+"/conf/modbus.conf" ) );
 
 #ifdef CIRCULAR_PROCESSING_REQUEST
+    //! После окончания паузы запустить на выполнение следующий запрос
     connect(m_circularTimer, &QTimer::timeout, [=](){
 
         m_circularTimer->stop();
 
-        //--------------------------------------------------
-        ModbusRequest *request = m_requestList.at(m_curentRequestId);
-
-        SEND_TO_LOG( QString("%1 - Выполнение запроса [%2]-[%3]")
-                     .arg(objectName()).arg(m_curentRequestId).arg(request->objectName()) );
-
-        //--------------------------------------------------
-        m_curentRequestId++;
-
-        if(m_curentRequestId == m_requestList.size())
+        //! Если в конфигурации существуют корректно описанные запросы
+        if(m_requestList.size() > 0)
         {
-            m_curentRequestId = 0;
+            //--------------------------------------------------
+            ModbusRequest *request = m_requestList.at(m_curentRequestId);
+
+            SEND_TO_LOG( QString("%1 - Выполнение запроса [%2]-[%3]")
+                         .arg(objectName()).arg(m_curentRequestId).arg(request->objectName()) );
+
+            //--------------------------------------------------
+            m_curentRequestId++;
+
+            if(m_curentRequestId == m_requestList.size())
+            {
+                m_curentRequestId = 0;
+            }
+
+            //--------------------------------------------------
+            m_handler->exequteRequest(request);
         }
+    });
 
-        //--------------------------------------------------
-        m_handler->reconnect(request->connectionSettings());
-
-        /*
-            Выполнение запроса
-        */
-
-        //--------------------------------------------------
+    //! При получении сигнала о выполнении запроса
+    //! Запустить таймер паузы
+    connect(m_handler, &ModbusMasterHandler::exequted, [=](){
         m_circularTimer->start(PERIOD_BETWEEN_REQUEST_MS);
     });
+
+    //! Начальный запуск опросов
+    m_circularTimer->start(100);
+
 #endif // CIRCULAR_PROCESSING_REQUES
 
     //-------------------------------------------
@@ -101,7 +109,12 @@ void ModbusMasterUnit::setup(const QJsonObject &confJsonObject)
     foreach (const QJsonValue &value, connectionsJsonArray)
     {
         const QJsonObject connectionJsonObject = value.toObject();
-        connectionParsing(connectionJsonObject);
+
+        //! Если есть признак использования - обработать
+        if( connectionJsonObject.value("isUsed").toBool() )
+        {
+            connectionParsing(connectionJsonObject);
+        }
     }
 }
 //------------------------------------------------------------------------------------
@@ -155,7 +168,12 @@ void ModbusMasterUnit::connectionParsing(const QJsonObject &connectionJsonObject
     foreach (const QJsonValue &value, devicesJsonArray)
     {
         const QJsonObject deviceJsonObject = value.toObject();
-        deviceParsing(modbusConnectionSettings, deviceJsonObject);
+
+        //! Если есть признак использования - обработать
+        if( deviceJsonObject.value("isUsed").toBool() )
+        {
+            deviceParsing(modbusConnectionSettings, deviceJsonObject);
+        }
     }
 #ifdef CIRCULAR_PROCESSING_REQUEST
     //! Старт перебора запросов
@@ -167,9 +185,9 @@ void ModbusMasterUnit::connectionParsing(const QJsonObject &connectionJsonObject
 void ModbusMasterUnit::deviceParsing(const ModbusConnectionSettings &modbusConnectionSettings,
                                      const QJsonObject &deviceJsonObject)
 {
-    const int addr          = deviceJsonObject.value("addr").toInt();
-    const QString title     = deviceJsonObject.value("title").toString();
-    const int funktion      = static_cast<QModbusPdu::FunctionCode>(deviceJsonObject.value("funktion").toInt());
+    const quint16 serverAddress                 = static_cast<quint16>(deviceJsonObject.value("serverAddress").toInt());
+    const QString title                         = deviceJsonObject.value("title").toString();
+    const QModbusPdu::FunctionCode functionCode = static_cast<QModbusPdu::FunctionCode>(deviceJsonObject.value("functionCode").toInt());
 
     QJsonArray registersJsonArray   = deviceJsonObject.value("registers").toArray();
 
@@ -201,19 +219,59 @@ void ModbusMasterUnit::deviceParsing(const ModbusConnectionSettings &modbusConne
         }
     }
 
+    //--------------------------------------------
+    //! Отсортировать адреса по возростающей
     std::sort(addressRegList.begin(), addressRegList.end(), [] (int lh, int rh) { return lh < rh; });
 
-    QModbusDataUnit::RegisterType type = QModbusDataUnit::HoldingRegisters;
     int newStartAddress = addressRegList.at(0);
     int size = addressRegList.last() - addressRegList.first();
 
+    //--------------------------------------------
+    QModbusDataUnit::RegisterType type;
+
+    //! Выполнение запроса
+    switch (functionCode)
+    {
+        case QModbusPdu::Invalid:                   type = QModbusDataUnit::Invalid;            break;
+        //-------------------------
+        case QModbusPdu::ReadCoils:                 type = QModbusDataUnit::Coils;              break;
+        case QModbusPdu::ReadDiscreteInputs:        type = QModbusDataUnit::DiscreteInputs;     break;
+        case QModbusPdu::ReadHoldingRegisters:      type = QModbusDataUnit::HoldingRegisters;   break;
+        case QModbusPdu::ReadInputRegisters:        type = QModbusDataUnit::InputRegisters;     break;
+        case QModbusPdu::WriteSingleCoil:           type = QModbusDataUnit::Coils;              break;
+        case QModbusPdu::WriteSingleRegister:       type = QModbusDataUnit::HoldingRegisters;   break;
+        //-------------------------
+        case QModbusPdu::ReadExceptionStatus:       type = QModbusDataUnit::Invalid;            break;
+        case QModbusPdu::Diagnostics:               type = QModbusDataUnit::Invalid;            break;
+        case QModbusPdu::GetCommEventCounter:       type = QModbusDataUnit::Invalid;            break;
+        case QModbusPdu::GetCommEventLog:           type = QModbusDataUnit::Invalid;            break;
+        //-------------------------
+        case QModbusPdu::WriteMultipleCoils:        type = QModbusDataUnit::Coils;              break;
+        case QModbusPdu::WriteMultipleRegisters:    type = QModbusDataUnit::HoldingRegisters;   break;
+        //-------------------------
+        case QModbusPdu::ReportServerId:
+        case QModbusPdu::ReadFileRecord:
+        case QModbusPdu::WriteFileRecord:
+        case QModbusPdu::MaskWriteRegister:
+        case QModbusPdu::ReadFifoQueue:
+        case QModbusPdu::EncapsulatedInterfaceTransport:
+        case QModbusPdu::UndefinedFunctionCode:
+        default:
+            type = QModbusDataUnit::Invalid;
+            SEND_TO_LOG( QString("%1 - Попытка выполнить необрабатываемую функцию [%2]")
+                         .arg(objectName()).arg(functionCode) );
+            break;
+    }
+    //--------------------------------------------
     QModbusDataUnit modbusDataUnit(type,
                                    newStartAddress,
                                    size);
 
     //--------------------------------------------
     ModbusRequest *modbusRequest = new ModbusRequest(modbusConnectionSettings,
-                                                     addr,
+                                                     serverAddress,
+                                                     functionCode,
+                                                     modbusDataUnit,
                                                      1000,
                                                      this);
 #ifndef CIRCULAR_PROCESSING_REQUEST

@@ -23,10 +23,53 @@ ModbusMasterHandler::~ModbusMasterHandler()
 }
 //------------------------------------------------------------------------------------
 //!
+void ModbusMasterHandler::exequteRequest(ModbusRequest *request)
+{
+    SEND_TO_LOG( QString("%1 - -----------------------------").arg(objectName()) );
+    SEND_TO_LOG( QString("%1 - --- start exequte request ---").arg(objectName()) );
+    //! Подключение
+    reconnect(request->connectionSettings());
+
+    //! Выполнение запроса
+    switch (request->functionCode())
+    {
+        case QModbusPdu::ReadCoils:
+        case QModbusPdu::ReadDiscreteInputs:
+        case QModbusPdu::ReadHoldingRegisters:
+        case QModbusPdu::ReadInputRegisters:
+            readRequest(request->serverAddress(), request->modbusDataUnit());
+            break;
+        case QModbusPdu::WriteSingleCoil:
+        case QModbusPdu::WriteSingleRegister:
+            writeRequest(request->serverAddress(), request->modbusDataUnit());
+            break;
+        //-------------------------
+        case QModbusPdu::Invalid:
+        //-------------------------
+        case QModbusPdu::ReadExceptionStatus:
+        case QModbusPdu::Diagnostics:
+        case QModbusPdu::GetCommEventCounter:
+        case QModbusPdu::GetCommEventLog:
+        case QModbusPdu::WriteMultipleCoils:
+        case QModbusPdu::WriteMultipleRegisters:
+        case QModbusPdu::ReportServerId:
+        case QModbusPdu::ReadFileRecord:
+        case QModbusPdu::WriteFileRecord:
+        case QModbusPdu::MaskWriteRegister:
+        case QModbusPdu::ReadFifoQueue:
+        case QModbusPdu::EncapsulatedInterfaceTransport:
+        case QModbusPdu::UndefinedFunctionCode:
+        default:
+            SEND_TO_LOG( QString("%1 - Попытка выполнить необрабатываемую функцию [%2]")
+                         .arg(objectName()).arg(request->functionCode()) );
+            break;
+    }
+    //m_handler->readWriteRequest(request->serverAddress(), readDataUnit, writeDataUnit);
+}
+//------------------------------------------------------------------------------------
+//!
 void ModbusMasterHandler::reconnect(const ModbusConnectionSettings &modbusConnectionSettings)
 {
-    m_modbusConnectionSettings = std::make_shared<ModbusConnectionSettings>( modbusConnectionSettings );
-
     //! Удалить предыдущий обработчик устройства
     if (m_modbusDevice)
     {
@@ -35,9 +78,9 @@ void ModbusMasterHandler::reconnect(const ModbusConnectionSettings &modbusConnec
         m_modbusDevice = nullptr;
     }
 
-    setObjectName( QString("ModbusMasterUnit[%1]").arg(m_modbusConnectionSettings->connectionName) );
+    setObjectName( QString("ModbusMasterHandler[%1]").arg(modbusConnectionSettings.connectionName) );
 
-    ModbusConnection modbusConnectionType = m_modbusConnectionSettings->modbusConnectionType;
+    ModbusConnection modbusConnectionType = modbusConnectionSettings.modbusConnectionType;
 
     //! Создать обработчик устройства
     if (modbusConnectionType == Serial)
@@ -70,54 +113,50 @@ void ModbusMasterHandler::reconnect(const ModbusConnectionSettings &modbusConnec
         connect(m_modbusDevice, &QModbusClient::stateChanged,
                 [this](QModbusDevice::State state) {
 
-            QString stateString;
-
             switch (state)
             {
                 case QModbusDevice::UnconnectedState:
-                    stateString = "UnconnectedState";
+                    SEND_TO_LOG( QString("%1 - UnconnectedState").arg(objectName()) );
                     break;
                 case QModbusDevice::ConnectingState:
-                    stateString = "ConnectingState";
+                    //SEND_TO_LOG( QString("%1 - ConnectingState").arg(objectName()) );
                     break;
                 case QModbusDevice::ConnectedState:
-                    stateString = "ConnectedState";
+                    //SEND_TO_LOG( QString("%1 - ConnectedState").arg(objectName()) );
                     break;
                 case QModbusDevice::ClosingState:
-                    stateString = "ClosingState";
+                    //SEND_TO_LOG( QString("%1 - ClosingState").arg(objectName()) );
                     break;
                 default:
                     break;
             }
-
-            SEND_TO_LOG( QString("%1 - %2").arg(objectName()).arg(stateString) );
         });
     }
 
     //--------------------------------------------------
     if (m_modbusDevice->state() != QModbusDevice::ConnectedState)
     {
-        if (m_modbusConnectionSettings->modbusConnectionType == Serial)
+        if (modbusConnectionSettings.modbusConnectionType == Serial)
         {
             m_modbusDevice->setConnectionParameter(QModbusDevice::SerialPortNameParameter,
-                m_modbusConnectionSettings->serialPortNameParameter);
+                modbusConnectionSettings.serialPortNameParameter);
             m_modbusDevice->setConnectionParameter(QModbusDevice::SerialParityParameter,
-                m_modbusConnectionSettings->serialParityParameter);
+                modbusConnectionSettings.serialParityParameter);
             m_modbusDevice->setConnectionParameter(QModbusDevice::SerialBaudRateParameter,
-                m_modbusConnectionSettings->serialBaudRateParameter);
+                modbusConnectionSettings.serialBaudRateParameter);
             m_modbusDevice->setConnectionParameter(QModbusDevice::SerialDataBitsParameter,
-                m_modbusConnectionSettings->serialDataBitsParameter);
+                modbusConnectionSettings.serialDataBitsParameter);
             m_modbusDevice->setConnectionParameter(QModbusDevice::SerialStopBitsParameter,
-                m_modbusConnectionSettings->serialStopBitsParameter);
+                modbusConnectionSettings.serialStopBitsParameter);
         } else {
             m_modbusDevice->setConnectionParameter(QModbusDevice::NetworkPortParameter,
-                m_modbusConnectionSettings->networkPortParameter);
+                modbusConnectionSettings.networkPortParameter);
             m_modbusDevice->setConnectionParameter(QModbusDevice::NetworkAddressParameter,
-                m_modbusConnectionSettings->networkAddressParameter);
+                modbusConnectionSettings.networkAddressParameter);
         }
 
-        m_modbusDevice->setTimeout(m_modbusConnectionSettings->responseTime);
-        m_modbusDevice->setNumberOfRetries(m_modbusConnectionSettings->numberOfRetries);
+        m_modbusDevice->setTimeout(modbusConnectionSettings.responseTime);
+        m_modbusDevice->setNumberOfRetries(modbusConnectionSettings.numberOfRetries);
 
         if (!m_modbusDevice->connectDevice())
         {
@@ -128,7 +167,7 @@ void ModbusMasterHandler::reconnect(const ModbusConnectionSettings &modbusConnec
         {
             SEND_TO_LOG( QString("%1 - [%2] - is connected")
                          .arg(objectName())
-                         .arg(m_modbusConnectionSettings->connectionName) );
+                         .arg(modbusConnectionSettings.connectionName) );
         }
     } else {
         m_modbusDevice->disconnectDevice();
@@ -138,6 +177,8 @@ void ModbusMasterHandler::reconnect(const ModbusConnectionSettings &modbusConnec
 //!
 void ModbusMasterHandler::readRequest(const int serverAddress, QModbusDataUnit &readDataUnit)
 {
+    SEND_TO_LOG( QString("%1 - read request addr[%2]").arg(objectName()).arg(serverAddress) );
+
     if (!m_modbusDevice)
         return;
 
@@ -253,6 +294,12 @@ void ModbusMasterHandler::readReady()
 {
     auto reply = qobject_cast<QModbusReply *>(sender());
 
+    replyHandler(reply);
+}
+//------------------------------------------------------------------------------------
+//!
+void ModbusMasterHandler::replyHandler(QModbusReply *reply)
+{
     if (!reply)
         return;
 
@@ -267,14 +314,15 @@ void ModbusMasterHandler::readReady()
                                   .arg(QString::number(unit.value(i),
                                                        unit.registerType() <= QModbusDataUnit::Coils ? 10 : 16)
                                        );
-            //ui->readValue->addItem(entry);
+            SEND_TO_LOG( QString("%1 - data: %2").arg(objectName()).arg(entry) );
         }
     } else if (reply->error() == QModbusDevice::ProtocolError)
     {
-        SEND_TO_LOG( QString("%1 - Read response error: %2 (Mobus exception: 0x%3)")
+        SEND_TO_LOG( QString("%1 - Read response error: %2 (Mobus exception: 0x%3 [%4])")
                      .arg(objectName())
                      .arg(reply->errorString())
                      .arg(reply->rawResult().exceptionCode(), -1, 16)
+                     .arg(modbusExceptionCodeToString(reply->rawResult().exceptionCode()))
                    );
     } else {
         SEND_TO_LOG( QString("%1 - Read response error: %2 (code: 0x%3)")
@@ -285,7 +333,95 @@ void ModbusMasterHandler::readReady()
     }
 
     reply->deleteLater();
+
+    SEND_TO_LOG( QString("%1 - --- end exequte request -----").arg(objectName()) );
+    SEND_TO_LOG( QString("%1 - -----------------------------").arg(objectName()) );
+
+    emit exequted();
 }
+//------------------------------------------------------------------------------------
+//!
+QString ModbusMasterHandler::modbusExceptionCodeToString(const QModbusPdu::ExceptionCode &code)
+{
+    switch (code)
+    {
+        case QModbusPdu::IllegalFunction:
+            return "Illegal function";
+            break;
+        case QModbusPdu::IllegalDataAddress:
+            return "Illegal data address";
+            break;
+        case QModbusPdu::IllegalDataValue:
+            return "Illegal data value";
+            break;
+        case QModbusPdu::ServerDeviceFailure:
+            return "Server device failure";
+            break;
+        case QModbusPdu::Acknowledge:
+            return "Acknowledge";
+            break;
+        case QModbusPdu::ServerDeviceBusy:
+            return "Server device busy";
+            break;
+        case QModbusPdu::NegativeAcknowledge:
+            return "Negative acknowledge";
+            break;
+        case QModbusPdu::MemoryParityError:
+            return "Memory parity error";
+            break;
+        case QModbusPdu::GatewayPathUnavailable:
+            return "Gateway path unavailable";
+            break;
+        case QModbusPdu::GatewayTargetDeviceFailedToRespond:
+            return "Gateway target device failed to respond";
+            break;
+        case QModbusPdu::ExtendedException:
+            return "Extended exception";
+            break;
+        default:
+            break;
+    }
+    return QString();
+}
+//------------------------------------------------------------------------------------
+//!
+/*
+QString ModbusMasterHandler::modbusDeviceErrorToString(const QModbusDevice::Error &error)
+{
+    switch (error)
+    {
+        case QModbusDevice::NoError:
+            return "No error";
+            break;
+        case QModbusDevice::ReadError:
+            return "Read error";
+            break;
+        case QModbusDevice::WriteError:
+            return "Write error";
+            break;
+        case QModbusDevice::ConnectionError:
+            return "Connection error";
+            break;
+        case QModbusDevice::ConfigurationError:
+            return "Configuration error";
+            break;
+        case QModbusDevice::TimeoutError:
+            return "Timeout error";
+            break;
+        case QModbusDevice::ProtocolError:
+            return "Protocol error";
+            break;
+        case QModbusDevice::ReplyAbortedError:
+            return "ReplyAborted error";
+            break;
+        case QModbusDevice::UnknownError:
+            return "Unknown error";
+            break;
+        default:
+            break;
+    }
+}
+*/
 /*
 //------------------------------------------------------------------------------------
 //!

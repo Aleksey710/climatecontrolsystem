@@ -16,7 +16,7 @@
 #include "Log.h"
 #include "ModbusConnection.h"
 #include "ModbusConnectionSettings.h"
-//#include ""
+#include "ModbusRequest.h"
 //#include ""
 //------------------------------------------------------------------------------------
 //!
@@ -28,7 +28,12 @@ class ModbusMasterHandler : public QObject
 
         virtual ~ModbusMasterHandler();
 
+    signals:
+        void exequted();
+
     public slots:
+        void exequteRequest(ModbusRequest *request);
+
         void reconnect(const ModbusConnectionSettings &modbusConnectionSettings);
 
         void readRequest(const int serverAddress, QModbusDataUnit &readDataUnit);
@@ -41,13 +46,13 @@ class ModbusMasterHandler : public QObject
         void readReady();
 
     private:
-
+        void replyHandler(QModbusReply *reply);
+        QString modbusExceptionCodeToString(const QModbusPdu::ExceptionCode &code);
 
     private:
         QModbusClient *m_modbusDevice;
 
-        std::shared_ptr<ModbusConnectionSettings> m_modbusConnectionSettings;
-
+        ModbusRequest *m_curentModbusRequest;
 };
 //------------------------------------------------------------------------------------
 #endif // MODBUSMASTERHANDLER_H

@@ -63,7 +63,6 @@ SOURCES += \
 
 HEADERS  += \
     ModbusConnection.h \
-    ModbusConnectionController.h \
     ModbusConnectionSettings.h \
     ModbusMasterHandler.h \
     ModbusMasterUnit.h \

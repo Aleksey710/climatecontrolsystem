@@ -37,7 +37,6 @@
 #include "ModbusConnection.h"
 #include "ModbusConnectionSettings.h"
 #include "ModbusMasterHandler.h"
-#include "ModbusConnectionController.h"
 #include "ModbusRequest.h"
 //
 #include "ScriptObject.h"
@@ -81,8 +80,6 @@ class ModbusMasterUnit : public QObject
         void connectionParsing(const QJsonObject &connectionJsonObject);
         void deviceParsing(const ModbusConnectionSettings &modbusConnectionSettings,
                            const QJsonObject &deviceJsonObject);
-
-        void startWorkInAThread(const ModbusConnectionSettings &modbusConnectionSettings);
 
     private:
         ModbusMasterHandler *m_handler;

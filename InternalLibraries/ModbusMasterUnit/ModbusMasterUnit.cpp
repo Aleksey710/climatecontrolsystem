@@ -63,6 +63,15 @@ ModbusMasterUnit::ModbusMasterUnit(QObject *parent)
 //!
 ModbusMasterUnit::~ModbusMasterUnit()
 {
+    m_circularTimer->stop();
+
+    for (int i = 0; i < m_requestList.size(); ++i)
+    {
+        m_requestList.at(i)->deleteLater();
+    }
+
+    m_handler->deleteLater();
+
     SEND_TO_LOG( QString("%1 - удален").arg(objectName()) );
 }
 //------------------------------------------------------------------------------------
@@ -148,22 +157,23 @@ void ModbusMasterUnit::connectionParsing(const QJsonObject &connectionJsonObject
     const int numberOfRetries                   = connectionJsonObject.value("numberOfRetries").toInt();
     //
     //----------------------------------------------------------------
-    ModbusConnectionSettings modbusConnectionSettings(modbusConnectionType,
-                                                      //
-                                                      serialPortNameParameter,
-                                                      serialParityParameter,
-                                                      serialBaudRateParameter,
-                                                      serialDataBitsParameter,
-                                                      serialStopBitsParameter,
-                                                      //
-                                                      networkAddressParameter,
-                                                      networkPortParameter,
-                                                      //
-                                                      responseTime,
-                                                      numberOfRetries);
+    const ModbusConnectionSettings modbusConnectionSettings(
+        modbusConnectionType,
+        //
+        serialPortNameParameter,
+        serialParityParameter,
+        serialBaudRateParameter,
+        serialDataBitsParameter,
+        serialStopBitsParameter,
+        //
+        networkAddressParameter,
+        networkPortParameter,
+        //
+        responseTime,
+        numberOfRetries);
 
     //----------------------------------------------------------------
-    QJsonArray devicesJsonArray                 = connectionJsonObject.value("devices").toArray();
+    const QJsonArray devicesJsonArray            = connectionJsonObject.value("devices").toArray();
 
     foreach (const QJsonValue &value, devicesJsonArray)
     {
@@ -175,10 +185,6 @@ void ModbusMasterUnit::connectionParsing(const QJsonObject &connectionJsonObject
             deviceParsing(modbusConnectionSettings, deviceJsonObject);
         }
     }
-#ifdef CIRCULAR_PROCESSING_REQUEST
-    //! Старт перебора запросов
-    m_circularTimer->start(PERIOD_BETWEEN_REQUEST_MS);
-#endif // CIRCULAR_PROCESSING_REQUES
 }
 //------------------------------------------------------------------------------------
 //!
@@ -189,9 +195,10 @@ void ModbusMasterUnit::deviceParsing(const ModbusConnectionSettings &modbusConne
     const QString title                         = deviceJsonObject.value("title").toString();
     const QModbusPdu::FunctionCode functionCode = static_cast<QModbusPdu::FunctionCode>(deviceJsonObject.value("functionCode").toInt());
 
-    QJsonArray registersJsonArray               = deviceJsonObject.value("registers").toArray();
+    const QJsonArray registersJsonArray         = deviceJsonObject.value("registers").toArray();
 
     QList< std::tuple<int, QString, QString> > registerList;
+    registerList.reserve(10);
 
     foreach (const QJsonValue &value, registersJsonArray)
     {
@@ -258,15 +265,4 @@ void ModbusMasterUnit::executeQuery(ModbusRequest *request)
 #endif // CIRCULAR_PROCESSING_REQUEST
 //------------------------------------------------------------------------------------
 //!
-void ModbusMasterUnit::startWorkInAThread(const ModbusConnectionSettings &modbusConnectionSettings)
-{
-    ModbusConnectionController *modbusConnectionController
-            = new ModbusConnectionController(modbusConnectionSettings);
-//    connect(modbusConnectionController, &ModbusConnectionController::resultReady,
-//            this, &MyObject::handleResults);
-
-    connect(modbusConnectionController, &ModbusConnectionController::finished,
-            modbusConnectionController, &QObject::deleteLater);
-    modbusConnectionController->start();
-}
 

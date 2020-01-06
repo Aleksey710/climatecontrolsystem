@@ -80,12 +80,18 @@ ModbusRequest::ModbusRequest(const ModbusConnectionSettings &connectionSettings,
 #else
 
 #endif // CIRCULAR_PROCESSING_REQUEST
+
+    //-------------------------------------------
+    SEND_TO_LOG( QString("%1 - создан").arg(objectName()) );
 }
 //------------------------------------------------------------------------------------
 //!
 ModbusRequest::~ModbusRequest()
 {
+    m_scriptObjectList.clear();
 
+    //-------------------------------------------
+    SEND_TO_LOG( QString("%1 - удален").arg(objectName()) );
 }
 //------------------------------------------------------------------------------------
 //!
@@ -140,9 +146,8 @@ void ModbusRequest::setModbusDataUnit(const QModbusDataUnit &dataUnit)
         const quint16 value   = QString::number(dataUnit.value(i),
                                                 dataUnit.registerType() <= QModbusDataUnit::Coils ? 10 : 16).toUShort();
 
-        const QString entry = tr("Address: %1, Value: %2").arg(id).arg(value);
-
-        SEND_TO_LOG( QString("%1 - data: %2").arg(objectName()).arg(entry) );
+//        const QString entry = tr("Address: %1, Value: %2").arg(id).arg(value);
+//        SEND_TO_LOG( QString("%1 - data: %2").arg(objectName()).arg(entry) );
 
         //-----------------------------------------
         ScriptObject *scriptObject = m_scriptObjectList.value(id, nullptr);
@@ -155,7 +160,3 @@ void ModbusRequest::setModbusDataUnit(const QModbusDataUnit &dataUnit)
 }
 //------------------------------------------------------------------------------------
 //!
-void ModbusRequest::processRequest()
-{
-
-}

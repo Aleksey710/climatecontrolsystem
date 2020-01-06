@@ -55,7 +55,19 @@ INCLUDEPATH += $$ROOT_PATH/InternalLibraries/ScriptUnit
 
 INCLUDEPATH += ./
 INCLUDEPATH += ./Frames
+INCLUDEPATH += ./Frames/Widgets
 #############################################################
+HEADERS += \
+    ClimateControlSystem.h \
+    Frames/AbstractFrames.h \
+    Frames/CarInformationFrame.h \
+    Frames/InOutDisplayFrame.h \
+    Frames/MainFrame.h \
+    Frames/Widgets/AbstractDisplayWidget.h \
+    Frames/Widgets/DateTimeWidget.h \
+    Frames/Widgets/DigitalStripIndicator.h \
+    MainDisplayWidget.h \
+
 
 SOURCES += \
     ClimateControlSystem.cpp \
@@ -64,18 +76,10 @@ SOURCES += \
     Frames/InOutDisplayFrame.cpp \
     Frames/MainFrame.cpp \
     Frames/Widgets/AbstractDisplayWidget.cpp \
+    Frames/Widgets/DateTimeWidget.cpp \
+    Frames/Widgets/DigitalStripIndicator.cpp \
     MainDisplayWidget.cpp \
     main.cpp
-
-
-HEADERS += \
-    ClimateControlSystem.h \
-    Frames/AbstractFrames.h \
-    Frames/CarInformationFrame.h \
-    Frames/InOutDisplayFrame.h \
-    Frames/MainFrame.h \
-    Frames/Widgets/AbstractDisplayWidget.h \
-    MainDisplayWidget.h \
 
 
 FORMS += \

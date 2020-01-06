@@ -52,7 +52,7 @@ class ModbusRequest : public QObject
         void setModbusDataUnit(const QModbusDataUnit &dataUnit);
 
     public slots:
-        void processRequest();
+
 
 
     signals:

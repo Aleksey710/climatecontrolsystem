@@ -43,7 +43,7 @@ class ScriptObject : public QObject, protected QScriptable
 
         Q_INVOKABLE inline void setData(const double &__value)
             {
-                SEND_TO_LOG( QString("%1 - setData(%2)").arg(objectName()).arg(__value))
+                SEND_TO_LOG( QString("ScriptObject[%1] - setData(%2)").arg(objectName()).arg(__value))
                 if(value != __value)
                 {
                     value = __value;

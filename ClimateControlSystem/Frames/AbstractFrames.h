@@ -16,6 +16,7 @@
 //#include ""
 #include "Log.h"
 #include "ScriptUnit.h"
+#include "AbstractDisplayWidget.h"
 //------------------------------------------------------------------------------------
 //!
 class AbstractFrames : public QWidget
@@ -28,6 +29,7 @@ class AbstractFrames : public QWidget
     protected:
         void setupDisplay(const QString &name, QLabel *label);
         void setupDisplay(const QString &name, QLineEdit *lineEdit);
+        void setupDisplay(const QString &name, AbstractDisplayWidget *displayWidget);
 
     signals:
 

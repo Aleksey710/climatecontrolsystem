@@ -7,7 +7,9 @@ ScriptObject::ScriptObject(const QString &name,
                            const double &value,
                            ScriptObject *parent)
              :QObject(parent),
-              m_fullName ( name )
+              m_fullName ( name ),
+              value ( value )
+
 {
     setObjectName(name);
 
@@ -17,7 +19,7 @@ ScriptObject::ScriptObject(const QString &name,
     }
 
     //! Начальная инициализация
-    ScriptUnit::scriptEngine()->evaluate(QString("%1=%2;").arg(m_fullName).arg(value));
+    //ScriptUnit::scriptEngine()->evaluate(QString("%1=%2;").arg(m_fullName).arg(value));
 
     //----------------------------------------------------------
     //! test

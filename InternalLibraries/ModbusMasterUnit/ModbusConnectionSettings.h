@@ -82,6 +82,8 @@ class ModbusConnectionSettings
                                 .arg(networkAddressParameter)
                                 .arg(networkPortParameter);
             }
+
+            if(responseTime < 50) responseTime = 50;
         }
         //------------------------------------------------------------------------------------
 /*

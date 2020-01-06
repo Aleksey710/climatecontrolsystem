@@ -37,7 +37,7 @@ class MainDisplayWidget : public QWidget
 {
         Q_OBJECT
     public:
-        explicit MainDisplayWidget(const std::shared_ptr<DbUnit> &dbUnit,
+        explicit MainDisplayWidget(DbUnit *dbUnit,
                                    QWidget *parent = nullptr);
         virtual ~MainDisplayWidget();
 
@@ -48,7 +48,7 @@ class MainDisplayWidget : public QWidget
         void setupMenu();
 
     private:
-        std::weak_ptr<DbUnit>       m_dbUnit;
+        DbUnit          *m_dbUnit;
 
         QVBoxLayout     *m_mainLayout;
 

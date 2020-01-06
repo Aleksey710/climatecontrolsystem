@@ -1,7 +1,7 @@
 #include "MainDisplayWidget.h"
 //------------------------------------------------------------------------------------
 //!
-MainDisplayWidget::MainDisplayWidget(const std::shared_ptr<DbUnit> &dbUnit,
+MainDisplayWidget::MainDisplayWidget(DbUnit *dbUnit,
                                      QWidget *parent)
                   : QWidget(parent),
                     m_dbUnit ( dbUnit )
@@ -86,13 +86,14 @@ MainDisplayWidget::MainDisplayWidget(const std::shared_ptr<DbUnit> &dbUnit,
     setSizePolicy(QSizePolicy::Fixed,
                   QSizePolicy::Fixed);
 #endif
+    SEND_TO_LOG("MainDisplayWidget - создан");
     show();
 }
 //------------------------------------------------------------------------------------
 //!
 MainDisplayWidget::~MainDisplayWidget()
 {
-
+    SEND_TO_LOG("MainDisplayWidget - удален");
 }
 //------------------------------------------------------------------------------------
 //!
@@ -134,12 +135,12 @@ void MainDisplayWidget::setupFrames()
 
     //-----------------------------------------------------------
     // В случае, если объект уже удален, то p будет пустым указателем
-    if( std::shared_ptr<DbUnit> p = m_dbUnit.lock() )
+    if( m_dbUnit )
     {
-        //std::shared_ptr<MenuConfigEditForm> menuConfigEditForm
-        //        = std::make_shared<MenuConfigEditForm>(p->menuItemDataList());
-
-        m_framesList.append( new MenuConfigEditForm( p->settingsMenuItemList() ) );
+        m_framesList.append( new MenuConfigEditForm( m_dbUnit->settingsMenuItemList() ) );
+    } else
+    {
+        SEND_TO_LOG("MainDisplayWidget - Error(Не инициализирован DbUnit)");
     }
 
     //-------------------------------------------------------------------

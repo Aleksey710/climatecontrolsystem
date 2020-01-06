@@ -46,6 +46,8 @@ class ModbusMasterHandler : public QObject
         void readReady();
 
     private:
+        void deleteModbusDevice();
+
         void replyHandler(QModbusReply *reply);
         QString modbusExceptionCodeToString(const QModbusPdu::ExceptionCode &code);
 

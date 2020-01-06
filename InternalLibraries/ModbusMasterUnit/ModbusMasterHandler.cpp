@@ -12,15 +12,19 @@ ModbusMasterHandler::ModbusMasterHandler(QObject *parent)
 
 
     //-------------------------------------------
-    SEND_TO_LOG( QString("%1 - создан (%2)").arg(objectName()).arg( (quint64)thread() ) );
+    SEND_TO_LOG( QString("%1 - создан").arg(objectName()) );
 }
 //------------------------------------------------------------------------------------
 //!
 ModbusMasterHandler::~ModbusMasterHandler()
 {
-    if (m_modbusDevice)
-        m_modbusDevice->disconnectDevice();
-    delete m_modbusDevice;
+    //! Обнулить не удаляя
+    m_curentModbusRequest = nullptr;
+
+    deleteModbusDevice();
+
+    //-------------------------------------------
+    SEND_TO_LOG( QString("%1 - удален").arg(objectName()) );
 }
 //------------------------------------------------------------------------------------
 //!
@@ -30,20 +34,20 @@ void ModbusMasterHandler::exequteRequest(ModbusRequest *request)
     SEND_TO_LOG( QString("%1 - -----------------------------").arg(objectName()) );
     SEND_TO_LOG( QString("%1 - --- start exequte request ---").arg(objectName()) );
     //! Подключение
-    reconnect(request->connectionSettings());
+    reconnect(m_curentModbusRequest->connectionSettings());
 
     //! Выполнение запроса
-    switch (request->functionCode())
+    switch (m_curentModbusRequest->functionCode())
     {
         case QModbusPdu::ReadCoils:
         case QModbusPdu::ReadDiscreteInputs:
         case QModbusPdu::ReadHoldingRegisters:
         case QModbusPdu::ReadInputRegisters:
-            readRequest(request->serverAddress(), request->modbusDataUnit());
+            readRequest(m_curentModbusRequest->serverAddress(), m_curentModbusRequest->modbusDataUnit());
             break;
         case QModbusPdu::WriteSingleCoil:
         case QModbusPdu::WriteSingleRegister:
-            writeRequest(request->serverAddress(), request->modbusDataUnit());
+            writeRequest(m_curentModbusRequest->serverAddress(), m_curentModbusRequest->modbusDataUnit());
             break;
         //-------------------------
         case QModbusPdu::Invalid:
@@ -63,7 +67,7 @@ void ModbusMasterHandler::exequteRequest(ModbusRequest *request)
         case QModbusPdu::UndefinedFunctionCode:
         default:
             SEND_TO_LOG( QString("%1 - Попытка выполнить необрабатываемую функцию [%2]")
-                         .arg(objectName()).arg(request->functionCode()) );
+                         .arg(objectName()).arg(m_curentModbusRequest->functionCode()) );
             break;
     }
     //m_handler->readWriteRequest(request->serverAddress(), readDataUnit, writeDataUnit);
@@ -73,12 +77,7 @@ void ModbusMasterHandler::exequteRequest(ModbusRequest *request)
 void ModbusMasterHandler::reconnect(const ModbusConnectionSettings &modbusConnectionSettings)
 {
     //! Удалить предыдущий обработчик устройства
-    if (m_modbusDevice)
-    {
-        m_modbusDevice->disconnectDevice();
-        delete m_modbusDevice;
-        m_modbusDevice = nullptr;
-    }
+    deleteModbusDevice();
 
     setObjectName( QString("ModbusMasterHandler[%1]").arg(modbusConnectionSettings.connectionName) );
 
@@ -176,6 +175,17 @@ void ModbusMasterHandler::reconnect(const ModbusConnectionSettings &modbusConnec
     }
 }
 //------------------------------------------------------------------------------------
+//! Удалить предыдущий обработчик устройства
+void ModbusMasterHandler::deleteModbusDevice()
+{
+    if (m_modbusDevice)
+    {
+        m_modbusDevice->disconnectDevice();
+        m_modbusDevice->deleteLater();
+        m_modbusDevice = nullptr;
+    }
+}
+//------------------------------------------------------------------------------------
 //!
 void ModbusMasterHandler::readRequest(const int serverAddress, QModbusDataUnit &readDataUnit)
 {
@@ -190,7 +200,8 @@ void ModbusMasterHandler::readRequest(const int serverAddress, QModbusDataUnit &
             connect(reply, &QModbusReply::finished, this, &ModbusMasterHandler::readReady);
         else
             // broadcast replies return immediately
-            delete reply;
+            //delete reply;
+            reply->deleteLater();
     } else {
         SEND_TO_LOG( QString("%1 - Read error: %2")
                      .arg(objectName())
@@ -282,7 +293,9 @@ void ModbusMasterHandler::readWriteRequest(const int serverAddress,
         if (!reply->isFinished())
             connect(reply, &QModbusReply::finished, this, &ModbusMasterHandler::readReady);
         else
-            delete reply; // broadcast replies return immediately
+            // broadcast replies return immediately
+            //delete reply;
+            reply->deleteLater();
     } else {
         SEND_TO_LOG( QString("%1 - Read error: %2")
                      .arg(objectName())
@@ -303,15 +316,23 @@ void ModbusMasterHandler::readReady()
 void ModbusMasterHandler::replyHandler(QModbusReply *reply)
 {
     if (!reply)
+    {
+        deleteModbusDevice();
         return;
+    }
 
+    //-----------------------------------
     if (reply->error() == QModbusDevice::NoError)
     {
         const QModbusDataUnit unit = reply->result();
 
         //-----------------------------------
-        m_curentModbusRequest->setModbusDataUnit(unit);
+        if(m_curentModbusRequest)
+        {
+            m_curentModbusRequest->setModbusDataUnit(unit);
+        }
         //-----------------------------------
+        /*
         for (uint i = 0; i < unit.valueCount(); i++)
         {
             const QString entry = tr("Address: %1, Value: %2")
@@ -321,6 +342,7 @@ void ModbusMasterHandler::replyHandler(QModbusReply *reply)
                                        );
             SEND_TO_LOG( QString("%1 - data: %2").arg(objectName()).arg(entry) );
         }
+        */
     } else if (reply->error() == QModbusDevice::ProtocolError)
     {
         SEND_TO_LOG( QString("%1 - Read response error: %2 (Mobus exception: 0x%3 [%4])")
@@ -339,6 +361,7 @@ void ModbusMasterHandler::replyHandler(QModbusReply *reply)
 
     reply->deleteLater();
 
+    deleteModbusDevice();
     //-----------------------------------
     SEND_TO_LOG( QString("%1 - --- end exequte request -----").arg(objectName()) );
     SEND_TO_LOG( QString("%1 - -----------------------------").arg(objectName()) );

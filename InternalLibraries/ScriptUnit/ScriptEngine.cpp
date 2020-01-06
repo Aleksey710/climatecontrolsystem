@@ -19,6 +19,15 @@ ScriptEngine::ScriptEngine(QObject *parent)
 //!
 ScriptEngine::~ScriptEngine()
 {
+    /*
+    QScriptValueIterator it(globalObject());
+    while (it.hasNext())
+    {
+        it.next();
+
+         qDebug() << it.name() << ": " << it.value().toString();
+    }
+    */
     SEND_TO_LOG( QString("%1 - удален (%2)").arg(objectName()).arg( (quint64)thread() ) );
 }
 //------------------------------------------------------------------------------------

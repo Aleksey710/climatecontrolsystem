@@ -28,8 +28,14 @@ ScriptUnit::~ScriptUnit()
     {
         i.next();
 
-        i.value()->deleteLater();
+        //SEND_TO_LOG( QString("%1 - [%2].deleteLater()").arg(objectName()).arg(i.key()))
+
+        //i.value()->deleteLater();
+        delete i.value();
     }
+
+    //m_scriptEngine->deleteLater();
+    delete m_scriptEngine;
 
     SEND_TO_LOG( QString("%1 - удален").arg(objectName()))
 }

@@ -46,6 +46,9 @@ class ModbusRequest : public QObject
         inline QModbusPdu::FunctionCode functionCode()
             { return m_functionCode; }
 
+        inline ScriptObject* deviceScriptObject()
+            { return m_deviceScriptObject; }
+
         inline QModbusDataUnit& modbusDataUnit()
             { return m_modbusDataUnit; }
 
@@ -66,6 +69,8 @@ class ModbusRequest : public QObject
         quint16                         m_serverAddress;
         QModbusPdu::FunctionCode        m_functionCode;
         QModbusDataUnit                 m_modbusDataUnit;
+
+        ScriptObject                    *m_deviceScriptObject;
 
         QHash<quint16, ScriptObject*>   m_scriptObjectList;
 };

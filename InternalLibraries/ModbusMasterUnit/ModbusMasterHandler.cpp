@@ -266,8 +266,8 @@ void ModbusMasterHandler::writeRequest(const int serverAddress, QModbusDataUnit 
 //------------------------------------------------------------------------------------
 //!
 void ModbusMasterHandler::readWriteRequest(const int serverAddress,
-                                        QModbusDataUnit &readDataUnit,
-                                        QModbusDataUnit &writeDataUnit)
+                                           QModbusDataUnit &readDataUnit,
+                                           QModbusDataUnit &writeDataUnit)
 {
     if (!m_modbusDevice)
         return;
@@ -351,12 +351,14 @@ void ModbusMasterHandler::replyHandler(QModbusReply *reply)
                      .arg(reply->rawResult().exceptionCode(), -1, 16)
                      .arg(modbusExceptionCodeToString(reply->rawResult().exceptionCode()))
                    );
-    } else {
+        errorReplyHandler();
+    } else {        
         SEND_TO_LOG( QString("%1 - Read response error: %2 (code: 0x%3)")
                      .arg(objectName())
                      .arg(reply->errorString())
                      .arg(reply->error(), -1, 16)
                    );
+        errorReplyHandler();
     }
 
     reply->deleteLater();
@@ -367,6 +369,24 @@ void ModbusMasterHandler::replyHandler(QModbusReply *reply)
     SEND_TO_LOG( QString("%1 - -----------------------------").arg(objectName()) );
 
     emit exequted();
+}
+//------------------------------------------------------------------------------------
+//!
+void ModbusMasterHandler::errorReplyHandler()
+{
+    if(m_curentModbusRequest)
+    {
+        QModbusDataUnit modbusDataUnit = m_curentModbusRequest->modbusDataUnit();
+        modbusDataUnit.setValues( QVector<quint16>(modbusDataUnit.valueCount(), 0) );
+        m_curentModbusRequest->setModbusDataUnit(modbusDataUnit);
+
+        //-----------------------------------
+        ScriptObject *scriptObject = m_curentModbusRequest->deviceScriptObject();
+        if(scriptObject)
+        {
+            scriptObject->setData(-1);
+        }
+    }
 }
 //------------------------------------------------------------------------------------
 //!
@@ -415,45 +435,6 @@ QString ModbusMasterHandler::modbusExceptionCodeToString(const QModbusPdu::Excep
 //------------------------------------------------------------------------------------
 //!
 /*
-QString ModbusMasterHandler::modbusDeviceErrorToString(const QModbusDevice::Error &error)
-{
-    switch (error)
-    {
-        case QModbusDevice::NoError:
-            return "No error";
-            break;
-        case QModbusDevice::ReadError:
-            return "Read error";
-            break;
-        case QModbusDevice::WriteError:
-            return "Write error";
-            break;
-        case QModbusDevice::ConnectionError:
-            return "Connection error";
-            break;
-        case QModbusDevice::ConfigurationError:
-            return "Configuration error";
-            break;
-        case QModbusDevice::TimeoutError:
-            return "Timeout error";
-            break;
-        case QModbusDevice::ProtocolError:
-            return "Protocol error";
-            break;
-        case QModbusDevice::ReplyAbortedError:
-            return "ReplyAborted error";
-            break;
-        case QModbusDevice::UnknownError:
-            return "Unknown error";
-            break;
-        default:
-            break;
-    }
-}
-*/
-/*
-//------------------------------------------------------------------------------------
-//!
 void ModbusMasterUnit::on_writeTable_currentIndexChanged(int index)
 {
     const bool coilsOrHolding = index == 0 || index == 3;

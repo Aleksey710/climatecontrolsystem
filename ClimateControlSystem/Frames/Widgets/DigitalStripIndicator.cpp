@@ -12,10 +12,6 @@ DigitalStripIndicator::DigitalStripIndicator(const int minimum,
                        m_isError ( false )
 
 {
-//    QTimer *timer = new QTimer(this);
-//    connect(timer, SIGNAL(timeout()), this, SLOT(update()));
-//    timer->start(1000);
-
     setStyleSheet(
         "QWidget{ "
         "padding: 1px;"
@@ -41,7 +37,7 @@ void DigitalStripIndicator::setData(const double &value)
         m_isError = true;
     } else
     {
-        m_isError = true;
+        m_isError = false;
     }
 
     m_curentData = value;
@@ -51,12 +47,12 @@ void DigitalStripIndicator::setData(const double &value)
 //!
 void DigitalStripIndicator::paintEvent(QPaintEvent *)
 {
-    qDebug() << "DigitalStripIndicator::paintEvent";
+    //qDebug() << "DigitalStripIndicator::paintEvent";
 
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);
-    //painter.translate(width(), height());
-    //painter.scale(width(), height());
+    painter.translate(width(), height());
+    painter.scale(width(), height());
 
     QColor positiveColor(255, 0, 0);
     QColor negativeColor(0, 0, 255);
@@ -73,7 +69,7 @@ void DigitalStripIndicator::paintEvent(QPaintEvent *)
     QRectF rectangle(0, 0, width(), stripHeight);
     painter.drawRect(rectangle);
     //--------------------------------------------
-    //if( !m_isError )
+    if( !m_isError )
     {
         //! Нарисовать данные
         if ( m_minimum >= 0 &&
@@ -83,6 +79,7 @@ void DigitalStripIndicator::paintEvent(QPaintEvent *)
             painter.setBrush(positiveColor);
 
             painter.drawRect(0, 0, m_curentData*percent, stripHeight);
+            //painter.drawRect(0, 0, width(), stripHeight);
 
         } else if( m_minimum <= 0 &&
                    m_maximum <= 0 )
@@ -90,7 +87,7 @@ void DigitalStripIndicator::paintEvent(QPaintEvent *)
             painter.setPen(Qt::NoPen);
             painter.setBrush(negativeColor);
 
-            painter.translate(width(), 0);
+            //painter.translate(width(), 0);
 
             painter.drawRect(0, 0, m_curentData*percent, stripHeight);
         } else if( m_minimum < 0 &&
@@ -120,10 +117,12 @@ void DigitalStripIndicator::paintEvent(QPaintEvent *)
             painter.drawRect(0, 0, m_curentData*percent, stripHeight);
         }
     }
-//    else
-//    {
-//        // отображение ошибки
-//    }
+    else
+    {
+        // отображение ошибки
+
+        qDebug() << "Отображение ошибки";
+    }
 }
 //------------------------------------------------------------------------------------
 //!

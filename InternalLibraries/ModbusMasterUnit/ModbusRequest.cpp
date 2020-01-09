@@ -13,7 +13,8 @@ ModbusRequest::ModbusRequest(const ModbusConnectionSettings &connectionSettings,
               :QObject(parent),
                m_connectionSettings ( connectionSettings ),
                m_serverAddress ( serverAddress ),
-               m_functionCode ( functionCode )
+               m_functionCode ( functionCode ),
+               m_deviceScriptObject ( nullptr )
 {
     //! Отсортировать адреса по возростающей
     std::sort(registerList.begin(), registerList.end(),
@@ -55,14 +56,10 @@ ModbusRequest::ModbusRequest(const ModbusConnectionSettings &connectionSettings,
 
         if(scriptObject)
         {
-            SEND_TO_LOG( QString("%1 - modbus register connected [%2])")
+            SEND_TO_LOG( QString("%1 - modbus register connected [%2]")
                          .arg(objectName()).arg(name) );
 
             m_scriptObjectList.insert(id, scriptObject);
-
-    //        connect(scriptObject, &ScriptObject::dataChanged, [=](){
-    //            label->setText(QString("%1").arg(scriptObject->data()));
-    //        });
         } else
         {
             SEND_TO_LOG( QString("%1 - ERROR (У регистра нет назначения [%2])")
@@ -70,6 +67,22 @@ ModbusRequest::ModbusRequest(const ModbusConnectionSettings &connectionSettings,
         }
     }
 
+    //--------------------------------------------
+    QStringList partNameList = std::get<1>( registerList.at(0) ).split(".");
+
+    QString deviceScriptObjectName = QString("%1.%2.device").arg(partNameList.at(0)).arg(partNameList.at(1));
+
+    m_deviceScriptObject = ScriptUnit::getScriptObject(deviceScriptObjectName);
+
+    if( m_deviceScriptObject )
+    {
+        SEND_TO_LOG( QString("%1 - modbus device connected [%2]")
+                     .arg(objectName()).arg(deviceScriptObjectName) );
+    } else
+    {
+        SEND_TO_LOG( QString("%1 - ERROR (У устройства нет назначения [%2])")
+                     .arg(objectName()).arg(deviceScriptObjectName) );
+    }
     //--------------------------------------------
 #ifndef CIRCULAR_PROCESSING_REQUEST
     QTimer *timer = new QTimer(this);
@@ -139,22 +152,38 @@ QModbusDataUnit::RegisterType ModbusRequest::registerTypeFromFunctionCode(const 
 //!
 void ModbusRequest::setModbusDataUnit(const QModbusDataUnit &dataUnit)
 {
-    for (uint i = 0; i < dataUnit.valueCount(); i++)
+    qDebug() << "ModbusRequest::setModbusDataUnit" << dataUnit.values();
+
+    if(dataUnit.isValid())
     {
-        const int id          = dataUnit.startAddress() + i;
-        //const quint16 value   = dataUnit.value(i);
-        const quint16 value   = QString::number(dataUnit.value(i),
-                                                dataUnit.registerType() <= QModbusDataUnit::Coils ? 10 : 16).toUShort();
-
-//        const QString entry = tr("Address: %1, Value: %2").arg(id).arg(value);
-//        SEND_TO_LOG( QString("%1 - data: %2").arg(objectName()).arg(entry) );
-
-        //-----------------------------------------
-        ScriptObject *scriptObject = m_scriptObjectList.value(id, nullptr);
-
-        if(scriptObject)
+        for (uint i = 0; i < dataUnit.valueCount(); i++)
         {
-            scriptObject->setData(value);
+            const int id          = dataUnit.startAddress() + i;
+            //const quint16 value   = dataUnit.value(i);
+            const quint16 value   = QString::number(dataUnit.value(i),
+                                                    dataUnit.registerType() <= QModbusDataUnit::Coils ? 10 : 16).toUShort();
+
+    //        const QString entry = tr("Address: %1, Value: %2").arg(id).arg(value);
+    //        SEND_TO_LOG( QString("%1 - data: %2").arg(objectName()).arg(entry) );
+
+            //-----------------------------------------
+            ScriptObject *scriptObject = m_scriptObjectList.value(id, nullptr);
+
+            if(scriptObject)
+            {
+                scriptObject->setData(value);
+            }
+        }
+        //-----------------------------------------
+        if(m_deviceScriptObject)
+        {
+            m_deviceScriptObject->setData(1);
+        }
+    } else
+    {
+        if(m_deviceScriptObject)
+        {
+            m_deviceScriptObject->setData(-1);
         }
     }
 }

@@ -43,6 +43,10 @@ ScriptUnit::~ScriptUnit()
 //!
 ScriptObject* ScriptUnit::getScriptObject(const QString &name)
 {
+    if(name.isEmpty())
+        return nullptr;
+
+    //-------------------------------------------------
     QStringList partNameList = name.split(".");
 
     ScriptObject *rootScriptObject = m_rootObjects.value( partNameList.at(0), nullptr );

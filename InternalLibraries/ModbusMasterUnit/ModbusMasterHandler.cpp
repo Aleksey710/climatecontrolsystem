@@ -95,10 +95,24 @@ void ModbusMasterHandler::reconnect(const ModbusConnectionSettings &modbusConnec
     if (!m_modbusDevice)
         return;
 
-    connect(m_modbusDevice, &QModbusClient::errorOccurred, [this](QModbusDevice::Error) {
-        SEND_TO_LOG( QString("%1 - %2")
-                     .arg(objectName())
-                     .arg(m_modbusDevice->errorString()) );
+    connect(m_modbusDevice, &QModbusClient::errorOccurred, [this](QModbusDevice::Error err) {
+
+        QString strError;
+        switch (err)
+        {
+            case QModbusDevice::NoError:            strError="NoError";             break;
+            case QModbusDevice::ReadError:          strError="ReadError";           break;
+            case QModbusDevice::WriteError:         strError="WriteError";          break;
+            case QModbusDevice::ConnectionError:    strError="ConnectionError";     break;
+            case QModbusDevice::ConfigurationError: strError="ConfigurationError";  break;
+            case QModbusDevice::TimeoutError:       strError="TimeoutError";        break;
+            case QModbusDevice::ProtocolError:      strError="ProtocolError";       break;
+            case QModbusDevice::ReplyAbortedError:  strError="ReplyAbortedError";   break;
+            case QModbusDevice::UnknownError:       strError="UnknownError";        break;
+            default:                                strError="UnknownError";        break;
+        }
+
+        SEND_TO_LOG( QString("%1 - %2").arg(objectName()).arg(strError) );
     });
 
     if (!m_modbusDevice)
@@ -181,7 +195,7 @@ void ModbusMasterHandler::deleteModbusDevice()
     if (m_modbusDevice)
     {
         m_modbusDevice->disconnectDevice();
-        m_modbusDevice->deleteLater();
+        delete m_modbusDevice;
         m_modbusDevice = nullptr;
     }
 }

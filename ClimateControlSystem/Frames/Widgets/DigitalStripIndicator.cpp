@@ -70,9 +70,9 @@ void DigitalStripIndicator::paintEvent(QPaintEvent *)
     painter.drawRect(rectangle);
 
     //--------------------------------------------
-    int digWidth = 30;
-    int indentHeight = 4;
-    int digHeight = 12;
+    qreal digWidth = 26;
+    qreal indentHeight = 4;
+    qreal digHeight = 12;
 
     //! значение минимума
     painter.drawText(QRect(0, stripHeight+indentHeight, digWidth, stripHeight+indentHeight+digHeight),
@@ -87,7 +87,7 @@ void DigitalStripIndicator::paintEvent(QPaintEvent *)
     if(m_curentData < 100)
         m_curentData = -m_curentData;
 
-    qDebug() << "DigitalStripIndicator::paintEvent контур percent" << rectangle << percent;
+    //qDebug() << "DigitalStripIndicator::paintEvent контур percent" << rectangle << percent;
     //--------------------------------------------
     if( !m_isError )
     {
@@ -141,7 +141,6 @@ void DigitalStripIndicator::paintEvent(QPaintEvent *)
     else
     {
         // отображение ошибки
-
         qDebug() << "Отображение ошибки";
     }
 }

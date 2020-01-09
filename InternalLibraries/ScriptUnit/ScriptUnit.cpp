@@ -279,7 +279,8 @@ void ScriptUnit::setupFunctions(const QJsonArray &jsonArray)
         }
         //------------------------------------------
 
-
+//        QScriptValue redefinedScriptPrint_sv = newFunction( redefinedScriptPrint );
+//        globalObject().setProperty(name, redefinedScriptPrint_sv);
         //------------------------------------------
     }
 }

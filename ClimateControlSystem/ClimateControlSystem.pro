@@ -4,10 +4,6 @@ TARGET = ClimateControlSystem
 #############################################################
 ROOT_PATH=..
 
-LIBMODBUS=libmodbus-3.1.3-ascii
-#LIBMODBUS=libmodbus-3.1.4
-# $$LIBMODBUS
-
 #############################################################
 
 include($$ROOT_PATH/ClimateControlSystem.pri)
@@ -107,10 +103,6 @@ LIBS += \
     -lModbusMasterUnit \
     -lScriptUnit \
     -lDbUnit \
-#    -lDataModel \
-#    -lAbstractConfigurator \
-#    -lUtils \
-#    -lmodbus \
     -leasylogging++ \
 
 

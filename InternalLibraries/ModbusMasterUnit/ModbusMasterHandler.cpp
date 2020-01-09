@@ -94,7 +94,7 @@ void ModbusMasterHandler::reconnect(const ModbusConnectionSettings &modbusConnec
 
     if (!m_modbusDevice)
         return;
-
+/*
     connect(m_modbusDevice, &QModbusClient::errorOccurred, [this](QModbusDevice::Error err) {
 
         QString strError;
@@ -114,7 +114,7 @@ void ModbusMasterHandler::reconnect(const ModbusConnectionSettings &modbusConnec
 
         SEND_TO_LOG( QString("%1 - %2").arg(objectName()).arg(strError) );
     });
-
+*/
     if (!m_modbusDevice)
     {
         if (modbusConnectionType == Serial)
@@ -178,6 +178,8 @@ void ModbusMasterHandler::reconnect(const ModbusConnectionSettings &modbusConnec
             SEND_TO_LOG( QString("%1 - Connect failed: %2")
                          .arg(objectName())
                          .arg(m_modbusDevice->errorString()) );
+
+            emit exequted();
         } else
         {
             SEND_TO_LOG( QString("%1 - [%2] - is connected")
@@ -194,8 +196,11 @@ void ModbusMasterHandler::deleteModbusDevice()
 {
     if (m_modbusDevice)
     {
-        m_modbusDevice->disconnectDevice();
-        delete m_modbusDevice;
+        if(m_modbusDevice->state() != QModbusDevice::UnconnectedState)
+            m_modbusDevice->disconnectDevice();
+
+        //delete m_modbusDevice;
+        m_modbusDevice->deleteLater();
         m_modbusDevice = nullptr;
     }
 }

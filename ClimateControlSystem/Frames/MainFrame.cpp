@@ -17,8 +17,8 @@ MainFrame::MainFrame(QWidget *parent)
     mainLayout->setHorizontalSpacing(1);
 
     AbstractDisplayWidget *widget0 = new AbstractDisplayWidget("Напруга мережi", "В", 0, 200);
-    setupDisplay("modbus.rs0d10.device", widget0);
-    //setupDisplay("modbus.rs0d10.r30000", widget0);
+    //setupDisplay("modbus.rs0d10.device", widget0); // тест
+    setupDisplay("modbus.rs0d10.r30000", widget0);
 
     AbstractDisplayWidget *widget1 = new AbstractDisplayWidget("Струм АКБ", "А", -150, 160);
     setupDisplay("modbus.rs0d10.r30001", widget1);

@@ -51,8 +51,8 @@ void DigitalStripIndicator::paintEvent(QPaintEvent *)
 
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);
-    painter.translate(width(), height());
-    painter.scale(width(), height());
+    //painter.translate(width(), height());
+    //painter.scale(width(), height());
 
     QColor positiveColor(255, 0, 0);
     QColor negativeColor(0, 0, 255);
@@ -60,7 +60,7 @@ void DigitalStripIndicator::paintEvent(QPaintEvent *)
 
     qreal stripHeight = 5;
 
-    qreal percent = width()/abs(m_maximum - m_minimum);
+    qreal percent = (qreal)width()/abs(m_maximum - m_minimum);
     //--------------------------------------------
     //! Нарисовать контур
     painter.setPen(Qt::SolidLine);
@@ -68,6 +68,26 @@ void DigitalStripIndicator::paintEvent(QPaintEvent *)
 
     QRectF rectangle(0, 0, width(), stripHeight);
     painter.drawRect(rectangle);
+
+    //--------------------------------------------
+    int digWidth = 30;
+    int indentHeight = 4;
+    int digHeight = 12;
+
+    //! значение минимума
+    painter.drawText(QRect(0, stripHeight+indentHeight, digWidth, stripHeight+indentHeight+digHeight),
+                     Qt::AlignCenter, QString("%1").arg(m_minimum));
+    //---------------------
+    //! значение максимума
+    painter.drawText(QRect(width()-digWidth, stripHeight+indentHeight, digWidth, stripHeight+indentHeight+digHeight),
+                     Qt::AlignCenter, QString("%1").arg(m_maximum));
+
+    setMinimumHeight(stripHeight+indentHeight+digHeight+5);
+    //--------------------------------------------
+    if(m_curentData < 100)
+        m_curentData = -m_curentData;
+
+    qDebug() << "DigitalStripIndicator::paintEvent контур percent" << rectangle << percent;
     //--------------------------------------------
     if( !m_isError )
     {
@@ -102,6 +122,7 @@ void DigitalStripIndicator::paintEvent(QPaintEvent *)
             painter.setBrush(QColor(255,255,255));
             painter.drawRect(-1, 0, 2, stripHeight+4);
 
+            painter.drawText(QRect(-4, stripHeight+6, 8, 12), Qt::AlignCenter, "0");
             //-----------------------------------------------
             painter.setPen(Qt::NoPen);
             if(m_curentData > 0)
@@ -114,7 +135,7 @@ void DigitalStripIndicator::paintEvent(QPaintEvent *)
                 painter.setBrush(transparentColor);
             }
             //-----------------------------------------------
-            painter.drawRect(0, 0, m_curentData*percent, stripHeight);
+            painter.drawRect(0, 0, m_curentData*percent, stripHeight);            
         }
     }
     else

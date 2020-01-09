@@ -152,7 +152,7 @@ QModbusDataUnit::RegisterType ModbusRequest::registerTypeFromFunctionCode(const 
 //!
 void ModbusRequest::setModbusDataUnit(const QModbusDataUnit &dataUnit)
 {
-    qDebug() << "ModbusRequest::setModbusDataUnit" << dataUnit.values();
+    //qDebug() << "ModbusRequest::setModbusDataUnit" << dataUnit.values();
 
     if(dataUnit.isValid())
     {

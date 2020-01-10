@@ -69,6 +69,7 @@ class ModbusMasterUnit : public QObject
     private slots:
 #ifdef CIRCULAR_PROCESSING_REQUEST
 
+        void excuteNextRequest();
 #else
         void executeQuery(ModbusRequest *request);
 #endif // CIRCULAR_PROCESSING_REQUES

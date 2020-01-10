@@ -19,35 +19,11 @@ ModbusMasterUnit::ModbusMasterUnit(QObject *parent)
 
 #ifdef CIRCULAR_PROCESSING_REQUEST
     //! После окончания паузы запустить на выполнение следующий запрос
-    connect(m_circularTimer, &QTimer::timeout, [=](){
-
-        m_circularTimer->stop();
-
-        //! Если в конфигурации существуют корректно описанные запросы
-        if(m_requestList.size() > 0)
-        {
-            //--------------------------------------------------
-            ModbusRequest *request = m_requestList.at(m_curentRequestId);
-
-            SEND_TO_LOG( QString("%1 - Выполнение запроса [%2]-[%3]")
-                         .arg(objectName()).arg(m_curentRequestId).arg(request->objectName()) );
-
-            //--------------------------------------------------
-            m_curentRequestId++;
-
-            if(m_curentRequestId == m_requestList.size())
-            {
-                m_curentRequestId = 0;
-            }
-
-            //--------------------------------------------------
-            m_handler->exequteRequest(request);
-        }
-    });
+    connect(m_circularTimer, &QTimer::timeout, this, &ModbusMasterUnit::excuteNextRequest);
 
     //! При получении сигнала о выполнении запроса
     //! Запустить таймер паузы
-    connect(m_handler, &ModbusMasterHandler::exequted, [=](){
+    connect(m_handler, &ModbusMasterHandler::exequted, [&](){
         m_circularTimer->start(PERIOD_BETWEEN_REQUEST_MS);
     });
 
@@ -124,6 +100,33 @@ void ModbusMasterUnit::setup(const QJsonObject &confJsonObject)
         {
             connectionParsing(connectionJsonObject);
         }
+    }
+}
+//------------------------------------------------------------------------------------
+//!
+void ModbusMasterUnit::excuteNextRequest()
+{
+    m_circularTimer->stop();
+
+    //! Если в конфигурации существуют корректно описанные запросы
+    if(m_requestList.size() > 0)
+    {
+        //--------------------------------------------------
+        ModbusRequest *request = m_requestList.at(m_curentRequestId);
+
+        SEND_TO_LOG( QString("%1 - Выполнение запроса [%2]-[%3]")
+                     .arg(objectName()).arg(m_curentRequestId).arg(request->objectName()) );
+
+        //--------------------------------------------------
+        m_curentRequestId++;
+
+        if(m_curentRequestId == m_requestList.size())
+        {
+            m_curentRequestId = 0;
+        }
+
+        //--------------------------------------------------
+        m_handler->exequteRequest(request);
     }
 }
 //------------------------------------------------------------------------------------

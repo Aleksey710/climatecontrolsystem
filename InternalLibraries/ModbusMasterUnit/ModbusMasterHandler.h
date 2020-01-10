@@ -34,7 +34,7 @@ class ModbusMasterHandler : public QObject
     public slots:
         void exequteRequest(ModbusRequest *request);
 
-        void reconnect(const ModbusConnectionSettings &modbusConnectionSettings);
+        bool reconnect(const ModbusConnectionSettings &modbusConnectionSettings);
 
         void readRequest(const int serverAddress, QModbusDataUnit &readDataUnit);
         void writeRequest(const int serverAddress, QModbusDataUnit &writeDataUnit);
@@ -46,10 +46,11 @@ class ModbusMasterHandler : public QObject
         void readReady();
 
     private:
+        void requestExecutionErrorHandler();
         void deleteModbusDevice();
 
         void replyHandler(QModbusReply *reply);
-        void errorReplyHandler();
+        void errorDataHandler();
         QString modbusExceptionCodeToString(const QModbusPdu::ExceptionCode &code);
 
     private:

@@ -46,7 +46,7 @@ void AbstractFrames::setupDisplay(const QString &name, QLineEdit *lineEdit)
 }
 //------------------------------------------------------------------------------------
 //!
-void AbstractFrames::setupDisplay(const QString &name, AbstractDisplayWidget *displayWidget)
+void AbstractFrames::setupDisplay(const QString &name, GigitalIndicatorWidget *displayWidget)
 {
     ScriptObject *scriptObject = ScriptUnit::getScriptObject(name);
 

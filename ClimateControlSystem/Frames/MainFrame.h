@@ -14,8 +14,9 @@
 //#include ""
 #include "Log.h"
 #include "AbstractFrames.h"
-#include "AbstractDisplayWidget.h"
+#include "GigitalIndicatorWidget.h"
 #include "DateTimeWidget.h"
+#include "StatesDisplayWidget.h"
 //------------------------------------------------------------------------------------
 namespace Ui {
 class MainFrame;

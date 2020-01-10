@@ -1,18 +1,18 @@
-#include "AbstractDisplayWidget.h"
+#include "GigitalIndicatorWidget.h"
 //------------------------------------------------------------------------------------
 //!
-AbstractDisplayWidget::AbstractDisplayWidget(const QString &title,
-                                             const QString &measureTitle,
-                                             const int minimum,
-                                             const int maximum,
-                                             QWidget *parent)
-                      :QWidget(parent),
-                       m_mainLayout ( new QGridLayout() ),
-                       m_dataLabel ( new QLabel(measureTitle) ),
-                       m_measureTitle ( measureTitle ),
-                       m_digitalStripIndicator ( new DigitalStripIndicator(minimum, maximum) )
+GigitalIndicatorWidget::GigitalIndicatorWidget(const QString &title,
+                                               const QString &measureTitle,
+                                               const int minimum,
+                                               const int maximum,
+                                               QWidget *parent)
+                       :QWidget(parent),
+                        m_mainLayout ( new QGridLayout() ),
+                        m_dataLabel ( new QLabel(measureTitle) ),
+                        m_measureTitle ( measureTitle ),
+                        m_digitalStripIndicator ( new DigitalStripIndicator(minimum, maximum) )
 {
-    setObjectName("AbstractDisplayWidget");
+    setObjectName("GigitalIndicatorWidget");
 
 //    setStyleSheet(
 //        "QWidget{ "
@@ -53,13 +53,13 @@ AbstractDisplayWidget::AbstractDisplayWidget(const QString &title,
 }
 //------------------------------------------------------------------------------------
 //!
-AbstractDisplayWidget::~AbstractDisplayWidget()
+GigitalIndicatorWidget::~GigitalIndicatorWidget()
 {
     SEND_TO_LOG( QString("%1 - удален").arg(objectName()) );
 }
 //------------------------------------------------------------------------------------
 //!
-void AbstractDisplayWidget::setData(const double &value)
+void GigitalIndicatorWidget::setData(const double &value)
 {
     m_digitalStripIndicator->setData(value);
 

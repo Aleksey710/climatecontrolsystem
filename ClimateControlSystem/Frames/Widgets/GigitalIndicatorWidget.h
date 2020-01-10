@@ -1,5 +1,5 @@
-#ifndef ABSTRACTDISPLAYWIDGET_H
-#define ABSTRACTDISPLAYWIDGET_H
+#ifndef DIGITALINDICATORWIDGET_H
+#define DIGITALINDICATORWIDGET_H
 //------------------------------------------------------------------------------------
 #include <QObject>
 #include <QWidget>
@@ -25,16 +25,16 @@
 //#include "AbstractDisplayWidget.h"
 //------------------------------------------------------------------------------------
 //!
-class AbstractDisplayWidget : public QWidget
+class GigitalIndicatorWidget : public QWidget
 {
         Q_OBJECT
     public:
-        explicit AbstractDisplayWidget(const QString &title,
-                                       const QString &measureTitle,
-                                       const int minimum,
-                                       const int maximum,
-                                       QWidget *parent = nullptr);
-        virtual ~AbstractDisplayWidget();
+        explicit GigitalIndicatorWidget(const QString &title,
+                                        const QString &measureTitle,
+                                        const int minimum,
+                                        const int maximum,
+                                        QWidget *parent = nullptr);
+        virtual ~GigitalIndicatorWidget();
 
     signals:
 
@@ -54,4 +54,4 @@ class AbstractDisplayWidget : public QWidget
 
 };
 //------------------------------------------------------------------------------------
-#endif // ABSTRACTDISPLAYWIDGET_H
+#endif // DIGITALINDICATORWIDGET_H

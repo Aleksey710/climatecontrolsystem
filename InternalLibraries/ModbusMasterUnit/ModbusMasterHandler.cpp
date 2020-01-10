@@ -31,10 +31,16 @@ ModbusMasterHandler::~ModbusMasterHandler()
 void ModbusMasterHandler::exequteRequest(ModbusRequest *request)
 {
     m_curentModbusRequest = request;
+
     SEND_TO_LOG( QString("%1 - -----------------------------").arg(objectName()) );
     SEND_TO_LOG( QString("%1 - --- start exequte request ---").arg(objectName()) );
+
     //! Подключение
-    reconnect(m_curentModbusRequest->connectionSettings());
+    if( !reconnect(m_curentModbusRequest->connectionSettings()) )
+    {
+        exequted();
+        return;
+    }
 
     //! Выполнение запроса
     switch (m_curentModbusRequest->functionCode())
@@ -74,7 +80,7 @@ void ModbusMasterHandler::exequteRequest(ModbusRequest *request)
 }
 //------------------------------------------------------------------------------------
 //!
-void ModbusMasterHandler::reconnect(const ModbusConnectionSettings &modbusConnectionSettings)
+bool ModbusMasterHandler::reconnect(const ModbusConnectionSettings &modbusConnectionSettings)
 {
     //! Удалить предыдущий обработчик устройства
     deleteModbusDevice();
@@ -92,29 +98,7 @@ void ModbusMasterHandler::reconnect(const ModbusConnectionSettings &modbusConnec
         m_modbusDevice = new QModbusTcpClient(this);
     }
 
-    if (!m_modbusDevice)
-        return;
-/*
-    connect(m_modbusDevice, &QModbusClient::errorOccurred, [this](QModbusDevice::Error err) {
-
-        QString strError;
-        switch (err)
-        {
-            case QModbusDevice::NoError:            strError="NoError";             break;
-            case QModbusDevice::ReadError:          strError="ReadError";           break;
-            case QModbusDevice::WriteError:         strError="WriteError";          break;
-            case QModbusDevice::ConnectionError:    strError="ConnectionError";     break;
-            case QModbusDevice::ConfigurationError: strError="ConfigurationError";  break;
-            case QModbusDevice::TimeoutError:       strError="TimeoutError";        break;
-            case QModbusDevice::ProtocolError:      strError="ProtocolError";       break;
-            case QModbusDevice::ReplyAbortedError:  strError="ReplyAbortedError";   break;
-            case QModbusDevice::UnknownError:       strError="UnknownError";        break;
-            default:                                strError="UnknownError";        break;
-        }
-
-        SEND_TO_LOG( QString("%1 - %2").arg(objectName()).arg(strError) );
-    });
-*/
+    //-------------------------------------
     if (!m_modbusDevice)
     {
         if (modbusConnectionType == Serial)
@@ -124,7 +108,31 @@ void ModbusMasterHandler::reconnect(const ModbusConnectionSettings &modbusConnec
         {
             SEND_TO_LOG( QString("%1 - could not create Modbus client").arg(objectName()) );
         }
+
+        requestExecutionErrorHandler();
+        return false;
     } else {
+/*
+        connect(m_modbusDevice, &QModbusClient::errorOccurred, [this](QModbusDevice::Error err) {
+
+            QString strError;
+            switch (err)
+            {
+                case QModbusDevice::NoError:            strError="NoError";             break;
+                case QModbusDevice::ReadError:          strError="ReadError";           break;
+                case QModbusDevice::WriteError:         strError="WriteError";          break;
+                case QModbusDevice::ConnectionError:    strError="ConnectionError";     break;
+                case QModbusDevice::ConfigurationError: strError="ConfigurationError";  break;
+                case QModbusDevice::TimeoutError:       strError="TimeoutError";        break;
+                case QModbusDevice::ProtocolError:      strError="ProtocolError";       break;
+                case QModbusDevice::ReplyAbortedError:  strError="ReplyAbortedError";   break;
+                case QModbusDevice::UnknownError:       strError="UnknownError";        break;
+                default:                                strError="UnknownError";        break;
+            }
+
+            SEND_TO_LOG( QString("%1 - %2").arg(objectName()).arg(strError) );
+        });
+*/
         connect(m_modbusDevice, &QModbusClient::stateChanged,
                 [this](QModbusDevice::State state) {
 
@@ -154,32 +162,34 @@ void ModbusMasterHandler::reconnect(const ModbusConnectionSettings &modbusConnec
         if (modbusConnectionSettings.modbusConnectionType == Serial)
         {
             m_modbusDevice->setConnectionParameter(QModbusDevice::SerialPortNameParameter,
-                modbusConnectionSettings.serialPortNameParameter);
+                                                   modbusConnectionSettings.serialPortNameParameter);
             m_modbusDevice->setConnectionParameter(QModbusDevice::SerialParityParameter,
-                modbusConnectionSettings.serialParityParameter);
+                                                   modbusConnectionSettings.serialParityParameter);
             m_modbusDevice->setConnectionParameter(QModbusDevice::SerialBaudRateParameter,
-                modbusConnectionSettings.serialBaudRateParameter);
+                                                   modbusConnectionSettings.serialBaudRateParameter);
             m_modbusDevice->setConnectionParameter(QModbusDevice::SerialDataBitsParameter,
-                modbusConnectionSettings.serialDataBitsParameter);
+                                                   modbusConnectionSettings.serialDataBitsParameter);
             m_modbusDevice->setConnectionParameter(QModbusDevice::SerialStopBitsParameter,
-                modbusConnectionSettings.serialStopBitsParameter);
+                                                   modbusConnectionSettings.serialStopBitsParameter);
         } else {
             m_modbusDevice->setConnectionParameter(QModbusDevice::NetworkPortParameter,
-                modbusConnectionSettings.networkPortParameter);
+                                                   modbusConnectionSettings.networkPortParameter);
             m_modbusDevice->setConnectionParameter(QModbusDevice::NetworkAddressParameter,
-                modbusConnectionSettings.networkAddressParameter);
+                                                   modbusConnectionSettings.networkAddressParameter);
         }
 
         m_modbusDevice->setTimeout(modbusConnectionSettings.responseTime);
         m_modbusDevice->setNumberOfRetries(modbusConnectionSettings.numberOfRetries);
 
+        //--------------------------------------------------
         if (!m_modbusDevice->connectDevice())
         {
             SEND_TO_LOG( QString("%1 - Connect failed: %2")
                          .arg(objectName())
                          .arg(m_modbusDevice->errorString()) );
 
-            emit exequted();
+            requestExecutionErrorHandler();
+            return false;
         } else
         {
             SEND_TO_LOG( QString("%1 - [%2] - is connected")
@@ -189,6 +199,20 @@ void ModbusMasterHandler::reconnect(const ModbusConnectionSettings &modbusConnec
     } else {
         m_modbusDevice->disconnectDevice();
     }
+
+    return true;
+}
+//------------------------------------------------------------------------------------
+//!
+void ModbusMasterHandler::requestExecutionErrorHandler()
+{
+    errorDataHandler();
+
+    m_curentModbusRequest = nullptr;
+
+    deleteModbusDevice();
+
+    emit exequted();
 }
 //------------------------------------------------------------------------------------
 //! Удалить предыдущий обработчик устройства
@@ -199,7 +223,6 @@ void ModbusMasterHandler::deleteModbusDevice()
         if(m_modbusDevice->state() != QModbusDevice::UnconnectedState)
             m_modbusDevice->disconnectDevice();
 
-        //delete m_modbusDevice;
         m_modbusDevice->deleteLater();
         m_modbusDevice = nullptr;
     }
@@ -370,14 +393,14 @@ void ModbusMasterHandler::replyHandler(QModbusReply *reply)
                      .arg(reply->rawResult().exceptionCode(), -1, 16)
                      .arg(modbusExceptionCodeToString(reply->rawResult().exceptionCode()))
                    );
-        errorReplyHandler();
+        errorDataHandler();
     } else {        
         SEND_TO_LOG( QString("%1 - Read response error: %2 (code: 0x%3)")
                      .arg(objectName())
                      .arg(reply->errorString())
                      .arg(reply->error(), -1, 16)
                    );
-        errorReplyHandler();
+        errorDataHandler();
     }
 
     reply->deleteLater();
@@ -391,7 +414,7 @@ void ModbusMasterHandler::replyHandler(QModbusReply *reply)
 }
 //------------------------------------------------------------------------------------
 //!
-void ModbusMasterHandler::errorReplyHandler()
+void ModbusMasterHandler::errorDataHandler()
 {
     if(m_curentModbusRequest)
     {

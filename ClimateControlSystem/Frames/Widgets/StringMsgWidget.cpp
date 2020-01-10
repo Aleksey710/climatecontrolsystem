@@ -34,6 +34,10 @@ StringMsgWidget::~StringMsgWidget()
 //!
 void StringMsgWidget::paintEvent(QPaintEvent *paintEvent)
 {
+    QStyleOption opt;
+    opt.init(this);
+    QPainter p(this);
+    style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
 
     QWidget::paintEvent(paintEvent);
 }

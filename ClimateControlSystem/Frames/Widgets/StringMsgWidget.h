@@ -2,6 +2,8 @@
 #define STRINGMSGWIDGET_H
 //------------------------------------------------------------------------------------
 #include <QWidget>
+#include <QStyleOption>
+#include <QPainter>
 
 #include "ScriptObject.h"
 //------------------------------------------------------------------------------------

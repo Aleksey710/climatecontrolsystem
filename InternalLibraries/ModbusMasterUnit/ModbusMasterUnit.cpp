@@ -41,12 +41,13 @@ ModbusMasterUnit::~ModbusMasterUnit()
 {
     m_circularTimer->stop();
 
+    m_handler->deleteLater();
+
     for (int i = 0; i < m_requestList.size(); ++i)
     {
-        m_requestList.at(i)->deleteLater();
+        delete m_requestList.at(i);
+        //m_requestList.at(i)->deleteLater();
     }
-
-    m_handler->deleteLater();
 
     SEND_TO_LOG( QString("%1 - удален").arg(objectName()) );
 }

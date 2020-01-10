@@ -26,10 +26,10 @@ StatesDisplayWidget::StatesDisplayWidget(QWidget *parent)
     QFont titleFont = font();
     titleFont.setPointSize(titleFont.pointSize() + 3);
 
-//    QLabel *titleLabel = new QLabel(title);
-//    titleLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
-//    titleLabel->setFont(titleFont);
-//    m_mainLayout->addWidget(titleLabel);
+    QLabel *titleLabel = new QLabel("Центральный виджет");
+    titleLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+    titleLabel->setFont(titleFont);
+    m_mainLayout->addWidget(titleLabel);
 
 //    //---------------------------------------------------------
 //    QFont dataFont = font();

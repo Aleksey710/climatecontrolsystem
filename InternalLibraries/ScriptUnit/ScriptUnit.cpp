@@ -1,7 +1,7 @@
 #include "ScriptUnit.h"
 
 //------------------------------------------------------------------------------------
-ScriptEngine* ScriptUnit::m_scriptEngine = nullptr;
+ScriptEngine* ScriptUnit::m_scriptEnginePtr = nullptr;
 QHash<QString, ScriptObject*> ScriptUnit::m_rootObjects;
 //------------------------------------------------------------------------------------
 //!
@@ -10,34 +10,33 @@ ScriptUnit::ScriptUnit(QObject *parent)
 {
     setObjectName("ScriptUnit");
 
-    m_scriptEngine = new ScriptEngine();
+    m_scriptEnginePtr = &m_scriptEngine;
 
     setupSettingsData();
 
     setupScript(loadFile( qApp->applicationDirPath()+"/conf/script.conf" ));
 
 
-    SEND_TO_LOG( QString("%1 - создан").arg(objectName()))
+    SEND_TO_LOG( QString("%1 - создан").arg(objectName()));
 }
 //------------------------------------------------------------------------------------
 //!
 ScriptUnit::~ScriptUnit()
 {
+    SEND_TO_LOG( QString("%1 - начало удаления").arg(objectName()));
+
     QHashIterator<QString, ScriptObject*> i(m_rootObjects);
     while (i.hasNext())
     {
         i.next();
 
-        //SEND_TO_LOG( QString("%1 - [%2].deleteLater()").arg(objectName()).arg(i.key()))
+        SEND_TO_LOG( QString("%1 - [%2].deleteLater()").arg(objectName()).arg(i.key()))
 
         //i.value()->deleteLater();
         delete i.value();
     }
 
-    //m_scriptEngine->deleteLater();
-    delete m_scriptEngine;
-
-    SEND_TO_LOG( QString("%1 - удален").arg(objectName()))
+    SEND_TO_LOG( QString("%1 - удален").arg(objectName()));
 }
 //------------------------------------------------------------------------------------
 //!
@@ -93,7 +92,7 @@ ScriptObject* ScriptUnit::createScriptObject(const QString &type,
         rootScriptObject = new ScriptObject(type, 0, nullptr);
         m_rootObjects.insert(type, rootScriptObject);
 
-        m_scriptEngine->addGlobalQbject(rootScriptObject);
+        m_scriptEngine.addGlobalQbject(rootScriptObject);
     }
 
     //------------------------
@@ -262,26 +261,32 @@ void ScriptUnit::setupFunctions(const QJsonArray &jsonArray)
 
         QString name = functionJsonObject.value("name").toString();
 
-        //------------------------------------------
-        QJsonArray sourcesArray = functionJsonObject.value("sources").toArray();
+        QString functionText = functionJsonObject.value("processing").toString();
 
-        foreach (const QJsonValue &sourcesJsonValue, sourcesArray)
+        if( !functionText.isEmpty() )
         {
-            const QString sourceName = sourcesJsonValue.toString();
+            //------------------------------------------
+            QJsonArray sourcesArray = functionJsonObject.value("sources").toArray();
 
-            ScriptObject *scriptObject = getScriptObject(sourceName);
-
-            if( !scriptObject )
+            foreach (const QJsonValue &sourcesJsonValue, sourcesArray)
             {
-                SEND_TO_LOG( QString("%1 - ERROR (Несуществующий источник [%2])")
-                             .arg(objectName()).arg( sourceName ) );
-            }
-        }
-        //------------------------------------------
+                const QString sourceName = sourcesJsonValue.toString();
 
-//        QScriptValue redefinedScriptPrint_sv = newFunction( redefinedScriptPrint );
-//        globalObject().setProperty(name, redefinedScriptPrint_sv);
-        //------------------------------------------
+                ScriptObject *scriptObject = getScriptObject(sourceName);
+
+                if( !scriptObject )
+                {
+                    SEND_TO_LOG( QString("%1 - ERROR (Несуществующий источник [%2])")
+                                 .arg(objectName()).arg( sourceName ) );
+                } else
+                {
+                    connect(scriptObject, &ScriptObject::dataChanged,[this, functionText](){
+                        m_scriptEngine.evaluate( functionText );
+                    });
+                }
+            }
+            //------------------------------------------
+        }
     }
 }
 //------------------------------------------------------------------------------------

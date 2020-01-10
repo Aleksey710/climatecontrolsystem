@@ -36,7 +36,7 @@ class ScriptUnit : public QObject
         virtual ~ScriptUnit();
 
         inline static ScriptEngine* scriptEngine()
-            { return m_scriptEngine; }
+            { return m_scriptEnginePtr; }
 
         static ScriptObject* getScriptObject(const QString &name);
 
@@ -60,7 +60,8 @@ class ScriptUnit : public QObject
         void setupSettingsData();
 
     private:
-        static ScriptEngine *m_scriptEngine;
+        static ScriptEngine *m_scriptEnginePtr;
+        ScriptEngine m_scriptEngine;
 
         static QHash<QString, ScriptObject*> m_rootObjects;
 };

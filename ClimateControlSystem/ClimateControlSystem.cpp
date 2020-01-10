@@ -14,6 +14,12 @@ ClimateControlSystem::ClimateControlSystem(QObject *parent)
     SEND_TO_LOG("************    Запуск ClimateControlSystem       ***************************************");
     SEND_TO_LOG("************                                      ***************************************");
     SEND_TO_LOG("*****************************************************************************************");
+
+    connect(this, &ClimateControlSystem::destroyed,[](){
+        SEND_TO_LOG("*****************************************************************************************");
+        SEND_TO_LOG("************     Окончание работы ClimateControlSystem                 ******************");
+        SEND_TO_LOG("*****************************************************************************************");
+    });
     //-------------------------------------------------------------------
 
     m_dbUnit            = std::make_shared<DbUnit>();
@@ -35,15 +41,11 @@ ClimateControlSystem::ClimateControlSystem(QObject *parent)
 //!
 ClimateControlSystem::~ClimateControlSystem()
 {
-    m_mainDisplayWidget.reset();
-    m_modbusMasterUnit.reset();
-    m_dbUnit.reset();
-    m_scriptUnit.reset();
-
+//    m_mainDisplayWidget.reset();
+//    m_modbusMasterUnit.reset();
+//    m_dbUnit.reset();
+//    m_scriptUnit.reset();
 
     //-------------------------------------------------------------------
     SEND_TO_LOG( QString("ClimateControlSystem - удален") );
-    SEND_TO_LOG("*****************************************************************************************");
-    SEND_TO_LOG("************     Окончание работы ClimateControlSystem                 ******************");
-    SEND_TO_LOG("*****************************************************************************************");
 }

@@ -17,7 +17,6 @@ MainFrame::MainFrame(QWidget *parent)
     mainLayout->setHorizontalSpacing(1);
 
     GigitalIndicatorWidget *widget0 = new GigitalIndicatorWidget("Напруга мережi", "В", 0, 200);
-    //setupDisplay("modbus.rs0d10.device", widget0); // тест
     setupDisplay("modbus.rs0d10.r30000", widget0);
 
     GigitalIndicatorWidget *widget1 = new GigitalIndicatorWidget("Струм АКБ", "А", -150, 160);
@@ -27,13 +26,13 @@ MainFrame::MainFrame(QWidget *parent)
     setupDisplay("modbus.rs0d10.r30002", widget2);
 
     GigitalIndicatorWidget *widget3 = new GigitalIndicatorWidget("Корекцiя температури", "°C", 22, 26);
-    setupDisplay("modbus.rs0d10.r30003", widget3);
+    setupDisplay("display.temp.t_ust", widget3);
 
     GigitalIndicatorWidget *widget4 = new GigitalIndicatorWidget("Темп. салона", "°C", -20, 60);
-    setupDisplay("modbus.rs0d10.r30004", widget4);
+    setupDisplay("display.temp.t_sal", widget4);
 
     GigitalIndicatorWidget *widget5 = new GigitalIndicatorWidget("Темп. зовнiшня", "°C", -40, 60);
-    setupDisplay("modbus.rs0d10.r30005", widget5);
+    setupDisplay("display.temp.t_nv", widget5);
 
     DateTimeWidget *dateTimeWidget = new DateTimeWidget();
 
@@ -49,7 +48,7 @@ MainFrame::MainFrame(QWidget *parent)
 
     mainLayout->addWidget(dateTimeWidget,       3,3,1,1);
 
-    mainLayout->addWidget(statesDisplayWidget,  1,0,1,1);
+    mainLayout->addWidget(statesDisplayWidget,  1,0,3,3);
 
     //! Задать виджету слой
     setLayout(mainLayout);

@@ -1,33 +1,36 @@
-#include "AbstractStringWidget.h"
+#include "RowMsgWidget.h"
 
 //------------------------------------------------------------------------------------
 //!
-AbstractStringWidget::AbstractStringWidget(QWidget *parent)
-                     :QWidget(parent),
-                      m_mainLayout ( new QGridLayout() ),
-                      m_curentPriorityWidget ( PriorityWidget::LowPriorityWidget ),
-                      m_highPriorityWidget ( new QWidget() ),
-                      m_lowPriorityWidget ( new QWidget() )
+RowMsgWidget::RowMsgWidget(const QList<MsgWidget *> &highPriorityMsgWidgetList,
+                           const QList<MsgWidget *> &lowPriorityMsgWidgetList,
+                           QWidget *parent)
+             :QWidget(parent),
+              m_mainLayout ( new QGridLayout() ),
+              m_curentPriorityWidget ( PriorityWidget::LowPriorityWidget ),
+              m_highPriorityWidget ( new QWidget() ),
+              m_lowPriorityWidget ( new QWidget() )
 {
-    setObjectName("AbstractStringWidget");
+    setObjectName("RowMsgWidget");
 
-    //    setStyleSheet(
-    //        "QWidget{ "
-    //        "padding: 1px;"
-    //        "margin: 1px;"
-    //        "border: 1px solid #6c6c6c;"
-    //        "border-radius : 25px;"
-    //        "}"
-    //    );
+        setStyleSheet(
+            "QWidget{ "
+            "padding: 1px;"
+            "margin: 1px;"
+            "border: 1px solid #6c6c6c;"
+            //"border-radius : 25px;"
+            "}"
+        );
 
-    //    m_mainLayout->setVerticalSpacing(1);
-    //    m_mainLayout->setHorizontalSpacing(1);
+    m_mainLayout->setMargin(1);
+    m_mainLayout->setVerticalSpacing(1);
+    m_mainLayout->setHorizontalSpacing(1);
 
     //---------------------------------------------------------
     QFont titleFont = font();
     titleFont.setPointSize(titleFont.pointSize() + 3);
 
-    QLabel *titleLabel = new QLabel();
+    QLabel *titleLabel = new QLabel("СТРОКА");
     titleLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     titleLabel->setFont(titleFont);
     m_mainLayout->addWidget(titleLabel);
@@ -51,13 +54,13 @@ AbstractStringWidget::AbstractStringWidget(QWidget *parent)
 }
 //------------------------------------------------------------------------------------
 //!
-AbstractStringWidget::~AbstractStringWidget()
+RowMsgWidget::~RowMsgWidget()
 {
-
+    SEND_TO_LOG( QString("%1 - удален").arg(objectName()) );
 }
 //------------------------------------------------------------------------------------
 //!
-void AbstractStringWidget::setVisibleMsgWidget(const PriorityWidget type)
+void RowMsgWidget::setVisibleMsgWidget(const PriorityWidget type)
 {
 
     switch (type)

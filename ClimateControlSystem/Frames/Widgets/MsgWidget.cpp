@@ -1,13 +1,13 @@
-#include "StringMsgWidget.h"
+#include "MsgWidget.h"
 
 //------------------------------------------------------------------------------------
 //!
-StringMsgWidget::StringMsgWidget(ScriptObject *scriptObject,
-                                 QHash<int, QString> msgList,
-                                 QWidget *parent)
-                :QWidget(parent),
-                 m_scriptObject ( scriptObject ),
-                 m_msgList ( msgList )
+MsgWidget::MsgWidget(ScriptObject *scriptObject,
+                     QHash<int, QString> msgList,
+                     QWidget *parent)
+          :QWidget(parent),
+           m_scriptObject ( scriptObject ),
+           m_msgList ( msgList )
 {
     connect(scriptObject, &ScriptObject::dataChanged, [&](){
 
@@ -26,13 +26,13 @@ StringMsgWidget::StringMsgWidget(ScriptObject *scriptObject,
 }
 //------------------------------------------------------------------------------------
 //!
-StringMsgWidget::~StringMsgWidget()
+MsgWidget::~MsgWidget()
 {
 
 }
 //------------------------------------------------------------------------------------
 //!
-void StringMsgWidget::paintEvent(QPaintEvent *paintEvent)
+void MsgWidget::paintEvent(QPaintEvent *paintEvent)
 {
     QStyleOption opt;
     opt.init(this);

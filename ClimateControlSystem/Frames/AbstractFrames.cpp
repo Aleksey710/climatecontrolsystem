@@ -46,6 +46,29 @@ void AbstractFrames::setupDisplay(const QString &name, QLineEdit *lineEdit)
 }
 //------------------------------------------------------------------------------------
 //!
+void AbstractFrames::setupDigDisplay(const QString &name, QLineEdit *lineEdit)
+{
+    ScriptObject *scriptObject = ScriptUnit::getScriptObject(name);
+
+    if(scriptObject)
+    {
+        connect(scriptObject, &ScriptObject::dataChanged, [=](){
+
+            if( scriptObject->data() )
+            {
+                lineEdit->setText(QString("Увiмкнено"));
+            } else
+            {
+                lineEdit->setText(QString("Вимкнено"));
+            }
+        });
+
+        //! Начальная инициализация виджета
+        scriptObject->dataChanged();
+    }
+}
+//------------------------------------------------------------------------------------
+//!
 void AbstractFrames::setupDisplay(const QString &name, GigitalIndicatorWidget *displayWidget)
 {
     ScriptObject *scriptObject = ScriptUnit::getScriptObject(name);

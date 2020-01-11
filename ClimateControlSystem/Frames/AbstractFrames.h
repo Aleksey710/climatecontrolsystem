@@ -28,7 +28,10 @@ class AbstractFrames : public QWidget
 
     protected:
         void setupDisplay(const QString &name, QLabel *label);
+
         void setupDisplay(const QString &name, QLineEdit *lineEdit);
+        void setupDigDisplay(const QString &name, QLineEdit *lineEdit);
+
         void setupDisplay(const QString &name, GigitalIndicatorWidget *displayWidget);
 
     signals:

@@ -1,14 +1,10 @@
 #include "MainFrame.h"
-#include "ui_MainFrame.h"
 
 //------------------------------------------------------------------------------------
 //!
 MainFrame::MainFrame(QWidget *parent)
-          :AbstractFrames(parent),
-           ui(new Ui::MainFrame)
+          :AbstractFrames(parent)
 {
-    ui->setupUi(this);
-
     setObjectName("MainFrame");
 
     QGridLayout *mainLayout = new QGridLayout;
@@ -60,7 +56,7 @@ MainFrame::MainFrame(QWidget *parent)
 //!
 MainFrame::~MainFrame()
 {
-    delete ui;
+
 }
 //------------------------------------------------------------------------------------
 //!

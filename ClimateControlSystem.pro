@@ -21,6 +21,3 @@ ClimateControlSystem.depends = \
 # libqt5sql5-sqlite \
 
 
-
-
-

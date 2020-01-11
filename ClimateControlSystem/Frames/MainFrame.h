@@ -18,10 +18,6 @@
 #include "DateTimeWidget.h"
 #include "StatesDisplayWidget.h"
 //------------------------------------------------------------------------------------
-namespace Ui {
-class MainFrame;
-}
-//------------------------------------------------------------------------------------
 //!
 class MainFrame : public AbstractFrames
 {
@@ -32,7 +28,7 @@ class MainFrame : public AbstractFrames
         virtual ~MainFrame();
 
     private:
-        Ui::MainFrame *ui;
+
 };
 //------------------------------------------------------------------------------------
 #endif // MAINFRAME_H

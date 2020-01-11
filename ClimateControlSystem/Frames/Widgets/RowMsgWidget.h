@@ -1,5 +1,5 @@
-#ifndef ABSTRACTSTRINGWIDGET_H
-#define ABSTRACTSTRINGWIDGET_H
+#ifndef ROWMSGWIDGET_H
+#define ROWMSGWIDGET_H
 //------------------------------------------------------------------------------------
 #include <QObject>
 #include <QWidget>
@@ -13,17 +13,20 @@
 
 
 #include "Log.h"
+#include "MsgWidget.h"
 //#include ".h"
 //#include ".h"
 //#include ".h"
 //------------------------------------------------------------------------------------
 //!
-class AbstractStringWidget : public QWidget
+class RowMsgWidget : public QWidget
 {
         Q_OBJECT
     public:
-        explicit AbstractStringWidget(QWidget *parent = nullptr);
-        virtual ~AbstractStringWidget();
+        explicit RowMsgWidget(const QList<MsgWidget*> &highPriorityMsgWidgetList,
+                              const QList<MsgWidget*> &lowPriorityMsgWidgetList,
+                              QWidget *parent = nullptr);
+        virtual ~RowMsgWidget();
 
 
     signals:
@@ -52,4 +55,4 @@ class AbstractStringWidget : public QWidget
 
 };
 //------------------------------------------------------------------------------------
-#endif // ABSTRACTSTRINGWIDGET_H
+#endif // ROWMSGWIDGET_H

@@ -9,24 +9,35 @@ DateTimeWidget::DateTimeWidget(QWidget *parent)
 
     QGridLayout *mainLayout = new QGridLayout();
 
-    setStyleSheet(
-        "QWidget{ "
-        "padding: 1px;"
-        "margin: 1px;"
-        "border: 1px solid #6c6c6c;"
+    setLayout(mainLayout);
 
-        "border-radius: 10px;"
-        //"border-color: beige;"
-        //"font: bold 14px;      "
-        "}"
-    );
-
-
+    mainLayout->setMargin(1);
     mainLayout->setVerticalSpacing(1);
     mainLayout->setHorizontalSpacing(1);
 
-    //QWidget *mainWidget()
+    QString baseStyleSheet = styleSheet();
 
+    QGridLayout *rootLayout = new QGridLayout();
+    rootLayout->setMargin(1);
+    rootLayout->setVerticalSpacing(1);
+    rootLayout->setHorizontalSpacing(1);
+
+    QWidget *rootWidget = new QWidget();
+    rootWidget->setObjectName("rootWidget");
+    rootWidget->setStyleSheet(
+        "QWidget#rootWidget {"
+        "padding: 1px;"
+        "margin: 1px;"
+        "border: 1px solid #000000;"
+        "border-radius : 5px;"
+//        "color: blue;"
+//        "background-color: yellow;"
+        "}"
+    );
+
+    rootWidget->setLayout(rootLayout);
+
+    mainLayout->addWidget(rootWidget);
     //---------------------------------------------------------
     QFont dateFont = font();
     dateFont.setPointSize(dateFont.pointSize() + 5);
@@ -34,7 +45,7 @@ DateTimeWidget::DateTimeWidget(QWidget *parent)
     QLabel *dateLabel = new QLabel();
     dateLabel->setFont(dateFont);
     dateLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
-    mainLayout->addWidget(dateLabel);
+    rootLayout->addWidget(dateLabel);
 
     //---------------------------------------------------------
     QFont timeFont = font();
@@ -43,11 +54,8 @@ DateTimeWidget::DateTimeWidget(QWidget *parent)
     QLabel *timeLabel = new QLabel();
     timeLabel->setFont(timeFont);
     timeLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
-    mainLayout->addWidget(timeLabel);
+    rootLayout->addWidget(timeLabel);
 
-    //---------------------------------------------------------
-    //! Задать виджету слой
-    setLayout(mainLayout);
     //---------------------------------------------------------
 
     QTimer *timer = new QTimer(this);

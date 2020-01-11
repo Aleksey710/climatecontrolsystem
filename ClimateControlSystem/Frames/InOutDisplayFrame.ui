@@ -20,7 +20,7 @@
       <number>1</number>
      </property>
      <item row="13" column="1">
-      <widget class="QLineEdit" name="lineEdit_24">
+      <widget class="QLineEdit" name="le_umax_zrk">
        <property name="font">
         <font>
          <pointsize>8</pointsize>
@@ -129,7 +129,7 @@
       </widget>
      </item>
      <item row="7" column="1">
-      <widget class="QLineEdit" name="lineEdit_5">
+      <widget class="QLineEdit" name="le_VVO_2">
        <property name="font">
         <font>
          <pointsize>8</pointsize>
@@ -162,7 +162,7 @@
       </widget>
      </item>
      <item row="8" column="1">
-      <widget class="QLineEdit" name="lineEdit_19">
+      <widget class="QLineEdit" name="le_generator">
        <property name="font">
         <font>
          <pointsize>8</pointsize>
@@ -201,7 +201,7 @@
       </widget>
      </item>
      <item row="10" column="1">
-      <widget class="QLineEdit" name="lineEdit_21">
+      <widget class="QLineEdit" name="le_condFailure">
        <property name="font">
         <font>
          <pointsize>8</pointsize>
@@ -277,7 +277,7 @@
       </widget>
      </item>
      <item row="8" column="3">
-      <widget class="QLineEdit" name="lineEdit_25">
+      <widget class="QLineEdit" name="le_automode">
        <property name="font">
         <font>
          <pointsize>8</pointsize>
@@ -295,7 +295,7 @@
       </widget>
      </item>
      <item row="11" column="3">
-      <widget class="QLineEdit" name="lineEdit_28">
+      <widget class="QLineEdit" name="le_condWorked">
        <property name="font">
         <font>
          <pointsize>8</pointsize>
@@ -337,7 +337,7 @@
       </widget>
      </item>
      <item row="9" column="3">
-      <widget class="QLineEdit" name="lineEdit_26">
+      <widget class="QLineEdit" name="le_elEquipmentOn">
        <property name="font">
         <font>
          <pointsize>8</pointsize>
@@ -346,7 +346,7 @@
       </widget>
      </item>
      <item row="6" column="3">
-      <widget class="QLineEdit" name="lineEdit_12">
+      <widget class="QLineEdit" name="le_VVO_1">
        <property name="font">
         <font>
          <pointsize>8</pointsize>
@@ -448,7 +448,7 @@
       </widget>
      </item>
      <item row="7" column="3">
-      <widget class="QLineEdit" name="lineEdit_13">
+      <widget class="QLineEdit" name="le_NVO">
        <property name="font">
         <font>
          <pointsize>8</pointsize>
@@ -457,7 +457,7 @@
       </widget>
      </item>
      <item row="6" column="1">
-      <widget class="QLineEdit" name="lineEdit_8">
+      <widget class="QLineEdit" name="le_u3000">
        <property name="font">
         <font>
          <pointsize>8</pointsize>
@@ -466,7 +466,7 @@
       </widget>
      </item>
      <item row="12" column="3">
-      <widget class="QLineEdit" name="lineEdit_29">
+      <widget class="QLineEdit" name="le_heater">
        <property name="font">
         <font>
          <pointsize>8</pointsize>
@@ -484,7 +484,7 @@
       </widget>
      </item>
      <item row="9" column="1">
-      <widget class="QLineEdit" name="lineEdit_20">
+      <widget class="QLineEdit" name="le_crash">
        <property name="font">
         <font>
          <pointsize>8</pointsize>
@@ -502,7 +502,7 @@
       </widget>
      </item>
      <item row="12" column="1">
-      <widget class="QLineEdit" name="lineEdit_23">
+      <widget class="QLineEdit" name="le_cooling">
        <property name="font">
         <font>
          <pointsize>8</pointsize>
@@ -565,7 +565,7 @@
       </widget>
      </item>
      <item row="10" column="3">
-      <widget class="QLineEdit" name="lineEdit_27">
+      <widget class="QLineEdit" name="le_cont1Failure">
        <property name="font">
         <font>
          <pointsize>8</pointsize>
@@ -604,7 +604,7 @@
       </widget>
      </item>
      <item row="13" column="3">
-      <widget class="QLineEdit" name="lineEdit_30">
+      <widget class="QLineEdit" name="le_r_insulation">
        <property name="font">
         <font>
          <pointsize>8</pointsize>
@@ -613,7 +613,7 @@
       </widget>
      </item>
      <item row="11" column="1">
-      <widget class="QLineEdit" name="lineEdit_22">
+      <widget class="QLineEdit" name="le_cont2Failure">
        <property name="font">
         <font>
          <pointsize>8</pointsize>

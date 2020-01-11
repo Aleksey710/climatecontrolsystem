@@ -1,5 +1,5 @@
-#ifndef STRINGMSGWIDGET_H
-#define STRINGMSGWIDGET_H
+#ifndef MSGWIDGET_H
+#define MSGWIDGET_H
 //------------------------------------------------------------------------------------
 #include <QWidget>
 #include <QStyleOption>
@@ -8,14 +8,14 @@
 #include "ScriptObject.h"
 //------------------------------------------------------------------------------------
 //!
-class StringMsgWidget : public QWidget
+class MsgWidget : public QWidget
 {
         Q_OBJECT
     public:
-        explicit StringMsgWidget(ScriptObject *scriptObject,
-                                 QHash<int, QString> msgList,
-                                 QWidget *parent = nullptr);
-        virtual ~StringMsgWidget();
+        explicit MsgWidget(ScriptObject *scriptObject,
+                           QHash<int, QString> msgList,
+                           QWidget *parent = nullptr);
+        virtual ~MsgWidget();
 
 
     signals:
@@ -30,4 +30,4 @@ class StringMsgWidget : public QWidget
         QHash<int, QString> m_msgList;
 };
 //------------------------------------------------------------------------------------
-#endif // STRINGMSGWIDGET_H
+#endif // MSGWIDGET_H

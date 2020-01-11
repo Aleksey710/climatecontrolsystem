@@ -62,13 +62,9 @@ HEADERS += \
     Frames/Widgets/DateTimeWidget.h \
     Frames/Widgets/DigitalStripIndicator.h \
     Frames/Widgets/GigitalIndicatorWidget.h \
+    Frames/Widgets/MsgWidget.h \
+    Frames/Widgets/RowMsgWidget.h \
     Frames/Widgets/StatesDisplayWidget.h \
-    Frames/Widgets/AbstractStringWidget.h \
-    Frames/Widgets/StringMsgWidget.h \
-    Frames/Widgets/String1Widget.h \
-    Frames/Widgets/String2Widget.h \
-    Frames/Widgets/String3Widget.h \
-    Frames/Widgets/String4Widget.h \
     MainDisplayWidget.h \
 
 
@@ -81,21 +77,16 @@ SOURCES += \
     Frames/Widgets/DateTimeWidget.cpp \
     Frames/Widgets/DigitalStripIndicator.cpp \
     Frames/Widgets/GigitalIndicatorWidget.cpp \
+    Frames/Widgets/MsgWidget.cpp \
+    Frames/Widgets/RowMsgWidget.cpp \
     Frames/Widgets/StatesDisplayWidget.cpp \
-    Frames/Widgets/AbstractStringWidget.cpp \
-    Frames/Widgets/StringMsgWidget.cpp \
-    Frames/Widgets/String1Widget.cpp \
-    Frames/Widgets/String2Widget.cpp \
-    Frames/Widgets/String3Widget.cpp \
-    Frames/Widgets/String4Widget.cpp \
     MainDisplayWidget.cpp \
     main.cpp
 
 
 FORMS += \
     Frames/CarInformationFrame.ui \
-    Frames/InOutDisplayFrame.ui \
-    Frames/MainFrame.ui
+    Frames/InOutDisplayFrame.ui
 
 
 

@@ -5,7 +5,7 @@
 #include <QDateTime>
 #include <cassert>
 #include <QString>
-
+#include <QTextCodec>
 
 //------------------------------------------------------------------------------------
 #define easylogging

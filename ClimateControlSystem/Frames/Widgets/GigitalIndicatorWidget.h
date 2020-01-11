@@ -7,7 +7,7 @@
 #include <QFont>
 #include <QLabel>
 #include <QProgressBar>
-//#include <>
+#include <QCoreApplication>
 //#include <>
 //#include <>
 //#include <>

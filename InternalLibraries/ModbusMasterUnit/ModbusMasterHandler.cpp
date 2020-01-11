@@ -212,6 +212,9 @@ void ModbusMasterHandler::requestExecutionErrorHandler()
 
     deleteModbusDevice();
 
+    SEND_TO_LOG( QString("%1 - --- end exequte request -----").arg(objectName()) );
+    SEND_TO_LOG( QString("%1 - -----------------------------").arg(objectName()) );
+
     emit exequted();
 }
 //------------------------------------------------------------------------------------
@@ -403,9 +406,10 @@ void ModbusMasterHandler::replyHandler(QModbusReply *reply)
         errorDataHandler();
     }
 
-    reply->deleteLater();
+    m_curentModbusRequest = nullptr;
 
     deleteModbusDevice();
+
     //-----------------------------------
     SEND_TO_LOG( QString("%1 - --- end exequte request -----").arg(objectName()) );
     SEND_TO_LOG( QString("%1 - -----------------------------").arg(objectName()) );

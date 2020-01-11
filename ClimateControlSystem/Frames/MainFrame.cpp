@@ -13,6 +13,7 @@ MainFrame::MainFrame(QWidget *parent)
 
     QGridLayout *mainLayout = new QGridLayout;
 
+    mainLayout->setMargin(1);
     mainLayout->setVerticalSpacing(1);
     mainLayout->setHorizontalSpacing(1);
 

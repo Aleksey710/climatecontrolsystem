@@ -12,10 +12,10 @@ StatesDisplayWidget::StatesDisplayWidget(QWidget *parent)
         "QWidget{ "
         "padding: 1px;"
         "margin: 1px;"
-        "border: 1px solid #6c6c6c;"
-        "border-radius : 25px;"
-        "color: blue;"
-        "background-color: yellow;"
+        "border: 1px solid #000000;"
+        "border-radius : 5px;"
+        //"color: blue;"
+        //"background-color: yellow;"
         "}"
     );
 
@@ -41,9 +41,10 @@ StatesDisplayWidget::StatesDisplayWidget(QWidget *parent)
 
 //    //---------------------------------------------------------
 //    m_mainLayout->addWidget(m_digitalStripIndicator);
+
     //---------------------------------------------------------
     //! Задать виджету слой
-    //setLayout(m_mainLayout);
+    setLayout(m_mainLayout);
 
     SEND_TO_LOG( QString("%1 - создан").arg(objectName()) );
 }

@@ -14,18 +14,30 @@ GigitalIndicatorWidget::GigitalIndicatorWidget(const QString &title,
 {
     setObjectName("GigitalIndicatorWidget");
 
-//    setStyleSheet(
-//        "QWidget{ "
-//        "padding: 1px;"
-//        "margin: 1px;"
-//        "border: 1px solid #6c6c6c;"
-//        "border-radius : 25px;"
-//        "}"
-//    );
+    m_mainLayout->setMargin(1);
+    m_mainLayout->setVerticalSpacing(1);
+    m_mainLayout->setHorizontalSpacing(1);
 
-//    m_mainLayout->setVerticalSpacing(1);
-//    m_mainLayout->setHorizontalSpacing(1);
+    QString baseStyleSheet = styleSheet();
 
+    QGridLayout *rootLayout = new QGridLayout();
+    rootLayout->setMargin(1);
+    rootLayout->setVerticalSpacing(1);
+    rootLayout->setHorizontalSpacing(1);
+
+    QWidget *rootWidget = new QWidget();
+    rootWidget->setObjectName("rootWidget");
+    rootWidget->setStyleSheet(
+        "QWidget#rootWidget {"
+        "padding: 1px;"
+        "margin: 1px;"
+        "border: 1px solid #000000;"
+        "border-radius : 5px;"
+//        "color: blue;"
+//        "background-color: yellow;"
+        "}"
+    );
+    rootWidget->setLayout(rootLayout);
     //---------------------------------------------------------
     QFont titleFont = font();
     titleFont.setPointSize(titleFont.pointSize() + 3);
@@ -33,7 +45,7 @@ GigitalIndicatorWidget::GigitalIndicatorWidget(const QString &title,
     QLabel *titleLabel = new QLabel(title);
     titleLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     titleLabel->setFont(titleFont);
-    m_mainLayout->addWidget(titleLabel);
+    rootLayout->addWidget(titleLabel);
 
     //---------------------------------------------------------
     QFont dataFont = font();
@@ -41,10 +53,13 @@ GigitalIndicatorWidget::GigitalIndicatorWidget(const QString &title,
 
     m_dataLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     m_dataLabel->setFont(dataFont);
-    m_mainLayout->addWidget(m_dataLabel);
+    rootLayout->addWidget(m_dataLabel);
 
     //---------------------------------------------------------
-    m_mainLayout->addWidget(m_digitalStripIndicator);
+    rootLayout->addWidget(m_digitalStripIndicator);
+    //---------------------------------------------------------
+    m_mainLayout->addWidget(rootWidget);
+
     //---------------------------------------------------------
     //! Задать виджету слой
     setLayout(m_mainLayout);
@@ -65,43 +80,5 @@ void GigitalIndicatorWidget::setData(const double &value)
 
     m_dataLabel->setText(QString("%1 %2").arg(value).arg(m_measureTitle));
 }
-/*
-QTableWidget{
-border: 0.5px solid gray;
-border-radius : 25px;
-selection-background-color : transparent black;
-}
-
-QTableView{
-border : 0.5px solid gray;
-border-radius : 25px;
-}
-QHeaderView::section:first {
- background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,
-                                   stop:0 #616161, stop: 0.5 #505050,
-                                   stop: 0.6 #434343, stop:1 #656565);
- color: white;
- border: 1px solid #6c6c6c;
-[b]     border-radius : 25px;[/b] //не работает
- padding-left: 4px;
- margin-left  : 25px;
-
-
-
-QProgressBar {
-border: 2px solid grey;
-border-radius: 5px;
-}
-
-QProgressBar::chunk {
-background-color: #05B8CC;
-width: 20px;
-}
-This leaves the text-align, which we customize by positioning the text in the center of the progress bar.
-
-QProgressBar {
-border: 2px solid grey;
-border-radius: 5px;
-text-align: center;
-}
- */
+//------------------------------------------------------------------------------------
+//!

@@ -14,12 +14,18 @@ DigitalStripIndicator::DigitalStripIndicator(const int minimum,
 {
     setStyleSheet(
         "QWidget{ "
-        "padding: 1px;"
-        "margin: 1px;"
-        "border: 1px solid black;"
-        "border-radius : 3px;"
+        "padding: 10px;"
+        "margin: 10px;"
+//        "border: 1px solid #000000;"
+//        "border-radius : 5px;"
+//        "color: blue;"
+//        "background-color: yellow;"
         "}"
     );
+
+    QGridLayout *layout = new QGridLayout();
+
+    setLayout(layout);
 }
 //------------------------------------------------------------------------------------
 //!
@@ -49,7 +55,12 @@ void DigitalStripIndicator::paintEvent(QPaintEvent *)
 {
     //qDebug() << "DigitalStripIndicator::paintEvent";
 
+    QStyleOption opt;
+    opt.init(this);
+
     QPainter painter(this);
+    style()->drawPrimitive(QStyle::PE_Widget, &opt, &painter, this);
+
     painter.setRenderHint(QPainter::Antialiasing);
     //painter.translate(width(), height());
     //painter.scale(width(), height());

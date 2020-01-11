@@ -7,6 +7,8 @@
 #include <QLabel>
 #include <QPainter>
 #include <QTimer>
+#include <QGridLayout>
+#include <QStyleOption>
 //#include <>
 //#include <>
 

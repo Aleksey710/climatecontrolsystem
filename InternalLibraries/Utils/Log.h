@@ -1,6 +1,7 @@
 ﻿#ifndef LOG_H
 #define LOG_H
 //------------------------------------------------------------------------------------
+#include <QObject>
 #include <QDebug>
 #include <QDateTime>
 #include <cassert>
@@ -25,7 +26,8 @@
 //------------------------------------------------------------------------------------
 #ifdef Q_OS_WIN
     //#define SEND_TO_LOG(msg) LOG(INFO) << QObject::tr(msg);
-    #define SEND_TO_LOG(msg) LOG(INFO) << QTextCodec::codecForName("CP866")->fromUnicode(msg).constData();
+    //#define SEND_TO_LOG(msg) LOG(INFO) << QTextCodec::codecForName("CP866")->fromUnicode(msg).constData();
+    #define SEND_TO_LOG(msg) qDebug() << QString(msg);
 #else
     #ifdef easylogging
         #define SEND_TO_LOG(msg) (LOG(INFO) << QString((msg)));

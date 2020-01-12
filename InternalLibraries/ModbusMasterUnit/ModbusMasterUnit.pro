@@ -41,6 +41,7 @@ QT += sql
 QT += script
 QT += scripttools
 
+
 #############################################################
 INCLUDEPATH += $$ROOT_PATH/ExternalLibraries/Easyloggingpp
 INCLUDEPATH += $$ROOT_PATH/ExternalLibraries/qmqtt/qmqtt/mqtt
@@ -88,7 +89,6 @@ LIBS += \
     -lDbUnit \
     -lUtils \
     -leasylogging++
-
 
 #############################################################
 

@@ -44,7 +44,7 @@
 
 //#include ".h"
 //#include ".h"
-
+//Q_PROCESSOR_ARM
 //-------------------------------------------------------------------------
 //! В ModbusMasterUnit.pro
 //! #define CIRCULAR_PROCESSING_REQUEST

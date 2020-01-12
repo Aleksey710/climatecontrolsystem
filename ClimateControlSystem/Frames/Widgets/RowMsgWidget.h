@@ -23,36 +23,29 @@ class RowMsgWidget : public QWidget
 {
         Q_OBJECT
     public:
-        explicit RowMsgWidget(const QList<MsgWidget*> &highPriorityMsgWidgetList,
-                              const QList<MsgWidget*> &lowPriorityMsgWidgetList,
+        explicit RowMsgWidget(MsgWidget *lowColumn1MsgWidget = nullptr,
+                              MsgWidget *lowColumn2MsgWidget = nullptr,
+                              MsgWidget *highColumn1MsgWidget = nullptr,
+                              MsgWidget *highColumn2MsgWidget = nullptr,
                               QWidget *parent = nullptr);
         virtual ~RowMsgWidget();
 
 
     signals:
 
-    public slots:
-        //void setData(const double &value);
-
-
-    protected:
-        enum PriorityWidget {
-            HighPriorityWidget,
-            LowPriorityWidget
-        };
+    protected slots:
+        void priorityHandler(bool state);
 
     protected:
-        void setVisibleMsgWidget(const PriorityWidget type);
 
 
     protected:
         QGridLayout *m_mainLayout;
 
-        PriorityWidget m_curentPriorityWidget;
-
-        QWidget *m_highPriorityWidget;
         QWidget *m_lowPriorityWidget;
+        QWidget *m_highPriorityWidget;
 
+        int m_highIndex;
 };
 //------------------------------------------------------------------------------------
 #endif // ROWMSGWIDGET_H

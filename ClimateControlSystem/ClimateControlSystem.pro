@@ -77,7 +77,6 @@ SOURCES += \
     Frames/Widgets/DateTimeWidget.cpp \
     Frames/Widgets/DigitalStripIndicator.cpp \
     Frames/Widgets/GigitalIndicatorWidget.cpp \
-    Frames/Widgets/MsgWidget.cpp \
     Frames/Widgets/RowMsgWidget.cpp \
     Frames/Widgets/StatesDisplayWidget.cpp \
     MainDisplayWidget.cpp \

@@ -2,50 +2,70 @@
 
 //------------------------------------------------------------------------------------
 //!
-RowMsgWidget::RowMsgWidget(const QList<MsgWidget *> &highPriorityMsgWidgetList,
-                           const QList<MsgWidget *> &lowPriorityMsgWidgetList,
+RowMsgWidget::RowMsgWidget(MsgWidget *lowColumn1MsgWidget,
+                           MsgWidget *lowColumn2MsgWidget,
+                           MsgWidget *highColumn1MsgWidget,
+                           MsgWidget *highColumn2MsgWidget,
                            QWidget *parent)
              :QWidget(parent),
               m_mainLayout ( new QGridLayout() ),
-              m_curentPriorityWidget ( PriorityWidget::LowPriorityWidget ),
+              m_lowPriorityWidget ( new QWidget() ),
               m_highPriorityWidget ( new QWidget() ),
-              m_lowPriorityWidget ( new QWidget() )
+              m_highIndex ( 0 )
 {
     setObjectName("RowMsgWidget");
 
-        setStyleSheet(
-            "QWidget{ "
-            "padding: 1px;"
-            "margin: 1px;"
-            "border: 1px solid #6c6c6c;"
-            //"border-radius : 25px;"
-            "}"
-        );
+    setStyleSheet(
+        "QWidget{ "
+        "padding: 0px;"
+        "margin: 0px;"
+        //"border: 1px solid #6c6c6c;"
+        //"border-radius : 25px;"
+        "}"
+    );
 
     m_mainLayout->setMargin(1);
     m_mainLayout->setVerticalSpacing(1);
     m_mainLayout->setHorizontalSpacing(1);
 
     //---------------------------------------------------------
-    QFont titleFont = font();
-    titleFont.setPointSize(titleFont.pointSize() + 3);
+    QHBoxLayout *lowPriorityWidgetLayout = new QHBoxLayout();
 
-    QLabel *titleLabel = new QLabel("СТРОКА");
-    titleLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
-    titleLabel->setFont(titleFont);
-    m_mainLayout->addWidget(titleLabel);
+    if(lowColumn1MsgWidget)
+    {
+        lowPriorityWidgetLayout->addWidget(lowColumn1MsgWidget);
+    }
 
+    if(lowColumn2MsgWidget)
+    {
+        lowPriorityWidgetLayout->addWidget(lowColumn2MsgWidget);
+    }
+
+    m_lowPriorityWidget->setLayout(lowPriorityWidgetLayout);
+    m_mainLayout->addWidget(m_lowPriorityWidget);
     //---------------------------------------------------------
-    QFont dataFont = font();
-    dataFont.setPointSize(dataFont.pointSize() + 10);
+    QHBoxLayout *highPriorityWidgetLayout = new QHBoxLayout();
 
-    //---------------------------------------------------------
-//    m_dataLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
-//    m_dataLabel->setFont(dataFont);
-//    m_mainLayout->addWidget(m_dataLabel);
+    if(highColumn1MsgWidget)
+    {
+        highPriorityWidgetLayout->addWidget(highColumn1MsgWidget);
+        connect(highColumn1MsgWidget, &MsgWidget::displayed,
+                this, &RowMsgWidget::priorityHandler);
+    }
 
-    //---------------------------------------------------------
-    //m_mainLayout->addWidget(m_digitalStripIndicator);
+    if(highColumn2MsgWidget)
+    {
+        highPriorityWidgetLayout->addWidget(highColumn2MsgWidget);
+        connect(highColumn2MsgWidget, &MsgWidget::displayed,
+                this, &RowMsgWidget::priorityHandler);
+    }
+
+    m_highPriorityWidget->setLayout(highPriorityWidgetLayout);
+
+    m_highPriorityWidget->setVisible(false);
+
+    m_mainLayout->addWidget(m_highPriorityWidget);
+
     //---------------------------------------------------------
     //! Задать виджету слой
     setLayout(m_mainLayout);
@@ -60,18 +80,17 @@ RowMsgWidget::~RowMsgWidget()
 }
 //------------------------------------------------------------------------------------
 //!
-void RowMsgWidget::setVisibleMsgWidget(const PriorityWidget type)
+void RowMsgWidget::priorityHandler(bool state)
 {
+    if(state) m_highIndex++; else m_highIndex--;
 
-    switch (type)
+    if(m_highIndex)
     {
-        case PriorityWidget::HighPriorityWidget:
-
-            break;
-        case PriorityWidget::LowPriorityWidget:
-
-            break;
-        default:
-            break;
+        m_lowPriorityWidget->setVisible(false);
+        m_highPriorityWidget->setVisible(true);
+    } else
+    {
+        m_lowPriorityWidget->setVisible(true);
+        m_highPriorityWidget->setVisible(false);
     }
 }

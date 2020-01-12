@@ -25,7 +25,6 @@
 #endif
 //------------------------------------------------------------------------------------
 #ifdef Q_OS_WIN
-    //#define SEND_TO_LOG(msg) LOG(INFO) << QObject::tr(msg);
     //#define SEND_TO_LOG(msg) LOG(INFO) << QTextCodec::codecForName("CP866")->fromUnicode(msg).constData();
     #define SEND_TO_LOG(msg) qDebug() << QString(msg);
 #else

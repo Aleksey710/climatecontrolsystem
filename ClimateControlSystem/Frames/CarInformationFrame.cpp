@@ -39,6 +39,8 @@ CarInformationFrame::CarInformationFrame(QWidget *parent)
     setupDisplay("settings.wagon.sv",   ui->lbPoVersion);
     setupDisplay("settings.wagon.dd",   ui->lbStartUseDate);
 
+    setupDisplay("settings.wagon.dd",   ui->lbStartUseDate);
+
     //-------------------------------------------------
     SEND_TO_LOG( QString("%1 - создан").arg(objectName()) );
 }

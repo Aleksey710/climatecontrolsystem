@@ -16,6 +16,8 @@
 #include <QJsonArray>
 #include <QJsonValue>
 #include <QStringList>
+#include <QScriptSyntaxCheckResult>
+//#include <>
 //#include <>
 //#include <>
 

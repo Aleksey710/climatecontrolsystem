@@ -29,6 +29,30 @@ RowMsgWidget::RowMsgWidget(MsgWidget *lowColumn1MsgWidget,
     m_mainLayout->setHorizontalSpacing(1);
 
     //---------------------------------------------------------
+    m_lowPriorityWidget->setStyleSheet(
+        "QLabel{ "
+        "padding: 1px;"
+        "margin: 1px;"
+        //"border: 1px solid #000000;"
+        "border: 2px solid #ff0000;"
+        "border-radius : 5px;"
+        "color: red;"
+        //"background-color: yellow;"
+        "}"
+    );
+
+    m_highPriorityWidget->setStyleSheet(
+        "QLabel{ "
+        "padding: 1px;"
+        "margin: 1px;"
+        //"border: 1px solid #000000;"
+        //"border: 2px solid #ff0000;"
+        "border-radius : 5px;"
+        "color: white;"
+        "background-color: red;"
+        "}"
+    );
+    //---------------------------------------------------------
     QHBoxLayout *lowPriorityWidgetLayout = new QHBoxLayout();
 
     if(lowColumn1MsgWidget)

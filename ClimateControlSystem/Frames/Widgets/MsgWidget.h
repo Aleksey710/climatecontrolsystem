@@ -19,17 +19,17 @@ class MsgWidget : public QLabel
                            QWidget *parent = nullptr)
                 :QLabel(msg, parent)
             {
-                setStyleSheet(
-                    "QLabel{ "
-                    "padding: 1px;"
-                    "margin: 1px;"
-                    //"border: 1px solid #000000;"
-                    "border: 2px solid #ff0000;"
-                    "border-radius : 5px;"
-                    "color: red;"
-                    //"background-color: yellow;"
-                    "}"
-                );
+//                setStyleSheet(
+//                    "QLabel{ "
+//                    "padding: 1px;"
+//                    "margin: 1px;"
+//                    //"border: 1px solid #000000;"
+//                    "border: 2px solid #ff0000;"
+//                    "border-radius : 5px;"
+//                    "color: red;"
+//                    //"background-color: yellow;"
+//                    "}"
+//                );
 
                 QFont titleFont = font();
                 titleFont.setPointSize(titleFont.pointSize() + 3);

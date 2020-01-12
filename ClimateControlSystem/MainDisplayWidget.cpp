@@ -152,14 +152,14 @@ void MainDisplayWidget::setupFrames()
 void MainDisplayWidget::setupMenu()
 {
     QFont buttonFont = font();
-    buttonFont.setPointSize(buttonFont.pointSize() + 5);
+    buttonFont.setPointSize(buttonFont.pointSize() + 2);
 
-    int buttonHeight = 40;
+    int buttonHeight = 20;
     //-------------------------------------------------------------------
     m_menuLayout = new QHBoxLayout();
 
     //-------------------------------------------------------------------
-    QPushButton *mainFrameButton = new QPushButton("На главную");
+    QPushButton *mainFrameButton = new QPushButton("На головну");
 
     mainFrameButton->setFixedHeight(buttonHeight);
     mainFrameButton->setFont(buttonFont);
@@ -181,6 +181,7 @@ void MainDisplayWidget::setupMenu()
 
     m_menuLayout->addWidget(mainFrameButton);
     //-------------------------------------------------------------------
+    /*
     QPushButton *previousFrameButton = new QPushButton("Предыдущий экран");
 
     previousFrameButton->setFixedHeight(buttonHeight);
@@ -205,8 +206,9 @@ void MainDisplayWidget::setupMenu()
     });
 
     m_menuLayout->addWidget(previousFrameButton);
+    */
     //-------------------------------------------------------------------
-    QPushButton *nextFrameButton = new QPushButton("Следующий экран");
+    QPushButton *nextFrameButton = new QPushButton("Наступний екран");
 
     nextFrameButton->setFixedHeight(buttonHeight);
     nextFrameButton->setFont(buttonFont);
@@ -230,6 +232,57 @@ void MainDisplayWidget::setupMenu()
     });
 
     m_menuLayout->addWidget(nextFrameButton);
+
+    //-------------------------------------------------------------------
+    QPushButton *minusFrameButton = new QPushButton("-");
+
+    minusFrameButton->setFixedHeight(buttonHeight);
+    minusFrameButton->setFont(buttonFont);
+
+    connect(minusFrameButton, &QPushButton::clicked,
+            [=](){
+
+        m_framesList[m_curentFrameId]->setHidden(true);
+        m_frameLayout->removeWidget( m_framesList[m_curentFrameId] );
+
+        if(m_curentFrameId == (m_framesList.size()-1))
+        {
+            m_curentFrameId = 0;
+        } else
+        {
+            m_curentFrameId = m_curentFrameId + 1;
+        }
+
+        m_frameLayout->addWidget( m_framesList[m_curentFrameId] );
+        m_framesList[m_curentFrameId]->setHidden(false);
+    });
+
+    m_menuLayout->addWidget(minusFrameButton);
+    //-------------------------------------------------------------------
+    QPushButton *plusFrameButton = new QPushButton("+");
+
+    plusFrameButton->setFixedHeight(buttonHeight);
+    plusFrameButton->setFont(buttonFont);
+
+    connect(plusFrameButton, &QPushButton::clicked,
+            [=](){
+
+        m_framesList[m_curentFrameId]->setHidden(true);
+        m_frameLayout->removeWidget( m_framesList[m_curentFrameId] );
+
+        if(m_curentFrameId == (m_framesList.size()-1))
+        {
+            m_curentFrameId = 0;
+        } else
+        {
+            m_curentFrameId = m_curentFrameId + 1;
+        }
+
+        m_frameLayout->addWidget( m_framesList[m_curentFrameId] );
+        m_framesList[m_curentFrameId]->setHidden(false);
+    });
+
+    m_menuLayout->addWidget(plusFrameButton);
     //-------------------------------------------------------------------
     /*
     QPushButton *nextButton = new QPushButton("Следующий экран");

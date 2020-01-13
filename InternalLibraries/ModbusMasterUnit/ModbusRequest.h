@@ -52,7 +52,7 @@ class ModbusRequest : public QObject
         inline QModbusDataUnit& modbusDataUnit()
             { return m_modbusDataUnit; }
 
-        void setModbusDataUnit(const QModbusDataUnit &dataUnit);
+        void setModbusDataUnit(const QModbusDataUnit &dataUnit, int deviceState);
 
     public slots:
 

@@ -34,7 +34,9 @@ class RowMsgWidget : public QWidget
     signals:
 
     protected slots:
-        void priorityHandler(bool state);
+        void lowIndexHandler(bool state);
+        void highIndexHandler(bool state);
+        void priorityHandler();
 
     protected:
 
@@ -45,7 +47,8 @@ class RowMsgWidget : public QWidget
         QWidget *m_lowPriorityWidget;
         QWidget *m_highPriorityWidget;
 
-        int m_highIndex;
+        uint m_lowIndex;
+        uint m_highIndex;
 };
 //------------------------------------------------------------------------------------
 #endif // ROWMSGWIDGET_H

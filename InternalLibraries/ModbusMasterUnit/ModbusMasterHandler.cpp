@@ -374,7 +374,7 @@ void ModbusMasterHandler::replyHandler(QModbusReply *reply)
         //-----------------------------------
         if(m_curentModbusRequest)
         {
-            m_curentModbusRequest->setModbusDataUnit(unit);
+            m_curentModbusRequest->setModbusDataUnit(unit, 1);
         }
         //-----------------------------------
         /*
@@ -424,14 +424,7 @@ void ModbusMasterHandler::errorDataHandler()
     {
         QModbusDataUnit modbusDataUnit = m_curentModbusRequest->modbusDataUnit();
         modbusDataUnit.setValues( QVector<quint16>(modbusDataUnit.valueCount(), 0) );
-        m_curentModbusRequest->setModbusDataUnit(modbusDataUnit);
-
-        //-----------------------------------
-        ScriptObject *scriptObject = m_curentModbusRequest->deviceScriptObject();
-        if(scriptObject)
-        {
-            scriptObject->setData(-1);
-        }
+        m_curentModbusRequest->setModbusDataUnit(modbusDataUnit, -1);
     }
 }
 //------------------------------------------------------------------------------------

@@ -43,7 +43,7 @@ class MsgWidget : public QLabel
                 {
                     connect(scriptObject, &ScriptObject::dataChanged, [=](){
 
-                        if( scriptObject->data() )
+                        if( scriptObject->data() == 1 )
                         {
                             setVisible(true);
                             emit displayed(true);

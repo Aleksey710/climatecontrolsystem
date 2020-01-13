@@ -11,6 +11,7 @@ RowMsgWidget::RowMsgWidget(MsgWidget *lowColumn1MsgWidget,
               m_mainLayout ( new QGridLayout() ),
               m_lowPriorityWidget ( new QWidget() ),
               m_highPriorityWidget ( new QWidget() ),
+              m_lowIndex ( 0 ),
               m_highIndex ( 0 )
 {
     setObjectName("RowMsgWidget");
@@ -58,14 +59,21 @@ RowMsgWidget::RowMsgWidget(MsgWidget *lowColumn1MsgWidget,
     if(lowColumn1MsgWidget)
     {
         lowPriorityWidgetLayout->addWidget(lowColumn1MsgWidget);
+        connect(lowColumn1MsgWidget, &MsgWidget::displayed,
+                this, &RowMsgWidget::lowIndexHandler);
     }
 
     if(lowColumn2MsgWidget)
     {
         lowPriorityWidgetLayout->addWidget(lowColumn2MsgWidget);
+        connect(lowColumn2MsgWidget, &MsgWidget::displayed,
+                this, &RowMsgWidget::lowIndexHandler);
     }
 
     m_lowPriorityWidget->setLayout(lowPriorityWidgetLayout);
+
+    m_lowPriorityWidget->setVisible(false);
+
     m_mainLayout->addWidget(m_lowPriorityWidget);
     //---------------------------------------------------------
     QHBoxLayout *highPriorityWidgetLayout = new QHBoxLayout();
@@ -74,14 +82,14 @@ RowMsgWidget::RowMsgWidget(MsgWidget *lowColumn1MsgWidget,
     {
         highPriorityWidgetLayout->addWidget(highColumn1MsgWidget);
         connect(highColumn1MsgWidget, &MsgWidget::displayed,
-                this, &RowMsgWidget::priorityHandler);
+                this, &RowMsgWidget::highIndexHandler);
     }
 
     if(highColumn2MsgWidget)
     {
         highPriorityWidgetLayout->addWidget(highColumn2MsgWidget);
         connect(highColumn2MsgWidget, &MsgWidget::displayed,
-                this, &RowMsgWidget::priorityHandler);
+                this, &RowMsgWidget::highIndexHandler);
     }
 
     m_highPriorityWidget->setLayout(highPriorityWidgetLayout);
@@ -104,17 +112,38 @@ RowMsgWidget::~RowMsgWidget()
 }
 //------------------------------------------------------------------------------------
 //!
-void RowMsgWidget::priorityHandler(bool state)
+void RowMsgWidget::lowIndexHandler(bool state)
 {
-    if(state) m_highIndex++; else m_highIndex--;
+    if(state) m_lowIndex++; else { if(m_lowIndex > 0) m_lowIndex--; }
+    priorityHandler();
+}
+//------------------------------------------------------------------------------------
+//!
+void RowMsgWidget::highIndexHandler(bool state)
+{
+    if(state) m_highIndex++; else { if(m_highIndex > 0) m_highIndex--; }
+    priorityHandler();
+}
+//------------------------------------------------------------------------------------
+//!
+void RowMsgWidget::priorityHandler()
+{
+    qDebug() << "RowMsgWidget::priorityHandler()" << m_lowIndex << m_highIndex;
+    m_lowPriorityWidget->setVisible(true);
 
-    if(m_highIndex)
+
+    if(m_highIndex > 0)
     {
         m_lowPriorityWidget->setVisible(false);
         m_highPriorityWidget->setVisible(true);
     } else
     {
-        m_lowPriorityWidget->setVisible(true);
         m_highPriorityWidget->setVisible(false);
+
+        if(m_lowIndex > 0)
+            m_lowPriorityWidget->setVisible(true);
+        else
+            m_lowPriorityWidget->setVisible(false);
     }
+
 }

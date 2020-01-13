@@ -150,18 +150,24 @@ QModbusDataUnit::RegisterType ModbusRequest::registerTypeFromFunctionCode(const 
 }
 //------------------------------------------------------------------------------------
 //!
-void ModbusRequest::setModbusDataUnit(const QModbusDataUnit &dataUnit)
+void ModbusRequest::setModbusDataUnit(const QModbusDataUnit &dataUnit, int deviceState)
 {
     //qDebug() << "ModbusRequest::setModbusDataUnit" << dataUnit.values();
 
-    if(dataUnit.isValid())
+    if(m_deviceScriptObject)
     {
+        m_deviceScriptObject->setData(deviceState);
+    }
+
+    //-----------------------------------------
+    if(dataUnit.isValid())
+    {        
         for (uint i = 0; i < dataUnit.valueCount(); i++)
         {
             const int id          = dataUnit.startAddress() + i;
-            //const quint16 value   = dataUnit.value(i);
-            const quint16 value   = QString::number(dataUnit.value(i),
-                                                    dataUnit.registerType() <= QModbusDataUnit::Coils ? 10 : 16).toUShort();
+            const quint16 value   = dataUnit.value(i);
+//            const quint16 value   = QString::number(dataUnit.value(i),
+//                                                    dataUnit.registerType() <= QModbusDataUnit::Coils ? 10 : 16).toUShort();
 
     //        const QString entry = tr("Address: %1, Value: %2").arg(id).arg(value);
     //        SEND_TO_LOG( QString("%1 - data: %2").arg(objectName()).arg(entry) );
@@ -173,11 +179,6 @@ void ModbusRequest::setModbusDataUnit(const QModbusDataUnit &dataUnit)
             {
                 scriptObject->setData(value);
             }
-        }
-        //-----------------------------------------
-        if(m_deviceScriptObject)
-        {
-            m_deviceScriptObject->setData(1);
         }
     } else
     {

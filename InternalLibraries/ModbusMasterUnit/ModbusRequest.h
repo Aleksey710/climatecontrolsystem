@@ -49,8 +49,7 @@ class ModbusRequest : public QObject
         inline ScriptObject* deviceScriptObject()
             { return m_deviceScriptObject; }
 
-        inline QModbusDataUnit& modbusDataUnit()
-            { return m_modbusDataUnit; }
+        QModbusDataUnit& modbusDataUnit();
 
         void setModbusDataUnit(const QModbusDataUnit &dataUnit, int deviceState);
 

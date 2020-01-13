@@ -6,7 +6,7 @@
 #include <QList>
 #include <QScriptable>
 #include <QTimer>
-#include <QRandomGenerator>
+//#include <QRandomGenerator>
 //#include <>
 //#include <>
 //#include <>

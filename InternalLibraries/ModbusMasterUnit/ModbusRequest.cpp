@@ -150,6 +150,32 @@ QModbusDataUnit::RegisterType ModbusRequest::registerTypeFromFunctionCode(const 
 }
 //------------------------------------------------------------------------------------
 //!
+QModbusDataUnit& ModbusRequest::modbusDataUnit()
+{
+    if(m_functionCode == QModbusPdu::WriteSingleCoil ||
+       m_functionCode == QModbusPdu::WriteSingleRegister)
+    {
+        QHashIterator<quint16, ScriptObject*> i(m_scriptObjectList);
+
+        int startAddress = m_modbusDataUnit.startAddress();
+
+        while (i.hasNext())
+        {
+            i.next();
+
+            const quint16 addr          = i.key() + startAddress;
+            ScriptObject *scriptObject  = i.value();
+
+            const quint16 value         = static_cast<quint16>(scriptObject->data()) ;
+
+            m_modbusDataUnit.setValue( addr, value );
+        }
+    }
+
+    return m_modbusDataUnit;
+}
+//------------------------------------------------------------------------------------
+//!
 void ModbusRequest::setModbusDataUnit(const QModbusDataUnit &dataUnit, int deviceState)
 {
     //qDebug() << "ModbusRequest::setModbusDataUnit" << dataUnit.values();

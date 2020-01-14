@@ -10,8 +10,8 @@ MainFrame::MainFrame(QWidget *parent)
     QGridLayout *mainLayout = new QGridLayout;
 
     mainLayout->setMargin(1);
-    mainLayout->setVerticalSpacing(1);
-    mainLayout->setHorizontalSpacing(1);
+    //mainLayout->setVerticalSpacing(1);
+    //mainLayout->setHorizontalSpacing(1);
 
     GigitalIndicatorWidget *widget0 = new GigitalIndicatorWidget("Напруга мережi", "В", 0, 200);
     setupDisplay("modbus.rs0d10.r30000", widget0);

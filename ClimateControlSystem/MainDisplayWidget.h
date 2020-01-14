@@ -17,6 +17,8 @@
 #include "Log.h"
 #include "ScriptUnit.h"
 //
+#include "ButtonsWidget.h"
+//
 #include "MainFrame.h"
 #include "InOutDisplayFrame.h"
 #include "CarInformationFrame.h"
@@ -27,10 +29,14 @@
 #include "ClimateDeviceArchiveForm.h"
 #include "ElectricalEquipmentArchiveForm.h"
 #include "ElectricalEquipmentOperatingTimeArchiveForm.h"
+
+//#include ".h"
 //#include ""
-//#include ""
+
 //------------------------------------------------------------------------------------
-//#define FULL_SCREEN
+#ifdef __arm__
+    #define FULL_SCREEN
+#endif
 //------------------------------------------------------------------------------------
 //!
 class MainDisplayWidget : public QWidget
@@ -53,7 +59,10 @@ class MainDisplayWidget : public QWidget
         QVBoxLayout     *m_mainLayout;
 
         QVBoxLayout     *m_frameLayout;
-        QHBoxLayout     *m_menuLayout;
+
+        ButtonsWidget   *m_buttonsWidget;
+
+        //QHBoxLayout     *m_buttonLayout;
 
         QList<QWidget*> m_framesList;
         int             m_curentFrameId;

@@ -39,13 +39,10 @@ INCLUDEPATH += $$ROOT_PATH/ExternalLibraries/libmodbus/modbus/$$LIBMODBUS
 INCLUDEPATH += $$ROOT_PATH/ExternalLibraries/libmodbus/modbus/$$LIBMODBUS/src
 
 INCLUDEPATH += $$ROOT_PATH/InternalLibraries/Utils
-INCLUDEPATH += $$ROOT_PATH/InternalLibraries/DataModel
 
 INCLUDEPATH += $$ROOT_PATH/InternalLibraries/DbUnit
 INCLUDEPATH += $$ROOT_PATH/InternalLibraries/DbUnit/ArchiveForms
 
-INCLUDEPATH += $$ROOT_PATH/InternalLibraries/AbstractConfigurator
-INCLUDEPATH += $$ROOT_PATH/InternalLibraries/ModbusWrapper
 INCLUDEPATH += $$ROOT_PATH/InternalLibraries/ModbusMasterUnit
 INCLUDEPATH += $$ROOT_PATH/InternalLibraries/ScriptUnit
 
@@ -55,6 +52,7 @@ INCLUDEPATH += ./Frames/Widgets
 #############################################################
 HEADERS += \
     ClimateControlSystem.h \
+    FrameName.h \
     Frames/AbstractFrames.h \
     Frames/CarInformationFrame.h \
     Frames/InOutDisplayFrame.h \
@@ -66,6 +64,7 @@ HEADERS += \
     Frames/Widgets/RowMsgWidget.h \
     Frames/Widgets/StatesDisplayWidget.h \
     MainDisplayWidget.h \
+    ButtonsWidget.h
 
 
 SOURCES += \
@@ -80,6 +79,7 @@ SOURCES += \
     Frames/Widgets/RowMsgWidget.cpp \
     Frames/Widgets/StatesDisplayWidget.cpp \
     MainDisplayWidget.cpp \
+    ButtonsWidget.cpp \
     main.cpp
 
 

@@ -1,4 +1,5 @@
 #include "MainDisplayWidget.h"
+
 //------------------------------------------------------------------------------------
 //!
 MainDisplayWidget::MainDisplayWidget(DbUnit *dbUnit,
@@ -66,20 +67,9 @@ MainDisplayWidget::MainDisplayWidget(DbUnit *dbUnit,
 //                  QSizePolicy::Fixed);
 
     //-----------------------------------------------------------
-    //! Создание заголовка
-    //createHeader();
-    //-----------------------------------------------------------
-    QString str("ИНИЦИАЛИЗАЦИЯ");
-
-    m_curentWidget = new QLabel(QString("<font size=\"30\" color=\"red\" face=\"Arial\">%1</font>").arg(str));
-
-    //-----------------------------------------------------------
     setupFrames();
 
     setupMenu();
-
-    //m_frameLayout->addWidget(m_curentWidget);
-
     //-----------------------------------------------------------
 #ifndef FULL_SCREEN
     setGeometry(0,0,800,480);
@@ -145,12 +135,80 @@ void MainDisplayWidget::setupFrames()
 
     //-------------------------------------------------------------------
     m_curentFrameId = 0;
-    m_frameLayout->addWidget(m_framesList[0]);
+    m_frameLayout->addWidget(m_framesList[m_curentFrameId]);
 }
 //------------------------------------------------------------------------------------
 //!
 void MainDisplayWidget::setupMenu()
 {
+    m_buttonsWidget = new ButtonsWidget();
+    m_mainLayout->addWidget(m_buttonsWidget);
+
+    //-------------------------------------------------------------------
+    connect(m_buttonsWidget, &ButtonsWidget::mainFrameClicked, [=](){
+        if(m_curentFrameId == 0)
+            return;
+
+        m_framesList[m_curentFrameId]->setHidden(true);
+        m_frameLayout->removeWidget( m_framesList[m_curentFrameId] );
+
+        m_curentFrameId = 0;
+
+        m_frameLayout->addWidget( m_framesList[m_curentFrameId] );
+        m_framesList[m_curentFrameId]->setHidden(false);
+    });
+
+    connect(m_buttonsWidget, &ButtonsWidget::nextFrameClicked, [=](){
+        m_framesList[m_curentFrameId]->setHidden(true);
+        m_frameLayout->removeWidget( m_framesList[m_curentFrameId] );
+
+        if(m_curentFrameId == (m_framesList.size()-1))
+        {
+            m_curentFrameId = 0;
+        } else
+        {
+            m_curentFrameId = m_curentFrameId + 1;
+        }
+
+        m_frameLayout->addWidget( m_framesList[m_curentFrameId] );
+        m_framesList[m_curentFrameId]->setHidden(false);
+    });
+
+    connect(m_buttonsWidget, &ButtonsWidget::previousFrameClicked, [=](){
+        m_framesList[m_curentFrameId]->setHidden(true);
+        m_frameLayout->removeWidget( m_framesList[m_curentFrameId] );
+
+        if(m_curentFrameId == 0)
+        {
+            m_curentFrameId = m_framesList.size() - 1;
+        } else
+        {
+            m_curentFrameId = m_curentFrameId - 1;
+        }
+
+        m_frameLayout->addWidget( m_framesList[m_curentFrameId] );
+        m_framesList[m_curentFrameId]->setHidden(false);
+
+    });
+
+    connect(m_buttonsWidget, &ButtonsWidget::pgUpClicked, [=](){
+
+    });
+
+    connect(m_buttonsWidget, &ButtonsWidget::pgDownClicked, [=](){
+
+    });
+
+    connect(m_buttonsWidget, &ButtonsWidget::plusClicked, [=](){
+
+    });
+
+    connect(m_buttonsWidget, &ButtonsWidget::minusClicked, [=](){
+
+    });
+
+/*
+
     QFont buttonFont = font();
     buttonFont.setPointSize(buttonFont.pointSize() + 2);
 
@@ -167,46 +225,12 @@ void MainDisplayWidget::setupMenu()
     connect(mainFrameButton, &QPushButton::clicked,
             [=](){
 
-        if(m_curentFrameId == 0)
-            return;
 
-        m_framesList[m_curentFrameId]->setHidden(true);
-        m_frameLayout->removeWidget( m_framesList[m_curentFrameId] );
-
-        m_curentFrameId = 0;
-
-        m_frameLayout->addWidget( m_framesList[m_curentFrameId] );
-        m_framesList[m_curentFrameId]->setHidden(false);
     });
 
     m_menuLayout->addWidget(mainFrameButton);
     //-------------------------------------------------------------------
-    /*
-    QPushButton *previousFrameButton = new QPushButton("Предыдущий экран");
 
-    previousFrameButton->setFixedHeight(buttonHeight);
-    previousFrameButton->setFont(buttonFont);
-
-    connect(previousFrameButton, &QPushButton::clicked,
-            [=](){
-
-        m_framesList[m_curentFrameId]->setHidden(true);
-        m_frameLayout->removeWidget( m_framesList[m_curentFrameId] );
-
-        if(m_curentFrameId == 0)
-        {
-            m_curentFrameId = m_framesList.size() - 1;
-        } else
-        {
-            m_curentFrameId = m_curentFrameId - 1;
-        }
-
-        m_frameLayout->addWidget( m_framesList[m_curentFrameId] );
-        m_framesList[m_curentFrameId]->setHidden(false);
-    });
-
-    m_menuLayout->addWidget(previousFrameButton);
-    */
     //-------------------------------------------------------------------
     QPushButton *nextFrameButton = new QPushButton("Наступний екран");
 
@@ -283,6 +307,7 @@ void MainDisplayWidget::setupMenu()
     });
 
     m_menuLayout->addWidget(plusFrameButton);
+*/
     //-------------------------------------------------------------------
     /*
     QPushButton *nextButton = new QPushButton("Следующий экран");
@@ -296,7 +321,7 @@ void MainDisplayWidget::setupMenu()
     m_menuLayout->addWidget(nextButton);
     */
     //-------------------------------------------------------------------
-    m_mainLayout->addLayout(m_menuLayout);
+    //m_mainLayout->addLayout(m_menuLayout);
 }
 
 

@@ -78,7 +78,7 @@ MainDisplayWidget::MainDisplayWidget(QWidget *parent)
 #endif
 
     //-----------------------------------------------------------
-    QShortcut *shortcut = new QShortcut(QKeySequence("Ctrl+R"), this);
+    QShortcut *shortcut = new QShortcut(QKeySequence("Ctrl+E"), this);
     QObject::connect(shortcut, &QShortcut::activated,
                      this, &MainDisplayWidget::startEditSettings);
 

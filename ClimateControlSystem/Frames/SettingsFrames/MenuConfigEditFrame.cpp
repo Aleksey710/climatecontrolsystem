@@ -1,9 +1,9 @@
-#include "MenuConfigEditForm.h"
+#include "MenuConfigEditFrame.h"
 
 //------------------------------------------------------------------------------------
 //!
-MenuConfigEditForm::MenuConfigEditForm(const QList<MenuItemData> &menuItemDataList,
-                                       QWidget *parent)
+MenuConfigEditFrame::MenuConfigEditFrame(const QList<MenuItemData> &menuItemDataList,
+                                         QWidget *parent)
                    :QWidget(parent)
 {
     setObjectName("MenuConfigEditForm");
@@ -79,7 +79,7 @@ MenuConfigEditForm::MenuConfigEditForm(const QList<MenuItemData> &menuItemDataLi
 }
 //------------------------------------------------------------------------------------
 //!
-MenuConfigEditForm::~MenuConfigEditForm()
+MenuConfigEditFrame::~MenuConfigEditFrame()
 {
     m_menuWidget->deleteLater();
     SEND_TO_LOG(QString("%1 - удален").arg(objectName()));

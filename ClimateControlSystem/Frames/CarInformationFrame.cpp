@@ -4,7 +4,7 @@
 //------------------------------------------------------------------------------------
 //!
 CarInformationFrame::CarInformationFrame(QWidget *parent)
-                    :AbstractFrames(parent),
+                    :AbstractFrame(parent),
                      ui(new Ui::CarInformationFrame)
 {
     ui->setupUi(this);

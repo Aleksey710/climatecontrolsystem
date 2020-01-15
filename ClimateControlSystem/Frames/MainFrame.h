@@ -13,13 +13,13 @@
 //#include ""
 //#include ""
 #include "Log.h"
-#include "AbstractFrames.h"
+#include "AbstractFrame.h"
 #include "GigitalIndicatorWidget.h"
 #include "DateTimeWidget.h"
 #include "StatesDisplayWidget.h"
 //------------------------------------------------------------------------------------
 //!
-class MainFrame : public AbstractFrames
+class MainFrame : public AbstractFrame
 {
         Q_OBJECT
 
@@ -27,7 +27,7 @@ class MainFrame : public AbstractFrames
         explicit MainFrame(QWidget *parent = nullptr);
         virtual ~MainFrame();
 
-        inline virtual FrameName frameName() { return FrameName::Main; };
+        inline virtual FrameName frameName() { return FrameName::Main; }
 
     private:
 

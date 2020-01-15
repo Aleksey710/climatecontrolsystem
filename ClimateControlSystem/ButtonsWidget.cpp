@@ -20,7 +20,8 @@ ButtonsWidget::ButtonsWidget(QWidget *parent)
         //"font: bold 14px;"
         "min-width: 10em;"
         "min-height: 10em;"
-        "padding: 6px;"
+        "padding: 1px;"
+        "margin: 0px, 0px, 0px, 0px;"
     "}"
     "QPushButton#evilButton:pressed {"
         "background-color: rgb(224, 0, 0);"
@@ -31,53 +32,57 @@ ButtonsWidget::ButtonsWidget(QWidget *parent)
     int buttonHeight = 50;
     setFixedHeight(buttonHeight);
     //-------------------------------------------------------------------
-    QHBoxLayout *mainLayout = new QHBoxLayout();
+    //QHBoxLayout *mainLayout = new QHBoxLayout();
+
+    QGridLayout *mainLayout = new QGridLayout;
+
+    mainLayout->setMargin(1);
+    mainLayout->setVerticalSpacing(1);
+    mainLayout->setHorizontalSpacing(1);
 
     //-------------------------------------------------------------------
-    QPushButton *mainFrameButton = new QPushButton("На головну");
-    mainFrameButton->setFont(buttonFont);
-    connect(mainFrameButton, &QPushButton::clicked, this, &ButtonsWidget::mainFrameClicked);
-
-    mainLayout->addWidget(mainFrameButton);
-    //-------------------------------------------------------------------
-    /*
-    QPushButton *previousFrameButton = new QPushButton("Предыдущий экран");
-    previousFrameButton->setFont(buttonFont);
-    connect(previousFrameButton, &QPushButton::clicked, this, &ButtonsWidget::previousFrameClicked);
-
-    mainLayout->addWidget(previousFrameButton);
-    */
-    //-------------------------------------------------------------------
-    QPushButton *nextFrameButton = new QPushButton("Наступний екран");
-    nextFrameButton->setFont(buttonFont);
-    connect(nextFrameButton, &QPushButton::clicked, this, &ButtonsWidget::nextFrameClicked);
-
-    mainLayout->addWidget(nextFrameButton);
-
-    //-------------------------------------------------------------------
-    QPushButton *minusFrameButton = new QPushButton("-");
-    minusFrameButton->setFont(buttonFont);
-    connect(minusFrameButton, &QPushButton::clicked, this, &ButtonsWidget::minusClicked);
-
-    mainLayout->addWidget(minusFrameButton);
-    //-------------------------------------------------------------------
-    QPushButton *plusFrameButton = new QPushButton("+");
-    plusFrameButton->setFont(buttonFont);
-    connect(plusFrameButton, &QPushButton::clicked, this, &ButtonsWidget::minusClicked);
-
-    mainLayout->addWidget(plusFrameButton);
+    m_mainFrameButton = new QPushButton("На головну");
+    m_mainFrameButton->setFont(buttonFont);
+    connect(m_mainFrameButton, &QPushButton::clicked, this, &ButtonsWidget::mainFrameClicked);
     //-------------------------------------------------------------------
     /*
-    QPushButton *nextButton = new QPushButton("Следующий экран");
-
-    mainFrameButton->setFixedHeight(50);
-
-    connect(nextButton, &QPushButton::click,
-            [=](){
-
-    });
-    m_menuLayout->addWidget(nextButton);
+    m_previousFrameButton = new QPushButton("Предыдущий экран");
+    m_previousFrameButton->setFont(buttonFont);
+    connect(m_previousFrameButton, &QPushButton::clicked, this, &ButtonsWidget::previousFrameClicked);
     */
+    //-------------------------------------------------------------------
+    m_nextFrameButton = new QPushButton("Наступний екран");
+    m_nextFrameButton->setFont(buttonFont);
+    connect(m_nextFrameButton, &QPushButton::clicked, this, &ButtonsWidget::nextFrameClicked);
+    //-------------------------------------------------------------------
+    //-------------------------------------------------------------------
+    m_pgUpFrameButton = new QPushButton("назад");
+    m_pgUpFrameButton->setFont(buttonFont);
+    connect(m_pgUpFrameButton, &QPushButton::clicked, this, &ButtonsWidget::pgUpClicked);
+    //-------------------------------------------------------------------
+    m_pgDownFrameButton = new QPushButton("вперед");
+    m_pgDownFrameButton->setFont(buttonFont);
+    connect(m_pgDownFrameButton, &QPushButton::clicked, this, &ButtonsWidget::pgDownClicked);
+    //-------------------------------------------------------------------
+    //-------------------------------------------------------------------
+    m_minusFrameButton = new QPushButton("-");
+    m_minusFrameButton->setFont(buttonFont);
+    connect(m_minusFrameButton, &QPushButton::clicked, this, &ButtonsWidget::minusClicked);
+    //-------------------------------------------------------------------
+    m_plusFrameButton = new QPushButton("+");
+    m_plusFrameButton->setFont(buttonFont);
+    connect(m_plusFrameButton, &QPushButton::clicked, this, &ButtonsWidget::minusClicked);
+    //-------------------------------------------------------------------
+    mainLayout->addWidget(m_mainFrameButton,              0,0,1,1);
+    //mainLayout->addWidget(m_previousFrameButton,          0,1,1,1);
+    mainLayout->addWidget(m_nextFrameButton,              0,1,1,1);
+    mainLayout->addWidget(m_pgUpFrameButton,              0,2,1,1);
+    mainLayout->addWidget(m_pgDownFrameButton,            0,3,1,1);
+    mainLayout->addWidget(m_minusFrameButton,             0,2,1,1);
+    mainLayout->addWidget(m_plusFrameButton,              0,3,1,1);
+
+
+    setFrameName(FrameName::Main);
     //-------------------------------------------------------------------
     setLayout( mainLayout );
 }
@@ -94,16 +99,32 @@ void ButtonsWidget::setFrameName(const FrameName &frameName)
     switch (frameName)
     {
         case FrameName::Main:
+            m_pgUpFrameButton->setVisible(false);
+            m_pgDownFrameButton->setVisible(false);
 
+            m_minusFrameButton->setVisible(true);
+            m_plusFrameButton->setVisible(true);
             break;
         case FrameName::InOutDisplay:
+            m_pgUpFrameButton->setVisible(false);
+            m_pgDownFrameButton->setVisible(false);
 
+            m_minusFrameButton->setVisible(false);
+            m_plusFrameButton->setVisible(false);
             break;
         case FrameName::Archive:
+            m_pgUpFrameButton->setVisible(true);
+            m_pgDownFrameButton->setVisible(true);
 
+            m_minusFrameButton->setVisible(false);
+            m_plusFrameButton->setVisible(false);
             break;
         case FrameName::CarInformation:
+            m_pgUpFrameButton->setVisible(false);
+            m_pgDownFrameButton->setVisible(false);
 
+            m_minusFrameButton->setVisible(false);
+            m_plusFrameButton->setVisible(false);
             break;
     default:
         break;

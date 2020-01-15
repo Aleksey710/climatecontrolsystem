@@ -1,21 +1,21 @@
-#include "AbstractFrames.h"
+#include "AbstractFrame.h"
 
 //------------------------------------------------------------------------------------
 //!
-AbstractFrames::AbstractFrames(QWidget *parent)
-               : QWidget(parent)
+AbstractFrame::AbstractFrame(QWidget *parent)
+              : QWidget(parent)
 {
 
 }
 //------------------------------------------------------------------------------------
 //!
-AbstractFrames::~AbstractFrames()
+AbstractFrame::~AbstractFrame()
 {
     SEND_TO_LOG( QString("%1 - удален").arg(objectName()) );
 }
 //------------------------------------------------------------------------------------
 //!
-void AbstractFrames::setupDisplay(const QString &name, QLabel *label)
+void AbstractFrame::setupDisplay(const QString &name, QLabel *label)
 {
     ScriptObject *scriptObject = ScriptUnit::getScriptObject(name);
 
@@ -30,7 +30,7 @@ void AbstractFrames::setupDisplay(const QString &name, QLabel *label)
 }
 //------------------------------------------------------------------------------------
 //!
-void AbstractFrames::setupDisplay(const QString &name, QLineEdit *lineEdit)
+void AbstractFrame::setupDisplay(const QString &name, QLineEdit *lineEdit)
 {
     ScriptObject *scriptObject = ScriptUnit::getScriptObject(name);
 
@@ -46,7 +46,7 @@ void AbstractFrames::setupDisplay(const QString &name, QLineEdit *lineEdit)
 }
 //------------------------------------------------------------------------------------
 //!
-void AbstractFrames::setupDigDisplay(const QString &name, QLineEdit *lineEdit)
+void AbstractFrame::setupDigDisplay(const QString &name, QLineEdit *lineEdit)
 {
     ScriptObject *scriptObject = ScriptUnit::getScriptObject(name);
 
@@ -69,7 +69,7 @@ void AbstractFrames::setupDigDisplay(const QString &name, QLineEdit *lineEdit)
 }
 //------------------------------------------------------------------------------------
 //!
-void AbstractFrames::setupDisplay(const QString &name, GigitalIndicatorWidget *displayWidget)
+void AbstractFrame::setupDisplay(const QString &name, GigitalIndicatorWidget *displayWidget)
 {
     ScriptObject *scriptObject = ScriptUnit::getScriptObject(name);
 
@@ -85,7 +85,7 @@ void AbstractFrames::setupDisplay(const QString &name, GigitalIndicatorWidget *d
 }
 //------------------------------------------------------------------------------------
 //!
-void AbstractFrames::setupDateDisplay(const QString &yearName,
+void AbstractFrame::setupDateDisplay(const QString &yearName,
                                       const QString &monthName,
                                       const QString &dayName,
                                       QLabel *label)

@@ -112,33 +112,33 @@ void MainDisplayWidget::setupFrames()
     //-----------------------------------------------------------
     // ARCHIVE FRAMES
     //-----------------------------------------------------------
-    ElectricalEquipmentArchiveForm *electricalEquipmentArchiveForm
-        = new ElectricalEquipmentArchiveForm();
-    m_framesList.append(electricalEquipmentArchiveForm);
+    ElectricalEquipmentArchiveFrame *electricalEquipmentArchiveFrame
+        = new ElectricalEquipmentArchiveFrame();
+    m_framesList.append(electricalEquipmentArchiveFrame);
 
-    ClimateDeviceAutoArchiveForm *climateDeviceAutoArchiveForm
-            = new ClimateDeviceAutoArchiveForm();
-    m_framesList.append(climateDeviceAutoArchiveForm);
+    ClimateDeviceAutoArchiveFrame *climateDeviceAutoArchiveFrame
+            = new ClimateDeviceAutoArchiveFrame();
+    m_framesList.append(climateDeviceAutoArchiveFrame);
 
-    ClimateDeviceManualArchiveForm *climateDeviceManualArchiveForm
-            = new ClimateDeviceManualArchiveForm();
-    m_framesList.append(climateDeviceManualArchiveForm);
+    ClimateDeviceManualArchiveFrame *climateDeviceManualArchiveFrame
+            = new ClimateDeviceManualArchiveFrame();
+    m_framesList.append(climateDeviceManualArchiveFrame);
 
-    WorkTimeArchiveForm *workTimeArchiveForm
-        = new WorkTimeArchiveForm();
-    m_framesList.append(workTimeArchiveForm);
+    WorkTimeArchiveFrame *workTimeArchiveFrame
+        = new WorkTimeArchiveFrame();
+    m_framesList.append(workTimeArchiveFrame);
 
     //-----------------------------------------------------------
-//    ElectricalEquipmentOperatingTimeArchiveForm *electricalEquipmentOperatingTimeArchiveForm
-//        = new ElectricalEquipmentOperatingTimeArchiveForm();
-//    m_framesList.append(electricalEquipmentOperatingTimeArchiveForm);
+//    ElectricalEquipmentOperatingTimeArchiveFrame *electricalEquipmentOperatingTimeArchiveFrame
+//        = new ElectricalEquipmentOperatingTimeArchiveFrame();
+//    m_framesList.append(electricalEquipmentOperatingTimeArchiveFrame);
 
     //-----------------------------------------------------------
     //-----------------------------------------------------------
     // В случае, если объект уже удален, то p будет пустым указателем
     if( m_climateControlSystem->dbUnit().get() )
     {
-        m_framesList.append( new MenuConfigEditForm( m_climateControlSystem->dbUnit().get()->settingsMenuItemList() ) );
+        m_framesList.append( new MenuConfigEditFrame( m_climateControlSystem->dbUnit().get()->settingsMenuItemList() ) );
     } else
     {
         SEND_TO_LOG("MainDisplayWidget - Error(Не инициализирован DbUnit)");

@@ -1,5 +1,5 @@
-#ifndef MENUCONFIGEDITFORM_H
-#define MENUCONFIGEDITFORM_H
+#ifndef MENUCONFIGEDITFRAME_H
+#define MENUCONFIGEDITFRAME_H
 //------------------------------------------------------------------------------------
 #include <QObject>
 #include <QWidget>
@@ -25,13 +25,13 @@
 //#include ".h"
 //------------------------------------------------------------------------------------
 //!
-class MenuConfigEditForm : public QWidget
+class MenuConfigEditFrame : public QWidget
 {
         Q_OBJECT
     public:
-        explicit MenuConfigEditForm(const QList<MenuItemData> &menuItemDataList,
-                                    QWidget *parent = nullptr);
-        virtual ~MenuConfigEditForm();
+        explicit MenuConfigEditFrame(const QList<MenuItemData> &menuItemDataList,
+                                     QWidget *parent = nullptr);
+        virtual ~MenuConfigEditFrame();
 
     signals:
 
@@ -40,4 +40,4 @@ class MenuConfigEditForm : public QWidget
 
 };
 //------------------------------------------------------------------------------------
-#endif // MENUCONFIGEDITFORM_H
+#endif // MENUCONFIGEDITFRAME_H

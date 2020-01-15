@@ -1,6 +1,5 @@
 //------------------------------------------------------------------------------------
 #include <QCoreApplication>
-#include <QApplication>
 #include <QObject>
 #include <QTimer>
 
@@ -20,11 +19,7 @@
 #include "Versions.h"
 #include "CheckAppUniq.h"
 #include "DbUnit.h"
-#include "ConfigEditFrame.h"
-#include "MenuConfigEditForm.h"
-#include "NumericKeypadWidget.h"
 //
-#include "ClimateDeviceArchiveForm.h"
 //------------------------------------------------------------------------------------
 #include "easylogging++.h"
 
@@ -60,7 +55,7 @@ int main(int argc, char *argv[])
     SEND_TO_LOG( allVersion() );
 
     //---------------------------------------------------
-    QScopedPointer<QApplication> app( new QApplication(argc, argv) );
+    QScopedPointer<QCoreApplication> app( new QCoreApplication(argc, argv) );
 
     QCoreApplication::setApplicationName("dbUnit");
     QCoreApplication::setApplicationVersion( allVersion() );
@@ -85,22 +80,6 @@ int main(int argc, char *argv[])
 
     std::shared_ptr<DbUnit> dbUnit = std::make_shared<DbUnit>();
 
-//    std::shared_ptr<ConfigEditForm> configEditForm = std::make_shared<ConfigEditForm>();
-//    configEditForm->show();
-
-//    std::shared_ptr<NumericKeypadWidget> numericKeypadWidget = std::make_shared<NumericKeypadWidget>();
-//    numericKeypadWidget->show();
-
-    //------------------------------------
-//    std::shared_ptr<MenuConfigEditForm> menuConfigEditForm
-//            = std::make_shared<MenuConfigEditForm>(dbUnit->settingsMenuItemList());
-//    menuConfigEditForm->show();
-
-    //------------------------------------
-    std::shared_ptr<ClimateDeviceArchiveForm> climateDeviceArchiveForm
-            = std::make_shared<ClimateDeviceArchiveForm>();
-    climateDeviceArchiveForm->show();
-
     //------------------------------------
     //QTimer::singleShot(3*1000, qApp, SLOT(quit()));
     //------------------------------------
@@ -108,10 +87,7 @@ int main(int argc, char *argv[])
 
     myCrashHandler(exitCode);
 
-    if(climateDeviceArchiveForm)
-        climateDeviceArchiveForm->deleteLater();
-
-    if(dbUnit)
+    if(dbUnit.get())
         dbUnit->deleteLater();
 
     //------------------------------------

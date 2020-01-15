@@ -1,21 +1,21 @@
-#include "AbstractArchiveForm.h"
+#include "AbstractArchiveFrame.h"
 
 //------------------------------------------------------------------------------------
 //!
-AbstractArchiveForm::AbstractArchiveForm(QWidget *parent)
-                    : QWidget(parent)
+AbstractArchiveFrame::AbstractArchiveFrame(QWidget *parent)
+                    : AbstractFrame(parent)
 {
 
 }
 //------------------------------------------------------------------------------------
 //!
-AbstractArchiveForm::~AbstractArchiveForm()
+AbstractArchiveFrame::~AbstractArchiveFrame()
 {
-    SEND_TO_LOG(QString("%1 - удален").arg(objectName()));
+
 }
 //------------------------------------------------------------------------------------
 //!
-void AbstractArchiveForm::setup()
+void AbstractArchiveFrame::setup()
 {
     //-----------------------------------------------------------------
     QGridLayout *mainLayout = new QGridLayout;

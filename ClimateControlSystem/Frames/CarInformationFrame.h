@@ -15,14 +15,14 @@
 //#include ""
 //#include ""
 #include "Log.h"
-#include "AbstractFrames.h"
+#include "AbstractFrame.h"
 //------------------------------------------------------------------------------------
 namespace Ui {
 class CarInformationFrame;
 }
 //------------------------------------------------------------------------------------
 //!
-class CarInformationFrame : public AbstractFrames
+class CarInformationFrame : public AbstractFrame
 {
         Q_OBJECT
 
@@ -30,7 +30,7 @@ class CarInformationFrame : public AbstractFrames
         explicit CarInformationFrame(QWidget *parent = nullptr);
         virtual ~CarInformationFrame();
 
-        inline virtual FrameName frameName() { return FrameName::CarInformation; };
+        inline virtual FrameName frameName() { return FrameName::CarInformation; }
 
     private:
         Ui::CarInformationFrame *ui;

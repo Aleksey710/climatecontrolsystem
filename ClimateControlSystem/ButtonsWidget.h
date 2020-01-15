@@ -44,7 +44,13 @@ class ButtonsWidget : public QWidget
 
     private:
 
-
+        QPushButton *m_mainFrameButton;
+        QPushButton *m_previousFrameButton;
+        QPushButton *m_nextFrameButton;
+        QPushButton *m_pgUpFrameButton;
+        QPushButton *m_pgDownFrameButton;
+        QPushButton *m_minusFrameButton;
+        QPushButton *m_plusFrameButton;
 
 
 };

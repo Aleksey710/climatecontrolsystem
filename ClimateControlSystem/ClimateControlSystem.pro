@@ -49,14 +49,26 @@ INCLUDEPATH += $$ROOT_PATH/InternalLibraries/ScriptUnit
 INCLUDEPATH += ./
 INCLUDEPATH += ./Frames
 INCLUDEPATH += ./Frames/Widgets
+INCLUDEPATH += ./Frames/ArchiveFrames
+INCLUDEPATH += ./Frames/SettingsFrames
 #############################################################
 HEADERS += \
     ClimateControlSystem.h \
     FrameName.h \
-    Frames/AbstractFrames.h \
+    Frames/AbstractArchiveFrame.h \
+    Frames/AbstractFrame.h \
+    Frames/ArchiveFrames/ClimateDeviceAutoArchiveFrame.h \
+    Frames/ArchiveFrames/ClimateDeviceManualArchiveFrame.h \
+    Frames/ArchiveFrames/ElectricalEquipmentArchiveFrame.h \
+    Frames/ArchiveFrames/ElectricalEquipmentOperatingTimeArchiveFrame.h \
+    Frames/ArchiveFrames/WorkTimeArchiveFrame.h \
     Frames/CarInformationFrame.h \
     Frames/InOutDisplayFrame.h \
     Frames/MainFrame.h \
+    Frames/SettingsFrames/ConfigEditFrame.h \
+    Frames/SettingsFrames/MenuConfigEditFrame.h \
+    Frames/SettingsFrames/NumericButton.h \
+    Frames/SettingsFrames/NumericKeypadWidget.h \
     Frames/Widgets/DateTimeWidget.h \
     Frames/Widgets/DigitalStripIndicator.h \
     Frames/Widgets/GigitalIndicatorWidget.h \
@@ -69,10 +81,15 @@ HEADERS += \
 
 SOURCES += \
     ClimateControlSystem.cpp \
-    Frames/AbstractFrames.cpp \
+    Frames/AbstractArchiveFrame.cpp \
+    Frames/AbstractFrame.cpp \
     Frames/CarInformationFrame.cpp \
     Frames/InOutDisplayFrame.cpp \
     Frames/MainFrame.cpp \
+    Frames/SettingsFrames/ConfigEditFrame.cpp \
+    Frames/SettingsFrames/MenuConfigEditFrame.cpp \
+    Frames/SettingsFrames/NumericButton.cpp \
+    Frames/SettingsFrames/NumericKeypadWidget.cpp \
     Frames/Widgets/DateTimeWidget.cpp \
     Frames/Widgets/DigitalStripIndicator.cpp \
     Frames/Widgets/GigitalIndicatorWidget.cpp \

@@ -4,7 +4,7 @@
 //------------------------------------------------------------------------------------
 //!
 InOutDisplayFrame::InOutDisplayFrame(QWidget *parent)
-                  :AbstractFrames(parent),
+                  :AbstractFrame(parent),
                    ui(new Ui::InOutDisplayFrame)
 {
     ui->setupUi(this);

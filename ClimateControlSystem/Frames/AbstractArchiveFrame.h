@@ -1,5 +1,5 @@
-#ifndef ABSTRACTARCHIVEFORM_H
-#define ABSTRACTARCHIVEFORM_H
+#ifndef ABSTRACTARCHIVEFRAME_H
+#define ABSTRACTARCHIVEFRAME_H
 //------------------------------------------------------------------------------------
 #include <QObject>
 #include <QWidget>
@@ -16,20 +16,20 @@
 //#include ".h"
 //#include ".h"
 //#include ".h"
-//#include ".h"
 #include "Log.h"
 #include "DbUnit.h"
+#include "AbstractFrame.h"
 //#include "FrameName.h"
 //------------------------------------------------------------------------------------
 //!
-class AbstractArchiveForm : public QWidget
+class AbstractArchiveFrame : public AbstractFrame
 {
         Q_OBJECT
     public:
-        explicit AbstractArchiveForm(QWidget *parent = nullptr);
-        virtual ~AbstractArchiveForm();
+        explicit AbstractArchiveFrame(QWidget *parent = nullptr);
+        virtual ~AbstractArchiveFrame();
 
-        //inline virtual FrameName frameName() { return FrameName::InOutDisplay; };
+        inline virtual FrameName frameName() { return FrameName::Archive; }
 
     signals:
 
@@ -40,4 +40,4 @@ class AbstractArchiveForm : public QWidget
 
 };
 //------------------------------------------------------------------------------------
-#endif // ABSTRACTARCHIVEFORM_H
+#endif // ABSTRACTARCHIVEFRAME_H

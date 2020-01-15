@@ -1,5 +1,5 @@
-#ifndef CLIMATEDEVICEAUTOARCHIVEFORM_H
-#define CLIMATEDEVICEAUTOARCHIVEFORM_H
+#ifndef CLIMATEDEVICEMANUALARCHIVEFRAME_H
+#define CLIMATEDEVICEMANUALARCHIVEFRAME_H
 //------------------------------------------------------------------------------------
 #include <QObject>
 //#include <>
@@ -8,27 +8,27 @@
 //#include <>
 
 
-#include "AbstractArchiveForm.h"
+#include "AbstractArchiveFrame.h"
 //------------------------------------------------------------------------------------
 //!
-class ClimateDeviceAutoArchiveForm : public AbstractArchiveForm
+class ClimateDeviceManualArchiveFrame : public AbstractArchiveFrame
 {
         Q_OBJECT
     public:
-        explicit ClimateDeviceAutoArchiveForm(QWidget *parent = nullptr)
-            :AbstractArchiveForm(parent)
+        explicit ClimateDeviceManualArchiveFrame(QWidget *parent = nullptr)
+            :AbstractArchiveFrame(parent)
         {
-            setObjectName(QString("ClimateDeviceArchiveForm"));
+            setObjectName(QString("ClimateDeviceManualArchiveFrame"));
             setup();
             SEND_TO_LOG(QString("%1 - создан").arg(objectName()));
         }
 
-        virtual ~ClimateDeviceAutoArchiveForm()
+        virtual ~ClimateDeviceManualArchiveFrame()
             {  }
 
     private:
         virtual QString headLabel() override
-            { return QString("Журнал клiматичної установки режим авто"); }
+            { return QString("Журнал клiматичної установки режим ручний"); }
 
         virtual QString queryString() override
         {
@@ -37,9 +37,8 @@ class ClimateDeviceAutoArchiveForm : public AbstractArchiveForm
                 "strftime('%Y-%m-%d %H:%M:%f',`datetime`/1000,'unixepoch', 'localtime') AS dt, "
                 "`msg` "
                 "FROM `%1` "
-                ";").arg("climate_device_auto_events");
+                ";").arg("climate_device_manual_events");
         }
-
 };
 //------------------------------------------------------------------------------------
-#endif // CLIMATEDEVICEAUTOARCHIVEFORM_H
+#endif // CLIMATEDEVICEMANUALARCHIVEFRAME_H

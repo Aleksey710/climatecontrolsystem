@@ -1,5 +1,5 @@
-#ifndef ELECTRICALEQUIPMENTARCHIVEFORM_H
-#define ELECTRICALEQUIPMENTARCHIVEFORM_H
+#ifndef CLIMATEDEVICEAUTOARCHIVEFRAME_H
+#define CLIMATEDEVICEAUTOARCHIVEFRAME_H
 //------------------------------------------------------------------------------------
 #include <QObject>
 //#include <>
@@ -8,27 +8,27 @@
 //#include <>
 
 
-#include "AbstractArchiveForm.h"
+#include "AbstractArchiveFrame.h"
 //------------------------------------------------------------------------------------
 //!
-class ElectricalEquipmentArchiveForm : public AbstractArchiveForm
+class ClimateDeviceAutoArchiveFrame : public AbstractArchiveFrame
 {
         Q_OBJECT
     public:
-        explicit ElectricalEquipmentArchiveForm(QWidget *parent = nullptr)
-            :AbstractArchiveForm(parent)
+        explicit ClimateDeviceAutoArchiveFrame(QWidget *parent = nullptr)
+            :AbstractArchiveFrame(parent)
         {
-            setObjectName(QString("ElectricalEquipmentArchiveForm"));
+            setObjectName(QString("ClimateDeviceAutoArchiveFrame"));
             setup();
             SEND_TO_LOG(QString("%1 - создан").arg(objectName()));
         }
 
-        virtual ~ElectricalEquipmentArchiveForm()
+        virtual ~ClimateDeviceAutoArchiveFrame()
             {  }
 
     private:
         virtual QString headLabel() override
-            { return QString("Журнал электрообладнання"); }
+            { return QString("Журнал клiматичної установки режим авто"); }
 
         virtual QString queryString() override
         {
@@ -37,8 +37,9 @@ class ElectricalEquipmentArchiveForm : public AbstractArchiveForm
                 "strftime('%Y-%m-%d %H:%M:%f',`datetime`/1000,'unixepoch', 'localtime') AS dt, "
                 "`msg` "
                 "FROM `%1` "
-                ";").arg("electrical_equipment_events");
+                ";").arg("climate_device_auto_events");
         }
+
 };
 //------------------------------------------------------------------------------------
-#endif // ELECTRICALEQUIPMENTARCHIVEFORM_H
+#endif // CLIMATEDEVICEAUTOARCHIVEFRAME_H

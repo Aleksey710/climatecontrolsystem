@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------------
 //!
 MainFrame::MainFrame(QWidget *parent)
-          :AbstractFrames(parent)
+          :AbstractFrame(parent)
 {
     setObjectName("MainFrame");
 

@@ -13,14 +13,14 @@
 //#include ""
 
 #include "Log.h"
-#include "AbstractFrames.h"
+#include "AbstractFrame.h"
 //------------------------------------------------------------------------------------
 namespace Ui {
 class InOutDisplayFrame;
 }
 //------------------------------------------------------------------------------------
 //!
-class InOutDisplayFrame : public AbstractFrames
+class InOutDisplayFrame : public AbstractFrame
 {
         Q_OBJECT
 
@@ -28,7 +28,7 @@ class InOutDisplayFrame : public AbstractFrames
         explicit InOutDisplayFrame(QWidget *parent = nullptr);
         virtual ~InOutDisplayFrame();
 
-        inline virtual FrameName frameName() { return FrameName::InOutDisplay; };
+        inline virtual FrameName frameName() { return FrameName::InOutDisplay; }
 
 
     private:

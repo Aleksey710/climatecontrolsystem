@@ -1,5 +1,5 @@
-#ifndef ELECTRICALEQUIPMENTOPERATINGTIMEARCHIVEFORM_H
-#define ELECTRICALEQUIPMENTOPERATINGTIMEARCHIVEFORM_H
+#ifndef ELECTRICALEQUIPMENTOPERATINGTIMEARCHIVEFRAME_H
+#define ELECTRICALEQUIPMENTOPERATINGTIMEARCHIVEFRAME_H
 //------------------------------------------------------------------------------------
 #include <QObject>
 //#include <>
@@ -8,22 +8,22 @@
 //#include <>
 
 
-#include "AbstractArchiveForm.h"
+#include "AbstractArchiveFrame.h"
 //------------------------------------------------------------------------------------
 //!
-class ElectricalEquipmentOperatingTimeArchiveForm : public AbstractArchiveForm
+class ElectricalEquipmentOperatingTimeArchiveFrame : public AbstractArchiveFrame
 {
         Q_OBJECT
     public:
-        explicit ElectricalEquipmentOperatingTimeArchiveForm(QWidget *parent = nullptr)
-            :AbstractArchiveForm(parent)
+        explicit ElectricalEquipmentOperatingTimeArchiveFrame(QWidget *parent = nullptr)
+            :AbstractArchiveFrame(parent)
         {
-            setObjectName(QString("ElectricalEquipmentOperatingTimeArchiveForm"));
+            setObjectName(QString("ElectricalEquipmentOperatingTimeArchiveFrame"));
             setup();
             SEND_TO_LOG(QString("%1 - создан").arg(objectName()));
         }
 
-        virtual ~ElectricalEquipmentOperatingTimeArchiveForm()
+        virtual ~ElectricalEquipmentOperatingTimeArchiveFrame()
             {  }
 
     private:
@@ -46,4 +46,4 @@ class ElectricalEquipmentOperatingTimeArchiveForm : public AbstractArchiveForm
 
 };
 //------------------------------------------------------------------------------------
-#endif // ELECTRICALEQUIPMENTOPERATINGTIMEARCHIVEFORM_H
+#endif // ELECTRICALEQUIPMENTOPERATINGTIMEARCHIVEFRAME_H

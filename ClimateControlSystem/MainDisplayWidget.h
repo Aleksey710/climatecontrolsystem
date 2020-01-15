@@ -24,19 +24,23 @@
 #include "InOutDisplayFrame.h"
 #include "CarInformationFrame.h"
 #include "ConfigEditFrame.h"
-#include "MenuConfigEditForm.h"
+#include "MenuConfigEditFrame.h"
 #include "DbUnit.h"
 //
-#include "ElectricalEquipmentArchiveForm.h"
-#include "ClimateDeviceAutoArchiveForm.h"
-#include "ClimateDeviceManualArchiveForm.h"
-#include "WorkTimeArchiveForm.h"
-
-//#include "ElectricalEquipmentOperatingTimeArchiveForm.h"
-
-
+#include "ElectricalEquipmentArchiveFrame.h"
+#include "ClimateDeviceAutoArchiveFrame.h"
+#include "ClimateDeviceManualArchiveFrame.h"
+#include "WorkTimeArchiveFrame.h"
+//
+//#include "ElectricalEquipmentOperatingTimeArchiveFrame.h"
+//
+#include "ConfigEditFrame.h"
+#include "MenuConfigEditFrame.h"
+#include "NumericKeypadWidget.h"
 //#include ""
-
+//#include ""
+//#include ""
+//#include ""
 //------------------------------------------------------------------------------------
 #ifdef __arm__
     #define FULL_SCREEN
@@ -51,6 +55,7 @@ class MainDisplayWidget : public QWidget
         virtual ~MainDisplayWidget();
 
     signals:
+        void frameChanged();
 
     private:
         void setupFrames();

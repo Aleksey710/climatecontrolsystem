@@ -1,5 +1,5 @@
-#ifndef ABSTRACTFRAMES_H
-#define ABSTRACTFRAMES_H
+#ifndef ABSTRACTFRAME_H
+#define ABSTRACTFRAME_H
 //------------------------------------------------------------------------------------
 #include <QObject>
 #include <QWidget>
@@ -20,12 +20,12 @@
 #include "FrameName.h"
 //------------------------------------------------------------------------------------
 //!
-class AbstractFrames : public QWidget
+class AbstractFrame : public QWidget
 {
         Q_OBJECT
     public:
-        explicit AbstractFrames(QWidget *parent = nullptr);
-        virtual ~AbstractFrames();
+        explicit AbstractFrame(QWidget *parent = nullptr);
+        virtual ~AbstractFrame();
 
         virtual FrameName frameName() = 0;
 
@@ -47,4 +47,4 @@ class AbstractFrames : public QWidget
 
 };
 //------------------------------------------------------------------------------------
-#endif // ABSTRACTFRAMES_H
+#endif // ABSTRACTFRAME_H

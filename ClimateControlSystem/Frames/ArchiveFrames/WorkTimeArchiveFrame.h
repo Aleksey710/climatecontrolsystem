@@ -1,5 +1,5 @@
-#ifndef WORKTIMEARCHIVEFORM_H
-#define WORKTIMEARCHIVEFORM_H
+#ifndef WORKTIMEARCHIVEFRAME_H
+#define WORKTIMEARCHIVEFRAME_H
 //------------------------------------------------------------------------------------
 #include <QObject>
 //#include <>
@@ -8,22 +8,22 @@
 //#include <>
 
 
-#include "AbstractArchiveForm.h"
+#include "AbstractArchiveFrame.h"
 //------------------------------------------------------------------------------------
 //!
-class WorkTimeArchiveForm : public AbstractArchiveForm
+class WorkTimeArchiveFrame : public AbstractArchiveFrame
 {
         Q_OBJECT
     public:
-        explicit WorkTimeArchiveForm(QWidget *parent = nullptr)
-            :AbstractArchiveForm(parent)
+        explicit WorkTimeArchiveFrame(QWidget *parent = nullptr)
+            :AbstractArchiveFrame(parent)
         {
-            setObjectName(QString("WorkTimeArchiveForm"));
+            setObjectName(QString("WorkTimeArchiveFrame"));
             setup();
             SEND_TO_LOG(QString("%1 - создан").arg(objectName()));
         }
 
-        virtual ~WorkTimeArchiveForm()
+        virtual ~WorkTimeArchiveFrame()
             {  }
 
     private:

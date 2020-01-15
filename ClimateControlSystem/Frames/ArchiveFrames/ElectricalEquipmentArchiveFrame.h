@@ -1,5 +1,5 @@
-#ifndef CLIMATEDEVICEMANUALARCHIVEFORM_H
-#define CLIMATEDEVICEMANUALARCHIVEFORM_H
+#ifndef ELECTRICALEQUIPMENTARCHIVEFRAME_H
+#define ELECTRICALEQUIPMENTARCHIVEFRAME_H
 //------------------------------------------------------------------------------------
 #include <QObject>
 //#include <>
@@ -8,27 +8,27 @@
 //#include <>
 
 
-#include "AbstractArchiveForm.h"
+#include "AbstractArchiveFrame.h"
 //------------------------------------------------------------------------------------
 //!
-class ClimateDeviceManualArchiveForm : public AbstractArchiveForm
+class ElectricalEquipmentArchiveFrame : public AbstractArchiveFrame
 {
         Q_OBJECT
     public:
-        explicit ClimateDeviceManualArchiveForm(QWidget *parent = nullptr)
-            :AbstractArchiveForm(parent)
+        explicit ElectricalEquipmentArchiveFrame(QWidget *parent = nullptr)
+            :AbstractArchiveFrame(parent)
         {
-            setObjectName(QString("ClimateDeviceManualArchiveForm"));
+            setObjectName(QString("ElectricalEquipmentArchiveFrame"));
             setup();
             SEND_TO_LOG(QString("%1 - создан").arg(objectName()));
         }
 
-        virtual ~ClimateDeviceManualArchiveForm()
+        virtual ~ElectricalEquipmentArchiveFrame()
             {  }
 
     private:
         virtual QString headLabel() override
-            { return QString("Журнал клiматичної установки режим ручний"); }
+            { return QString("Журнал электрообладнання"); }
 
         virtual QString queryString() override
         {
@@ -37,8 +37,8 @@ class ClimateDeviceManualArchiveForm : public AbstractArchiveForm
                 "strftime('%Y-%m-%d %H:%M:%f',`datetime`/1000,'unixepoch', 'localtime') AS dt, "
                 "`msg` "
                 "FROM `%1` "
-                ";").arg("climate_device_manual_events");
+                ";").arg("electrical_equipment_events");
         }
 };
 //------------------------------------------------------------------------------------
-#endif // CLIMATEDEVICEMANUALARCHIVEFORM_H
+#endif // ELECTRICALEQUIPMENTARCHIVEFRAME_H

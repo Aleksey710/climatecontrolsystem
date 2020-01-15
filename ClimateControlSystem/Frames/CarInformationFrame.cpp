@@ -34,12 +34,30 @@ CarInformationFrame::CarInformationFrame(QWidget *parent)
     ui->lbCompany->setMaximumWidth(300);
 
     //-------------------------------------------------
+
+    setupDisplay("display.d30028.version",  ui->lbBvvVersion);
+
+    setupDateDisplay("display.d30028.year",
+                     "display.d30028.month",
+                     "display.d30028.day",
+                     ui->lbBvvDateVersion);
+
+    setupDisplay("display.d30028.version",  ui->lbButVersion);
+
+    setupDateDisplay("display.d30028.year",
+                     "display.d30028.month",
+                     "display.d30028.day",
+                     ui->lbButDateVersion);
+
+    setupDisplay("settings.wagon.sv",   ui->lbSoftVersion);
+
     setupDisplay("settings.wagon.num",  ui->lbVagon);
-    setupDisplay("settings.wagon.sv",   ui->lbMicroProgVersion);
-    setupDisplay("settings.wagon.sv",   ui->lbPoVersion);
-    setupDisplay("settings.wagon.dd",   ui->lbStartUseDate);
 
     setupDisplay("settings.wagon.dd",   ui->lbStartUseDate);
+
+    setupDisplay("settings.wagon.res",  ui->lbWorkTime);
+
+
 
     //-------------------------------------------------
     SEND_TO_LOG( QString("%1 - создан").arg(objectName()) );

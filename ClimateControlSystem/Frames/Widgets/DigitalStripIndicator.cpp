@@ -14,10 +14,10 @@ DigitalStripIndicator::DigitalStripIndicator(const int minimum,
 {
     setStyleSheet(
         "QWidget{ "
-        "padding: 10px;"
-        "margin: 10px;"
-//        "border: 1px solid #000000;"
-//        "border-radius : 5px;"
+//        "padding: 5px;"
+//        "margin: 5px;"
+//        "border: 3px solid #000000;"
+//        "border-radius : 2px;"
 //        "color: blue;"
 //        "background-color: yellow;"
         "}"
@@ -62,8 +62,8 @@ void DigitalStripIndicator::paintEvent(QPaintEvent *)
     style()->drawPrimitive(QStyle::PE_Widget, &opt, &painter, this);
 
     painter.setRenderHint(QPainter::Antialiasing);
-    //painter.translate(width(), height());
-    //painter.scale(width(), height());
+    //painter.translate(0, 0);
+    //painter.scale(width()-10, height());
 
     QColor positiveColor(255, 0, 0);
     QColor negativeColor(0, 0, 255);
@@ -71,7 +71,7 @@ void DigitalStripIndicator::paintEvent(QPaintEvent *)
 
     qreal stripHeight = 5;
 
-    qreal percent = (qreal)width()/abs(m_maximum - m_minimum);
+    qreal percent = (qreal)(width())/abs(m_maximum - m_minimum);
     //--------------------------------------------
     //! Нарисовать контур
     painter.setPen(Qt::SolidLine);

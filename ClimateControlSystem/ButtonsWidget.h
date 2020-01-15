@@ -27,6 +27,9 @@ class ButtonsWidget : public QWidget
         virtual ~ButtonsWidget();
 
 
+    public slots:
+        void setFrameName(const FrameName &frameName);
+
     signals:
         void mainFrameClicked();
         void nextFrameClicked();

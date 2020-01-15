@@ -24,7 +24,8 @@ ModbusRequest::ModbusRequest(const ModbusConnectionSettings &connectionSettings,
     });
 
     int startAddress = std::get<0>( registerList.at(0) );
-    int size = std::get<0>( registerList.last() ) - std::get<0>( registerList.first() );
+    int size = std::get<0>( registerList.last() ) - std::get<0>( registerList.first() ) + 1;
+    //int size = std::get<0>( registerList.last() ) - std::get<0>( registerList.first() );
 
     //--------------------------------------------
     setObjectName(QString("ModbusRequest[%1]servAddr[%2]f[%3]reg[%4:%5]")

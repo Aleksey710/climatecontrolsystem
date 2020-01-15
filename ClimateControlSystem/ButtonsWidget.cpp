@@ -7,13 +7,28 @@ ButtonsWidget::ButtonsWidget(QWidget *parent)
     QFont buttonFont = font();
 //    buttonFont.setPointSize(buttonFont.pointSize() + 2);
 
-//    setStyleSheet(QString(
+    setStyleSheet(QString(
 //        "QPushButton{"
 //        "color:rgb(0, 0, 0);"
 //        //"background-color:rgb(255, 255, 255);"
-//        "}"));
+    "QPushButton#evilButton {"
+        //"background-color: red;"
+        "border-style: outset;"
+        "border-width: 0px;"
+        //"border-radius: 10px;"
+        //"border-color: beige;"
+        //"font: bold 14px;"
+        "min-width: 10em;"
+        "min-height: 10em;"
+        "padding: 6px;"
+    "}"
+    "QPushButton#evilButton:pressed {"
+        "background-color: rgb(224, 0, 0);"
+        "border-style: inset;"
+    "}"
+    ));
 
-    int buttonHeight = 20;
+    int buttonHeight = 50;
     setFixedHeight(buttonHeight);
     //-------------------------------------------------------------------
     QHBoxLayout *mainLayout = new QHBoxLayout();
@@ -21,7 +36,6 @@ ButtonsWidget::ButtonsWidget(QWidget *parent)
     //-------------------------------------------------------------------
     QPushButton *mainFrameButton = new QPushButton("На головну");
     mainFrameButton->setFont(buttonFont);
-
     connect(mainFrameButton, &QPushButton::clicked, this, &ButtonsWidget::mainFrameClicked);
 
     mainLayout->addWidget(mainFrameButton);
@@ -75,5 +89,24 @@ ButtonsWidget::~ButtonsWidget()
 }
 //------------------------------------------------------------------------------------
 //!
+void ButtonsWidget::setFrameName(const FrameName &frameName)
+{
+    switch (frameName)
+    {
+        case FrameName::Main:
 
+            break;
+        case FrameName::InOutDisplay:
+
+            break;
+        case FrameName::Archive:
+
+            break;
+        case FrameName::CarInformation:
+
+            break;
+    default:
+        break;
+    }
+}
 

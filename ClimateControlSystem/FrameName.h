@@ -7,9 +7,7 @@
 enum FrameName {
     Main,
     InOutDisplay,
-    ArchiveFrame1,
-    ArchiveFrame2,
-    ArchiveFrame3,
+    Archive,
     CarInformation
 };
 //------------------------------------------------------------------------------------

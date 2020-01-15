@@ -22,15 +22,15 @@ GigitalIndicatorWidget::GigitalIndicatorWidget(const QString &title,
 
     QGridLayout *rootLayout = new QGridLayout();
     rootLayout->setMargin(1);
-//    rootLayout->setVerticalSpacing(1);
-//    rootLayout->setHorizontalSpacing(1);
+    rootLayout->setVerticalSpacing(1);
+    rootLayout->setHorizontalSpacing(1);
 
     QWidget *rootWidget = new QWidget();
     rootWidget->setObjectName("rootWidget");
     rootWidget->setStyleSheet(
         "QWidget#rootWidget {"
-        "padding: 1px;"
-        "margin: 5px;"
+//        "padding: 0px;"
+//        "margin: 5px;"
         "border: 1px solid #000000;"
         "border-radius : 5px;"
 //        "color: blue;"

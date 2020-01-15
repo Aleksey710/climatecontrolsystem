@@ -62,8 +62,6 @@ class MainDisplayWidget : public QWidget
 
         ButtonsWidget   *m_buttonsWidget;
 
-        //QHBoxLayout     *m_buttonLayout;
-
         QList<QWidget*> m_framesList;
         int             m_curentFrameId;
 

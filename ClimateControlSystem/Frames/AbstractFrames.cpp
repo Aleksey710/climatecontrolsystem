@@ -85,3 +85,71 @@ void AbstractFrames::setupDisplay(const QString &name, GigitalIndicatorWidget *d
 }
 //------------------------------------------------------------------------------------
 //!
+void AbstractFrames::setupDateDisplay(const QString &yearName,
+                                      const QString &monthName,
+                                      const QString &dayName,
+                                      QLabel *label)
+{
+    ScriptObject *yearScriptObject = ScriptUnit::getScriptObject(yearName);
+
+    if(yearScriptObject)
+    {
+        connect(yearScriptObject, &ScriptObject::dataChanged, [=](){
+            QStringList dateList = label->text().split("-");
+
+            qDebug() << "AbstractFrames::setupDateDisplay yearScriptObject" << dateList << yearScriptObject->data();
+            if(dateList.size() == 3)
+            {
+                label->setText( QString("%1-%2-%3")
+                                .arg(yearScriptObject->data())
+                                .arg(dateList.at(1))
+                                .arg(dateList.at(2)));
+            }
+        });
+
+        //! Начальная инициализация виджета
+        yearScriptObject->dataChanged();
+    }
+
+    //-----------------------------------------------
+    ScriptObject *monthScriptObject = ScriptUnit::getScriptObject(monthName);
+
+    if(monthScriptObject)
+    {
+        connect(monthScriptObject, &ScriptObject::dataChanged, [=](){
+            QStringList dateList = label->text().split("-");
+
+            if(dateList.size() == 3)
+            {
+                label->setText( QString("%1-%2-%3")
+                                .arg(dateList[0])
+                                .arg(monthScriptObject->data())
+                                .arg(dateList[2]));
+            }
+        });
+
+        //! Начальная инициализация виджета
+        monthScriptObject->dataChanged();
+    }
+
+    //-----------------------------------------------
+    ScriptObject *dayScriptObject = ScriptUnit::getScriptObject(dayName);
+
+    if(dayScriptObject)
+    {
+        connect(dayScriptObject, &ScriptObject::dataChanged, [=](){
+            QStringList dateList = label->text().split("-");
+
+            if(dateList.size() == 3)
+            {
+                label->setText( QString("%1-%2-%3")
+                                .arg(dateList[0])
+                                .arg(dateList[1])
+                                .arg(dayScriptObject->data()));
+            }
+        });
+
+        //! Начальная инициализация виджета
+        dayScriptObject->dataChanged();
+    }
+}

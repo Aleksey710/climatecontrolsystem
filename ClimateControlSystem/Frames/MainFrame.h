@@ -27,6 +27,8 @@ class MainFrame : public AbstractFrames
         explicit MainFrame(QWidget *parent = nullptr);
         virtual ~MainFrame();
 
+        inline virtual FrameName frameName() { return FrameName::Main; };
+
     private:
 
 };

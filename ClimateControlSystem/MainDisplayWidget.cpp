@@ -110,7 +110,8 @@ void MainDisplayWidget::setupFrames()
     m_framesList.append(carInformationFrame);
 
     //-----------------------------------------------------------
-    ClimateDeviceArchiveForm *climateDeviceArchiveForm = new ClimateDeviceArchiveForm();
+    ClimateDeviceArchiveForm *climateDeviceArchiveForm
+            = new ClimateDeviceArchiveForm();
     m_framesList.append(climateDeviceArchiveForm);
 
     //-----------------------------------------------------------
@@ -157,7 +158,7 @@ void MainDisplayWidget::setupMenu()
         m_frameLayout->addWidget( m_framesList[m_curentFrameId] );
         m_framesList[m_curentFrameId]->setHidden(false);
     });
-
+    //-------------------------------------------------------------------
     connect(m_buttonsWidget, &ButtonsWidget::nextFrameClicked, [=](){
         m_framesList[m_curentFrameId]->setHidden(true);
         m_frameLayout->removeWidget( m_framesList[m_curentFrameId] );
@@ -173,7 +174,7 @@ void MainDisplayWidget::setupMenu()
         m_frameLayout->addWidget( m_framesList[m_curentFrameId] );
         m_framesList[m_curentFrameId]->setHidden(false);
     });
-
+    //-------------------------------------------------------------------
     connect(m_buttonsWidget, &ButtonsWidget::previousFrameClicked, [=](){
         m_framesList[m_curentFrameId]->setHidden(true);
         m_frameLayout->removeWidget( m_framesList[m_curentFrameId] );
@@ -190,138 +191,22 @@ void MainDisplayWidget::setupMenu()
         m_framesList[m_curentFrameId]->setHidden(false);
 
     });
-
+    //-------------------------------------------------------------------
     connect(m_buttonsWidget, &ButtonsWidget::pgUpClicked, [=](){
 
     });
-
+    //-------------------------------------------------------------------
     connect(m_buttonsWidget, &ButtonsWidget::pgDownClicked, [=](){
 
     });
-
+    //-------------------------------------------------------------------
     connect(m_buttonsWidget, &ButtonsWidget::plusClicked, [=](){
 
     });
-
+    //-------------------------------------------------------------------
     connect(m_buttonsWidget, &ButtonsWidget::minusClicked, [=](){
 
     });
-
-/*
-
-    QFont buttonFont = font();
-    buttonFont.setPointSize(buttonFont.pointSize() + 2);
-
-    int buttonHeight = 20;
-    //-------------------------------------------------------------------
-    m_menuLayout = new QHBoxLayout();
-
-    //-------------------------------------------------------------------
-    QPushButton *mainFrameButton = new QPushButton("На головну");
-
-    mainFrameButton->setFixedHeight(buttonHeight);
-    mainFrameButton->setFont(buttonFont);
-
-    connect(mainFrameButton, &QPushButton::clicked,
-            [=](){
-
-
-    });
-
-    m_menuLayout->addWidget(mainFrameButton);
-    //-------------------------------------------------------------------
-
-    //-------------------------------------------------------------------
-    QPushButton *nextFrameButton = new QPushButton("Наступний екран");
-
-    nextFrameButton->setFixedHeight(buttonHeight);
-    nextFrameButton->setFont(buttonFont);
-
-    connect(nextFrameButton, &QPushButton::clicked,
-            [=](){
-
-        m_framesList[m_curentFrameId]->setHidden(true);
-        m_frameLayout->removeWidget( m_framesList[m_curentFrameId] );
-
-        if(m_curentFrameId == (m_framesList.size()-1))
-        {
-            m_curentFrameId = 0;
-        } else
-        {
-            m_curentFrameId = m_curentFrameId + 1;
-        }
-
-        m_frameLayout->addWidget( m_framesList[m_curentFrameId] );
-        m_framesList[m_curentFrameId]->setHidden(false);
-    });
-
-    m_menuLayout->addWidget(nextFrameButton);
-
-    //-------------------------------------------------------------------
-    QPushButton *minusFrameButton = new QPushButton("-");
-
-    minusFrameButton->setFixedHeight(buttonHeight);
-    minusFrameButton->setFont(buttonFont);
-
-    connect(minusFrameButton, &QPushButton::clicked,
-            [=](){
-
-        m_framesList[m_curentFrameId]->setHidden(true);
-        m_frameLayout->removeWidget( m_framesList[m_curentFrameId] );
-
-        if(m_curentFrameId == (m_framesList.size()-1))
-        {
-            m_curentFrameId = 0;
-        } else
-        {
-            m_curentFrameId = m_curentFrameId + 1;
-        }
-
-        m_frameLayout->addWidget( m_framesList[m_curentFrameId] );
-        m_framesList[m_curentFrameId]->setHidden(false);
-    });
-
-    m_menuLayout->addWidget(minusFrameButton);
-    //-------------------------------------------------------------------
-    QPushButton *plusFrameButton = new QPushButton("+");
-
-    plusFrameButton->setFixedHeight(buttonHeight);
-    plusFrameButton->setFont(buttonFont);
-
-    connect(plusFrameButton, &QPushButton::clicked,
-            [=](){
-
-        m_framesList[m_curentFrameId]->setHidden(true);
-        m_frameLayout->removeWidget( m_framesList[m_curentFrameId] );
-
-        if(m_curentFrameId == (m_framesList.size()-1))
-        {
-            m_curentFrameId = 0;
-        } else
-        {
-            m_curentFrameId = m_curentFrameId + 1;
-        }
-
-        m_frameLayout->addWidget( m_framesList[m_curentFrameId] );
-        m_framesList[m_curentFrameId]->setHidden(false);
-    });
-
-    m_menuLayout->addWidget(plusFrameButton);
-*/
-    //-------------------------------------------------------------------
-    /*
-    QPushButton *nextButton = new QPushButton("Следующий экран");
-
-    mainFrameButton->setFixedHeight(50);
-
-    connect(nextButton, &QPushButton::click,
-            [=](){
-
-    });
-    m_menuLayout->addWidget(nextButton);
-    */
-    //-------------------------------------------------------------------
-    //m_mainLayout->addLayout(m_menuLayout);
 }
 
 

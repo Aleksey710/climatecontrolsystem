@@ -30,6 +30,8 @@ class CarInformationFrame : public AbstractFrames
         explicit CarInformationFrame(QWidget *parent = nullptr);
         virtual ~CarInformationFrame();
 
+        inline virtual FrameName frameName() { return FrameName::CarInformation; };
+
     private:
         Ui::CarInformationFrame *ui;
 };

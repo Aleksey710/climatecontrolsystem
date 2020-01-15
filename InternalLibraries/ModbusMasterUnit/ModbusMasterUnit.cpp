@@ -202,7 +202,6 @@ void ModbusMasterUnit::deviceParsing(const ModbusConnectionSettings &modbusConne
     const QJsonArray registersJsonArray         = deviceJsonObject.value("registers").toArray();
 
     QList< std::tuple<int, QString, QString> > registerList;
-    registerList.reserve(10);
 
     foreach (const QJsonValue &value, registersJsonArray)
     {

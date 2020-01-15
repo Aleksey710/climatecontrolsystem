@@ -655,23 +655,25 @@ void DbUnit::createResistGroup(QStringList &queryStringList)
 //!
 void DbUnit::setupArchiveEvents(QStringList &queryStringList)
 {
-    queryStringList.append(
-        "CREATE TABLE IF NOT EXISTS `event_groups` ( "
-        "`id` INTEGER NOT NULL PRIMARY KEY, "
-        "`name` TEXT NOT NULL, "
-        "`title` TEXT NOT NULL "
-        "); "
-        );
+/*
+//    queryStringList.append(
+//        "CREATE TABLE IF NOT EXISTS `event_groups` ( "
+//        "`id` INTEGER NOT NULL PRIMARY KEY, "
+//        "`name` TEXT NOT NULL, "
+//        "`title` TEXT NOT NULL "
+//        "); "
+//        );
 
-    queryStringList.append(
-        "INSERT INTO `event_groups` (`id`,`name`,`title`) "
-        "VALUES (1,'climate_device', 'Климатическая установка');");
-    queryStringList.append(
-        "INSERT INTO `event_groups` (`id`,`name`,`title`) "
-        "VALUES (2,'electrical_equipment', 'Электрооборудование');");
-    queryStringList.append(
-        "INSERT INTO `event_groups` (`id`,`name`,`title`) "
-        "VALUES (3,'electrical_equipment_operating_time', 'Наработка электрооборудования');");
+//    queryStringList.append(
+//        "INSERT INTO `event_groups` (`id`,`name`,`title`) "
+//        "VALUES (1,'climate_device', 'Климатическая установка');");
+//    queryStringList.append(
+//        "INSERT INTO `event_groups` (`id`,`name`,`title`) "
+//        "VALUES (2,'electrical_equipment', 'Электрооборудование');");
+//    queryStringList.append(
+//        "INSERT INTO `event_groups` (`id`,`name`,`title`) "
+//        "VALUES (3,'electrical_equipment_operating_time', 'Наработка электрооборудования');");
+
 
 //    "`group_id` INTEGER NOT NULL "
 //    "REFERENCES `groups` (`id`) "
@@ -717,34 +719,41 @@ void DbUnit::setupArchiveEvents(QStringList &queryStringList)
         //--------------------------------------
         "); "
         );
+*/
+
+    createArchiveTable("electrical_equipment_events", queryStringList);
+    createArchiveTable("climate_device_auto_events", queryStringList);
+    createArchiveTable("climate_device_manual_events", queryStringList);
+    createArchiveTable("work_time_events", queryStringList);
+//    createArchiveTable(", queryStringList");
+//    createArchiveTable(", queryStringList");
+//    createArchiveTable(", queryStringList");
+//    createArchiveTable(", queryStringList");
+
+}
+//------------------------------------------------------------------------------------
+//!
+void DbUnit::createArchiveTable(const QString &tableName,
+                                QStringList &queryStringList)
+{
+    queryStringList.append(QString(
+        "CREATE TABLE IF NOT EXISTS `%1` ( "
+        "`id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, "
+        "`datetime` INTEGER NOT NULL, "
+        "`msg` TEXT NOT NULL "
+        "); "
+        ).arg(tableName));
 
     //--------------------------------------
-    const int testDataCount = 15;
+
+    const int testDataCount = 40;
 
     for(int i = 0; i < testDataCount; ++i)
     {
         queryStringList.append( QString(
-            "INSERT INTO `events` (`datetime`,`event_group_id`,`event_type_id`) "
-            "VALUES ('%1',1,1);"
-            ).arg(QDateTime::currentMSecsSinceEpoch()+i*1000)
-        );
-    }
-    //------
-    for(int i = 0; i < testDataCount; ++i)
-    {
-        queryStringList.append( QString(
-            "INSERT INTO `events` (`datetime`,`event_group_id`,`event_type_id`) "
-            "VALUES (%1,2,1);"
-            ).arg(QDateTime::currentMSecsSinceEpoch()+i*1000)
-        );
-    }
-    //------
-    for(int i = 0; i < testDataCount; ++i)
-    {
-        queryStringList.append( QString(
-            "INSERT INTO `events` (`datetime`,`event_group_id`,`event_type_id`) "
-            "VALUES (%1,3,1);"
-            ).arg(QDateTime::currentMSecsSinceEpoch()+i*1000)
+            "INSERT INTO `%1` (`datetime`,`msg`) "
+            "VALUES (%2,'Тестовое сообщение (%1) [%3]');"
+            ).arg(tableName).arg(QDateTime::currentMSecsSinceEpoch()+i*1000).arg(i)
         );
     }
 

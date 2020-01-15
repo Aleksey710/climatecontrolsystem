@@ -46,9 +46,11 @@ INCLUDEPATH += ./ArchiveForms
 
 HEADERS += \
     ArchiveForms/AbstractArchiveForm.h \
-    ArchiveForms/ClimateDeviceArchiveForm.h \
+    ArchiveForms/ClimateDeviceAutoArchiveForm.h \
+    ArchiveForms/ClimateDeviceManualArchiveForm.h \
     ArchiveForms/ElectricalEquipmentArchiveForm.h \
     ArchiveForms/ElectricalEquipmentOperatingTimeArchiveForm.h \
+    ArchiveForms/WorkTimeArchiveForm.h \
     ConfigEditFrame.h \
     DbUnit.h \
     MenuConfigEditForm.h \

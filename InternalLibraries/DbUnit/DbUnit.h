@@ -66,6 +66,8 @@ class DbUnit : public QObject
         //------------------------------------------------------
         void setupArchiveEvents(QStringList &queryStringList);
 
+        void createArchiveTable(const QString &tableName,
+                                QStringList &queryStringList);
 
 
     private:

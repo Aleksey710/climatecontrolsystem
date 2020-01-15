@@ -24,7 +24,7 @@ ButtonsWidget::ButtonsWidget(QWidget *parent)
     "}"
     "QPushButton#evilButton:pressed {"
         "background-color: rgb(224, 0, 0);"
-        "border-style: inset;"
+        //"border-style: inset;"
     "}"
     ));
 

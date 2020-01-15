@@ -110,20 +110,30 @@ void MainDisplayWidget::setupFrames()
     m_framesList.append(carInformationFrame);
 
     //-----------------------------------------------------------
-    ClimateDeviceArchiveForm *climateDeviceArchiveForm
-            = new ClimateDeviceArchiveForm();
-    m_framesList.append(climateDeviceArchiveForm);
-
+    // ARCHIVE FRAMES
     //-----------------------------------------------------------
     ElectricalEquipmentArchiveForm *electricalEquipmentArchiveForm
         = new ElectricalEquipmentArchiveForm();
     m_framesList.append(electricalEquipmentArchiveForm);
 
-    //-----------------------------------------------------------
-    ElectricalEquipmentOperatingTimeArchiveForm *electricalEquipmentOperatingTimeArchiveForm
-        = new ElectricalEquipmentOperatingTimeArchiveForm();
-    m_framesList.append(electricalEquipmentOperatingTimeArchiveForm);
+    ClimateDeviceAutoArchiveForm *climateDeviceAutoArchiveForm
+            = new ClimateDeviceAutoArchiveForm();
+    m_framesList.append(climateDeviceAutoArchiveForm);
 
+    ClimateDeviceManualArchiveForm *climateDeviceManualArchiveForm
+            = new ClimateDeviceManualArchiveForm();
+    m_framesList.append(climateDeviceManualArchiveForm);
+
+    WorkTimeArchiveForm *workTimeArchiveForm
+        = new WorkTimeArchiveForm();
+    m_framesList.append(workTimeArchiveForm);
+
+    //-----------------------------------------------------------
+//    ElectricalEquipmentOperatingTimeArchiveForm *electricalEquipmentOperatingTimeArchiveForm
+//        = new ElectricalEquipmentOperatingTimeArchiveForm();
+//    m_framesList.append(electricalEquipmentOperatingTimeArchiveForm);
+
+    //-----------------------------------------------------------
     //-----------------------------------------------------------
     // В случае, если объект уже удален, то p будет пустым указателем
     if( m_dbUnit )

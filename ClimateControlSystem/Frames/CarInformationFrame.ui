@@ -7,13 +7,25 @@
     <x>0</x>
     <y>0</y>
     <width>745</width>
-    <height>390</height>
+    <height>341</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
+   <property name="leftMargin">
+    <number>1</number>
+   </property>
+   <property name="topMargin">
+    <number>1</number>
+   </property>
+   <property name="rightMargin">
+    <number>1</number>
+   </property>
+   <property name="bottomMargin">
+    <number>1</number>
+   </property>
    <item row="0" column="0">
     <layout class="QGridLayout" name="gridLayout">
      <property name="spacing">
@@ -22,6 +34,18 @@
      <item row="0" column="0">
       <widget class="QWidget" name="widget" native="true">
        <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <property name="leftMargin">
+         <number>1</number>
+        </property>
+        <property name="topMargin">
+         <number>1</number>
+        </property>
+        <property name="rightMargin">
+         <number>1</number>
+        </property>
+        <property name="bottomMargin">
+         <number>1</number>
+        </property>
         <item>
          <layout class="QGridLayout" name="gridLayout_3">
           <item row="0" column="0">
@@ -83,10 +107,40 @@
      <item row="0" column="1">
       <widget class="QWidget" name="widget_2" native="true">
        <layout class="QGridLayout" name="gridLayout_5">
+        <property name="leftMargin">
+         <number>1</number>
+        </property>
+        <property name="topMargin">
+         <number>1</number>
+        </property>
+        <property name="rightMargin">
+         <number>1</number>
+        </property>
+        <property name="bottomMargin">
+         <number>1</number>
+        </property>
         <item row="0" column="1">
          <layout class="QGridLayout" name="gridLayout_4">
-          <item row="20" column="0">
-           <widget class="QLabel" name="lbWorkTime">
+          <item row="14" column="0">
+           <widget class="QLabel" name="label_10">
+            <property name="font">
+             <font>
+              <underline>true</underline>
+             </font>
+            </property>
+            <property name="layoutDirection">
+             <enum>Qt::LeftToRight</enum>
+            </property>
+            <property name="text">
+             <string>Час напрацювання (год)</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="11" column="0">
+           <widget class="QLabel" name="lbVagon">
             <property name="font">
              <font>
               <pointsize>10</pointsize>
@@ -98,32 +152,7 @@
              <enum>Qt::LeftToRight</enum>
             </property>
             <property name="text">
-             <string>0</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="9" column="0">
-           <widget class="Line" name="line_3">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-           </widget>
-          </item>
-          <item row="16" column="0">
-           <widget class="QLabel" name="label_9">
-            <property name="font">
-             <font>
-              <underline>true</underline>
-             </font>
-            </property>
-            <property name="layoutDirection">
-             <enum>Qt::LeftToRight</enum>
-            </property>
-            <property name="text">
-             <string>Введення в експлуатацiю</string>
+             <string>vagon</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -131,6 +160,26 @@
            </widget>
           </item>
           <item row="7" column="0">
+           <widget class="QLabel" name="lbButDateVersion">
+            <property name="font">
+             <font>
+              <pointsize>10</pointsize>
+              <weight>50</weight>
+              <bold>false</bold>
+             </font>
+            </property>
+            <property name="layoutDirection">
+             <enum>Qt::LeftToRight</enum>
+            </property>
+            <property name="text">
+             <string>0000-00-00</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="0">
            <widget class="QLabel" name="lbButVersion">
             <property name="font">
              <font>
@@ -150,28 +199,8 @@
             </property>
            </widget>
           </item>
-          <item row="17" column="0">
-           <widget class="QLabel" name="lbStartUseDate">
-            <property name="font">
-             <font>
-              <pointsize>10</pointsize>
-              <weight>50</weight>
-              <bold>false</bold>
-             </font>
-            </property>
-            <property name="layoutDirection">
-             <enum>Qt::LeftToRight</enum>
-            </property>
-            <property name="text">
-             <string>0000-00-00</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="19" column="0">
-           <widget class="QLabel" name="label_10">
+          <item row="5" column="0">
+           <widget class="QLabel" name="label_6">
             <property name="font">
              <font>
               <underline>true</underline>
@@ -181,20 +210,7 @@
              <enum>Qt::LeftToRight</enum>
             </property>
             <property name="text">
-             <string>Час напрацювання (год)</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="11" column="0">
-           <widget class="QLabel" name="lbSoftVersion">
-            <property name="layoutDirection">
-             <enum>Qt::LeftToRight</enum>
-            </property>
-            <property name="text">
-             <string>Soft version</string>
+             <string>Версiя БУТ</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -202,7 +218,43 @@
            </widget>
           </item>
           <item row="8" column="0">
-           <widget class="QLabel" name="lbButDateVersion">
+           <widget class="QLabel" name="label_8">
+            <property name="font">
+             <font>
+              <underline>true</underline>
+             </font>
+            </property>
+            <property name="layoutDirection">
+             <enum>Qt::LeftToRight</enum>
+            </property>
+            <property name="text">
+             <string>Версiя ПЗ керування</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="12" column="0">
+           <widget class="QLabel" name="label_9">
+            <property name="font">
+             <font>
+              <underline>true</underline>
+             </font>
+            </property>
+            <property name="layoutDirection">
+             <enum>Qt::LeftToRight</enum>
+            </property>
+            <property name="text">
+             <string>Введення в експлуатацiю</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="15" column="0">
+           <widget class="QLabel" name="lbWorkTime">
             <property name="font">
              <font>
               <pointsize>10</pointsize>
@@ -214,7 +266,7 @@
              <enum>Qt::LeftToRight</enum>
             </property>
             <property name="text">
-             <string>0000-00-00</string>
+             <string>0</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -241,8 +293,8 @@
             </property>
            </widget>
           </item>
-          <item row="6" column="0">
-           <widget class="QLabel" name="label_6">
+          <item row="10" column="0">
+           <widget class="QLabel" name="label_7">
             <property name="font">
              <font>
               <underline>true</underline>
@@ -252,15 +304,22 @@
              <enum>Qt::LeftToRight</enum>
             </property>
             <property name="text">
-             <string>Версiя БУТ</string>
+             <string>Вагон</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
             </property>
            </widget>
           </item>
-          <item row="14" column="0">
-           <widget class="QLabel" name="lbVagon">
+          <item row="1" column="0">
+           <widget class="Line" name="line_2">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="QLabel" name="lbBvvVersion">
             <property name="font">
              <font>
               <pointsize>10</pointsize>
@@ -272,24 +331,36 @@
              <enum>Qt::LeftToRight</enum>
             </property>
             <property name="text">
-             <string>vagon</string>
+             <string>BVV version</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
             </property>
            </widget>
           </item>
-          <item row="15" column="0">
-           <widget class="Line" name="line_4">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
+          <item row="9" column="0">
+           <widget class="QLabel" name="lbSoftVersion">
+            <property name="layoutDirection">
+             <enum>Qt::LeftToRight</enum>
+            </property>
+            <property name="text">
+             <string>Soft version</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
             </property>
            </widget>
           </item>
-          <item row="5" column="0">
-           <widget class="Line" name="line">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
+          <item row="0" column="0">
+           <widget class="QLabel" name="lbCompany">
+            <property name="layoutDirection">
+             <enum>Qt::LeftToRight</enum>
+            </property>
+            <property name="text">
+             <string>Производственное объединение A&amp;A</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
             </property>
            </widget>
           </item>
@@ -316,8 +387,8 @@
             </property>
            </widget>
           </item>
-          <item row="3" column="0">
-           <widget class="QLabel" name="lbBvvVersion">
+          <item row="13" column="0">
+           <widget class="QLabel" name="lbStartUseDate">
             <property name="font">
              <font>
               <pointsize>10</pointsize>
@@ -329,80 +400,10 @@
              <enum>Qt::LeftToRight</enum>
             </property>
             <property name="text">
-             <string>BVV version</string>
+             <string>0000-00-00</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="13" column="0">
-           <widget class="QLabel" name="label_7">
-            <property name="font">
-             <font>
-              <underline>true</underline>
-             </font>
-            </property>
-            <property name="layoutDirection">
-             <enum>Qt::LeftToRight</enum>
-            </property>
-            <property name="text">
-             <string>Вагон</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="10" column="0">
-           <widget class="QLabel" name="label_8">
-            <property name="font">
-             <font>
-              <underline>true</underline>
-             </font>
-            </property>
-            <property name="layoutDirection">
-             <enum>Qt::LeftToRight</enum>
-            </property>
-            <property name="text">
-             <string>Версiя ПЗ керування</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="12" column="0">
-           <widget class="Line" name="line_6">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="0">
-           <widget class="QLabel" name="lbCompany">
-            <property name="layoutDirection">
-             <enum>Qt::LeftToRight</enum>
-            </property>
-            <property name="text">
-             <string>Производственное объединение A&amp;A</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="Line" name="line_2">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-           </widget>
-          </item>
-          <item row="18" column="0">
-           <widget class="Line" name="line_12">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
             </property>
            </widget>
           </item>

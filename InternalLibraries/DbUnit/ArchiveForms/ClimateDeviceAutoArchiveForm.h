@@ -1,5 +1,5 @@
-#ifndef ELECTRICALEQUIPMENTARCHIVEFORM_H
-#define ELECTRICALEQUIPMENTARCHIVEFORM_H
+#ifndef CLIMATEDEVICEAUTOARCHIVEFORM_H
+#define CLIMATEDEVICEAUTOARCHIVEFORM_H
 //------------------------------------------------------------------------------------
 #include <QObject>
 //#include <>
@@ -11,24 +11,24 @@
 #include "AbstractArchiveForm.h"
 //------------------------------------------------------------------------------------
 //!
-class ElectricalEquipmentArchiveForm : public AbstractArchiveForm
+class ClimateDeviceAutoArchiveForm : public AbstractArchiveForm
 {
         Q_OBJECT
     public:
-        explicit ElectricalEquipmentArchiveForm(QWidget *parent = nullptr)
+        explicit ClimateDeviceAutoArchiveForm(QWidget *parent = nullptr)
             :AbstractArchiveForm(parent)
         {
-            setObjectName(QString("ElectricalEquipmentArchiveForm"));
+            setObjectName(QString("ClimateDeviceArchiveForm"));
             setup();
             SEND_TO_LOG(QString("%1 - создан").arg(objectName()));
         }
 
-        virtual ~ElectricalEquipmentArchiveForm()
+        virtual ~ClimateDeviceAutoArchiveForm()
             {  }
 
     private:
         virtual QString headLabel() override
-            { return QString("Журнал электрообладнання"); }
+            { return QString("Журнал клiматичної установки режим авто"); }
 
         virtual QString queryString() override
         {
@@ -37,8 +37,9 @@ class ElectricalEquipmentArchiveForm : public AbstractArchiveForm
                 "strftime('%Y-%m-%d %H:%M:%f',`datetime`/1000,'unixepoch', 'localtime') AS dt, "
                 "`msg` "
                 "FROM `%1` "
-                ";").arg("electrical_equipment_events");
+                ";").arg("climate_device_auto_events");
         }
+
 };
 //------------------------------------------------------------------------------------
-#endif // ELECTRICALEQUIPMENTARCHIVEFORM_H
+#endif // CLIMATEDEVICEAUTOARCHIVEFORM_H

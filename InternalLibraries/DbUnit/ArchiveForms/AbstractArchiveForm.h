@@ -17,10 +17,9 @@
 //#include ".h"
 //#include ".h"
 //#include ".h"
-//#include ".h"
 #include "Log.h"
 #include "DbUnit.h"
-
+//#include "FrameName.h"
 //------------------------------------------------------------------------------------
 //!
 class AbstractArchiveForm : public QWidget
@@ -30,6 +29,7 @@ class AbstractArchiveForm : public QWidget
         explicit AbstractArchiveForm(QWidget *parent = nullptr);
         virtual ~AbstractArchiveForm();
 
+        //inline virtual FrameName frameName() { return FrameName::InOutDisplay; };
 
     signals:
 

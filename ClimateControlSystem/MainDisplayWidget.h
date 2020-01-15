@@ -26,9 +26,12 @@
 #include "MenuConfigEditForm.h"
 #include "DbUnit.h"
 //
-#include "ClimateDeviceArchiveForm.h"
 #include "ElectricalEquipmentArchiveForm.h"
-#include "ElectricalEquipmentOperatingTimeArchiveForm.h"
+#include "ClimateDeviceAutoArchiveForm.h"
+#include "ClimateDeviceManualArchiveForm.h"
+#include "WorkTimeArchiveForm.h"
+
+//#include "ElectricalEquipmentOperatingTimeArchiveForm.h"
 
 //#include ".h"
 //#include ""

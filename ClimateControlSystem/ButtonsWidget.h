@@ -41,14 +41,31 @@ class ButtonsWidget : public QWidget
         void plusClicked();
         void minusClicked();
 
-
     private:
+        void setButtonState(bool mainFrameButtonState,
+                            bool nextFrameButtonState,
+                            bool pgUpFrameButtonState,
+                            bool pgDownFrameButtonState,
+                            bool minusFrameButtonState,
+                            bool plusFrameButtonState,
+                            bool emptyButton1State,
+                            bool emptyButton2State,
+                            bool emptyButton3State,
+                            bool emptyButton4State);
+    private:
+
+        QPushButton *m_emptyButton1;
+        QPushButton *m_emptyButton2;
+        QPushButton *m_emptyButton3;
+        QPushButton *m_emptyButton4;
 
         QPushButton *m_mainFrameButton;
         QPushButton *m_previousFrameButton;
         QPushButton *m_nextFrameButton;
+
         QPushButton *m_pgUpFrameButton;
         QPushButton *m_pgDownFrameButton;
+
         QPushButton *m_minusFrameButton;
         QPushButton *m_plusFrameButton;
 

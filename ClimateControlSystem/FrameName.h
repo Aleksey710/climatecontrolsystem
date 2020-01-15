@@ -8,7 +8,8 @@ enum FrameName {
     Main,
     InOutDisplay,
     Archive,
-    CarInformation
+    CarInformation,
+    MenuConfigEdit,
 };
 //------------------------------------------------------------------------------------
 #endif // FRAMENAME_H

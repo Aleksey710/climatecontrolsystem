@@ -18,20 +18,22 @@
 //#include <>
 
 
+#include "AbstractFrame.h"
 #include "MenuItemData.h"
 #include "ConfigEditFrame.h"
 //#include ".h"
 //#include ".h"
-//#include ".h"
 //------------------------------------------------------------------------------------
 //!
-class MenuConfigEditFrame : public QWidget
+class MenuConfigEditFrame : public AbstractFrame
 {
         Q_OBJECT
     public:
         explicit MenuConfigEditFrame(const QList<MenuItemData> &menuItemDataList,
                                      QWidget *parent = nullptr);
         virtual ~MenuConfigEditFrame();
+
+        inline virtual FrameName frameName() { return FrameName::MenuConfigEdit; }
 
     signals:
 

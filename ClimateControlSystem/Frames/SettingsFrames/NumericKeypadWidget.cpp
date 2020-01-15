@@ -10,6 +10,10 @@ NumericKeypadWidget::NumericKeypadWidget(const double &value,
     //--------------------------------------------------------
     QGridLayout *mainLayout = new QGridLayout;
 
+    mainLayout->setMargin(1);
+    mainLayout->setContentsMargins(1,1,1,1);
+    mainLayout->setVerticalSpacing(1);
+    mainLayout->setHorizontalSpacing(1);
     //--------------------------------------------------------
     QHBoxLayout *lineLayout = new QHBoxLayout;
 

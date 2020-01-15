@@ -12,6 +12,17 @@
 #include <QHeaderView>
 #include <QSqlQuery>
 #include <QLabel>
+#include <QScrollBar>
+#include <QShortcut>
+#include <QFileDialog>
+#include <QMessageBox>
+#include <QFile>
+#include <QIODevice>
+#include <QDataStream>
+//#include <>
+//#include <>
+//#include <>
+
 
 //#include ".h"
 //#include ".h"
@@ -33,11 +44,21 @@ class AbstractArchiveFrame : public AbstractFrame
 
     signals:
 
+
+    public slots:
+        void pgUp();
+        void pgDown();
+
+        void startSaveData();
+
     protected:
         void setup();
-        virtual QString headLabel() = 0;
-        virtual QString queryString() = 0;
+        virtual QString headLabel() { return QString(); }
+        virtual QString queryString() { return QString(); }
 
+
+    private:
+        QTableView *m_tableView;
 };
 //------------------------------------------------------------------------------------
 #endif // ABSTRACTARCHIVEFRAME_H

@@ -74,10 +74,16 @@ GigitalIndicatorWidget::~GigitalIndicatorWidget()
 }
 //------------------------------------------------------------------------------------
 //!
+double GigitalIndicatorWidget::data()
+{
+    QString curentText = m_dataLabel->text();
+    return curentText.remove(m_measureTitle).toDouble();
+}
+//------------------------------------------------------------------------------------
+//!
 void GigitalIndicatorWidget::setData(const double &value)
 {
     m_digitalStripIndicator->setData(value);
-
     m_dataLabel->setText(QString("%1 %2").arg(value).arg(m_measureTitle));
 }
 //------------------------------------------------------------------------------------

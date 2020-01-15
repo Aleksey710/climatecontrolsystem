@@ -1,6 +1,7 @@
 #ifndef CHECKAPPUNIQ_H
 #define CHECKAPPUNIQ_H
 //------------------------------------------------------------------------------------
+#include <QCoreApplication>
 #include <QSystemSemaphore>
 #include <QSharedMemory>
 //#include <>
@@ -23,31 +24,47 @@
 //---------------------------------------------------
 // #include "CheckAppUniq.h"
 //------------------------------------------------------------------------------------
-bool checkAppUniq()
+static QSharedMemory *sharedMemory = nullptr;
+//------------------------------------------------------------------------------------
+bool checkAppUniq(const QString &id = "<uniq id>")
 {
-    QSystemSemaphore semaphore("<uniq id>", 1);  // создаём семафор
-    semaphore.acquire(); // Поднимаем семафор, запрещая другим экземплярам работать с разделяемой памятью
+    // создаём семафор
+    QSystemSemaphore semaphore(id, 1);
+    // Поднимаем семафор, запрещая другим экземплярам работать с разделяемой памятью
+    semaphore.acquire();
 
 #ifndef Q_OS_WIN32
     // в linux/unix разделяемая память не особождается при аварийном завершении приложения,
     // поэтому необходимо избавиться от данного мусора
-    QSharedMemory nix_fix_shared_memory("<uniq id 2>");
+    QSharedMemory nix_fix_shared_memory(QString("%1_2").arg(id));
     if(nix_fix_shared_memory.attach())
     {
         nix_fix_shared_memory.detach();
     }
 #endif
 
-    QSharedMemory sharedMemory("<uniq id 2>");  // Создаём экземпляр разделяемой памяти
-    bool is_running;            // переменную для проверки ууже запущенного приложения
-    if (sharedMemory.attach()){ // пытаемся присоединить экземпляр разделяемой памяти
-                                // к уже существующему сегменту
-        is_running = true;      // Если успешно, то определяем, что уже есть запущенный экземпляр
-    }else{
-        sharedMemory.create(1); // В противном случае выделяем 1 байти памяти
-        is_running = false;     // И определяем, что других экземпляров не запущено
+    // Создаём экземпляр разделяемой памяти
+    //QSharedMemory sharedMemory(QString("%1_2").arg(id));
+    sharedMemory = new QSharedMemory(QString("%1_2").arg(id), QCoreApplication::instance());
+
+    // переменную для проверки ууже запущенного приложения
+    bool is_running;
+
+    // пытаемся присоединить экземпляр разделяемой памяти
+    // к уже существующему сегменту
+    if (sharedMemory->attach())
+    {
+        // Если успешно, то определяем, что уже есть запущенный экземпляр
+        is_running = true;
+    } else {
+        // В противном случае выделяем 1 байти памяти
+        sharedMemory->create(1);
+        // И определяем, что других экземпляров не запущено
+        is_running = false;
     }
-    semaphore.release();        // Опускаем семафор
+
+    // Опускаем семафор
+    semaphore.release();
 
     //---------------------------------------------------
     return is_running;

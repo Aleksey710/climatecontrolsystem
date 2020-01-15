@@ -29,7 +29,13 @@ class MainFrame : public AbstractFrame
 
         inline virtual FrameName frameName() { return FrameName::Main; }
 
+    public slots:
+        void tUstPlus();
+        void tUstMinus();
+
+
     private:
+        GigitalIndicatorWidget *m_tUstWidget;
 
 };
 //------------------------------------------------------------------------------------

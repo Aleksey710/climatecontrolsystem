@@ -32,14 +32,18 @@ ButtonsWidget::ButtonsWidget(QWidget *parent)
     int buttonHeight = 50;
     setFixedHeight(buttonHeight);
     //-------------------------------------------------------------------
-    //QHBoxLayout *mainLayout = new QHBoxLayout();
-
     QGridLayout *mainLayout = new QGridLayout;
 
     mainLayout->setMargin(1);
+    mainLayout->setContentsMargins(1,1,1,1);
     mainLayout->setVerticalSpacing(1);
     mainLayout->setHorizontalSpacing(1);
 
+    //-------------------------------------------------------------------
+    m_emptyButton1 = new QPushButton("");
+    m_emptyButton2 = new QPushButton("");
+    m_emptyButton3 = new QPushButton("");
+    m_emptyButton4 = new QPushButton("");
     //-------------------------------------------------------------------
     m_mainFrameButton = new QPushButton("На головну");
     m_mainFrameButton->setFont(buttonFont);
@@ -71,16 +75,23 @@ ButtonsWidget::ButtonsWidget(QWidget *parent)
     //-------------------------------------------------------------------
     m_plusFrameButton = new QPushButton("+");
     m_plusFrameButton->setFont(buttonFont);
-    connect(m_plusFrameButton, &QPushButton::clicked, this, &ButtonsWidget::minusClicked);
+    connect(m_plusFrameButton, &QPushButton::clicked, this, &ButtonsWidget::plusClicked);
     //-------------------------------------------------------------------
+
     mainLayout->addWidget(m_mainFrameButton,              0,0,1,1);
     //mainLayout->addWidget(m_previousFrameButton,          0,1,1,1);
     mainLayout->addWidget(m_nextFrameButton,              0,1,1,1);
+
     mainLayout->addWidget(m_pgUpFrameButton,              0,2,1,1);
     mainLayout->addWidget(m_pgDownFrameButton,            0,3,1,1);
+
     mainLayout->addWidget(m_minusFrameButton,             0,2,1,1);
     mainLayout->addWidget(m_plusFrameButton,              0,3,1,1);
 
+    mainLayout->addWidget(m_emptyButton1,                 0,0,1,1);
+    mainLayout->addWidget(m_emptyButton2,                 0,1,1,1);
+    mainLayout->addWidget(m_emptyButton3,                 0,2,1,1);
+    mainLayout->addWidget(m_emptyButton4,                 0,3,1,1);
 
     setFrameName(FrameName::Main);
     //-------------------------------------------------------------------
@@ -99,35 +110,49 @@ void ButtonsWidget::setFrameName(const FrameName &frameName)
     switch (frameName)
     {
         case FrameName::Main:
-            m_pgUpFrameButton->setVisible(false);
-            m_pgDownFrameButton->setVisible(false);
-
-            m_minusFrameButton->setVisible(true);
-            m_plusFrameButton->setVisible(true);
+            setButtonState(1,1,0,0,1,1,0,0,0,0);
             break;
         case FrameName::InOutDisplay:
-            m_pgUpFrameButton->setVisible(false);
-            m_pgDownFrameButton->setVisible(false);
-
-            m_minusFrameButton->setVisible(false);
-            m_plusFrameButton->setVisible(false);
+            setButtonState(1,1,0,0,0,0,0,0,1,1);
             break;
         case FrameName::Archive:
-            m_pgUpFrameButton->setVisible(true);
-            m_pgDownFrameButton->setVisible(true);
-
-            m_minusFrameButton->setVisible(false);
-            m_plusFrameButton->setVisible(false);
+            setButtonState(1,1,1,1,0,0,0,0,0,0);
             break;
         case FrameName::CarInformation:
-            m_pgUpFrameButton->setVisible(false);
-            m_pgDownFrameButton->setVisible(false);
-
-            m_minusFrameButton->setVisible(false);
-            m_plusFrameButton->setVisible(false);
+            setButtonState(1,1,0,0,0,0,0,0,1,1);
             break;
-    default:
-        break;
+        case FrameName::MenuConfigEdit:
+            setButtonState(0,0,0,0,0,0,1,1,1,1);
+            break;
+        default:
+            setButtonState(1,1,0,0,0,0,0,0,1,1);
+            break;
     }
 }
+//------------------------------------------------------------------------------------
+//!
+void ButtonsWidget::setButtonState(bool mainFrameButtonState,
+                                   bool nextFrameButtonState,
+                                   bool pgUpFrameButtonState,
+                                   bool pgDownFrameButtonState,
+                                   bool minusFrameButtonState,
+                                   bool plusFrameButtonState,
+                                   bool emptyButton1State,
+                                   bool emptyButton2State,
+                                   bool emptyButton3State,
+                                   bool emptyButton4State)
+{
+    m_mainFrameButton->setVisible(mainFrameButtonState);
+    m_nextFrameButton->setVisible(nextFrameButtonState);
 
+    m_pgUpFrameButton->setVisible(pgUpFrameButtonState);
+    m_pgDownFrameButton->setVisible(pgDownFrameButtonState);
+
+    m_minusFrameButton->setVisible(minusFrameButtonState);
+    m_plusFrameButton->setVisible(plusFrameButtonState);
+
+    m_emptyButton1->setVisible(emptyButton1State);
+    m_emptyButton2->setVisible(emptyButton2State);
+    m_emptyButton3->setVisible(emptyButton3State);
+    m_emptyButton4->setVisible(emptyButton4State);
+}

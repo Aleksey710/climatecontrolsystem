@@ -4,12 +4,14 @@
 //!
 MenuConfigEditFrame::MenuConfigEditFrame(const QList<MenuItemData> &menuItemDataList,
                                          QWidget *parent)
-                   :QWidget(parent)
+                    :AbstractFrame(parent)
 {
     setObjectName("MenuConfigEditForm");
 
     QGridLayout *mainLayout = new QGridLayout;
 
+    mainLayout->setMargin(1);
+    mainLayout->setContentsMargins(1,1,1,1);
     mainLayout->setVerticalSpacing(1);
     mainLayout->setHorizontalSpacing(1);
 
@@ -22,7 +24,7 @@ MenuConfigEditFrame::MenuConfigEditFrame(const QList<MenuItemData> &menuItemData
     QFont buttonFont = font();
     buttonFont.setPointSize(buttonFont.pointSize() + 1);
 
-    int buttonHeight = 26;
+    int buttonHeight = 18;
 
     for (int i = 0; i < menuItemDataList.size(); ++i)
     {
@@ -32,6 +34,16 @@ MenuConfigEditFrame::MenuConfigEditFrame(const QList<MenuItemData> &menuItemData
                                               .arg(menuItemData.title)
                                               .arg(menuItemData.name));
 
+        button->setStyleSheet(
+            "QWidget{ "
+            "padding: 1px;"
+            "margin: 1px;"
+    //        "border: 3px solid #000000;"
+    //        "border-radius : 2px;"
+    //        "color: blue;"
+    //        "background-color: yellow;"
+            "}"
+        );
         button->setFixedHeight(buttonHeight);
         button->setFont(buttonFont);
 
@@ -63,7 +75,20 @@ MenuConfigEditFrame::MenuConfigEditFrame(const QList<MenuItemData> &menuItemData
         //! Добавить кнопку меню на слой меню
         menuLayout->addWidget(button);
     }
+    //---------------------------------------
 
+    QPushButton *exitButton = new QPushButton("Вихiд");
+
+    exitButton->setFixedHeight(buttonHeight);
+    exitButton->setFont(buttonFont);
+
+    //! Обработка отпускания кнопки меню
+    connect(exitButton, &QPushButton::released,
+            this, &MenuConfigEditFrame::deleteLater);
+
+    menuLayout->addWidget(exitButton);
+
+    //---------------------------------------
     //menuLayout->addItem(new QSpacerItem(5,5),1, 1);
 
     //! Назначить слой меню виджету меню

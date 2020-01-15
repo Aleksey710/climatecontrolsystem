@@ -36,6 +36,9 @@ class GigitalIndicatorWidget : public QWidget
                                         QWidget *parent = nullptr);
         virtual ~GigitalIndicatorWidget();
 
+        double data();
+
+
     signals:
 
 

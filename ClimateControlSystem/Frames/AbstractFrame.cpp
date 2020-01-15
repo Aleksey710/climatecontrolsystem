@@ -97,7 +97,7 @@ void AbstractFrame::setupDateDisplay(const QString &yearName,
         connect(yearScriptObject, &ScriptObject::dataChanged, [=](){
             QStringList dateList = label->text().split("-");
 
-            qDebug() << "AbstractFrames::setupDateDisplay yearScriptObject" << dateList << yearScriptObject->data();
+            //qDebug() << "AbstractFrames::setupDateDisplay yearScriptObject" << dateList << yearScriptObject->data();
             if(dateList.size() == 3)
             {
                 label->setText( QString("%1-%2-%3")

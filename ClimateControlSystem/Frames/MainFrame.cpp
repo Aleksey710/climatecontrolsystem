@@ -22,8 +22,9 @@ MainFrame::MainFrame(QWidget *parent)
     GigitalIndicatorWidget *widget2 = new GigitalIndicatorWidget("Струм генератора", "А", 0, 250);
     setupDisplay("modbus.rs0d10.r30002", widget2);
 
-    GigitalIndicatorWidget *widget3 = new GigitalIndicatorWidget("Корекцiя температури", "°C", 22, 26);
-    setupDisplay("display.temp.t_ust", widget3);
+    m_tUstWidget = new GigitalIndicatorWidget("Корекцiя температури", "°C", 22, 26);
+    //setupDisplay("display.temp.t_ust", m_tUstWidget);
+    setupDisplay("settings.temp.sut", m_tUstWidget);
 
     GigitalIndicatorWidget *widget4 = new GigitalIndicatorWidget("Темп. салона", "°C", -20, 60);
     setupDisplay("display.temp.t_sal", widget4);
@@ -38,7 +39,7 @@ MainFrame::MainFrame(QWidget *parent)
     mainLayout->addWidget(widget0,              0,0,1,1);
     mainLayout->addWidget(widget1,              0,1,1,1);
     mainLayout->addWidget(widget2,              0,2,1,1);
-    mainLayout->addWidget(widget3,              0,3,1,1);
+    mainLayout->addWidget(m_tUstWidget,         0,3,1,1);
 
     mainLayout->addWidget(widget4,              1,3,1,1);
     mainLayout->addWidget(widget5,              2,3,1,1);
@@ -60,5 +61,18 @@ MainFrame::~MainFrame()
 }
 //------------------------------------------------------------------------------------
 //!
-
+void MainFrame::tUstPlus()
+{
+    int value = static_cast<int>(m_tUstWidget->data());
+    m_tUstWidget->setData(value + 1);
+}
+//------------------------------------------------------------------------------------
+//!
+void MainFrame::tUstMinus()
+{
+    int value = static_cast<int>(m_tUstWidget->data());
+    m_tUstWidget->setData(value - 1);
+}
+//------------------------------------------------------------------------------------
+//!
 

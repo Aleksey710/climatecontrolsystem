@@ -76,6 +76,13 @@ MainDisplayWidget::MainDisplayWidget(QWidget *parent)
     setSizePolicy(QSizePolicy::Fixed,
                   QSizePolicy::Fixed);
 #endif
+
+    //-----------------------------------------------------------
+    QShortcut *shortcut = new QShortcut(QKeySequence("Ctrl+R"), this);
+    QObject::connect(shortcut, &QShortcut::activated,
+                     this, &MainDisplayWidget::startEditSettings);
+
+    //-----------------------------------------------------------
     SEND_TO_LOG("MainDisplayWidget - создан");
     show();
 }
@@ -98,8 +105,9 @@ void MainDisplayWidget::setupFrames()
     m_mainLayout->addLayout(m_frameLayout);
 
     //-----------------------------------------------------------
-    MainFrame *mainFrame = new MainFrame();
-    m_framesList.append(mainFrame);
+    m_mainFrame = new MainFrame();
+    //! Должен быть первым(id=0) в списке
+    m_framesList.append(m_mainFrame);
 
     //-----------------------------------------------------------
     InOutDisplayFrame *inOutDisplayFrame = new InOutDisplayFrame();
@@ -135,10 +143,9 @@ void MainDisplayWidget::setupFrames()
 
     //-----------------------------------------------------------
     //-----------------------------------------------------------
-    // В случае, если объект уже удален, то p будет пустым указателем
     if( m_climateControlSystem->dbUnit().get() )
     {
-        m_framesList.append( new MenuConfigEditFrame( m_climateControlSystem->dbUnit().get()->settingsMenuItemList() ) );
+        m_menuItemDataList=m_climateControlSystem->dbUnit().get()->settingsMenuItemList();
     } else
     {
         SEND_TO_LOG("MainDisplayWidget - Error(Не инициализирован DbUnit)");
@@ -153,6 +160,8 @@ void MainDisplayWidget::setupFrames()
 void MainDisplayWidget::setupMenu()
 {
     m_buttonsWidget = new ButtonsWidget();
+    connect(this, &MainDisplayWidget::frameChanged, m_buttonsWidget, &ButtonsWidget::setFrameName);
+
     m_mainLayout->addWidget(m_buttonsWidget);
 
     //-------------------------------------------------------------------
@@ -167,6 +176,8 @@ void MainDisplayWidget::setupMenu()
 
         m_frameLayout->addWidget( m_framesList[m_curentFrameId] );
         m_framesList[m_curentFrameId]->setHidden(false);
+
+        emit frameChanged(m_framesList[m_curentFrameId]->frameName());
     });
     //-------------------------------------------------------------------
     connect(m_buttonsWidget, &ButtonsWidget::nextFrameClicked, [=](){
@@ -183,6 +194,8 @@ void MainDisplayWidget::setupMenu()
 
         m_frameLayout->addWidget( m_framesList[m_curentFrameId] );
         m_framesList[m_curentFrameId]->setHidden(false);
+
+        emit frameChanged(m_framesList[m_curentFrameId]->frameName());
     });
     //-------------------------------------------------------------------
     connect(m_buttonsWidget, &ButtonsWidget::previousFrameClicked, [=](){
@@ -200,25 +213,49 @@ void MainDisplayWidget::setupMenu()
         m_frameLayout->addWidget( m_framesList[m_curentFrameId] );
         m_framesList[m_curentFrameId]->setHidden(false);
 
+        emit frameChanged(m_framesList[m_curentFrameId]->frameName());
     });
     //-------------------------------------------------------------------
     connect(m_buttonsWidget, &ButtonsWidget::pgUpClicked, [=](){
-
+        (static_cast<AbstractArchiveFrame*>(m_framesList[m_curentFrameId]))->pgUp();
     });
     //-------------------------------------------------------------------
     connect(m_buttonsWidget, &ButtonsWidget::pgDownClicked, [=](){
-
+        (static_cast<AbstractArchiveFrame*>(m_framesList[m_curentFrameId]))->pgDown();
     });
     //-------------------------------------------------------------------
     connect(m_buttonsWidget, &ButtonsWidget::plusClicked, [=](){
-
+        m_mainFrame->tUstPlus();
     });
     //-------------------------------------------------------------------
     connect(m_buttonsWidget, &ButtonsWidget::minusClicked, [=](){
-
+        m_mainFrame->tUstMinus();
     });
 }
+//------------------------------------------------------------------------------------
+//!
+void MainDisplayWidget::startEditSettings()
+{
+    m_menuConfigEditFrame = new MenuConfigEditFrame(m_menuItemDataList);
 
+    m_framesList[m_curentFrameId]->setHidden(true);
+    //m_frameLayout->removeWidget( m_framesList[m_curentFrameId] );
+
+    m_frameLayout->addWidget( m_menuConfigEditFrame );
+
+    emit frameChanged(FrameName::MenuConfigEdit);
+
+    //----------------------------------------------------
+    connect(m_menuConfigEditFrame, &QWidget::destroyed,[=](){
+        m_menuConfigEditFrame = nullptr;
+
+        //----------------------------------------------------
+        //m_frameLayout->addWidget( m_framesList[m_curentFrameId] );
+        m_framesList[m_curentFrameId]->setHidden(false);
+
+        emit frameChanged(m_framesList[m_curentFrameId]->frameName());
+    });
+}
 
 
 

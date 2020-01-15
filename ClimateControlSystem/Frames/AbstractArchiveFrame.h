@@ -3,23 +3,7 @@
 //------------------------------------------------------------------------------------
 #include <QObject>
 #include <QWidget>
-#include <QGridLayout>
 #include <QTableView>
-#include <QSqlRelationalTableModel>
-#include <QSqlTableModel>
-#include <QSqlQueryModel>
-#include <QSqlError>
-#include <QHeaderView>
-#include <QSqlQuery>
-#include <QLabel>
-#include <QScrollBar>
-#include <QShortcut>
-#include <QFileDialog>
-#include <QMessageBox>
-#include <QFile>
-#include <QIODevice>
-#include <QDataStream>
-//#include <>
 //#include <>
 //#include <>
 
@@ -50,11 +34,12 @@ class AbstractArchiveFrame : public AbstractFrame
         void pgDown();
 
         void startSaveData();
+        void startRemoveData();
 
     protected:
         void setup();
-        virtual QString headLabel() { return QString(); }
-        virtual QString queryString() { return QString(); }
+        virtual QString headLabel() = 0; //{ return QString(); }
+        virtual QString queryString() = 0; //{ return QString(); }
 
 
     private:

@@ -1,13 +1,33 @@
 #include "AbstractArchiveFrame.h"
 
+#include <QGridLayout>
+#include <QSqlRelationalTableModel>
+#include <QSqlTableModel>
+#include <QSqlQueryModel>
+#include <QSqlError>
+#include <QHeaderView>
+#include <QSqlQuery>
+#include <QLabel>
+#include <QScrollBar>
+#include <QShortcut>
+#include <QFileDialog>
+#include <QMessageBox>
+#include <QFile>
+#include <QIODevice>
+#include <QDataStream>
+#include <QModelIndex>
 //------------------------------------------------------------------------------------
 //!
 AbstractArchiveFrame::AbstractArchiveFrame(QWidget *parent)
                     : AbstractFrame(parent)
 {    
-    QShortcut *shortcut = new QShortcut(QKeySequence("Ctrl+s"), this);
-    QObject::connect(shortcut, &QShortcut::activated,
+    QShortcut *shortcutSave = new QShortcut(QKeySequence("Ctrl+s"), this);
+    QObject::connect(shortcutSave, &QShortcut::activated,
                      this, &AbstractArchiveFrame::startSaveData);
+
+    QShortcut *shortcutRemove = new QShortcut(QKeySequence("Ctrl+r"), this);
+    QObject::connect(shortcutRemove, &QShortcut::activated,
+                     this, &AbstractArchiveFrame::startRemoveData);
 
 }
 //------------------------------------------------------------------------------------
@@ -129,7 +149,7 @@ void AbstractArchiveFrame::pgDown()
 //!
 void AbstractArchiveFrame::startSaveData()
 {
-    qDebug() << "AbstractArchiveFrame::startSaveData()";
+    //qDebug() << "AbstractArchiveFrame::startSaveData()";
 
     QString fileName = QFileDialog::getSaveFileName(this,
                             tr("Зберегти даннi у файл"),
@@ -153,8 +173,54 @@ void AbstractArchiveFrame::startSaveData()
             return;
         }
 
-        QDataStream out(&file);
-        out.setVersion(QDataStream::Qt_5_7);
+        QTextStream out(&file);
+        //out.setVersion(QDataStream::Qt_5_7);
         //out << contacts;
+
+        out << "<!DOCTYPE html>";
+        out << "<html>";
+        out << "<head>";
+        out << QString("<title>%1</title>")
+               .arg(QString(
+                        "%1 %2"
+                        ).arg(headLabel())
+                        .arg(QDateTime::currentDateTime().toString("yyyy.MM.dd hh:mm:ss"))
+                    );
+
+        out << "<meta charset=\"utf-8\">";
+        out << "<style>";
+        out << "table, th, td {";
+        out << "border: 1px solid black;";
+        out << "border-collapse: collapse;";
+        out << "}";
+        out << "</style>";
+        out << "</head>";
+        out << "<body>";
+        out << "<table style=\"width:40%\">";
+
+        //-------------------------------------
+        QAbstractItemModel *model = m_tableView->model();
+
+        for(int row = 0; row < model->rowCount(); ++row)
+        {
+            out << "<tr>";
+
+            QString date    = model->data( model->index(row, 0, m_tableView->rootIndex()) ).toString();
+            QString msg     = model->data( model->index(row, 1, m_tableView->rootIndex()) ).toString();
+
+            out << QString("<td>%1</td>").arg(row);
+            out << QString("<td>%1</td>").arg(date);
+            out << QString("<td>%1</td>").arg(msg);
+
+            out << "</tr>";
+        }
+        out << "</table>";
+        out << "</body>";
+        out << "</html>";
     }
+}
+//------------------------------------------------------------------------------------
+//!
+void AbstractArchiveFrame::startRemoveData()
+{
 }

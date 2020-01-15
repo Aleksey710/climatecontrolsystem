@@ -16,6 +16,7 @@
 
 #include "Log.h"
 #include "ScriptUnit.h"
+#include "ClimateControlSystem.h"
 //
 #include "ButtonsWidget.h"
 //
@@ -33,7 +34,7 @@
 
 //#include "ElectricalEquipmentOperatingTimeArchiveForm.h"
 
-//#include ".h"
+
 //#include ""
 
 //------------------------------------------------------------------------------------
@@ -46,8 +47,7 @@ class MainDisplayWidget : public QWidget
 {
         Q_OBJECT
     public:
-        explicit MainDisplayWidget(DbUnit *dbUnit,
-                                   QWidget *parent = nullptr);
+        explicit MainDisplayWidget(QWidget *parent = nullptr);
         virtual ~MainDisplayWidget();
 
     signals:
@@ -57,7 +57,7 @@ class MainDisplayWidget : public QWidget
         void setupMenu();
 
     private:
-        DbUnit          *m_dbUnit;
+        std::shared_ptr<ClimateControlSystem> m_climateControlSystem;
 
         QVBoxLayout     *m_mainLayout;
 

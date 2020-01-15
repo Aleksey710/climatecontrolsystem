@@ -35,7 +35,8 @@ SOURCES +=
 HEADERS += \
     AbstractFactory.h \
     CheckAppUniq.h \
-    Log.h
+    Log.h \
+    Versions.h
 
 
 FORMS += \

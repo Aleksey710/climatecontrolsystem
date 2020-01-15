@@ -36,7 +36,8 @@ DESTDIR     = $$ROOT_PATH/lib
 #    View/RegisterDataProcessingForm.h \
 #    View/ScriptHighlighter.h
 
-#SOURCES += main.cpp \
+#SOURCES += \
+#    main.cpp \
 #    View/RegisterDataProcessingForm.cpp \
 #    View/ScriptHighlighter.cpp
 

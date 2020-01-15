@@ -2,12 +2,12 @@
 
 //------------------------------------------------------------------------------------
 //!
-MainDisplayWidget::MainDisplayWidget(DbUnit *dbUnit,
-                                     QWidget *parent)
-                  : QWidget(parent),
-                    m_dbUnit ( dbUnit )
+MainDisplayWidget::MainDisplayWidget(QWidget *parent)
+                  : QWidget(parent)
 {
     SEND_TO_LOG("Запуск MainDisplayWidget ");
+
+    m_climateControlSystem = std::make_shared<ClimateControlSystem>();
 
     setStyleSheet(//"font: 12px; "
                   //"font-weight: bold; "
@@ -136,9 +136,9 @@ void MainDisplayWidget::setupFrames()
     //-----------------------------------------------------------
     //-----------------------------------------------------------
     // В случае, если объект уже удален, то p будет пустым указателем
-    if( m_dbUnit )
+    if( m_climateControlSystem->dbUnit().get() )
     {
-        m_framesList.append( new MenuConfigEditForm( m_dbUnit->settingsMenuItemList() ) );
+        m_framesList.append( new MenuConfigEditForm( m_climateControlSystem->dbUnit().get()->settingsMenuItemList() ) );
     } else
     {
         SEND_TO_LOG("MainDisplayWidget - Error(Не инициализирован DbUnit)");

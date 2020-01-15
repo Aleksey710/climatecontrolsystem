@@ -128,7 +128,7 @@ void RowMsgWidget::highIndexHandler(bool state)
 //!
 void RowMsgWidget::priorityHandler()
 {
-    qDebug() << "RowMsgWidget::priorityHandler()" << m_lowIndex << m_highIndex;
+    //qDebug() << "RowMsgWidget::priorityHandler()" << m_lowIndex << m_highIndex;
     m_lowPriorityWidget->setVisible(true);
 
 

@@ -23,12 +23,23 @@ DEPENDPATH  += $$ROOT_PATH/lib
 DESTDIR     = $$ROOT_PATH/lib
 #------------------------------------------------------------
 #TEMPLATE    = app
+
 #DEPENDPATH += $$ROOT_PATH/bin/
 #DESTDIR     = $$ROOT_PATH/bin/
 
 #CONFIG += console
 
-#SOURCES += main.cpp
+#HEADERS  += \
+#    ModbusMasterUnitTestForm.h
+
+
+#SOURCES += \
+#    main.cpp \
+#    ModbusMasterUnitTestForm.cpp
+
+
+#FORMS += \
+#    ModbusMasterUnitTestForm.ui
 
 #############################################################
 QT += gui
@@ -66,7 +77,7 @@ HEADERS  += \
     ModbusConnection.h \
     ModbusConnectionSettings.h \
     ModbusMasterHandler.h \
-    ModbusMasterUnit.h \
+    ModbusMasterUnit.h \    
     ModbusRequest.h
 
 

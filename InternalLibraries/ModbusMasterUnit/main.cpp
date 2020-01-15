@@ -9,8 +9,10 @@
 
 
 #include "Log.h"
+#include "Versions.h"
 #include "CheckAppUniq.h"
 #include "ModbusMasterUnit.h"
+#include "ModbusMasterUnitTestForm.h"
 //#include ""
 //#include ""
 //#include ""
@@ -21,32 +23,6 @@
 INITIALIZE_EASYLOGGINGPP
 
 #include "easyloggingCustom.h"
-//------------------------------------------------------------------------------------
-inline QString allVersion()
-{
-    return QString("\r\n"
-       "********************************************************************\n"
-       "****                         VERSIONS                           ****\n"
-       "********************************************************************\n"
-       "Qt..................: %1 \n"
-       "OS..................: %2 \n"
-       "Make OS.............: %3 \n"
-       "App.................: %4 \n"
-       //"SVN.................: %5 \n"
-       "Date time created...: %6 \n"
-       "--------------------------------------------------------------------\n"
-       //"Build version.......: %7 \n"
-       "********************************************************************"
-       )
-       .arg( QString("%1.%2.%3")        .arg(QT_VERSION_MAJOR).arg(QT_VERSION_MINOR).arg(QT_VERSION_PATCH) )            // 1
-       .arg( QString("%1 %2 %3 %4")     .arg(DISTRIBUTION1).arg(DISTRIBUTION2).arg(DISTRIBUTION3).arg(DISTRIBUTION4) )  // 2
-       .arg( QString("%1 %2 Kernel: %3").arg(QMAKE_HOST_os).arg(QMAKE_HOST_arch).arg(QMAKE_HOST_version) )              // 3
-       .arg( QString("%1.%2.%3")        .arg(VERSION_MAJOR).arg(VERSION_MINOR).arg(VERSION_BUILD) )                     // 4
-       //.arg( SVNVersionString() )                                                                                       // 5
-       .arg( QString("%1 %2")           .arg(DATE_CREATED).arg(TIME_CREATED) )                                          // 6
-       //.arg( QString("%1")              .arg(BUILD_VERSION_CREATED) )                                                   // 7
-       ;
-}
 //------------------------------------------------------------------------------------
 //!
 int main(int argc, char *argv[])
@@ -68,6 +44,10 @@ int main(int argc, char *argv[])
     //! Настройка логирования
     loggerSetup(argc, argv);
 
+    //---------------------------------------------------
+    QString logFileName = QString("/var/log/ClimateControlSystem/climateControlSystem.log");
+    el::Loggers::reconfigureAllLoggers(el::ConfigurationType::Filename,
+                                       logFileName.toLatin1().data());
     //---------------------------------------------------
     SEND_TO_LOG( allVersion() );
 
@@ -93,10 +73,13 @@ int main(int argc, char *argv[])
         return 1;
     }
 
+    std::shared_ptr<ModbusMasterUnitTestForm> modbusMasterUnitTestForm = std::make_shared<ModbusMasterUnitTestForm>();
+
+    modbusMasterUnitTestForm->show();
     //--------------------------------------------
-    std::shared_ptr<DbUnit>             dbUnit              = std::make_shared<DbUnit>();
-    std::shared_ptr<ScriptUnit>         scriptUnit          = std::make_shared<ScriptUnit>();
-    std::shared_ptr<ModbusMasterUnit>   modbusMasterUnit    = std::make_shared<ModbusMasterUnit>();
+//    std::shared_ptr<DbUnit>             dbUnit              = std::make_shared<DbUnit>();
+//    std::shared_ptr<ScriptUnit>         scriptUnit          = std::make_shared<ScriptUnit>();
+//    std::shared_ptr<ModbusMasterUnit>   modbusMasterUnit    = std::make_shared<ModbusMasterUnit>();
 
 
     //------------------------------------
@@ -106,6 +89,22 @@ int main(int argc, char *argv[])
 
     myCrashHandler(exitCode);
 
+    if(modbusMasterUnitTestForm)
+        modbusMasterUnitTestForm->deleteLater();
+
+//    if(modbusMasterUnit)
+//        modbusMasterUnit->deleteLater();
+
+//    if(scriptUnit)
+//        scriptUnit->deleteLater();
+
+//    if(dbUnit)
+//        dbUnit->deleteLater();
+
+    //------------------------------------
+    SEND_TO_LOG("*****************************************************************************************");
+    SEND_TO_LOG("************     Окончание работы                                      ******************");
+    SEND_TO_LOG("*****************************************************************************************");
     //------------------------------------
     return exitCode;
 }

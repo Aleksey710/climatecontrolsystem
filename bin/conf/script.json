@@ -1,0 +1,176 @@
+{
+	"data":[
+		{ "name":"modbus.rs0d10.device", 	"title":"Device RS0 addr 10",						"value": -1 },
+		
+		{ "name":"modbus.rs0d10.r30000", 	"title":"Регистр дискретных входов 1 [30000]",		"value": 0 },
+		{ "name":"modbus.rs0d10.r30001", 	"title":"Температура воздуха в вагоне [30001]",		"value": 0 },
+		{ "name":"modbus.rs0d10.r30002", 	"title":"Температура приточного воздуха [30002]",	"value": 0 },
+		{ "name":"modbus.rs0d10.r30003", 	"title":"Температура наружного воздуха [30003]",	"value": 0 },
+		{ "name":"modbus.rs0d10.r30004", 	"title":"Температура воды в котле [30004]",			"value": 0 },
+		{ "name":"modbus.rs0d10.r30005", 	"title":"Ток АКБ [30005]",							"value": 0 },
+		{ "name":"modbus.rs0d10.r30006", 	"title":"Ток генератора [30006]",					"value": 0 },
+		{ "name":"modbus.rs0d10.r30007", 	"title":"Напряжение сети [30007]",					"value": 0 },
+		{ "name":"modbus.rs0d10.r30008",	"title":"Регистр дискретных входов 2 [30008]",		"value": 0 },
+		
+		{ "name":"modbus.rs0d10.r30028", 	"title":"Версия встроенного ПО БВВ [30028]", 		"value": 0 },
+		{ "name":"modbus.rs0d10.r30029", 	"title":"Год прошивки [30029]", 					"value": 0 },
+		{ "name":"modbus.rs0d10.r30030", 	"title":"Месяц прошивки [30030]", 					"value": 0 },
+		{ "name":"modbus.rs0d10.r30031", 	"title":"День прошивки [30031]", 					"value": 0 },
+
+		{ "name":"modbus.rs0d10.r40000", 	"title":"Регистр дискретных выходов [40000]", 		"value": 0 },
+		{ "name":"modbus.rs0d10.r40001", 	"title":"Выходное напряжение канала 1(Коррекция температуры) [40001]", 		"value": 0 },
+		{ "name":"modbus.rs0d10.r40002", 	"title":"Выходное напряжение канала 2 [40002]", 	"value": 0 },
+		{ "name":"modbus.rs0d10.r40003", 	"title":"Выходное напряжение канала 3 [40003]", 	"value": 0 },
+		{ "name":"modbus.rs0d10.r40004", 	"title":"Выходное напряжение канала 4 [40004]", 	"value": 0 },
+		
+		{ "name":"display.temp.t_nv",		"title":"Температура наружного воздуха",			"value": 0 },
+		{ "name":"display.temp.t_sal",		"title":"Температура салона",						"value": 0 },
+		{ "name":"display.temp.t_pr",		"title":"Температура приточного воздуха",			"value": 0 },
+		{ "name":"display.temp.t_kotl",		"title":"Температура котла",						"value": 0 },
+		{ "name":"display.temp.t_ust",		"title":"Температура уставки",						"value": 0 },
+		
+		{ "name":"display.d30000.u3000",			"title":"Напруга 3000В",					"value": 0 },
+		{ "name":"display.d30000.VVO_1",			"title":"ВВО 1гр",							"value": 0 },
+		{ "name":"display.d30000.VVO_2",			"title":"ВВО 2гр",							"value": 0 },
+		{ "name":"display.d30000.NVO",				"title":"NVO",								"value": 0 },
+		{ "name":"display.d30000.generator",		"title":"Вн. мережа 380В/генератор",		"value": 0 },
+		{ "name":"display.d30000.automode",			"title":"Автоматичний режим",				"value": 0 },
+		{ "name":"display.d30000.crash",			"title":"Аварiя",							"value": 0 },
+		{ "name":"display.d30000.elEquipmentOn",	"title":"ЕО включене",						"value": 0 },
+		{ "name":"display.d30000.condFailure",		"title":"Кондицiонер ВIДМОВА",				"value": 0 },
+		{ "name":"display.d30000.cont2Failure",		"title":"Вiдмова контура охолодження 2",	"value": 0 },
+		{ "name":"display.d30000.cont1Failure",		"title":"Вiдмова контура охолодження 1",	"value": 0 },
+		{ "name":"display.d30000.condWorked",		"title":"Кондицiонер РОБОТА",				"value": 0 },
+		{ "name":"display.d30000.cooling",			"title":"Охолодження",						"value": 0 },
+		{ "name":"display.d30000.heater",			"title":"Калорифер",						"value": 0 },
+		{ "name":"display.d30000.umax_zrk",			"title":"Umax ЗРК",							"value": 0 },
+		{ "name":"display.d30000.r_insulation",		"title":"R iзоляцiї < 1 kOm",				"value": 0 },
+				
+	    { "name":"display.d30028.version",			"title":"Версия встроенного ПО БВВ",		"value": 0 },
+	    { "name":"display.d30028.year",				"title":"Год прошивки",						"value": 0 },
+	    { "name":"display.d30028.month",			"title":"Месяц прошивки",					"value": 0 },
+	    { "name":"display.d30028.day",				"title":"День прошивки",					"value": 0 }
+	],
+	"functions":[
+		{
+			"name":"setT_sal",
+			"sources":["modbus.rs0d10.device","modbus.rs0d10.r30001"],
+			"processing":"if(modbus.rs0d10.device.data()==1){ display.temp.t_sal.setData(modbus.rs0d10.r30001.data()/settings.offset.oc.data()); }else{ display.temp.t_sal.setData(0); }"
+		},
+		{
+			"name":"setT_pr",
+			"sources":["modbus.rs0d10.device","modbus.rs0d10.r30002"],
+			"processing":"if(modbus.rs0d10.device.data()==1){ display.temp.t_pr.setData(modbus.rs0d10.r30002.data()/settings.offset.oc.data()); }else{ display.temp.t_pr.setData(0); }"
+		},
+		{
+			"name":"setT_nv",
+			"sources":["modbus.rs0d10.device","modbus.rs0d10.r30003"],
+			"processing":"if(modbus.rs0d10.device.data()==1){ display.temp.t_nv.setData(modbus.rs0d10.r30003.data()/settings.offset.oc.data()); }else{ display.temp.t_nv.setData(0); }"
+		},
+		{
+			"name":"setT_kotl",
+			"sources":["modbus.rs0d10.device","modbus.rs0d10.r30004"],
+			"processing":"if(modbus.rs0d10.device.data()==1){ display.temp.t_kotl.setData(modbus.rs0d10.r30004.data()/settings.offset.oc.data()); }else{ display.temp.t_kotl.setData(0); }"
+		},
+		{
+			"name":"set_u3000",
+			"sources":["modbus.rs0d10.device","modbus.rs0d10.r30000"],
+			"processing":"if(modbus.rs0d10.device.data()==1){ display.d30000.u3000.setData((modbus.rs0d10.r30000.data()&1)>0); }else{ display.d30000.u3000.setData(0); }"
+		},
+		{
+			"name":"set_VVO_1",
+			"sources":["modbus.rs0d10.device","modbus.rs0d10.r30000"],
+			"processing":"if(modbus.rs0d10.device.data()==1){ display.d30000.VVO_1.setData((modbus.rs0d10.r30000.data()&2)>0); }else{ display.d30000.VVO_1.setData(0); }"
+		},
+		{
+			"name":"set_VVO_2",
+			"sources":["modbus.rs0d10.device","modbus.rs0d10.r30000"],
+			"processing":"if(modbus.rs0d10.device.data()==1){ display.d30000.VVO_2.setData((modbus.rs0d10.r30000.data()&4)>0); }else{ display.d30000.VVO_2.setData(0); }"
+		},
+		{
+			"name":"set_NVO",
+			"sources":["modbus.rs0d10.device","modbus.rs0d10.r30000"],
+			"processing":"if(modbus.rs0d10.device.data()==1){ display.d30000.NVO.setData((modbus.rs0d10.r30000.data()&8)>0); }else{ display.d30000.NVO.setData(0); }"
+		},
+		{
+			"name":"set_generator",
+			"sources":["modbus.rs0d10.device","modbus.rs0d10.r30000"],
+			"processing":"if(modbus.rs0d10.device.data()==1){ display.d30000.generator.setData((modbus.rs0d10.r30000.data()&16)>0); }else{ display.d30000.generator.setData(0); }"
+		},
+		{
+			"name":"set_automode",
+			"sources":["modbus.rs0d10.device","modbus.rs0d10.r30000"],
+			"processing":"if(modbus.rs0d10.device.data()==1){ display.d30000.automode.setData((modbus.rs0d10.r30000.data()&32)>0); }else{ display.d30000.automode.setData(0); }"
+		},
+		{
+			"name":"set_crash",
+			"sources":["modbus.rs0d10.device","modbus.rs0d10.r30000"],
+			"processing":"if(modbus.rs0d10.device.data()==1){ display.d30000.crash.setData((modbus.rs0d10.r30000.data()&64)>0); }else{ display.d30000.crash.setData(0); }"
+		},
+		{
+			"name":"set_elEquipmentOn",
+			"sources":["modbus.rs0d10.device","modbus.rs0d10.r30000"],
+			"processing":"if(modbus.rs0d10.device.data()==1){ display.d30000.elEquipmentOn.setData((modbus.rs0d10.r30000.data()&128)>0); }else{ display.d30000.elEquipmentOn.setData(0); }"
+		},
+		{
+			"name":"set_condFailure",
+			"sources":["modbus.rs0d10.device","modbus.rs0d10.r30000"],
+			"processing":"if(modbus.rs0d10.device.data()==1){ display.d30000.condFailure.setData((modbus.rs0d10.r30000.data()&256)>0); }else{ display.d30000.condFailure.setData(0); }"
+		},
+		{
+			"name":"set_cont2Failure",
+			"sources":["modbus.rs0d10.device","modbus.rs0d10.r30000"],
+			"processing":"if(modbus.rs0d10.device.data()==1){ display.d30000.cont2Failure.setData((modbus.rs0d10.r30000.data()&512)>0); }else{ display.d30000.cont2Failure.setData(0); }"
+		},
+		{
+			"name":"set_cont1Failure",
+			"sources":["modbus.rs0d10.device","modbus.rs0d10.r30000"],
+			"processing":"if(modbus.rs0d10.device.data()==1){ display.d30000.cont1Failure.setData((modbus.rs0d10.r30000.data()&1024)>0); }else{ display.d30000.cont1Failure.setData(0); }"
+		},
+		{
+			"name":"set_condWorked",
+			"sources":["modbus.rs0d10.device","modbus.rs0d10.r30000"],
+			"processing":"if(modbus.rs0d10.device.data()==1){ display.d30000.condWorked.setData((modbus.rs0d10.r30000.data()&2048)>0); }else{ display.d30000.condWorked.setData(0); }"
+		},
+		{
+			"name":"set_cooling",
+			"sources":["modbus.rs0d10.device","modbus.rs0d10.r30000"],
+			"processing":"if(modbus.rs0d10.device.data()==1){ display.d30000.cooling.setData((modbus.rs0d10.r30000.data()&4096)>0); }else{ display.d30000.cooling.setData(0); }"
+		},
+		{
+			"name":"set_heater",
+			"sources":["modbus.rs0d10.device","modbus.rs0d10.r30000"],
+			"processing":"if(modbus.rs0d10.device.data()==1){ display.d30000.heater.setData((modbus.rs0d10.r30000.data()&8192)>0); }else{ display.d30000.heater.setData(0); }"
+		},
+		{
+			"name":"set_umax_zrk",
+			"sources":["modbus.rs0d10.device","modbus.rs0d10.r30000"],
+			"processing":"if(modbus.rs0d10.device.data()==1){ display.d30000.umax_zrk.setData((modbus.rs0d10.r30000.data()&16384)>0); }else{ display.d30000.umax_zrk.setData(0); }"
+		},
+		{
+			"name":"set_r_insulation",
+			"sources":["modbus.rs0d10.device","modbus.rs0d10.r30000"],
+			"processing":"if(modbus.rs0d10.device.data()==1){ display.d30000.r_insulation.setData((modbus.rs0d10.r30000.data()&32768)>0); }else{ display.d30000.r_insulation.setData(0); }"
+		},
+		{
+			"name":"set_version",
+			"sources":["modbus.rs0d10.device","modbus.rs0d10.r30028"],
+			"processing":"if(modbus.rs0d10.device.data()==1){ display.d30028.version.setData(modbus.rs0d10.r30028.data()); }else{ display.d30028.version.setData(0); }"
+		},
+		{
+			"name":"set_version_year",
+			"sources":["modbus.rs0d10.device","modbus.rs0d10.r30029"],
+			"processing":"if(modbus.rs0d10.device.data()==1){ display.d30028.year.setData(modbus.rs0d10.r30029.data()); }else{ display.d30028.year.setData(0); }"
+		},
+		{
+			"name":"set_version_month",
+			"sources":["modbus.rs0d10.device","modbus.rs0d10.r30030"],
+			"processing":"if(modbus.rs0d10.device.data()==1){ display.d30028.month.setData(modbus.rs0d10.r30030.data()); }else{ display.d30028.month.setData(0); }"
+		},
+		{
+			"name":"set_version_day",
+			"sources":["modbus.rs0d10.device","modbus.rs0d10.r30031"],
+			"processing":"if(modbus.rs0d10.device.data()==1){ display.d30028.day.setData(modbus.rs0d10.r30031.data()); }else{ display.d30028.day.setData(0); }"
+		}		
+	]
+}

@@ -51,6 +51,7 @@
 #ifdef __arm__
     #define FULL_SCREEN
 #endif
+//if(QSysInfo::currentCpuArchitecture() == "arm")
 //------------------------------------------------------------------------------------
 //!
 class MainDisplayWidget : public QWidget

@@ -15,7 +15,7 @@ ModbusMasterUnit::ModbusMasterUnit(QObject *parent)
     setObjectName("ModbusMasterUnit");
 
     //-------------------------------------------
-    setup( loadFile( qApp->applicationDirPath()+"/conf/modbus.conf" ) );
+    setup( loadFile( qApp->applicationDirPath()+"/conf/modbus.json" ) );
 
 #ifdef CIRCULAR_PROCESSING_REQUEST
     //! После окончания паузы запустить на выполнение следующий запрос

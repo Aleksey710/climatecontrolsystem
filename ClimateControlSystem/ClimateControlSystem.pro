@@ -111,11 +111,9 @@ RESOURCES += \
 
 
 
-OTHER_FILES += \
-
-
-
 DISTFILES += \
+    $$ROOT_PATH/bin/conf/script.json \
+    $$ROOT_PATH/bin/conf/modbus.json \
     $$ROOT_PATH/bin/easylogging++.conf
 
 #############################################################

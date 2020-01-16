@@ -14,7 +14,7 @@ ScriptUnit::ScriptUnit(QObject *parent)
 
     setupSettingsData();
 
-    setupScript(loadFile( qApp->applicationDirPath()+"/conf/script.conf" ));
+    setupScript(loadFile( qApp->applicationDirPath()+"/conf/script.json" ));
 
 
     SEND_TO_LOG( QString("%1 - создан").arg(objectName()));

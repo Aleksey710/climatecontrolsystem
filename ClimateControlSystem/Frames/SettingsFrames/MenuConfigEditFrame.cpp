@@ -39,7 +39,7 @@ MenuConfigEditFrame::MenuConfigEditFrame(const QList<MenuItemData> &menuItemData
     QFont buttonFont = font();
     buttonFont.setPointSize(buttonFont.pointSize() + 1);
 
-    int buttonHeight = 23;
+    int buttonHeight = 30;
 
     for (int i = 0; i < menuItemDataList.size(); ++i)
     {

@@ -3,7 +3,8 @@
 //------------------------------------------------------------------------------------
 //!
 MainDisplayWidget::MainDisplayWidget(QWidget *parent)
-                  : QWidget(parent)
+                  : QWidget(parent),
+                    m_menuConfigEditFrame ( nullptr )
 {
     SEND_TO_LOG("Запуск MainDisplayWidget ");
 
@@ -236,6 +237,9 @@ void MainDisplayWidget::setupMenu()
 //!
 void MainDisplayWidget::startEditSettings()
 {
+    if(m_menuConfigEditFrame)
+        return;
+
     m_menuConfigEditFrame = new MenuConfigEditFrame(m_menuItemDataList);
 
     m_framesList[m_curentFrameId]->setHidden(true);

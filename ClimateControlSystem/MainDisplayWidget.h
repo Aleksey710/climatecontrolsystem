@@ -88,6 +88,7 @@ class MainDisplayWidget : public QWidget
         QList<MenuItemData>     m_menuItemDataList;
         MenuConfigEditFrame     *m_menuConfigEditFrame;
 
+
         QList<AbstractFrame*>   m_framesList;
 
         int                     m_curentFrameId;

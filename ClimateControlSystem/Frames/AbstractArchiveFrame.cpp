@@ -115,7 +115,7 @@ void AbstractArchiveFrame::pgUp()
 */
     //--------------------------------------------------
     int sliderPosition = m_tableView->verticalScrollBar()->sliderPosition();
-    m_tableView->verticalScrollBar()->setSliderPosition(sliderPosition-1);
+    m_tableView->verticalScrollBar()->setSliderPosition(sliderPosition-18);
 
     m_tableView->update();
 }
@@ -141,7 +141,7 @@ void AbstractArchiveFrame::pgDown()
 */
     //--------------------------------------------------
     int sliderPosition = m_tableView->verticalScrollBar()->sliderPosition();
-    m_tableView->verticalScrollBar()->setSliderPosition(sliderPosition+1);
+    m_tableView->verticalScrollBar()->setSliderPosition(sliderPosition+18);
 
     m_tableView->update();
 }
@@ -223,4 +223,5 @@ void AbstractArchiveFrame::startSaveData()
 //!
 void AbstractArchiveFrame::startRemoveData()
 {
+    qDebug() << "AbstractArchiveFrame::startRemoveData()";
 }

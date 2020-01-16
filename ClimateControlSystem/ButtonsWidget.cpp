@@ -8,6 +8,10 @@ ButtonsWidget::ButtonsWidget(QWidget *parent)
 //    buttonFont.setPointSize(buttonFont.pointSize() + 2);
 
     setStyleSheet(QString(
+    "QWidget {"
+        "padding: 0px, 0px, 0px, 0px;"
+        "margin: 0px, 0px, 0px, 0px;"
+    "}"
 //        "QPushButton{"
 //        "color:rgb(0, 0, 0);"
 //        //"background-color:rgb(255, 255, 255);"
@@ -18,9 +22,9 @@ ButtonsWidget::ButtonsWidget(QWidget *parent)
         //"border-radius: 10px;"
         //"border-color: beige;"
         //"font: bold 14px;"
-        "min-width: 10em;"
-        "min-height: 10em;"
-        "padding: 1px;"
+        //"min-width: 10em;"
+        //"min-height: 10em;"
+        "padding: 0px, 0px, 0px, 0px;"
         "margin: 0px, 0px, 0px, 0px;"
     "}"
     "QPushButton#evilButton:pressed {"
@@ -34,8 +38,8 @@ ButtonsWidget::ButtonsWidget(QWidget *parent)
     //-------------------------------------------------------------------
     QGridLayout *mainLayout = new QGridLayout;
 
-    mainLayout->setMargin(1);
-    mainLayout->setContentsMargins(1,1,1,1);
+    mainLayout->setMargin(0);
+    mainLayout->setContentsMargins(0,0,0,0);
     mainLayout->setVerticalSpacing(1);
     mainLayout->setHorizontalSpacing(1);
 

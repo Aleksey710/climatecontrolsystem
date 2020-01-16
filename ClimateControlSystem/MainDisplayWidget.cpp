@@ -239,18 +239,13 @@ void MainDisplayWidget::startEditSettings()
     m_menuConfigEditFrame = new MenuConfigEditFrame(m_menuItemDataList);
 
     m_framesList[m_curentFrameId]->setHidden(true);
-    //m_frameLayout->removeWidget( m_framesList[m_curentFrameId] );
-
     m_frameLayout->addWidget( m_menuConfigEditFrame );
 
     emit frameChanged(FrameName::MenuConfigEdit);
 
     //----------------------------------------------------
     connect(m_menuConfigEditFrame, &QWidget::destroyed,[=](){
-        m_menuConfigEditFrame = nullptr;
-
-        //----------------------------------------------------
-        //m_frameLayout->addWidget( m_framesList[m_curentFrameId] );
+        m_menuConfigEditFrame = nullptr;        
         m_framesList[m_curentFrameId]->setHidden(false);
 
         emit frameChanged(m_framesList[m_curentFrameId]->frameName());

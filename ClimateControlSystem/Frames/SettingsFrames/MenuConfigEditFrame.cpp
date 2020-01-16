@@ -10,35 +10,51 @@ MenuConfigEditFrame::MenuConfigEditFrame(const QList<MenuItemData> &menuItemData
 
     QGridLayout *mainLayout = new QGridLayout;
 
-    mainLayout->setMargin(1);
-    mainLayout->setContentsMargins(1,1,1,1);
+    mainLayout->setMargin(0);
+    mainLayout->setContentsMargins(0,0,0,0);
     mainLayout->setVerticalSpacing(1);
     mainLayout->setHorizontalSpacing(1);
 
     //std::shared_ptr<QWidget> menuWidget = std::make_shared<QWidget>();
     m_menuWidget = new QWidget();
+
+    m_menuWidget->setStyleSheet(
+        "QWidget{ "
+        "padding: 0px;"
+        "margin: 0px;"
+//        "border: 1px solid #000000;"
+//        "border-radius : 2px;"
+//        "color: blue;"
+//        "background-color: yellow;"
+        "}"
+    );
     //connect(m_menuWidget, &QWidget::destroyed,[](){ qDebug()<< "menuWidget destroyed"; });
 
-    QGridLayout *menuLayout = new QGridLayout;
+    QVBoxLayout *menuLayout = new QVBoxLayout;
+    menuLayout->setMargin(0);
+    menuLayout->setContentsMargins(0,0,0,0);
+    menuLayout->setSpacing(0);
+
 
     QFont buttonFont = font();
     buttonFont.setPointSize(buttonFont.pointSize() + 1);
 
-    int buttonHeight = 18;
+    int buttonHeight = 23;
 
     for (int i = 0; i < menuItemDataList.size(); ++i)
     {
         MenuItemData menuItemData = menuItemDataList.at(i);
 
-        QPushButton *button = new QPushButton(QString("%1 [%2]")
+        QPushButton *button = new QPushButton(QString("%1")
                                               .arg(menuItemData.title)
-                                              .arg(menuItemData.name));
+                                              //.arg(menuItemData.name)
+                                              );
 
         button->setStyleSheet(
-            "QWidget{ "
-            "padding: 1px;"
-            "margin: 1px;"
-    //        "border: 3px solid #000000;"
+            "QPushButton{ "
+            "padding: 0px;"
+            "margin: 0px;"
+    //        "border: 1px solid #000000;"
     //        "border-radius : 2px;"
     //        "color: blue;"
     //        "background-color: yellow;"
@@ -89,8 +105,8 @@ MenuConfigEditFrame::MenuConfigEditFrame(const QList<MenuItemData> &menuItemData
     menuLayout->addWidget(exitButton);
 
     //---------------------------------------
-    //menuLayout->addItem(new QSpacerItem(5,5),1, 1);
-
+    menuLayout->addStretch(0);
+    //---------------------------------------
     //! Назначить слой меню виджету меню
     m_menuWidget->setLayout(menuLayout);
 

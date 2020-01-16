@@ -3,9 +3,14 @@
 //------------------------------------------------------------------------------------
 //!
 AbstractFrame::AbstractFrame(QWidget *parent)
-              : QWidget(parent)
+              :QWidget(parent)
 {
-
+    setStyleSheet(//"font: 12px; "
+                  //"font-weight: bold; "
+                  "margin: 0px, 0px, 0px, 0px;"
+                  "padding: 0px, 0px, 0px, 0px; "
+                  //"border:  1px solid black; "
+                  );
 }
 //------------------------------------------------------------------------------------
 //!

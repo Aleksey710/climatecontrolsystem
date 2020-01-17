@@ -19,7 +19,8 @@
 //------------------------------------------------------------------------------------
 //!
 AbstractArchiveFrame::AbstractArchiveFrame(QWidget *parent)
-                    : AbstractFrame(parent)
+                    : AbstractFrame(parent),
+                      m_removeRecordsFromArchiveWidget ( nullptr )
 {    
     QShortcut *shortcutSave = new QShortcut(QKeySequence("Ctrl+s"), this);
     QObject::connect(shortcutSave, &QShortcut::activated,
@@ -154,15 +155,15 @@ void AbstractArchiveFrame::startSaveData()
     QString fileName = QFileDialog::getSaveFileName(this,
                             tr("Зберегти даннi у файл"),
 #ifdef __arm__
-                            QString("/home/pi/%1-%2")
+                            QString("/home/pi/%1-%2.html")
                             .arg(QDateTime::currentDateTime().toString("yyyy-MM-dd hh_mm_ss"))
                             .arg(headLabel()),
 #else
-                            QString("./%1-%2")
+                            QString("./%1-%2.html")
                             .arg(QDateTime::currentDateTime().toString("yyyy-MM-dd hh_mm_ss"))
                             .arg(headLabel()),
 #endif
-                            tr("text (*.html);;All Files (*)")
+                            tr("html (*.html);;All Files (*)")
                             );
 
     if (fileName.isEmpty())
@@ -229,15 +230,16 @@ void AbstractArchiveFrame::startRemoveData()
 {
     qDebug() << "AbstractArchiveFrame::startRemoveData()";
 
-    RemoveRecordsFromArchiveWidget *widget = new RemoveRecordsFromArchiveWidget();
+    m_removeRecordsFromArchiveWidget = new RemoveRecordsFromArchiveWidget();
 
-    widget->show();
+    m_removeRecordsFromArchiveWidget->show();
 
-    connect(widget, &RemoveRecordsFromArchiveWidget::removeAll,[=](){
+    connect(m_removeRecordsFromArchiveWidget, &RemoveRecordsFromArchiveWidget::removeAll,[=](){
         qDebug() << "AbstractArchiveFrame::startRemoveData() - removeAll";
 
-        widget->close();
-        widget->deleteLater();
+        m_removeRecordsFromArchiveWidget->close();
+        m_removeRecordsFromArchiveWidget->deleteLater();
+        m_removeRecordsFromArchiveWidget = nullptr;
     });
 
 }

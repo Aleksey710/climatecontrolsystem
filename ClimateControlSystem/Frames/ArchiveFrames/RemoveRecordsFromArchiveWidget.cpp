@@ -14,7 +14,7 @@ RemoveRecordsFromArchiveWidget::RemoveRecordsFromArchiveWidget(QWidget *parent)
     connect(ui->pbRemoveAll, &QPushButton::released, this,
             &RemoveRecordsFromArchiveWidget::removeAll);
 
-
+    setGeometry(0,0,400,200);
 }
 //------------------------------------------------------------------------------------
 //!

@@ -45,6 +45,8 @@ class AbstractArchiveFrame : public AbstractFrame
 
     private:
         QTableView *m_tableView;
+
+        RemoveRecordsFromArchiveWidget *m_removeRecordsFromArchiveWidget;
 };
 //------------------------------------------------------------------------------------
 #endif // ABSTRACTARCHIVEFRAME_H

@@ -9,8 +9,12 @@ RemoveRecordsFromArchiveWidget::RemoveRecordsFromArchiveWidget(QWidget *parent)
 {
     ui->setupUi(this);
 
+    setWindowTitle("Видалення записiв");
+
     connect(ui->pbRemoveAll, &QPushButton::released, this,
             &RemoveRecordsFromArchiveWidget::removeAll);
+
+
 }
 //------------------------------------------------------------------------------------
 //!

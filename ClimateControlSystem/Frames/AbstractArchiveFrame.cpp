@@ -231,6 +231,8 @@ void AbstractArchiveFrame::startRemoveData()
 
     RemoveRecordsFromArchiveWidget *widget = new RemoveRecordsFromArchiveWidget();
 
+    widget->show();
+
     connect(widget, &RemoveRecordsFromArchiveWidget::removeAll,[=](){
         qDebug() << "AbstractArchiveFrame::startRemoveData() - removeAll";
 

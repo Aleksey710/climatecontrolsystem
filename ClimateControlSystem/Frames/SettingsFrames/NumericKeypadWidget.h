@@ -20,19 +20,19 @@ class NumericKeypadWidget : public QWidget
 {
         Q_OBJECT
     public:
-        explicit NumericKeypadWidget(const double &value = 0,
+        explicit NumericKeypadWidget(const QVariant &value = 0,
                                      QWidget *parent = nullptr);
         virtual ~NumericKeypadWidget();
 
-        inline double value()
+        inline QVariant value()
             { return m_display->text().toDouble(); }
 
-        inline void setValue(const double &value)
-            { return m_display->setText( QString("%1").arg(value) ); }
+        inline void setValue(const QVariant &value)
+            { return m_display->setText( value.toString() ); }
 
     signals:
         void editingFinished();
-        void entered(const double &value);
+        //void entered(const QVariant &value);
 
     private slots:
         void digitClicked();

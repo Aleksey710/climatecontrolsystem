@@ -66,6 +66,7 @@ HEADERS += \
     Frames/InOutDisplayFrame.h \
     Frames/MainFrame.h \
     Frames/SettingsFrames/ConfigEditFrame.h \
+    Frames/SettingsFrames/ItemEditSettingsWidget.h \
     Frames/SettingsFrames/MenuConfigEditFrame.h \
     Frames/SettingsFrames/NumericButton.h \
     Frames/SettingsFrames/NumericKeypadWidget.h \
@@ -87,6 +88,7 @@ SOURCES += \
     Frames/InOutDisplayFrame.cpp \
     Frames/MainFrame.cpp \
     Frames/SettingsFrames/ConfigEditFrame.cpp \
+    Frames/SettingsFrames/ItemEditSettingsWidget.cpp \
     Frames/SettingsFrames/MenuConfigEditFrame.cpp \
     Frames/SettingsFrames/NumericButton.cpp \
     Frames/SettingsFrames/NumericKeypadWidget.cpp \
@@ -102,7 +104,8 @@ SOURCES += \
 
 FORMS += \
     Frames/CarInformationFrame.ui \
-    Frames/InOutDisplayFrame.ui
+    Frames/InOutDisplayFrame.ui \
+    Frames/SettingsFrames/ItemEditSettingsWidget.ui
 
 
 

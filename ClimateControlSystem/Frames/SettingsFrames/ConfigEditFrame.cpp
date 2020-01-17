@@ -89,18 +89,20 @@ void ConfigEditFrame::onClicked(const QModelIndex &index)
         QString name    = m_model->data(m_model->index(index.row(),0), Qt::EditRole).toString();
         QString title   = m_model->data(m_model->index(index.row(),1), Qt::EditRole).toString();
 
-        double value    = m_model->data(index, Qt::EditRole).toDouble();
+        QVariant value  = m_model->data(index, Qt::EditRole);
 
-        NumericKeypadWidget *numericKeypadWidget = new NumericKeypadWidget(value);
 
-        connect(numericKeypadWidget, &NumericKeypadWidget::editingFinished,
+        //NumericKeypadWidget *editSettingsWidget = new NumericKeypadWidget(value);
+        ItemEditSettingsWidget *editSettingsWidget = new ItemEditSettingsWidget(value);
+
+        connect(editSettingsWidget, &ItemEditSettingsWidget::editingFinished,
                 [=](){
 
             QString queryStr = QString(
                 "UPDATE `data` "
-                "SET `value` = %1 "
+                "SET `value`='%1' "
                 "WHERE `name`='%2';"
-            ).arg(numericKeypadWidget->value()).arg(name);
+            ).arg(editSettingsWidget->value().toString()).arg(name);
 
             QSqlDatabase db(QSqlDatabase::database( DbUnit::dbName() ));
             QSqlQuery query(queryStr,db);
@@ -116,11 +118,11 @@ void ConfigEditFrame::onClicked(const QModelIndex &index)
             }
 
             //----------------------------------------------------
-            m_model->setData(index, numericKeypadWidget->value());
-            numericKeypadWidget->close();
+            m_model->setData(index, editSettingsWidget->value());
+            editSettingsWidget->close();
         });
 
-        numericKeypadWidget->show();
+        editSettingsWidget->show();
     }
 }
 //------------------------------------------------------------------------------------

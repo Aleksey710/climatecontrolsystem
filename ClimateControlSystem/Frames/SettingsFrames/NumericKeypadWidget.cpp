@@ -1,7 +1,7 @@
 #include "NumericKeypadWidget.h"
 //------------------------------------------------------------------------------------
 //!
-NumericKeypadWidget::NumericKeypadWidget(const double &value,
+NumericKeypadWidget::NumericKeypadWidget(const QVariant &value,
                                          QWidget *parent)
                     : QWidget(parent)
 {
@@ -20,7 +20,7 @@ NumericKeypadWidget::NumericKeypadWidget(const double &value,
     //--------------------------------------------------------
     m_display = new QLineEdit("0");
 
-    m_display->setText( QString("%1").arg(value) );
+    m_display->setText( QString("%1").arg(value.toDouble()) );
     m_display->setReadOnly(true);
     m_display->setAlignment(Qt::AlignRight);
     m_display->setMaxLength(10);

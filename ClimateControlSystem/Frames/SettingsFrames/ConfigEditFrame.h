@@ -22,6 +22,7 @@
 //#include ".h"
 #include "Log.h"
 #include "NumericKeypadWidget.h"
+#include "ItemEditSettingsWidget.h"
 //------------------------------------------------------------------------------------
 //!
 class ConfigEditFrame : public QWidget

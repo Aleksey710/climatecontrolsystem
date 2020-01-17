@@ -14,6 +14,7 @@
 #include "Log.h"
 #include "DbUnit.h"
 #include "AbstractFrame.h"
+#include "RemoveRecordsFromArchiveWidget.h"
 //#include "FrameName.h"
 //------------------------------------------------------------------------------------
 //!

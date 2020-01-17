@@ -154,11 +154,15 @@ void AbstractArchiveFrame::startSaveData()
     QString fileName = QFileDialog::getSaveFileName(this,
                             tr("Зберегти даннi у файл"),
 #ifdef __arm__
-                            "/home/pi",
+                            QString("/home/pi/%1-%2")
+                            .arg(QDateTime::currentDateTime().toString("yyyy-MM-dd hh_mm_ss"))
+                            .arg(headLabel()),
 #else
-                            "",
+                            QString("./%1-%2")
+                            .arg(QDateTime::currentDateTime().toString("yyyy-MM-dd hh_mm_ss"))
+                            .arg(headLabel()),
 #endif
-                            tr("text (*.txt);;All Files (*)")
+                            tr("text (*.html);;All Files (*)")
                             );
 
     if (fileName.isEmpty())
@@ -224,4 +228,14 @@ void AbstractArchiveFrame::startSaveData()
 void AbstractArchiveFrame::startRemoveData()
 {
     qDebug() << "AbstractArchiveFrame::startRemoveData()";
+
+    RemoveRecordsFromArchiveWidget *widget = new RemoveRecordsFromArchiveWidget();
+
+    connect(widget, &RemoveRecordsFromArchiveWidget::removeAll,[=](){
+        qDebug() << "AbstractArchiveFrame::startRemoveData() - removeAll";
+
+        widget->close();
+        widget->deleteLater();
+    });
+
 }

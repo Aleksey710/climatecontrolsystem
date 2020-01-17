@@ -61,6 +61,7 @@ HEADERS += \
     Frames/ArchiveFrames/ClimateDeviceManualArchiveFrame.h \
     Frames/ArchiveFrames/ElectricalEquipmentArchiveFrame.h \
     Frames/ArchiveFrames/ElectricalEquipmentOperatingTimeArchiveFrame.h \
+    Frames/ArchiveFrames/RemoveRecordsFromArchiveWidget.h \
     Frames/ArchiveFrames/WorkTimeArchiveFrame.h \
     Frames/CarInformationFrame.h \
     Frames/InOutDisplayFrame.h \
@@ -84,6 +85,7 @@ SOURCES += \
     ClimateControlSystem.cpp \
     Frames/AbstractArchiveFrame.cpp \
     Frames/AbstractFrame.cpp \
+    Frames/ArchiveFrames/RemoveRecordsFromArchiveWidget.cpp \
     Frames/CarInformationFrame.cpp \
     Frames/InOutDisplayFrame.cpp \
     Frames/MainFrame.cpp \
@@ -103,6 +105,7 @@ SOURCES += \
 
 
 FORMS += \
+    Frames/ArchiveFrames/RemoveRecordsFromArchiveWidget.ui \
     Frames/CarInformationFrame.ui \
     Frames/InOutDisplayFrame.ui \
     Frames/SettingsFrames/ItemEditSettingsWidget.ui

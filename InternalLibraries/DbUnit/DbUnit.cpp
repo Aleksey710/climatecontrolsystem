@@ -148,6 +148,18 @@ void DbUnit::createDb()
 
     queryStringList.append("INSERT INTO `types` (`id`,`name`) VALUES (1, 'settings');");
 
+    //----------------------------------------------------------
+    queryStringList.append(
+        "CREATE TABLE IF NOT EXISTS `data_types` ( "
+        "`id` INTEGER NOT NULL PRIMARY KEY, "
+        "`type` TEXT NOT NULL "
+        "); "
+        );
+
+    queryStringList.append("INSERT INTO `data_types` (`id`,`type`) VALUES (1, 'double');");
+    queryStringList.append("INSERT INTO `data_types` (`id`,`type`) VALUES (2, 'text');");
+
+    //----------------------------------------------------------
     queryStringList.append(
         "CREATE TABLE IF NOT EXISTS `groups` ( "
         "`id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, "
@@ -157,7 +169,7 @@ void DbUnit::createDb()
         "ON UPDATE CASCADE "
         "MATCH [FULL], "
         "`name` TEXT NOT NULL, "
-        "`title`	TEXT NOT NULL "
+        "`title` TEXT NOT NULL "
         "); "
         );
 
@@ -172,7 +184,12 @@ void DbUnit::createDb()
         "`name` TEXT NOT NULL, "
         "`title` TEXT NOT NULL, "
         //"`value` REAL NOT NULL "
-        "`value` REAL DEFAULT 0"
+        "`value` REAL DEFAULT 0,"
+        "`data_type_id` INTEGER NOT NULL DEFAULT 1 "
+        "REFERENCES `data_types` (`id`) "
+        "ON DELETE CASCADE "
+        "ON UPDATE CASCADE "
+        "MATCH [FULL] "
         "); "
     );
 
@@ -587,30 +604,30 @@ void DbUnit::createDelayGroup(QStringList &queryStringList)
 void DbUnit::createWagonGroup(QStringList &queryStringList)
 {
     queryStringList.append(
-        "INSERT INTO `data` (`group_id`,`name`,`title`,`value`) "
+        "INSERT INTO `data` (`group_id`,`name`,`title`,`data_type_id`,`value`) "
         "VALUES ((SELECT `id` FROM `groups` WHERE `name`='wagon'), "
-        "'dd', 'дата установки ПЗ, формат \"рррр-мм-дд\"', '2020-01-01');");
+        "'dd','дата установки ПЗ, формат \"рррр-мм-дд\"',2,'2020-01-01');");
+    queryStringList.append(
+        "INSERT INTO `data` (`group_id`,`name`,`title`,`data_type_id`,`value`) "
+        "VALUES ((SELECT `id` FROM `groups` WHERE `name`='wagon'), "
+        "'sv','версія ПЗ',2,'2.3.11');");
+    queryStringList.append(
+        "INSERT INTO `data` (`group_id`,`name`,`title`,`data_type_id`,`value`) "
+        "VALUES ((SELECT `id` FROM `groups` WHERE `name`='wagon'), "
+        "'num', 'номер вагона',2,'11-14551');");
     queryStringList.append(
         "INSERT INTO `data` (`group_id`,`name`,`title`,`value`) "
         "VALUES ((SELECT `id` FROM `groups` WHERE `name`='wagon'), "
-        "'sv', 'версія ПЗ', '2.3.11');");
-    queryStringList.append(
-        "INSERT INTO `data` (`group_id`,`name`,`title`,`value`) "
-        "VALUES ((SELECT `id` FROM `groups` WHERE `name`='wagon'), "
-        "'num', 'номер вагона', '14551');");
-    queryStringList.append(
-        "INSERT INTO `data` (`group_id`,`name`,`title`,`value`) "
-        "VALUES ((SELECT `id` FROM `groups` WHERE `name`='wagon'), "
-        "'res', 'Використаний ресурсу мотогодин у хвилинах', '60');");
+        "'res', 'Використаний ресурсу мотогодин у хвилинах','60');");
 }
 //------------------------------------------------------------------------------------
 //!
 void DbUnit::createPasswordGroup(QStringList &queryStringList)
 {
     queryStringList.append(
-        "INSERT INTO `data` (`group_id`,`name`,`title`,`value`) "
+        "INSERT INTO `data` (`group_id`,`name`,`title`,`data_type_id`,`value`) "
         "VALUES ((SELECT `id` FROM `groups` WHERE `name`='password'), "
-        "'new', 'Зміна пароля', 1234);");
+        "'new','Зміна пароля',2,'1234');");
 }
 //------------------------------------------------------------------------------------
 //!

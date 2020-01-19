@@ -27,6 +27,10 @@ InOutDisplayFrame::InOutDisplayFrame(QWidget *parent)
     setupDisplay("display.temp.t_nv",   ui->le_t_nv);
     setupDisplay("display.temp.t_kotl", ui->le_t_kotl);
 
+    setupDisplay("display.U_I.I_bat", ui->le_I_bat);
+    setupDisplay("display.U_I.U_net", ui->le_U_net);
+    setupDisplay("display.U_I.I_gen", ui->le_I_gen);
+
     //--------------------------------------
     setupDigDisplay("display.d30000.u3000",         ui->le_u3000);
     setupDigDisplay("display.d30000.VVO_1",         ui->le_VVO_1);
@@ -45,6 +49,12 @@ InOutDisplayFrame::InOutDisplayFrame(QWidget *parent)
     setupDigDisplay("display.d30000.umax_zrk",      ui->le_umax_zrk);
     setupDigDisplay("display.d30000.r_insulation",  ui->le_r_insulation);
 
+    //--------------------------------------
+    setupDisplay("display.out.VVO1",                ui->le_out_VVO1);
+    setupDisplay("display.out.VVO2",                ui->le_out_VVO2);
+    setupDisplay("display.out.pump_heater",         ui->le_out_pump_heater);
+    setupDisplay("display.out.NVO",                 ui->le_out_NVO);
+    setupDisplay("display.out.alarm",               ui->le_out_alarm);
 
     //--------------------------------------
 

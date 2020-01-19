@@ -132,7 +132,7 @@
       </widget>
      </item>
      <item row="4" column="3">
-      <widget class="QLineEdit" name="lineEdit_11">
+      <widget class="QLineEdit" name="le_I_gen">
        <property name="font">
         <font>
          <pointsize>8</pointsize>
@@ -298,7 +298,7 @@
       </widget>
      </item>
      <item row="16" column="1">
-      <widget class="QLineEdit" name="lineEdit_6">
+      <widget class="QLineEdit" name="le_out_VVO1">
        <property name="font">
         <font>
          <pointsize>8</pointsize>
@@ -328,7 +328,7 @@
       </widget>
      </item>
      <item row="17" column="3">
-      <widget class="QLineEdit" name="lineEdit_17">
+      <widget class="QLineEdit" name="le_out_NVO">
        <property name="font">
         <font>
          <pointsize>8</pointsize>
@@ -505,7 +505,7 @@
       </widget>
      </item>
      <item row="18" column="1">
-      <widget class="QLineEdit" name="lineEdit_15">
+      <widget class="QLineEdit" name="le_out_alarm">
        <property name="font">
         <font>
          <pointsize>8</pointsize>
@@ -523,7 +523,7 @@
       </widget>
      </item>
      <item row="4" column="1">
-      <widget class="QLineEdit" name="lineEdit_7">
+      <widget class="QLineEdit" name="le_I_bat">
        <property name="font">
         <font>
          <pointsize>8</pointsize>
@@ -532,7 +532,7 @@
       </widget>
      </item>
      <item row="3" column="3">
-      <widget class="QLineEdit" name="lineEdit_10">
+      <widget class="QLineEdit" name="le_U_net">
        <property name="font">
         <font>
          <pointsize>8</pointsize>
@@ -586,7 +586,7 @@
       </widget>
      </item>
      <item row="16" column="3">
-      <widget class="QLineEdit" name="lineEdit_16">
+      <widget class="QLineEdit" name="le_out_VVO2">
        <property name="font">
         <font>
          <pointsize>8</pointsize>
@@ -607,7 +607,7 @@
       </widget>
      </item>
      <item row="17" column="1">
-      <widget class="QLineEdit" name="lineEdit_14">
+      <widget class="QLineEdit" name="le_out_pump_heater">
        <property name="font">
         <font>
          <pointsize>8</pointsize>

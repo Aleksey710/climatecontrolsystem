@@ -14,13 +14,13 @@ MainFrame::MainFrame(QWidget *parent)
     mainLayout->setHorizontalSpacing(1);
 
     GigitalIndicatorWidget *widget0 = new GigitalIndicatorWidget("Напруга мережi", "В", 0, 200);
-    setupDisplay("modbus.rs0d10.r30000", widget0);
+    setupDisplay("display.U_I.U_net", widget0);
 
     GigitalIndicatorWidget *widget1 = new GigitalIndicatorWidget("Струм АКБ", "А", -150, 160);
-    setupDisplay("modbus.rs0d10.r30001", widget1);
+    setupDisplay("display.U_I.I_bat", widget1);
 
     GigitalIndicatorWidget *widget2 = new GigitalIndicatorWidget("Струм генератора", "А", 0, 250);
-    setupDisplay("modbus.rs0d10.r30002", widget2);
+    setupDisplay("display.U_I.I_gen", widget2);
 
     m_tUstWidget = new GigitalIndicatorWidget("Корекцiя температури", "°C", 22, 26);
     //setupDisplay("display.temp.t_ust", m_tUstWidget);

@@ -115,10 +115,6 @@ void MainDisplayWidget::setupFrames()
     m_framesList.append(inOutDisplayFrame);
 
     //-----------------------------------------------------------
-    CarInformationFrame *carInformationFrame = new CarInformationFrame();
-    m_framesList.append(carInformationFrame);
-
-    //-----------------------------------------------------------
     // ARCHIVE FRAMES
     //-----------------------------------------------------------
     ElectricalEquipmentArchiveFrame *electricalEquipmentArchiveFrame
@@ -136,6 +132,10 @@ void MainDisplayWidget::setupFrames()
     WorkTimeArchiveFrame *workTimeArchiveFrame
         = new WorkTimeArchiveFrame();
     m_framesList.append(workTimeArchiveFrame);
+
+    //-----------------------------------------------------------
+    CarInformationFrame *carInformationFrame = new CarInformationFrame();
+    m_framesList.append(carInformationFrame);
 
     //-----------------------------------------------------------
 //    ElectricalEquipmentOperatingTimeArchiveFrame *electricalEquipmentOperatingTimeArchiveFrame

@@ -151,21 +151,72 @@ void AbstractArchiveFrame::pgDown()
 void AbstractArchiveFrame::startSaveData()
 {
     //qDebug() << "AbstractArchiveFrame::startSaveData()";
+/*
+    QTreeView + QFileSystemModel, а потом сделай что-нибудь вроде:
 
-    QString fileName = QFileDialog::getSaveFileName(this,
-                            tr("Зберегти даннi у файл"),
-#ifdef __arm__
-                            QString("/home/pi/%1-%2.html")
-                            .arg(QDateTime::currentDateTime().toString("yyyy-MM-dd hh_mm_ss"))
-                            .arg(headLabel()),
-#else
-                            QString("./%1-%2.html")
-                            .arg(QDateTime::currentDateTime().toString("yyyy-MM-dd hh_mm_ss"))
-                            .arg(headLabel()),
-#endif
-                            tr("html (*.html);;All Files (*)")
-                            );
+    QString path = "/your/directory";
+    treeView->setRootIndex(model.setRootPath(path));
+    treeView->setRootIsDecorated(false);
+*/
 
+    QString fileName;
+
+    //fileName = QFileDialog::getSaveFileName(
+    QFileDialog fileDialog;
+//    (
+////------------------------------------------------
+///* parent */                this
+////------------------------------------------------
+///* caption */               ,tr("Зберегти даннi у файл")
+////------------------------------------------------
+//#ifdef __arm__
+///* dir */                   ,QString("/home/pi/%1-%2.html")
+//                            .arg(QDateTime::currentDateTime().toString("yyyy-MM-dd hh_mm_ss"))
+//                            .arg(headLabel())
+//#else
+///* dir */                   ,QString("./%1-%2.html")
+//                            .arg(QDateTime::currentDateTime().toString("yyyy-MM-dd hh_mm_ss"))
+//                            .arg(headLabel())
+//#endif
+////------------------------------------------------
+///* filter */                ,tr("html (*.html);;All Files (*)")
+////------------------------------------------------
+/////* selectedFilter */        ,nullptr
+////------------------------------------------------
+/////* options */               ,QFileDialog::ShowDirsOnly |
+////                            QFileDialog::DontUseNativeDialog |
+////                            QFileDialog::ReadOnly
+////------------------------------------------------
+//                            );
+
+    QList<QUrl> urls;
+    urls << QUrl::fromLocalFile("/home/grey");
+
+    fileDialog.setSidebarUrls(urls);
+
+    fileDialog.setFileMode(QFileDialog::AnyFile);
+    fileDialog.setFilter(QDir::Files | QDir::Hidden | QDir::NoSymLinks);
+    fileDialog.selectNameFilter("html (*.html)");
+
+    fileDialog.setAcceptMode(QFileDialog::AcceptSave);
+    fileDialog.setOption(//QFileDialog::ShowDirsOnly | QFileDialog::ReadOnly
+                         QFileDialog::DontUseNativeDialog,
+                         true);
+
+
+    connect(&fileDialog, &QFileDialog::directoryEntered, [&](const QString & directory){
+
+        if(fileDialog.directory() == directory)
+            return;
+
+        fileDialog.setDirectory("/home/grey ");
+    });
+
+    //------------------------------------------------
+    if (fileDialog.exec())
+        fileName = fileDialog.selectedFiles().at(0);
+
+    //------------------------------------------------
     if (fileName.isEmpty())
     {
         return;

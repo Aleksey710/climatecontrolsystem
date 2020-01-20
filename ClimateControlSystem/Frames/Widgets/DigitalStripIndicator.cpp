@@ -113,18 +113,14 @@ void DigitalStripIndicator::paintEvent(QPaintEvent *)
             painter.setPen(Qt::NoPen);
             painter.setBrush(positiveColor);
 
-            painter.drawRect(0, 0, m_curentData*percent, stripHeight);
-            //painter.drawRect(0, 0, width(), stripHeight);
-
+            painter.drawRect(0, 0, (m_curentData - m_minimum)*percent, stripHeight);
         } else if( m_minimum <= 0 &&
                    m_maximum <= 0 )
         {
             painter.setPen(Qt::NoPen);
             painter.setBrush(negativeColor);
 
-            //painter.translate(width(), 0);
-
-            painter.drawRect(0, 0, m_curentData*percent, stripHeight);
+            painter.drawRect(width(), 0, width()-(-(m_curentData))*percent, stripHeight);
         } else if( m_minimum < 0 &&
                    m_maximum > 0 )
         {

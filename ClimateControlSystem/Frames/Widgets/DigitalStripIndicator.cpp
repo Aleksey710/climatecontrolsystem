@@ -95,8 +95,8 @@ void DigitalStripIndicator::paintEvent(QPaintEvent *)
 
     setMinimumHeight(stripHeight+indentHeight+digHeight+5);
     //--------------------------------------------
-    if(m_curentData < 100)
-        m_curentData = -m_curentData;
+//    if(m_curentData < 100)
+//        m_curentData = -m_curentData;
 
     //qDebug() << "DigitalStripIndicator::paintEvent контур percent" << rectangle << percent;
     //--------------------------------------------

@@ -14,10 +14,10 @@ DigitalStripIndicator::DigitalStripIndicator(const int minimum,
 {
     setStyleSheet(
         "QWidget{ "
-//        "padding: 5px;"
-//        "margin: 5px;"
-//        "border: 3px solid #000000;"
-//        "border-radius : 2px;"
+        "padding: 0px;"
+        "margin: 0px;"
+        //"border: 1px solid #000000;"
+        //"border-radius : 2px;"
 //        "color: blue;"
 //        "background-color: yellow;"
         "}"
@@ -62,8 +62,10 @@ void DigitalStripIndicator::paintEvent(QPaintEvent *)
     style()->drawPrimitive(QStyle::PE_Widget, &opt, &painter, this);
 
     painter.setRenderHint(QPainter::Antialiasing);
-    //painter.translate(0, 0);
-    //painter.scale(width()-10, height());
+
+    qreal borderPercent = 0.03;
+    painter.translate(painter.window().width()*borderPercent, 0);
+    painter.scale(1-(2*borderPercent), 1);
 
     QColor positiveColor(255, 0, 0);
     QColor negativeColor(0, 0, 255);
@@ -81,18 +83,20 @@ void DigitalStripIndicator::paintEvent(QPaintEvent *)
     painter.drawRect(rectangle);
 
     //--------------------------------------------
-    qreal digWidth = 26;
-    qreal indentHeight = 4;
-    qreal digHeight = 12;
+    qreal digWidth      = 26;   // ширина цифры
+    qreal indentHeight  = 4;    // промежуток между линией и цифрой
+    qreal digHeight     = 12;   // высота цифры
 
-    //! значение минимума
+    //! подписать значение минимума
     painter.drawText(QRect(0, stripHeight+indentHeight, digWidth, stripHeight+indentHeight+digHeight),
                      Qt::AlignCenter, QString("%1").arg(m_minimum));
+
     //---------------------
-    //! значение максимума
+    //! подписать значение максимума
     painter.drawText(QRect(width()-digWidth, stripHeight+indentHeight, digWidth, stripHeight+indentHeight+digHeight),
                      Qt::AlignCenter, QString("%1").arg(m_maximum));
 
+    setMinimumWidth(digWidth*3);
     setMinimumHeight(stripHeight+indentHeight+digHeight+5);
     //--------------------------------------------
 //    if(m_curentData < 100)
@@ -133,7 +137,9 @@ void DigitalStripIndicator::paintEvent(QPaintEvent *)
             painter.setBrush(QColor(255,255,255));
             painter.drawRect(-1, 0, 2, stripHeight+4);
 
-            painter.drawText(QRect(-4, stripHeight+6, 8, 12), Qt::AlignCenter, "0");
+            painter.drawText(QRect(-4, stripHeight+indentHeight,
+                                   8 /*digWidth*/, stripHeight+indentHeight+digHeight),
+                             Qt::AlignCenter, "0");
             //-----------------------------------------------
             painter.setPen(Qt::NoPen);
             if(m_curentData > 0)
@@ -146,7 +152,7 @@ void DigitalStripIndicator::paintEvent(QPaintEvent *)
                 painter.setBrush(transparentColor);
             }
             //-----------------------------------------------
-            painter.drawRect(0, 0, m_curentData*percent, stripHeight);            
+            painter.drawRect(0, 0, m_curentData*percent, stripHeight);
         }
     }
     else

@@ -4,6 +4,8 @@
 /bin/ScriptUnit
 /bin/DataModel
 /bin/ClimateControlSystem
+/bin/Imitator
+
 
 Makefile
 .qmake.stash

@@ -3,6 +3,7 @@ TEMPLATE = subdirs
 SUBDIRS += ExternalLibraries
 SUBDIRS += InternalLibraries
 SUBDIRS += ClimateControlSystem
+SUBDIRS += Imitator
 
 
 InternalLibraries.depends = \

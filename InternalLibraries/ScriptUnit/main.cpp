@@ -80,9 +80,9 @@ int main(int argc, char *argv[])
 
     //--------------------------------------------
 
-    std::shared_ptr<DbUnit> dbUnit = std::make_shared<DbUnit>();
+    DbUnit dbUnit;
 
-    std::shared_ptr<ScriptUnit> scriptUnit = std::make_shared<ScriptUnit>();
+    ScriptUnit scriptUnit;
 
 
     //------------------------------------
@@ -91,12 +91,6 @@ int main(int argc, char *argv[])
     int exitCode = app->exec();
 
     myCrashHandler(exitCode);
-
-    if(scriptUnit)
-        scriptUnit->deleteLater();
-
-    if(dbUnit)
-        dbUnit->deleteLater();
 
     //------------------------------------
     SEND_TO_LOG("*****************************************************************************************");

@@ -25,9 +25,9 @@ class ModbusMasterUnitTestForm : public QWidget
     private:
         Ui::ModbusMasterUnitTestForm *ui;
 
-        std::shared_ptr<DbUnit>             m_dbUnit;
-        std::shared_ptr<ScriptUnit>         m_scriptUnit;
-        std::shared_ptr<ModbusMasterUnit>   m_modbusMasterUnit;
+        DbUnit             m_dbUnit;
+        ScriptUnit         m_scriptUnit;
+        ModbusMasterUnit   m_modbusMasterUnit;
 };
 //------------------------------------------------------------------------------------
 #endif // MODBUSMASTERUNITTESTFORM_H

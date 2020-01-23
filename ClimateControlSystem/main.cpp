@@ -51,6 +51,12 @@ int main(int argc, char *argv[])
     el::Loggers::reconfigureAllLoggers(el::ConfigurationType::Filename,
                                        logFileName.toLatin1().data());
     //---------------------------------------------------
+    SEND_TO_LOG("*****************************************************************************************");
+    SEND_TO_LOG("************                                      ***************************************");
+    SEND_TO_LOG("************    Запуск ClimateControlSystem       ***************************************");
+    SEND_TO_LOG("************                                      ***************************************");
+    SEND_TO_LOG("*****************************************************************************************");
+
     SEND_TO_LOG( allVersion() );
 
     //---------------------------------------------------
@@ -95,18 +101,21 @@ int main(int argc, char *argv[])
     }
 #endif // __arm__
     //--------------------------------------------
-    std::shared_ptr<MainDisplayWidget> mainDisplayWidget = std::make_shared<MainDisplayWidget>();
+    MainDisplayWidget mainDisplayWidget;
 
+    mainDisplayWidget.show();
 
     //------------------------------------
-    //QTimer::singleShot(1*60*1000, qApp, SLOT(quit()));
+    //QTimer::singleShot(10*1000, qApp, SLOT(quit()));
     //------------------------------------
     int exitCode = app->exec();
 
     myCrashHandler(exitCode);
 
-    if(mainDisplayWidget)
-        mainDisplayWidget->deleteLater();
+    //-------------------------------------------------------------------
+    SEND_TO_LOG("*****************************************************************************************");
+    SEND_TO_LOG("************     Окончание работы ClimateControlSystem                 ******************");
+    SEND_TO_LOG("*****************************************************************************************");
     //------------------------------------
     return exitCode;
 }

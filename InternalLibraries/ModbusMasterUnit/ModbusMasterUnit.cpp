@@ -6,7 +6,7 @@ ModbusMasterUnit::ModbusMasterUnit(QObject *parent)
                  :QObject(parent),
                   m_handler ( new ModbusMasterHandler(this) )
 #ifdef CIRCULAR_PROCESSING_REQUEST
-                  ,m_circularTimer ( new QTimer(this) )
+                  ,m_pauseTimer ( new QTimer(this) )
                   ,m_curentRequestId ( 0 )
 #else
                   ,m_requestQueueSemaphore ( 10 )
@@ -18,18 +18,16 @@ ModbusMasterUnit::ModbusMasterUnit(QObject *parent)
     setup( loadFile( qApp->applicationDirPath()+"/conf/modbus.json" ) );
 
 #ifdef CIRCULAR_PROCESSING_REQUEST
-    //! После окончания паузы запустить на выполнение следующий запрос
-    connect(m_circularTimer, &QTimer::timeout, this, &ModbusMasterUnit::excuteNextRequest);
+    m_pauseTimer->setSingleShot(true);
+
+    QObject::connect(m_pauseTimer, &QTimer::timeout,
+                     this, &ModbusMasterUnit::excuteNextRequest);
 
     //! При получении сигнала о выполнении запроса
     //! Запустить таймер паузы
-    connect(m_handler, &ModbusMasterHandler::exequted, [&](){
-        m_circularTimer->start(PERIOD_BETWEEN_REQUEST_MS);
-    });
+    connect(m_handler, &ModbusMasterHandler::exequted, this,&ModbusMasterUnit::startPauseTimer );
 
-    //! Начальный запуск опросов
-    m_circularTimer->start(100);
-
+    excuteNextRequest();
 #endif // CIRCULAR_PROCESSING_REQUES
 
     //-------------------------------------------
@@ -39,14 +37,9 @@ ModbusMasterUnit::ModbusMasterUnit(QObject *parent)
 //!
 ModbusMasterUnit::~ModbusMasterUnit()
 {
-    m_circularTimer->stop();
-
-    m_handler->deleteLater();
-
-    for (int i = 0; i < m_requestList.size(); ++i)
+    while (!m_requestList.isEmpty())
     {
-        delete m_requestList.at(i);
-        //m_requestList.at(i)->deleteLater();
+        delete m_requestList.takeFirst();
     }
 
     SEND_TO_LOG( QString("%1 - удален").arg(objectName()) );
@@ -103,15 +96,26 @@ void ModbusMasterUnit::setup(const QJsonObject &confJsonObject)
         }
     }
 }
+#ifdef CIRCULAR_PROCESSING_REQUEST
+//------------------------------------------------------------------------------------
+//!
+void ModbusMasterUnit::startPauseTimer()
+{
+    //! После окончания паузы запустить на выполнение следующий запрос
+    m_pauseTimer->start(PERIOD_BETWEEN_REQUEST_MS);
+}
 //------------------------------------------------------------------------------------
 //!
 void ModbusMasterUnit::excuteNextRequest()
 {
-    m_circularTimer->stop();
-
     //! Если в конфигурации существуют корректно описанные запросы
     if(m_requestList.size() > 0)
-    {
+    {        
+        if(m_curentRequestId >= m_requestList.size())
+        {
+            m_curentRequestId = 0;
+        }
+
         //--------------------------------------------------
         ModbusRequest *request = m_requestList.at(m_curentRequestId);
 
@@ -121,15 +125,11 @@ void ModbusMasterUnit::excuteNextRequest()
         //--------------------------------------------------
         m_curentRequestId++;
 
-        if(m_curentRequestId == m_requestList.size())
-        {
-            m_curentRequestId = 0;
-        }
-
         //--------------------------------------------------
         m_handler->exequteRequest(request);
     }
 }
+#endif // CIRCULAR_PROCESSING_REQUES
 //------------------------------------------------------------------------------------
 //!
 void ModbusMasterUnit::connectionParsing(const QJsonObject &connectionJsonObject)
@@ -224,7 +224,8 @@ void ModbusMasterUnit::deviceParsing(const ModbusConnectionSettings &modbusConne
 #ifndef CIRCULAR_PROCESSING_REQUEST
                                                      1000,
 #endif // CIRCULAR_PROCESSING_REQUEST
-                                                     this);
+                                                     nullptr /* this */
+                                                     );
 
 #ifndef CIRCULAR_PROCESSING_REQUEST
     connect(modbusRequest, &ModbusRequest::wantExecuteQuery,

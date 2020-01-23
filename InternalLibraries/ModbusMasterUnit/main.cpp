@@ -73,33 +73,17 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    std::shared_ptr<ModbusMasterUnitTestForm> modbusMasterUnitTestForm = std::make_shared<ModbusMasterUnitTestForm>();
+    ModbusMasterUnitTestForm modbusMasterUnitTestForm;
 
-    modbusMasterUnitTestForm->show();
-    //--------------------------------------------
-//    std::shared_ptr<DbUnit>             dbUnit              = std::make_shared<DbUnit>();
-//    std::shared_ptr<ScriptUnit>         scriptUnit          = std::make_shared<ScriptUnit>();
-//    std::shared_ptr<ModbusMasterUnit>   modbusMasterUnit    = std::make_shared<ModbusMasterUnit>();
-
+    modbusMasterUnitTestForm.show();
 
     //------------------------------------
-    //QTimer::singleShot(0.1*60*1000, qApp, SLOT(quit()));
+    QTimer::singleShot(5*1000, qApp, SLOT(quit()));
+
     //------------------------------------
     int exitCode = app->exec();
 
     myCrashHandler(exitCode);
-
-    if(modbusMasterUnitTestForm)
-        modbusMasterUnitTestForm->deleteLater();
-
-//    if(modbusMasterUnit)
-//        modbusMasterUnit->deleteLater();
-
-//    if(scriptUnit)
-//        scriptUnit->deleteLater();
-
-//    if(dbUnit)
-//        dbUnit->deleteLater();
 
     //------------------------------------
     SEND_TO_LOG("*****************************************************************************************");

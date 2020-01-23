@@ -44,12 +44,15 @@ class ModbusMasterHandler : public QObject
 
     private slots:
         void readReady();
+        void writeReady();
 
     private:
         void requestExecutionErrorHandler();
         void deleteModbusDevice();
 
-        void replyHandler(QModbusReply *reply);
+        void readReplyHandler(QModbusReply *reply);
+        void writeReplyHandler(QModbusReply *reply);
+
         void errorDataHandler();
         QString modbusExceptionCodeToString(const QModbusPdu::ExceptionCode &code);
 

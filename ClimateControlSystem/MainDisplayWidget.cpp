@@ -8,7 +8,7 @@ MainDisplayWidget::MainDisplayWidget(QWidget *parent)
 {
     SEND_TO_LOG("Запуск MainDisplayWidget ");
 
-    m_climateControlSystem = std::make_shared<ClimateControlSystem>();
+    //m_climateControlSystem = new ClimateControlSystem(this);
 
     setStyleSheet(//"font: 12px; "
                   //"font-weight: bold; "
@@ -144,14 +144,12 @@ void MainDisplayWidget::setupFrames()
 
     //-----------------------------------------------------------
     //-----------------------------------------------------------
-    if( m_climateControlSystem->dbUnit().get() )
+    //if( m_climateControlSystem->dbUnit().get() )
+    if( m_climateControlSystem.dbUnit() )
     {
-        m_menuItemDataList=m_climateControlSystem->dbUnit().get()->settingsMenuItemList();
-    } else
-    {
-        SEND_TO_LOG("MainDisplayWidget - Error(Не инициализирован DbUnit)");
+        //m_menuItemDataList=m_climateControlSystem->dbUnit().get()->settingsMenuItemList();
+        m_menuItemDataList=m_climateControlSystem.dbUnit()->settingsMenuItemList();
     }
-
     //-------------------------------------------------------------------
     m_curentFrameId = 0;
     m_frameLayout->addWidget(m_framesList[m_curentFrameId]);

@@ -34,13 +34,13 @@ ScriptObject::ScriptObject(const QString &name,
     timer->start(1000);
 */
     //----------------------------------------------------------
-    //SEND_TO_LOG( QString("%1 - создан").arg(objectName()))
+    //SEND_TO_LOG( QString("ScriptObject[%1] - создан").arg(objectName()))
 }
 //------------------------------------------------------------------------------------
 //!
 ScriptObject::~ScriptObject()
 {
-    SEND_TO_LOG( QString("%1 - удален").arg(objectName()))
+    SEND_TO_LOG( QString("ScriptObject[%1] - удален").arg(m_fullName))
 }
 //------------------------------------------------------------------------------------
 //!

@@ -23,18 +23,17 @@ ScriptUnit::ScriptUnit(QObject *parent)
 //!
 ScriptUnit::~ScriptUnit()
 {
-    SEND_TO_LOG( QString("%1 - начало удаления").arg(objectName()));
-
     QHashIterator<QString, ScriptObject*> i(m_rootObjects);
     while (i.hasNext())
     {
         i.next();
 
-        SEND_TO_LOG( QString("%1 - [%2].deleteLater()").arg(objectName()).arg(i.key()))
-
-        //i.value()->deleteLater();
         delete i.value();
+
+        m_rootObjects.remove(i.key());
     }
+
+    m_scriptEnginePtr = nullptr;
 
     SEND_TO_LOG( QString("%1 - удален").arg(objectName()));
 }

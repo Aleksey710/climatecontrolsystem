@@ -102,7 +102,16 @@ ModbusRequest::ModbusRequest(const ModbusConnectionSettings &connectionSettings,
 //!
 ModbusRequest::~ModbusRequest()
 {
-    m_scriptObjectList.clear();
+    m_deviceScriptObject = nullptr;
+
+    QHashIterator<quint16, ScriptObject*> i(m_scriptObjectList);
+    while (i.hasNext())
+    {
+        i.next();
+
+        //i.value() = nullptr;
+        m_scriptObjectList.remove(i.key());
+    }
 
     //-------------------------------------------
     SEND_TO_LOG( QString("%1 - удален").arg(objectName()) );
@@ -167,7 +176,12 @@ QModbusDataUnit& ModbusRequest::modbusDataUnit()
             const quint16 addr          = i.key() + startAddress;
             ScriptObject *scriptObject  = i.value();
 
-            const quint16 value         = static_cast<quint16>(scriptObject->data()) ;
+            quint16 value = 0;
+
+            if(scriptObject)
+            {
+                value = static_cast<quint16>(scriptObject->data()) ;
+            }
 
             m_modbusDataUnit.setValue( addr, value );
         }

@@ -68,8 +68,9 @@ class ModbusMasterUnit : public QObject
 
     private slots:
 #ifdef CIRCULAR_PROCESSING_REQUEST
-
         void excuteNextRequest();
+
+        void startPauseTimer();
 #else
         void executeQuery(ModbusRequest *request);
 #endif // CIRCULAR_PROCESSING_REQUES
@@ -86,12 +87,13 @@ class ModbusMasterUnit : public QObject
         ModbusMasterHandler *m_handler;
 
 #ifdef CIRCULAR_PROCESSING_REQUEST
+        QTimer *m_pauseTimer;
+
         //! Решение1 - циклическое выполнение всех запросов(по очереди)
         QList<ModbusRequest*> m_requestList;
 
         const static int PERIOD_BETWEEN_REQUEST_MS = 1000;
 
-        QTimer *m_circularTimer;
         int m_curentRequestId;
 #else
         //! Решение2 - периодическая постановка запросов в очередь на выполнение

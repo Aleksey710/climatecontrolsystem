@@ -18,11 +18,6 @@ ModbusMasterHandler::ModbusMasterHandler(QObject *parent)
 //!
 ModbusMasterHandler::~ModbusMasterHandler()
 {
-    //! Обнулить не удаляя
-    m_curentModbusRequest = nullptr;
-
-    deleteModbusDevice();
-
     //-------------------------------------------
     SEND_TO_LOG( QString("%1 - удален").arg(objectName()) );
 }
@@ -76,7 +71,6 @@ void ModbusMasterHandler::exequteRequest(ModbusRequest *request)
                          .arg(objectName()).arg(m_curentModbusRequest->functionCode()) );
             break;
     }
-    //m_handler->readWriteRequest(request->serverAddress(), readDataUnit, writeDataUnit);
 }
 //------------------------------------------------------------------------------------
 //!
@@ -244,8 +238,6 @@ void ModbusMasterHandler::readRequest(const int serverAddress, QModbusDataUnit &
         if (!reply->isFinished())
             connect(reply, &QModbusReply::finished, this, &ModbusMasterHandler::readReady);
         else
-            // broadcast replies return immediately
-            //delete reply;
             reply->deleteLater();
     } else {
         SEND_TO_LOG( QString("%1 - Read error: %2")
@@ -260,45 +252,12 @@ void ModbusMasterHandler::writeRequest(const int serverAddress, QModbusDataUnit 
     if (!m_modbusDevice)
         return;
 
-    //QModbusDataUnit writeUnit = writeRequest();
-/*
-    QModbusDataUnit::RegisterType table = dataUnit.registerType();
-
-    for (uint i = 0; i < dataUnit.valueCount(); i++)
-    {
-        if (table == QModbusDataUnit::Coils)
-            dataUnit.setValue(i, writeModel->m_coils[i + writeUnit.startAddress()]);
-        else
-            dataUnit.setValue(i, writeModel->m_holdingRegisters[i + writeUnit.startAddress()]);
-    }
-*/
     if ( auto *reply = m_modbusDevice->sendWriteRequest(writeDataUnit, serverAddress) )
     {
         if (!reply->isFinished())
         {
-            connect(reply, &QModbusReply::finished, this, [this, reply]()
-            {
-                if (reply->error() == QModbusDevice::ProtocolError)
-                {
-                    SEND_TO_LOG( QString("%1 - Write response error: %2 (Mobus exception: 0x%3)")
-                                 .arg(objectName())
-                                 .arg(reply->errorString())
-                                 .arg(reply->rawResult().exceptionCode(), -1, 16)
-                               );
-
-                } else if (reply->error() != QModbusDevice::NoError)
-                {
-                    SEND_TO_LOG( QString("%1 - Write response error: %2 (code: 0x%3)")
-                                 .arg(objectName())
-                                 .arg(reply->errorString())
-                                 .arg(reply->error(), -1, 16)
-                               );
-                }
-
-                reply->deleteLater();
-            });
+            connect(reply, &QModbusReply::finished, this, &ModbusMasterHandler::writeReady);
         } else {
-            // broadcast replies return immediately
             reply->deleteLater();
         }
     } else {
@@ -338,8 +297,6 @@ void ModbusMasterHandler::readWriteRequest(const int serverAddress,
         if (!reply->isFinished())
             connect(reply, &QModbusReply::finished, this, &ModbusMasterHandler::readReady);
         else
-            // broadcast replies return immediately
-            //delete reply;
             reply->deleteLater();
     } else {
         SEND_TO_LOG( QString("%1 - Read error: %2")
@@ -354,11 +311,19 @@ void ModbusMasterHandler::readReady()
 {
     auto reply = qobject_cast<QModbusReply *>(sender());
 
-    replyHandler(reply);
+    readReplyHandler(reply);
 }
 //------------------------------------------------------------------------------------
 //!
-void ModbusMasterHandler::replyHandler(QModbusReply *reply)
+void ModbusMasterHandler::writeReady()
+{
+    auto reply = qobject_cast<QModbusReply *>(sender());
+
+    writeReplyHandler(reply);
+}
+//------------------------------------------------------------------------------------
+//!
+void ModbusMasterHandler::readReplyHandler(QModbusReply *reply)
 {
     if (!reply)
     {
@@ -410,11 +375,35 @@ void ModbusMasterHandler::replyHandler(QModbusReply *reply)
 
     deleteModbusDevice();
 
+    reply->deleteLater();
     //-----------------------------------
     SEND_TO_LOG( QString("%1 - --- end exequte request -----").arg(objectName()) );
     SEND_TO_LOG( QString("%1 - -----------------------------").arg(objectName()) );
 
     emit exequted();
+}
+//------------------------------------------------------------------------------------
+//!
+void ModbusMasterHandler::writeReplyHandler(QModbusReply *reply)
+{
+    if (reply->error() == QModbusDevice::ProtocolError)
+    {
+        SEND_TO_LOG( QString("%1 - Write response error: %2 (Mobus exception: 0x%3)")
+                     .arg(objectName())
+                     .arg(reply->errorString())
+                     .arg(reply->rawResult().exceptionCode(), -1, 16)
+                   );
+
+    } else if (reply->error() != QModbusDevice::NoError)
+    {
+        SEND_TO_LOG( QString("%1 - Write response error: %2 (code: 0x%3)")
+                     .arg(objectName())
+                     .arg(reply->errorString())
+                     .arg(reply->error(), -1, 16)
+                   );
+    }
+
+    reply->deleteLater();
 }
 //------------------------------------------------------------------------------------
 //!

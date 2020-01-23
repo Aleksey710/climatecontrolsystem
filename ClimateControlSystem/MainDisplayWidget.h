@@ -76,7 +76,7 @@ class MainDisplayWidget : public QWidget
         void setupMenu();
 
     private:
-        std::shared_ptr<ClimateControlSystem> m_climateControlSystem;
+        ClimateControlSystem    m_climateControlSystem;
 
         QVBoxLayout             *m_mainLayout;
         QVBoxLayout             *m_frameLayout;

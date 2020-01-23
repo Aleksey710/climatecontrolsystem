@@ -13,6 +13,8 @@
 
 //#include ""
 //#include ""
+#include <wiringPi.h>
+//
 #include "Log.h"
 #include "Versions.h"
 #include "MainDisplayWidget.h"
@@ -73,6 +75,25 @@ int main(int argc, char *argv[])
         return 1;
     }
 
+    //--------------------------------------------
+    // LED Pin - wiringPi pin 0 is BCM_GPIO 17.
+
+#ifdef __arm__
+    #define	LED	0
+
+    SEND_TO_LOG("Raspberry Pi blink");
+
+    wiringPiSetup () ;
+    pinMode (0, OUTPUT) ;
+
+    for (int i = 0; i < 10; ++i)
+    {
+        digitalWrite (LED, HIGH) ;	// On
+        delay (500) ;		// mS
+        digitalWrite (LED, LOW) ;	// Off
+        delay (500) ;
+    }
+#endif // __arm__
     //--------------------------------------------
     std::shared_ptr<MainDisplayWidget> mainDisplayWidget = std::make_shared<MainDisplayWidget>();
 

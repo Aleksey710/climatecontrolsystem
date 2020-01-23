@@ -9,6 +9,9 @@
 
 
 
+#include <wiringPi.h>
+#include <ds1302.h>
+//
 #include "Log.h"
 #include "DbUnit.h"
 #include "ScriptUnit.h"
@@ -29,6 +32,27 @@ class ClimateControlSystem : public QObject
         inline std::shared_ptr<ModbusMasterUnit>    modbusMasterUnit()  { return m_modbusMasterUnit; }
 
     signals:
+
+    private:
+        void setupRpi();
+
+        //! bcdToD: dToBCD:
+        //!	BCD decode/encode
+        static int bcdToD (unsigned int byte, unsigned int mask);
+        static unsigned int dToBcd (unsigned int byte);
+
+        //! ramTest:
+        //!	Simple test of the 31 bytes of RAM inside the DS1302 chip
+        static int ramTest (void);
+
+        //! setLinuxClock:
+        //! Set the Linux clock from the hardware
+        static int setLinuxClock (void);
+
+        //! setDSclock:
+        //! Set the DS1302 block from Linux time
+        static int setDSclock (void);
+
 
     private:
         std::shared_ptr<DbUnit>                 m_dbUnit;

@@ -35,8 +35,6 @@ CONFIG += console
 
 #############################################################
 INCLUDEPATH += $$ROOT_PATH/ExternalLibraries/Easyloggingpp
-INCLUDEPATH += $$ROOT_PATH/ExternalLibraries/libmodbus/modbus/$$LIBMODBUS
-INCLUDEPATH += $$ROOT_PATH/ExternalLibraries/libmodbus/modbus/$$LIBMODBUS/src
 
 INCLUDEPATH += $$ROOT_PATH/InternalLibraries/Utils
 
@@ -45,6 +43,11 @@ INCLUDEPATH += $$ROOT_PATH/InternalLibraries/DbUnit/ArchiveForms
 
 INCLUDEPATH += $$ROOT_PATH/InternalLibraries/ModbusMasterUnit
 INCLUDEPATH += $$ROOT_PATH/InternalLibraries/ScriptUnit
+
+INCLUDEPATH += $$ROOT_PATH/ExternalLibraries/WiringPi
+INCLUDEPATH += $$ROOT_PATH/ExternalLibraries/WiringPi/devLib
+INCLUDEPATH += $$ROOT_PATH/ExternalLibraries/WiringPi/wiringPi
+
 
 INCLUDEPATH += ./
 INCLUDEPATH += ./Frames
@@ -128,6 +131,7 @@ LIBS += \
     -lModbusMasterUnit \
     -lScriptUnit \
     -lDbUnit \
+    -lWiringPi \
     -leasylogging++ \
 
 

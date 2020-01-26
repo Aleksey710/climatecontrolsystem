@@ -72,7 +72,16 @@ void ClimateControlSystem::setupRpi()
     SEND_TO_LOG("*****************************************************************************************");
     SEND_TO_LOG( QString("ClimateControlSystem - setup Raspberry Pi") );
 
-    ds1302setup   (0, 1, 2) ;
+    const int clockPin  = 5;
+    const int dataPin   = 3;
+    const int csPin     = 1;
+
+    ds1302setup   (clockPin, dataPin, csPin);
+
+    //--------------------------------------
+    // Set the DS1302 block from Linux time
+    setDSclock ();
+    //--------------------------------------
 
     ramTest ();
 

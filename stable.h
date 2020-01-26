@@ -13,7 +13,7 @@
 #include <vector>
 
 
-#include <QCoreApplication>
+//#include <QCoreApplication>
 //#include <QApplication>
 #include <QObject>
 #include <QTimer>

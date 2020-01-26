@@ -71,15 +71,15 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     setupWidgetContainers();
 
-#if QT_CONFIG(modbus_serialport)
+//#if QT_CONFIG(modbus_serialport)
     ui->connectType->setCurrentIndex(0);
     onCurrentConnectTypeChanged(0);
-#else
-    // lock out the serial port option
-    ui->connectType->setCurrentIndex(1);
-    onCurrentConnectTypeChanged(1);
-    ui->connectType->setEnabled(false);
-#endif
+//#else
+//    // lock out the serial port option
+//    ui->connectType->setCurrentIndex(1);
+//    onCurrentConnectTypeChanged(1);
+//    ui->connectType->setEnabled(false);
+//#endif
 
     m_settingsDialog = new SettingsDialog(this);
     initActions();
@@ -124,9 +124,9 @@ void MainWindow::onCurrentConnectTypeChanged(int index)
 
     auto type = static_cast<ModbusConnection>(index);
     if (type == Serial) {
-#if QT_CONFIG(modbus_serialport)
+//#if QT_CONFIG(modbus_serialport)
         modbusDevice = new QModbusRtuSerialSlave(this);
-#endif
+//#endif
     } else if (type == Tcp) {
         modbusDevice = new QModbusTcpServer(this);
         if (ui->portEdit->text().isEmpty())
@@ -196,7 +196,7 @@ void MainWindow::onConnectButtonClicked()
         if (static_cast<ModbusConnection>(ui->connectType->currentIndex()) == Serial) {
             modbusDevice->setConnectionParameter(QModbusDevice::SerialPortNameParameter,
                 ui->portEdit->text());
-#if QT_CONFIG(modbus_serialport)
+//#if QT_CONFIG(modbus_serialport)
             modbusDevice->setConnectionParameter(QModbusDevice::SerialParityParameter,
                 m_settingsDialog->settings().parity);
             modbusDevice->setConnectionParameter(QModbusDevice::SerialBaudRateParameter,
@@ -205,7 +205,7 @@ void MainWindow::onConnectButtonClicked()
                 m_settingsDialog->settings().dataBits);
             modbusDevice->setConnectionParameter(QModbusDevice::SerialStopBitsParameter,
                 m_settingsDialog->settings().stopBits);
-#endif
+//#endif
         } else {
             const QUrl url = QUrl::fromUserInput(ui->portEdit->text());
             modbusDevice->setConnectionParameter(QModbusDevice::NetworkPortParameter, url.port());

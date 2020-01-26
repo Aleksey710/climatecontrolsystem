@@ -51,11 +51,11 @@
 #ifndef SETTINGSDIALOG_H
 #define SETTINGSDIALOG_H
 
-#include <QtSerialBus/qtserialbusglobal.h>
+//#include <QtSerialBus/qtserialbusglobal.h>
 #include <QDialog>
-#if QT_CONFIG(modbus_serialport)
+//#if QT_CONFIG(modbus_serialport)
 #include <QSerialPort>
-#endif
+//#endif
 
 QT_BEGIN_NAMESPACE
 
@@ -71,12 +71,12 @@ class SettingsDialog : public QDialog
 
 public:
     struct Settings {
-#if QT_CONFIG(modbus_serialport)
+//#if QT_CONFIG(modbus_serialport)
         int parity = QSerialPort::NoParity;
         int baud = QSerialPort::Baud9600;
         int dataBits = QSerialPort::Data8;
         int stopBits = QSerialPort::OneStop;
-#endif
+//#endif
     };
 
     explicit SettingsDialog(QWidget *parent = nullptr);

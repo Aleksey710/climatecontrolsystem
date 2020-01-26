@@ -28,7 +28,7 @@ ClimateControlSystem::ClimateControlSystem(QObject *parent)
     //-------------------------------------------------------------------
 
 #ifdef __arm__
-    setupRpi()
+    setupRpi();
 #endif // __arm__
 
 

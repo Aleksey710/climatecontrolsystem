@@ -3,8 +3,21 @@ TEMPLATE = subdirs
 SUBDIRS += ExternalLibraries
 SUBDIRS += InternalLibraries
 SUBDIRS += ClimateControlSystem
-SUBDIRS += Imitator
 
+#SUBDIRS += Imitator
+
+#contains(TARGET_ARCH, __arm__): SUBDIRS += Imitator
+#host_build {
+#    QT_ARCH = x86_64
+#    QT_TARGET_ARCH = arm
+#} else {
+#    QT_ARCH = arm
+#}
+
+!contains(QMAKE_HOST.arch, __arm__):{
+    message("Not ARM platform")
+    SUBDIRS += Imitator
+}
 
 InternalLibraries.depends = \
     ExternalLibraries \

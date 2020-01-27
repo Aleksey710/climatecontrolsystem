@@ -59,14 +59,44 @@
             { "name":"display.out.VVO2",                "title":"",		"value": 0 },
             { "name":"display.out.pump_heater",         "title":"",		"value": 0 },
             { "name":"display.out.NVO",                 "title":"",		"value": 0 },
-            { "name":"display.out.alarm",               "title":"",		"value": 0 }
+            { "name":"display.out.alarm",               "title":"",		"value": 0 },
+
+            { "name":"settings.temp.useBVV",            "title":"!!!",		"value": 0 },
+            { "name":"modbus.Tsal.device",              "title":"!!!",		"value": 0 },
+            { "name":"modbus.rs0dTsal.r30000",          "title":"!!!",		"value": 0 }
+
         ],
 	"functions":[
 		{
-			"name":"setT_sal",
+                        "name":"setT_sal_old",
 			"sources":["modbus.BVV.device","modbus.BVV.r30001"],
 			"processing":"if(modbus.BVV.device.data()==1){ display.temp.t_sal.setData(modbus.BVV.r30001.data()/settings.offset.oc.data()); }else{ display.temp.t_sal.setData(0); }"
 		},
+                {
+                        "name":"setT_sal",
+                        "sources":["modbus.BVV.device","modbus.BVV.r30001", "modbus.Tsal.device", "modbus.rs0dTsal.r30000"],
+                        "processing":"
+if (settings.temp.useBVV.data()==1)
+{
+    if ( modbus.BVV.device.data()==1 )
+    {
+        display.temp.t_sal.setData(settings.offset.cmc.data() *
+            (modbus.rs0dBVV.r30001.data()/settings.offset.oc.data())
+            + settings.offset.tc.data());
+    } else {
+       display.temp.t_sal.setData( 0 );
+    }
+} else {
+    if ( modbus.Tsal.device.data()==1 )
+    {
+        display.temp.t_sal.setData(settings.offset.cmc *
+            (modbus.rs0dTsal.r30000.data()/settings.offset.oc.data())
+                + settings.offset.tc.data());
+    } else {
+       display.temp.t_sal.setData( 0 );
+    }
+}"
+                },
 		{
 			"name":"setT_pr",
 			"sources":["modbus.BVV.device","modbus.BVV.r30002"],

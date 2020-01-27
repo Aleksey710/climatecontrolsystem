@@ -3,8 +3,8 @@
     {
         "isUsed": true,
         "type": "serial",
-        "portName": "/dev/ttyAMA0",
-        "portName2": "/dev/ttyUSB0",
+        "portName2": "/dev/ttyAMA0",
+        "portName": "/dev/ttyUSB0",
         "parity": 0,
         "baudRate": 9600,
         "dataBits": 8,

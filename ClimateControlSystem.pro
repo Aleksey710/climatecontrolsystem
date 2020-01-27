@@ -34,4 +34,6 @@ ClimateControlSystem.depends = \
 # libqt5serialbus5 \
 # libqt5sql5-sqlite \
 
+# Настройка времени
+#https://cdn-learn.adafruit.com/downloads/pdf/adding-a-real-time-clock-to-raspberry-pi.pdf
 

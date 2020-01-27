@@ -66,4 +66,6 @@ max_framebuffers=2
 [all]
 #dtoverlay=vc4-fkms-v3d
 
-enable_uart=1
+dtoverlay=i2c-rtc,ds3231
+
+dtoverlay=disable-bt

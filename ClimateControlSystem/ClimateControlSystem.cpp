@@ -82,11 +82,13 @@ void ClimateControlSystem::setupRpi()
     // Set the DS1302 block from Linux time
     setDSclock ();
     //--------------------------------------
-
-    ramTest ();
-
+    // Simple test of the 31 bytes of RAM inside the DS1302 chip
+    //ramTest ();
+    //--------------------------------------
+    // Set the Linux clock from the hardware
     setLinuxClock ();
 
+    //--------------------------------------
     for (int i = 0 ; i < 5; ++i)
     {
         int clock [8] ;
@@ -166,7 +168,7 @@ int ClimateControlSystem::ramTest (void)
         SEND_TO_LOG(QString("DS1302 RAM Failure: Address: %1, Expected: 0x%2, Got: 0x%3")
                     .arg(addr).arg(addr,0,16).arg(got,0,16));
 //        printf ("DS1302 RAM Failure: Address: %2d, Expected: 0x%02X, Got: 0x%02X\n",
-//        addr, addr, got) ;
+//        addr, addr, got) Set the Linux clock from the hardware;
         ++errors ;
     }
 

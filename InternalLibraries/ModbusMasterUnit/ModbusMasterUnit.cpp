@@ -15,20 +15,28 @@ ModbusMasterUnit::ModbusMasterUnit(QObject *parent)
     setObjectName("ModbusMasterUnit");
 
     //-------------------------------------------
-    setup( loadFile( qApp->applicationDirPath()+"/conf/modbus.json" ) );
+    connect(this, &ModbusMasterUnit::setupEnd, [=](){
 
+        SEND_TO_LOG( QString("%1 - конфигурирование завершено").arg(objectName()) );
 #ifdef CIRCULAR_PROCESSING_REQUEST
-    m_pauseTimer->setSingleShot(true);
+        QObject::connect(m_pauseTimer, &QTimer::timeout,
+                         this, &ModbusMasterUnit::excuteNextRequest);
 
-    QObject::connect(m_pauseTimer, &QTimer::timeout,
-                     this, &ModbusMasterUnit::excuteNextRequest);
+        //! При получении сигнала о выполнении запроса
+        //! Запустить таймер паузы
+        connect(m_handler, &ModbusMasterHandler::exequted, [=](){
+            //! После окончания паузы запустить на выполнение следующий запрос
+            m_pauseTimer->start(PERIOD_BETWEEN_REQUEST_MS);
+        });
 
-    //! При получении сигнала о выполнении запроса
-    //! Запустить таймер паузы
-    connect(m_handler, &ModbusMasterHandler::exequted, this,&ModbusMasterUnit::startPauseTimer );
+        m_pauseTimer->setSingleShot(true);
 
-    excuteNextRequest();
+        excuteNextRequest();
 #endif // CIRCULAR_PROCESSING_REQUES
+    });
+
+    //-------------------------------------------
+    setup( loadFile( qApp->applicationDirPath()+"/conf/modbus.json" ) );
 
     //-------------------------------------------
     SEND_TO_LOG( QString("%1 - создан").arg(objectName()) );
@@ -44,6 +52,34 @@ ModbusMasterUnit::~ModbusMasterUnit()
 
     SEND_TO_LOG( QString("%1 - удален").arg(objectName()) );
 }
+#ifdef CIRCULAR_PROCESSING_REQUEST
+//------------------------------------------------------------------------------------
+//!
+void ModbusMasterUnit::excuteNextRequest()
+{
+    //! Если в конфигурации существуют корректно описанные запросы
+    if(m_requestList.size() > 0)
+    {
+        if(m_curentRequestId >= m_requestList.size())
+        {
+            m_curentRequestId = 0;
+        }
+
+        //--------------------------------------------------
+        qDebug()<< "ModbusMasterUnit::excuteNextRequest()" << m_curentRequestId;
+        ModbusRequest *request = m_requestList.at(m_curentRequestId);
+
+        SEND_TO_LOG( QString("%1 - Выполнение запроса [%2]-[%3]")
+                     .arg(objectName()).arg(m_curentRequestId).arg(request->objectName()) );
+
+        //--------------------------------------------------
+        m_curentRequestId++;
+
+        //--------------------------------------------------
+        m_handler->exequteRequest(request);
+    }
+}
+#endif // CIRCULAR_PROCESSING_REQUES
 //------------------------------------------------------------------------------------
 //!
 QJsonObject ModbusMasterUnit::loadFile(const QString &fileName)
@@ -96,42 +132,6 @@ void ModbusMasterUnit::setup(const QJsonObject &confJsonObject)
         }
     }
 }
-#ifdef CIRCULAR_PROCESSING_REQUEST
-//------------------------------------------------------------------------------------
-//!
-void ModbusMasterUnit::startPauseTimer()
-{
-    //! После окончания паузы запустить на выполнение следующий запрос
-    m_pauseTimer->start(PERIOD_BETWEEN_REQUEST_MS);
-}
-//------------------------------------------------------------------------------------
-//!
-void ModbusMasterUnit::excuteNextRequest()
-{
-    //QMutexLocker locker(&m_mutex);
-
-    //! Если в конфигурации существуют корректно описанные запросы
-    if(m_requestList.size() > 0)
-    {        
-        if(m_curentRequestId >= m_requestList.size())
-        {
-            m_curentRequestId = 0;
-        }
-
-        //--------------------------------------------------
-        ModbusRequest *request = m_requestList.at(m_curentRequestId);
-
-        SEND_TO_LOG( QString("%1 - Выполнение запроса [%2]-[%3]")
-                     .arg(objectName()).arg(m_curentRequestId).arg(request->objectName()) );
-
-        //--------------------------------------------------
-        m_curentRequestId++;
-
-        //--------------------------------------------------
-        m_handler->exequteRequest(request);
-    }
-}
-#endif // CIRCULAR_PROCESSING_REQUES
 //------------------------------------------------------------------------------------
 //!
 void ModbusMasterUnit::connectionParsing(const QJsonObject &connectionJsonObject)
@@ -191,6 +191,8 @@ void ModbusMasterUnit::connectionParsing(const QJsonObject &connectionJsonObject
             deviceParsing(modbusConnectionSettings, deviceJsonObject);
         }
     }
+
+    emit setupEnd();
 }
 //------------------------------------------------------------------------------------
 //!

@@ -34,7 +34,7 @@ class ClimateDeviceAutoArchiveFrame : public AbstractArchiveFrame
         {
             return QString(
                 "SELECT "
-                "strftime('%Y-%m-%d %H:%M:%f',`datetime`/1000,'unixepoch', 'localtime') AS dt, "
+                "strftime('%Y-%m-%d %H:%M:%S',`datetime`/1000,'unixepoch', 'localtime') AS dt, "
                 "`msg` "
                 "FROM `%1` "
                 ";").arg("climate_device_auto_events");

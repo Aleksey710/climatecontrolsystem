@@ -34,7 +34,7 @@ class ElectricalEquipmentOperatingTimeArchiveFrame : public AbstractArchiveFrame
         {
             return QString(
                 "SELECT "
-                "strftime('%Y-%m-%d %H:%M:%f',`datetime`/1000,'unixepoch', 'localtime') AS dt, "
+                "strftime('%Y-%m-%d %H:%M:%S',`datetime`/1000,'unixepoch', 'localtime') AS dt, "
                 "`event_types`.`title` "
                 "FROM `events`,`event_groups`,`event_types` "
                 "WHERE "

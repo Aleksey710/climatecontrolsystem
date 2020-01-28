@@ -16,6 +16,7 @@ ScriptUnit::ScriptUnit(QObject *parent)
 
     setupScript(loadFile( qApp->applicationDirPath()+"/conf/script.json" ));
 
+    createCurentTimeScriptObject();
 
     SEND_TO_LOG( QString("%1 - создан").arg(objectName()));
 }
@@ -123,6 +124,42 @@ ScriptObject* ScriptUnit::createScriptObject(const QString &type,
     }
 
     return nullptr;
+}
+//------------------------------------------------------------------------------------
+//!
+void ScriptUnit::createCurentTimeScriptObject()
+{
+    const QString type      = "sys";
+    const QString group     = "time";
+    const QString title     = "Системное время в секундах";
+    //------------------------
+    ScriptObject *rootScriptObject = m_rootObjects.value( "sys", nullptr );
+
+    if( !rootScriptObject )
+    {
+        rootScriptObject = new ScriptObject(type, 0, nullptr);
+        m_rootObjects.insert(type, rootScriptObject);
+
+        m_scriptEngine.addGlobalQbject(rootScriptObject);
+    }
+
+    //------------------------
+    ScriptObject *groupScriptObject = rootScriptObject->getChildren( "time" );
+
+    if( !groupScriptObject )
+    {
+        groupScriptObject = new ScriptObject(group, 0, rootScriptObject);
+    }
+    //------------------------
+    ScriptObject *scriptObject = new CurentTimeScriptObject(groupScriptObject);
+
+    Q_UNUSED(scriptObject);
+
+    SEND_TO_LOG( QString("%1 - создан [sys.time.curent]-[%2]")
+                 .arg(objectName())
+                 .arg(title)
+                 );
+
 }
 //------------------------------------------------------------------------------------
 //!

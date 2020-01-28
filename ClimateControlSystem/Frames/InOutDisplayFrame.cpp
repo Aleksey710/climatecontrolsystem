@@ -32,29 +32,29 @@ InOutDisplayFrame::InOutDisplayFrame(QWidget *parent)
     setupDisplay("display.U_I.I_gen", ui->le_I_gen);
 
     //--------------------------------------
-    setupDigDisplay("display.d30000.u3000",         ui->le_u3000);
-    setupDigDisplay("display.d30000.VVO_1",         ui->le_VVO_1);
-    setupDigDisplay("display.d30000.VVO_2",         ui->le_VVO_2);
-    setupDigDisplay("display.d30000.NVO",           ui->le_NVO);
-    setupDigDisplay("display.d30000.generator",     ui->le_generator);
-    setupDigDisplay("display.d30000.automode",      ui->le_automode);
-    setupDigDisplay("display.d30000.crash",         ui->le_crash);
-    setupDigDisplay("display.d30000.elEquipmentOn", ui->le_elEquipmentOn);
-    setupDigDisplay("display.d30000.condFailure",   ui->le_condFailure);
-    setupDigDisplay("display.d30000.cont2Failure",  ui->le_cont2Failure);
-    setupDigDisplay("display.d30000.cont1Failure",  ui->le_cont1Failure);
-    setupDigDisplay("display.d30000.condWorked",    ui->le_condWorked);
-    setupDigDisplay("display.d30000.cooling",       ui->le_cooling);
-    setupDigDisplay("display.d30000.heater",        ui->le_heater);
-    setupDigDisplay("display.d30000.umax_zrk",      ui->le_umax_zrk);
-    setupDigDisplay("display.d30000.r_insulation",  ui->le_r_insulation);
+    setupDigDisplay("display.BVV.u3000",         ui->le_u3000);
+    setupDigDisplay("display.BVV.VVO_1",         ui->le_VVO_1);
+    setupDigDisplay("display.BVV.VVO_2",         ui->le_VVO_2);
+    setupDigDisplay("display.BVV.NVO",           ui->le_NVO);
+    setupDigDisplay("display.BVV.generator",     ui->le_generator);
+    setupDigDisplay("display.BVV.automode",      ui->le_automode);
+    setupDigDisplay("display.BVV.crash",         ui->le_crash);
+    setupDigDisplay("display.BVV.elEquipmentOn", ui->le_elEquipmentOn);
+    setupDigDisplay("display.BVV.condFailure",   ui->le_condFailure);
+    setupDigDisplay("display.BVV.cont2Failure",  ui->le_cont2Failure);
+    setupDigDisplay("display.BVV.cont1Failure",  ui->le_cont1Failure);
+    setupDigDisplay("display.BVV.condWorked",    ui->le_condWorked);
+    setupDigDisplay("display.BVV.cooling",       ui->le_cooling);
+    setupDigDisplay("display.BVV.heater",        ui->le_heater);
+    setupDigDisplay("display.BVV.umax_zrk",      ui->le_umax_zrk);
+    setupDigDisplay("display.BVV.r_insulation",  ui->le_r_insulation);
 
     //--------------------------------------
-    setupDisplay("display.out.VVO1",                ui->le_out_VVO1);
-    setupDisplay("display.out.VVO2",                ui->le_out_VVO2);
-    setupDisplay("display.out.pump_heater",         ui->le_out_pump_heater);
-    setupDisplay("display.out.NVO",                 ui->le_out_NVO);
-    setupDisplay("display.out.alarm",               ui->le_out_alarm);
+    setupDisplay("display.out.vvo1On",           ui->le_out_VVO1);
+    setupDisplay("display.out.vvo1On",           ui->le_out_VVO2);
+    setupDisplay("display.out.pompOn",           ui->le_out_pump_heater);
+    setupDisplay("display.out.nvoOn",            ui->le_out_NVO);
+    setupDisplay("display.out.fault",            ui->le_out_alarm);
 
     //--------------------------------------
 

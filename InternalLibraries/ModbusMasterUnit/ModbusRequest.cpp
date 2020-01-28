@@ -206,12 +206,8 @@ void ModbusRequest::setModbusDataUnit(const QModbusDataUnit &dataUnit, int devic
         for (uint i = 0; i < dataUnit.valueCount(); i++)
         {
             const int id          = dataUnit.startAddress() + i;
-            const quint16 value   = dataUnit.value(i);
-//            const quint16 value   = QString::number(dataUnit.value(i),
-//                                                    dataUnit.registerType() <= QModbusDataUnit::Coils ? 10 : 16).toUShort();
-
-    //        const QString entry = tr("Address: %1, Value: %2").arg(id).arg(value);
-    //        SEND_TO_LOG( QString("%1 - data: %2").arg(objectName()).arg(entry) );
+            //const quint16 value   = dataUnit.value(i);
+            const qint16 value   = (qint16)dataUnit.value(i);
 
             //-----------------------------------------
             ScriptObject *scriptObject = m_scriptObjectList.value(id, nullptr);

@@ -66,7 +66,7 @@ void ModbusMasterUnit::excuteNextRequest()
         }
 
         //--------------------------------------------------
-        qDebug()<< "ModbusMasterUnit::excuteNextRequest()" << m_curentRequestId;
+        //qDebug()<< "ModbusMasterUnit::excuteNextRequest()" << m_curentRequestId;
         ModbusRequest *request = m_requestList.at(m_curentRequestId);
 
         SEND_TO_LOG( QString("%1 - Выполнение запроса [%2]-[%3]")

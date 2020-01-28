@@ -60,6 +60,7 @@ INCLUDEPATH += ./View
 #############################################################
 
 HEADERS += \
+    CurentTimeScriptObject.h \
     CustomFunctions.h \
     ScriptEngine.h \
     ScriptObject.h \

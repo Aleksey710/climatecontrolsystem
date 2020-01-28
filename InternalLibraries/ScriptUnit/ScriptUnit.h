@@ -26,6 +26,7 @@
 #include "ScriptEngine.h"
 #include "DbUnit.h"
 #include "ScriptObject.h"
+#include "CurentTimeScriptObject.h"
 //#include ""
 //#include ""
 //------------------------------------------------------------------------------------
@@ -60,6 +61,8 @@ class ScriptUnit : public QObject
         void setupFunctions(const QJsonArray &jsonObject);
 
         void setupSettingsData();
+
+        void createCurentTimeScriptObject();
 
     private:
         static ScriptEngine *m_scriptEnginePtr;

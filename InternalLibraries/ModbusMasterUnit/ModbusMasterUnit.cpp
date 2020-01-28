@@ -108,6 +108,8 @@ void ModbusMasterUnit::startPauseTimer()
 //!
 void ModbusMasterUnit::excuteNextRequest()
 {
+    //QMutexLocker locker(&m_mutex);
+
     //! Если в конфигурации существуют корректно описанные запросы
     if(m_requestList.size() > 0)
     {        

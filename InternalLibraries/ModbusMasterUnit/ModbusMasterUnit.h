@@ -25,7 +25,8 @@
 #include <QDateTime>
 #include <QQueue>
 #include <QSemaphore>
-//#include <>
+#include <QMutex>
+#include <QMutexLocker>
 
 //#include <>
 //#include <>
@@ -93,6 +94,8 @@ class ModbusMasterUnit : public QObject
         QList<ModbusRequest*> m_requestList;
 
         const static int PERIOD_BETWEEN_REQUEST_MS = 1000;
+
+        QMutex  m_mutex;
 
         int m_curentRequestId;
 #else

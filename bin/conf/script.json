@@ -1,6 +1,79 @@
 {
 	"data":[
-            { "name":"modbus.BVV.device", 	"title":"Device RS0 addr 8",				"value": -1 },
+            { "name":"modbus.BVV.device",           "title":"Состояние устройства БВВ",			"value": -1 },
+
+            { "name":"display.temp.t_nv",           "title":"Температура наружного воздуха",		"value": -1 },
+            { "name":"display.temp.t_sal",          "title":"Температура салона",			"value": -1 },
+            { "name":"display.temp.t_pr",           "title":"Температура приточного воздуха",		"value": -1 },
+            { "name":"display.temp.t_kotl",         "title":"Температура котла",			"value": -1 },
+            { "name":"display.temp.t_ust",          "title":"Температура уставки",			"value": -1 },
+
+            { "name":"display.U_I.I_bat",           "title":"Ток АКБ",                                  "value": -1 },
+            { "name":"display.U_I.I_gen",           "title":"Ток генератора",				"value": -1 },
+            { "name":"display.U_I.U_net",           "title":"Напряжение сети",				"value": -1 },
+
+            { "name":"display.BVV.u3000",           "title":"Напруга 3000В",				"value": -1 },
+            { "name":"display.BVV.VVO_1",           "title":"ВВО 1гр",                                  "value": -1 },
+            { "name":"display.BVV.VVO_2",           "title":"ВВО 2гр",                                  "value": -1 },
+            { "name":"display.BVV.NVO",             "title":"НВО",                                      "value": -1 },
+            { "name":"display.BVV.generator",       "title":"Вн. мережа 380В/генератор",		"value": -1 },
+            { "name":"display.BVV.automode",        "title":"Автоматичний режим",			"value": -1 },
+            { "name":"display.BVV.crash",           "title":"Аварiя",                                   "value": -1 },
+            { "name":"display.BVV.elEquipmentOn",   "title":"ЕО включене",				"value": -1 },
+            { "name":"display.BVV.condFailure",     "title":"Кондицiонер ВIДМОВА",			"value": -1 },
+            { "name":"display.BVV.cont2Failure",    "title":"Вiдмова контура охолодження 2",		"value": -1 },
+            { "name":"display.BVV.cont1Failure",    "title":"Вiдмова контура охолодження 1",		"value": -1 },
+            { "name":"display.BVV.condWorked",      "title":"Кондицiонер РОБОТА",			"value": -1 },
+            { "name":"display.BVV.cooling",         "title":"Охолодження",				"value": -1 },
+            { "name":"display.BVV.heater",          "title":"Калорифер",				"value": -1 },
+            { "name":"display.BVV.umax_zrk",        "title":"Umax ЗРК",                                 "value": -1 },
+
+            { "name":"display.BVV.r_insulation",    "title":"R iзоляцiї < 1 kOm",                       "value": -1 },
+            { "name":"display.BVV.version",         "title":"Версия встроенного ПО БВВ",                "value": -1 },
+            { "name":"display.BVV.year",            "title":"Год прошивки",                             "value": -1 },
+            { "name":"display.BVV.month",           "title":"Месяц прошивки",                           "value": -1 },
+            { "name":"display.BVV.day",             "title":"День прошивки",                            "value": -1 },
+
+            { "name":"display.A9.device",           "title":"Состояние устройства БУТ (А9)",            "value": -1 },
+            { "name":"display.A9.version",          "title":"Версия встроенного ПО БУТ",                "value": -1 },
+            { "name":"display.A9.year",             "title":"Год прошивки",                             "value": -1 },
+            { "name":"display.A9.month",            "title":"Месяц прошивки",                           "value": -1 },
+            { "name":"display.A9.day",              "title":"День прошивки",                            "value": -1 },
+
+            { "name":"modbus.Tsal.device",          "title":"Состояние датчика температуры салона",             "value": -1 },
+            { "name":"modbus.Tnv.device",           "title":"Состояние датчика температуры наружного воздуха",	"value": -1 },
+            { "name":"modbus.Tpr.device",           "title":"Состояние датчика температуры приточного воздуха",	"value": -1 },
+            { "name":"modbus.Tkotl.device",         "title":"Состояние датчика температуры котла",              "value": -1 },
+
+            { "n":"------------------------------------------------------------------------------------------------------" },
+
+            { "name":"sys.time.curent",             "title":"Текущее системное время",                          "value": -1 },
+
+            { "n":"------------------------------------------------------------------------------------------------------" },
+
+            { "name":"var.temp.vvokotlon",      "title":"Температура котла необхідна для ввімкненяя ВВО",       "value": -1 },
+            { "name":"var.temp.vvokotloff",     "title":"Температура котла необхідна для вимкненя ВВО",         "value": -1 },
+            { "name":"var.timout.vvodsd",       "title":"Час простою перед наступним включенням ВВО, мСек",     "value": -1 },
+            { "name":"var.timout.vvosod",       "title":"Затримка включення ВВО, мСек",                         "value": -1 },
+            { "name":"var.timout.vvord",        "title":"Затримка відповіді включення ВВО від БВВ, мСек",       "value": -1 },
+
+            { "name":"var.timout.dlhon",        "title":"Затримка включення НВО, мСек",                         "value": -1 },
+            { "name":"var.timout.dlhoff",       "title":"Затримка виключення НВО, мСек",                        "value": -1 },
+            { "name":"var.timout.dlhr",         "title":"Затримка відповіді включення НВО від БВВ, мСек",       "value": -1 },
+            { "name":"var.timout.dlh",          "title":"Затримка повторного включення НВО, мСек",              "value": -1 },
+
+            { "n":"------------------------------------------------------------------------------------------------------" },
+
+            { "name":"out.BVV.vvo1On",          "title":"Включение ВВО 1 гр.",                  "value": -1 },
+            { "name":"out.BVV.vvo2On",          "title":"Включение ВВО 2 гр.",                  "value": -1 },
+            { "name":"out.BVV.pompOn",          "title":"Включення насоса",                     "value": -1 },
+            { "name":"out.BVV.nvoOn",           "title":"Включение НВО",                        "value": -1 },
+            { "name":"out.BVV.fault",           "title":"Авария (по Imax, Umax, Umin)",         "value": -1 },
+            { "name":"out.BVV.bpOn",            "title":"Включение БП",                         "value": -1 },
+            { "name":"out.BVV.pvvOn",           "title":"Повернення (с БВВ привключении)",      "value": -1 },
+
+            { "n":"------------------------------------------------------------------------------------------------------" },
+            { "n":"------------------------------------------------------------------------------------------------------" },
 
             { "name":"modbus.BVV.r30000", 	"title":"Регистр дискретных входов 1 [30000]",		"value": 0 },
             { "name":"modbus.BVV.r30001", 	"title":"Температура воздуха в вагоне [30001]",		"value": 0 },

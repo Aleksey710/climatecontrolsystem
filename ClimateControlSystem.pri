@@ -39,7 +39,7 @@ CONFIG += console
 CONFIG += precompile_header
 
 # Use Precompiled headers (PCH)
-PRECOMPILED_HEADER  = $$ROOT_PATH/stable.h
+#PRECOMPILED_HEADER  = $$ROOT_PATH/stable.h
 
 precompile_header:!isEmpty(PRECOMPILED_HEADER) {
     DEFINES += USING_PCH

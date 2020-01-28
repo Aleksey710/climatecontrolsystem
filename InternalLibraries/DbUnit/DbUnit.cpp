@@ -424,6 +424,11 @@ void DbUnit::createTempGroup(QStringList &queryStringList)
         "INSERT INTO `data` (`group_id`,`name`,`title`,`value`) "
         "VALUES ((SELECT `id` FROM `groups` WHERE `name`='temp'), "
         "'sut', 'Температура уставки, °C', 24);");
+
+    queryStringList.append(
+        "INSERT INTO `data` (`group_id`,`name`,`title`,`value`) "
+        "VALUES ((SELECT `id` FROM `groups` WHERE `name`='temp'), "
+        "'useBVV', 'Використання датчикiв температри БВВ true(1) або false(0) - використання окремих датчикiв.', 1);");
 }
 //------------------------------------------------------------------------------------
 //!

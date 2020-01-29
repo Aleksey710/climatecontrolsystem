@@ -15,10 +15,10 @@
 class ArchiveMsg
 {
     public:
-        ArchiveMsg(const ArchiveJournalType &journalType,
-                   const QString &msg)
-            :m_journalType(journalType),
-             m_msg ( msg )
+        ArchiveMsg(const ArchiveJournalType &__journalType,
+                   const QString &__msg)
+            :journalType(__journalType),
+             msg ( __msg )
         {
 
         }
@@ -29,8 +29,8 @@ class ArchiveMsg
         }
 
     public:
-        ArchiveJournalType  m_journalType;
-        QString             m_msg;
+        ArchiveJournalType  journalType;
+        QString             msg;
 
 
 

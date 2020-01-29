@@ -18,12 +18,18 @@ class ArchiveWriter : public QObject
         explicit ArchiveWriter(QObject *parent = nullptr);
         virtual ~ArchiveWriter();
 
-        ArchiveMsg createArchiveMsg(const ArchiveMsgType &msgType,
-                                    const double &value = 0.0);
 
     signals:
+        void messageRecordingRequest(const QString &queryStr);
+
+    public slots:
+        void writeMsg(const int &msgId,
+                      const double &value = 0.0);
 
 
+    private:
+        ArchiveMsg createArchiveMsg(const int &msgId,
+                                    const double &value = 0.0);
 };
 //------------------------------------------------------------------------------------
 #endif // ARCHIVEWRITER_H

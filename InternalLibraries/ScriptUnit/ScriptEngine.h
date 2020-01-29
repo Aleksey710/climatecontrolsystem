@@ -42,6 +42,7 @@ class ScriptEngine : public QScriptEngine
         virtual ~ScriptEngine();
 
     signals:
+        void archiveMessage(const int &msgId, const double &value);
 
 
     public slots:

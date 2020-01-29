@@ -15,6 +15,7 @@
 
 #include "Log.h"
 #include "MenuItemData.h"
+#include "ArchiveWriter.h"
 //#include ""
 //#include ""
 //------------------------------------------------------------------------------------
@@ -38,6 +39,9 @@ class DbUnit : public QObject
 
     signals:
 
+    public slots:
+        void writeMsg(const int &msgId, const double &value = 0.0)
+            { m_archiveWriter.writeMsg(msgId, value); }
 
     private:
         void openDb();
@@ -71,6 +75,7 @@ class DbUnit : public QObject
 
 
     private:
+        ArchiveWriter m_archiveWriter;
 };
 //------------------------------------------------------------------------------------
 #endif // DBUNIT_H

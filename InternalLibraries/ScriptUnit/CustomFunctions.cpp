@@ -72,3 +72,24 @@ float regToFloatWorker(const quint16 &r0, const quint16 &r1)
     return data.vf;
 }
 //------------------------------------------------------------------------------------
+//!
+void archiveWorker(const int &msgId,
+                   const double &value)
+{
+
+}
+//------------------------------------------------------------------------------------
+//!
+QScriptValue archive(QScriptContext *context, QScriptEngine *engine)
+{
+    Q_UNUSED(engine);
+
+    int msgId = context->argument(0).toInt32();
+    double value = context->argument(1).toNumber();
+
+    //SEND_TO_LOG( QString("archive(%1, %2)").arg(msgId).arg(value) );
+
+    archiveWorker(msgId, value);
+
+    return QScriptValue();
+}

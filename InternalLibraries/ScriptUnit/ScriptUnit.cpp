@@ -12,6 +12,8 @@ ScriptUnit::ScriptUnit(QObject *parent)
 
     m_scriptEnginePtr = &m_scriptEngine;
 
+    connect(&m_scriptEngine, &ScriptEngine::archiveMessage, this, &ScriptUnit::archiveMessage);
+
     setupSettingsData();
 
     setupScript(loadFile( qApp->applicationDirPath()+"/conf/script.json" ));

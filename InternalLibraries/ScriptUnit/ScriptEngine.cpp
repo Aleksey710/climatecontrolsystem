@@ -35,6 +35,11 @@ void ScriptEngine::appendCommon()
     QScriptValue regToFloat_sv = newFunction( regToFloat );
     globalObject().setProperty("regToFloat", regToFloat_sv);
 
+    QScriptValue archive_sv = newFunction( archive );
+//    QScriptValue archive_sv = newFunction( [=](const int &msgId,
+//                                               const double &value){ emit archiveMessage(msgId, value); } );
+    globalObject().setProperty("archive", archive_sv);
+
     //------------------------------------------------------------------------------------
     SEND_TO_LOG( QString("%1 - стандартные функции добавлены").arg(objectName()) );
 }

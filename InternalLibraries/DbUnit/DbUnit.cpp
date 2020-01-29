@@ -20,6 +20,8 @@ DbUnit::DbUnit(QObject *parent)
     {
         openDb();
     }
+
+    connect(&m_archiveWriter, &ArchiveWriter::messageRecordingRequest, this, &DbUnit::exequteQuery);
 }
 //------------------------------------------------------------------------------------
 //!

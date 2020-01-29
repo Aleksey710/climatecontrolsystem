@@ -26,5 +26,8 @@ float regToFloatWorker(const quint16 &r0, const quint16 &r1);
 QScriptValue regToFloat(QScriptContext *context, QScriptEngine *engine);
 
 
+void archiveWorker(const int &msgId, const double &value);
+QScriptValue archive(QScriptContext *context, QScriptEngine *engine);
+
 //------------------------------------------------------------------------------------
 #endif // CUSTOMFUNCTIONS_H

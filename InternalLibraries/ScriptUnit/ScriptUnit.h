@@ -44,6 +44,7 @@ class ScriptUnit : public QObject
         static ScriptObject* getScriptObject(const QString &name);
 
     signals:
+        void archiveMessage(const int &msgId, const double &value);
 
     public slots:
 

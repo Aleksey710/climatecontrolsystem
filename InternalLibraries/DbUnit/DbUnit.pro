@@ -45,15 +45,17 @@ INCLUDEPATH += ./ArchiveForms
 #############################################################
 
 HEADERS += \
+    ArchiveJournalType.h \
+    ArchiveMsg.h \
+    ArchiveMsgType.h \
     DbUnit.h \
-    MenuItemData.h
-
+    MenuItemData.h \
+    ArchiveWriter.h
 
 
 SOURCES += \
     DbUnit.cpp \
-
-
+    ArchiveWriter.cpp
 
 
 FORMS +=

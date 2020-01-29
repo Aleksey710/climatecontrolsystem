@@ -37,3 +37,5 @@ ClimateControlSystem.depends = \
 # Настройка времени
 #https://cdn-learn.adafruit.com/downloads/pdf/adding-a-real-time-clock-to-raspberry-pi.pdf
 
+
+

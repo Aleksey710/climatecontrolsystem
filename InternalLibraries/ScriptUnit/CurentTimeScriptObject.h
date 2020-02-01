@@ -14,21 +14,24 @@
 //!
 class CurentTimeScriptObject : public ScriptObject
 {
-    Q_OBJECT
-public:
-    CurentTimeScriptObject(ScriptObject *parent)
-        :ScriptObject("curent",
-                      static_cast<qint64>(QDateTime::currentSecsSinceEpoch()),
-                      parent)
-    {
-            QTimer *timer = new QTimer(this);
-            connect(timer, &QTimer::timeout, this, [=](){
-                setData(static_cast<qint64>(QDateTime::currentSecsSinceEpoch()));
+        Q_OBJECT
+    public:
+        CurentTimeScriptObject(ScriptObject *parent)
+            :ScriptObject("curent",
+                          static_cast<qint64>(QDateTime::currentSecsSinceEpoch()),
+                          parent)
+        {
+                QTimer *timer = new QTimer(this);
+                connect(timer, &QTimer::timeout, this, [=](){
+                    setData(static_cast<qint64>(QDateTime::currentSecsSinceEpoch()));
 
-                //qDebug() << fullName() << data();
-            });
-            timer->start(1000);
-    }
+//                    SEND_TO_LOG( QString("CurentTimeScriptObject[%1] - setData(%2)")
+//                                 .arg(m_fullName)
+//                                 .arg(static_cast<qint64>(QDateTime::currentSecsSinceEpoch())))
+                });
+
+                timer->start(1000);
+        }
 };
 //------------------------------------------------------------------------------------
 #endif // CURENTTIMESCRIPTOBJECT_H

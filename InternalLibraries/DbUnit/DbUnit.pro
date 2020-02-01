@@ -47,7 +47,6 @@ INCLUDEPATH += ./ArchiveForms
 HEADERS += \
     ArchiveJournalType.h \
     ArchiveMsg.h \
-    ArchiveMsgType.h \
     DbUnit.h \
     MenuItemData.h \
     ArchiveWriter.h

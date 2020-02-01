@@ -7,7 +7,7 @@
 #include <QString>
 #include <QObject>
 
-
+#include <functional>
 
 #include <wiringPi.h>
 #include <ds1302.h>
@@ -16,6 +16,9 @@
 #include "DbUnit.h"
 #include "ScriptUnit.h"
 #include "ModbusMasterUnit.h"
+#include "CustomFunctions.h"
+//#include ".h"
+//#include ".h"
 //#include ".h"
 //#include ".h"
 //------------------------------------------------------------------------------------

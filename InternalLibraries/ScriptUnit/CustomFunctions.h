@@ -5,6 +5,7 @@
 #include <QScriptContext>
 #include <QScriptValue>
 #include <stdlib.h>
+#include <functional>
 
 #include <bitset>
 
@@ -25,6 +26,9 @@ float regToFloatWorker(const quint16 &r0, const quint16 &r1);
 //! RegToFloat(reg0, reg1);
 QScriptValue regToFloat(QScriptContext *context, QScriptEngine *engine);
 
+
+static std::function<void(const int &msgId,
+                          const double &value)> ArchiveFunction;
 
 void archiveWorker(const int &msgId, const double &value);
 QScriptValue archive(QScriptContext *context, QScriptEngine *engine);

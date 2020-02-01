@@ -7,7 +7,6 @@
 //#include ""
 //#include ""
 #include "ArchiveJournalType.h"
-#include "ArchiveMsgType.h"
 //------------------------------------------------------------------------------------
 // #include "ArchiveMsg.h"
 //------------------------------------------------------------------------------------
@@ -19,21 +18,14 @@ class ArchiveMsg
                    const QString &__msg)
             :journalType(__journalType),
              msg ( __msg )
-        {
-
-        }
+            { }
 
         ~ArchiveMsg()
-        {
-
-        }
+            { }
 
     public:
         ArchiveJournalType  journalType;
         QString             msg;
-
-
-
 };
 //------------------------------------------------------------------------------------
 #endif // ARCHIVEMSG_H

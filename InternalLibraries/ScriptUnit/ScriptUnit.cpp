@@ -257,34 +257,40 @@ void ScriptUnit::setupData(const QJsonArray &jsonArray)
     {
         const QJsonObject dataJsonObject = jsonValue.toObject();
 
-        QString name = dataJsonObject.value("name").toString();
+        QJsonValue commentValue = dataJsonObject.value("lineComment");
 
-        QStringList partName = name.split(".");
-
-        if(partName.size()==3)
+        //! Если не комментарий
+        if(commentValue.isUndefined())
         {
-            QString type    = partName[0];
-            QString group   = partName[1];
-            QString data    = partName[2];
+            QString name = dataJsonObject.value("name").toString();
 
-            if(type.isEmpty()  ||
-               group.isEmpty() ||
-               data.isEmpty()
-               )
+            QStringList partName = name.split(".");
+
+            if(partName.size()==3)
             {
-                SEND_TO_LOG( QString("%1 - ERROR (Не верный формат имени [%2].[%3].[%4])")
-                             .arg(objectName()).arg( type ).arg( group ).arg( data ) );
+                QString type    = partName[0];
+                QString group   = partName[1];
+                QString data    = partName[2];
+
+                if(type.isEmpty()  ||
+                   group.isEmpty() ||
+                   data.isEmpty()
+                   )
+                {
+                    SEND_TO_LOG( QString("%1 - ERROR (Не верный формат имени [%2].[%3].[%4])")
+                                 .arg(objectName()).arg( type ).arg( group ).arg( data ) );
+                } else
+                {
+                    QString title = dataJsonObject.value("title").toString();
+                    double value = 0;
+
+                    createScriptObject(type, group, data, title, value);
+                }
             } else
             {
-                QString title = dataJsonObject.value("title").toString();
-                double value = 0;
-
-                createScriptObject(type, group, data, title, value);
+                SEND_TO_LOG( QString("%1 - ERROR (Не верный формат имени [%2])")
+                             .arg(objectName()).arg(name) );
             }
-        } else
-        {
-            SEND_TO_LOG( QString("%1 - ERROR (Не верный формат имени [%2])")
-                         .arg(objectName()).arg(name) );
         }
     }
 }

@@ -1,17 +1,5 @@
 {
 	"data":[
-            { "name":"modbus.BVV.device",           "title":"Состояние устройства БВВ",			"value": -1 },
-
-            { "name":"display.temp.t_nv",           "title":"Температура наружного воздуха",		"value": -1 },
-            { "name":"display.temp.t_sal",          "title":"Температура салона",			"value": -1 },
-            { "name":"display.temp.t_pr",           "title":"Температура приточного воздуха",		"value": -1 },
-            { "name":"display.temp.t_kotl",         "title":"Температура котла",			"value": -1 },
-            { "name":"display.temp.t_ust",          "title":"Температура уставки",			"value": -1 },
-
-            { "name":"display.U_I.I_bat",           "title":"Ток АКБ",                                  "value": -1 },
-            { "name":"display.U_I.I_gen",           "title":"Ток генератора",				"value": -1 },
-            { "name":"display.U_I.U_net",           "title":"Напряжение сети",				"value": -1 },
-
             { "name":"display.BVV.u3000",           "title":"Напруга 3000В",				"value": -1 },
             { "name":"display.BVV.VVO_1",           "title":"ВВО 1гр",                                  "value": -1 },
             { "name":"display.BVV.VVO_2",           "title":"ВВО 2гр",                                  "value": -1 },
@@ -45,18 +33,37 @@
             { "name":"modbus.Tpr.device",           "title":"Состояние датчика температуры приточного воздуха",	"value": -1 },
             { "name":"modbus.Tkotl.device",         "title":"Состояние датчика температуры котла",              "value": -1 },
 
-            { "n":"------------------------------------------------------------------------------------------------------" },
+            { "name":"modbus.Tsal.r30000",          "title":"",              "value": -1 },
+            { "name":"modbus.Tpr.r30000",           "title":"",              "value": -1 },
+            { "name":"modbus.Tnv.r30000",           "title":"",              "value": -1 },
+            { "name":"modbus.Tkotl.r30000",         "title":"",              "value": -1 },
+
+            { "name":"modbus.BVV.device",         "title":"",              "value": -1 },
+            { "name":"modbus.BVV.r40028",         "title":"",              "value": -1 },
+            { "name":"modbus.BVV.r40029",         "title":"",              "value": -1 },
+            { "name":"modbus.BVV.r40030",         "title":"",              "value": -1 },
+            { "name":"modbus.BVV.r40031",         "title":"",              "value": -1 },
+
+            { "name":"modbus.A9.device",         "title":"",              "value": -1 },
+            { "name":"modbus.A9.r40001",         "title":"",              "value": -1 },
+            { "name":"modbus.A9.r40028",         "title":"",              "value": -1 },
+            { "name":"modbus.A9.r40029",         "title":"",              "value": -1 },
+            { "name":"modbus.A9.r40030",         "title":"",              "value": -1 },
+            { "name":"modbus.A9.r40031",         "title":"",              "value": -1 },
+
+
+            { "lineComment":"------------------------------------------------------------------------------------------------------" },
 
             { "name":"sys.time.curent",             "title":"Текущее системное время",                          "value": -1 },
 
-            { "n":"------------------------------------------------------------------------------------------------------" },
-            { "n":"Защита от перегрева котла. Запрещает работу насоса и ВВО" },
+            { "lineComment":"------------------------------------------------------------------------------------------------------" },
+            { "lineComment":"Защита от перегрева котла. Запрещает работу насоса и ВВО" },
 
             { "name":"var.kotl.overheat",           "title":"Признак того, что котел перегрелся",               "value": -1 },
             { "name":"var.kotl.time",               "title":"Время превышения температуры, достигнув которого взведется признак перегрева котла.",   "value": -1 },
 
-            { "n":"------------------------------------------------------------------------------------------------------" },
-            { "n":"Переменные алгоритма включения НВО" },
+            { "lineComment":"------------------------------------------------------------------------------------------------------" },
+            { "lineComment":"Переменные алгоритма включения НВО" },
 
             { "name":"var.timout.dlhon",        "title":"Затримка включення НВО, мСек",                         "value": -1 },
             { "name":"var.timout.dlhoff",       "title":"Затримка виключення НВО, мСек",                        "value": -1 },
@@ -64,8 +71,8 @@
             { "name":"var.timout.dlh",          "title":"Затримка повторного включення НВО, мСек",              "value": -1 },
             { "name":"var.temp.nvoOn",          "title":"Включение НВО признак для запуска отсчета задержек",   "value": -1 },
 
-            { "n":"------------------------------------------------------------------------------------------------------" },
-            { "n":"Переменные алгоритма включения ВВО" },
+            { "lineComment":"------------------------------------------------------------------------------------------------------" },
+            { "lineComment":"Переменные алгоритма включения ВВО" },
 
             { "name":"var.temp.vvokotlon",      "title":"Температура котла необхідна для ввімкненяя ВВО",       "value": -1 },
             { "name":"var.temp.vvokotloff",     "title":"Температура котла необхідна для вимкненя ВВО",         "value": -1 },
@@ -77,7 +84,7 @@
             { "name":"var.temp.vvoOn",          "title":"Включение ВВО признак формируется после формирования задержек и необходим для непосредственного управления группами.",       "value": -1 },
             { "name":"var.temp.vvoInvert",      "title":"Смена групп ВВО: false(0) – при включении первой группы вкл. первая; true(1) – при включении первой группы вкл. вторая.",       "value": -1 },
 
-            { "n":"------------------------------------------------------------------------------------------------------" },
+            { "lineComment":"------------------------------------------------------------------------------------------------------" },
 
             { "name":"out.BVV.vvo1On",          "title":"Включение ВВО 1 гр.",                  "value": -1 },
             { "name":"out.BVV.vvo2On",          "title":"Включение ВВО 2 гр.",                  "value": -1 },
@@ -87,8 +94,8 @@
             { "name":"out.BVV.bpOn",            "title":"Включение БП",                         "value": -1 },
             { "name":"out.BVV.pvvOn",           "title":"Повернення (с БВВ привключении)",      "value": -1 },
 
-            { "n":"------------------------------------------------------------------------------------------------------" },
-            { "n":"------------------------------------------------------------------------------------------------------" },
+            { "lineComment":"------------------------------------------------------------------------------------------------------" },
+            { "lineComment":"------------------------------------------------------------------------------------------------------" },
 
             { "name":"modbus.BVV.r30000", 	"title":"Регистр дискретных входов 1 [30000]",		"value": 0 },
             { "name":"modbus.BVV.r30001", 	"title":"Температура воздуха в вагоне [30001]",		"value": 0 },
@@ -150,6 +157,30 @@
             { "name":"display.out.alarm",               "title":"",		"value": 0 }
         ],
 	"functions":[
+                {
+                    "name":"testArchive",
+                    "sources":["sys.time.curent"],
+                    "processing":
+"
+display.temp.t_sal.setData(     display.temp.t_sal.data()   +10);
+display.temp.t_pr.setData(      display.temp.t_pr.data()    +10);
+display.temp.t_nv.setData(      display.temp.t_nv.data()    +10);
+display.temp.t_kotl.setData(    display.temp.t_kotl.data()  +10);
+
+display.U_I.I_bat.setData(      display.U_I.I_bat.data()    +10);
+display.U_I.I_gen.setData(      display.U_I.I_gen.data()    +10);
+display.U_I.U_net.setData(      display.U_I.U_net.data()    +10);
+
+archive(1, 50);
+archive(2, 50);
+archive(3, 50);
+archive(4, 50);
+archive(5, 50);
+archive(6, 50);
+archive(7, 50);
+archive(8, 50);
+"
+                },
                 {
                         "name":"setT_sal",
                         "sources":["modbus.BVV.device","modbus.BVV.r30002", "modbus.Tsal.device", "modbus.Tsal.r30000"],
@@ -295,7 +326,14 @@ if (modbus.BVV.device.data()==1) {
                 {
 			"name":"set_u3000",
 			"sources":["modbus.BVV.device","modbus.BVV.r30000"],
-			"processing":"if(modbus.BVV.device.data()==1){ display.d30000.u3000.setData((modbus.BVV.r30000.data()&1)>0); }else{ display.d30000.u3000.setData(0); }"
+                        "processing":"
+                        if(modbus.BVV.device.data()==1)
+                        {
+                            display.d30000.u3000.setData((modbus.BVV.r30000.data()&1)>0);
+                        } else {
+                            display.d30000.u3000.setData(0);
+                        }
+                        "
 		},
 		{
 			"name":"set_VVO_1",

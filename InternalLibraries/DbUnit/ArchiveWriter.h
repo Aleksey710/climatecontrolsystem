@@ -7,7 +7,6 @@
 //#include ""
 #include "Log.h"
 #include "ArchiveJournalType.h"
-#include "ArchiveMsgType.h"
 #include "ArchiveMsg.h"
 //------------------------------------------------------------------------------------
 //!

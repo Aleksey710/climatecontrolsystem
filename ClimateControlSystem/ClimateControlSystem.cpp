@@ -43,6 +43,18 @@ ClimateControlSystem::ClimateControlSystem(QObject *parent)
 //    m_modbusMasterUnit  = new ModbusMasterUnit();
 
     //-------------------------------------------------------------------
+    //! Связать функцию архивирования в скрипте с функцией непосредственной работы с базой
+    ArchiveFunction = [=](const int &msgId,
+                          const double &value = 0){
+
+        m_dbUnit.writeMsg(msgId, value);
+
+        qDebug() << "ClimateControlSystem::ClimateControlSystem" << "ArchiveFunction";
+    };
+
+    //ArchiveFunction = std::bind( &DbUnit::writeMsg, &foo, _1 );
+
+    //-------------------------------------------------------------------
     SEND_TO_LOG( QString("ClimateControlSystem - создан") );
 }
 //------------------------------------------------------------------------------------

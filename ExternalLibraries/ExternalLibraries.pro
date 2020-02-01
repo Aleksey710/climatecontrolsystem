@@ -2,6 +2,6 @@ TEMPLATE = subdirs
 
 
 SUBDIRS += Easyloggingpp 
-SUBDIRS += WiringPi
+unix:SUBDIRS += WiringPi
 
 

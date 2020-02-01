@@ -131,9 +131,13 @@ LIBS += \
     -lModbusMasterUnit \
     -lScriptUnit \
     -lDbUnit \
-    -lWiringPi \
     -leasylogging++ \
 
+
+
+unix:LIBS += \
+    -L$$ROOT_PATH/lib \
+    -lWiringPi \
 
 
 #############################################################

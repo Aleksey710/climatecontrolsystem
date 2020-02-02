@@ -13,7 +13,9 @@
 
 //#include ""
 //#include ""
+#ifndef Q_OS_WIN
 #include <wiringPi.h>
+#endif
 //
 #include "Log.h"
 #include "Versions.h"

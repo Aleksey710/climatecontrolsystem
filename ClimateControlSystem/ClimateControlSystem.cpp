@@ -77,8 +77,10 @@ ClimateControlSystem::~ClimateControlSystem()
 }
 //------------------------------------------------------------------------------------
 //!
+#ifndef Q_OS_WIN
 void ClimateControlSystem::setupRpi()
 {
+
     SEND_TO_LOG("*****************************************************************************************");
     SEND_TO_LOG( QString("ClimateControlSystem - setup Raspberry Pi") );
 
@@ -120,7 +122,7 @@ void ClimateControlSystem::setupRpi()
     }
 
     //setDSclock ();
-    SEND_TO_LOG("*****************************************************************************************");
+    SEND_TO_LOG("*****************************************************************************************");  
 }
 //------------------------------------------------------------------------------------
 //! bcdToD: dToBCD:
@@ -143,6 +145,7 @@ unsigned int ClimateControlSystem::dToBcd (unsigned int byte)
 //!	Simple test of the 31 bytes of RAM inside the DS1302 chip
 int ClimateControlSystem::ramTest (void)
 {
+
     int addr ;
     int got ;
     int i = 0 ;
@@ -252,3 +255,4 @@ int ClimateControlSystem::setDSclock (void)
 
     return 0 ;
 }
+#endif

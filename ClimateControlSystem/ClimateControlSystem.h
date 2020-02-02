@@ -8,9 +8,11 @@
 #include <QObject>
 
 #include <functional>
-
+//
+#ifndef Q_OS_WIN
 #include <wiringPi.h>
 #include <ds1302.h>
+#endif
 //
 #include "Log.h"
 #include "DbUnit.h"
@@ -41,6 +43,7 @@ class ClimateControlSystem : public QObject
     signals:
 
     private:
+#ifndef Q_OS_WIN
         void setupRpi();
 
         //! bcdToD: dToBCD:
@@ -59,7 +62,7 @@ class ClimateControlSystem : public QObject
         //! setDSclock:
         //! Set the DS1302 block from Linux time
         static int setDSclock (void);
-
+#endif
 
     private:
 //        std::shared_ptr<DbUnit>                 m_dbUnit;

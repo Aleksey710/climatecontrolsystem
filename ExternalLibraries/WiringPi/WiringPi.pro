@@ -36,6 +36,7 @@ INCLUDEPATH += ./devLib
 INCLUDEPATH += ./wiringPi
 
 #############################################################
+unix: {
 SOURCES += \
     devLib/ds1302.c \
     devLib/gertboard.c \
@@ -131,7 +132,7 @@ HEADERS += \
     wiringPi/wiringSerial.h \
     wiringPi/wiringShift.h \
     wiringPi/wpiExtensions.h
-
+}
 
 LIBS += \
 

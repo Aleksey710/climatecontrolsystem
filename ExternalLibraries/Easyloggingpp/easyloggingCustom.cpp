@@ -38,13 +38,14 @@ void myCrashHandler(int sig)
 {
     if(sig != 0)
     {
+#ifndef Q_OS_WIN
         LOG(ERROR) << "\r\n"
                    << "---------------------------------------------------------------\r\n"
                    << "                      Woops! Crashed! \r\n"
                    << "---------------------------------------------------------------\r\n"
-#ifndef Q_OS_WIN
+
                    << strsignal(sig)
-#endif
+
                    << "---------------------------------------------------------------\r\n"
                       ;
 
@@ -60,6 +61,7 @@ void myCrashHandler(int sig)
 
         // FOLLOWING LINE IS ABSOLUTELY NEEDED AT THE END IN ORDER TO ABORT APPLICATION
         el::Helpers::crashAbort(sig);
+#endif
     }
 }
 //------------------------------------------------------------------------------------

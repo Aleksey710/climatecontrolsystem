@@ -32,7 +32,7 @@
                 ]
             },
             {
-                "isUsed": false,
+                "isUsed": true,
                 "serverAddress":8,
                 "title":"БВВ Хранимые регистры (holding registers)",
                 "functionCode":3,
@@ -49,7 +49,7 @@
                 ]
             },
             {
-                "isUsed": false,
+                "isUsed": true,
                 "serverAddress":16,
                 "title":"A9 Хранимые регистры (holding registers)",
                 "functionCode":4,
@@ -62,7 +62,7 @@
                 ]
             },
             {
-                "isUsed": false,
+                "isUsed": true,
                 "serverAddress":17,
                 "title":"Датчик температури салону",
                 "functionCode":3,
@@ -71,7 +71,7 @@
                 ]
             },
             {
-                "isUsed": false,
+                "isUsed": true,
                 "serverAddress":18,
                 "title":"Датчик температура зовнішня",
                 "functionCode":3,
@@ -80,7 +80,7 @@
                 ]
             },
             {
-                "isUsed": false,
+                "isUsed": true,
                 "serverAddress":19,
                 "title":"Датчик температура приток",
                 "functionCode":3,
@@ -89,7 +89,7 @@
                 ]
             },
             {
-                "isUsed": false,
+                "isUsed": true,
                 "serverAddress":20,
                 "title":"Датчик температура котла",
                 "functionCode":3,

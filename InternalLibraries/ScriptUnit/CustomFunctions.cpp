@@ -73,8 +73,8 @@ float regToFloatWorker(const quint16 &r0, const quint16 &r1)
 }
 //------------------------------------------------------------------------------------
 //!
-std::function<void(const int &msgId,
-                   const double &value)> ArchiveFunction;
+std::function<void(const int &,
+                   const double &)> ArchiveFunction;
 //------------------------------------------------------------------------------------
 //!
 void archiveWorker(const int &msgId, const double &value)

@@ -25,14 +25,13 @@
 //------------------------------------------------------------------------------------
 
 QScriptValue redefinedScriptPrint(QScriptContext *context, QScriptEngine *engine);
-
+//------------------------------------
 float regToFloatWorker(const quint16 &r0, const quint16 &r1);
 //! RegToFloat(reg0, reg1);
 QScriptValue regToFloat(QScriptContext *context, QScriptEngine *engine);
 
-
-extern std::function<void(const int &msgId,
-                          const double &value)> ArchiveFunction;
+//------------------------------------
+extern std::function<void(const int &, const double &)> ArchiveFunction;
 
 void archiveWorker(const int &msgId, const double &value);
 QScriptValue archive(QScriptContext *context, QScriptEngine *engine);

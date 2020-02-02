@@ -1,6 +1,12 @@
 #ifndef CUSTOMFUNCTIONS_H
 #define CUSTOMFUNCTIONS_H
 //------------------------------------------------------------------------------------
+#if defined(_WIN32) //ntohl
+# include <winsock2.h>
+#else
+# include <arpa/inet.h>
+#endif
+//
 #include <QScriptEngine>
 #include <QScriptContext>
 #include <QScriptValue>
@@ -9,11 +15,7 @@
 
 #include <bitset>
 
-#if defined(_WIN32) //ntohl
-# include <winsock2.h>
-#else
-# include <arpa/inet.h>
-#endif
+
 
 #include "Log.h"
 //------------------------------------------------------------------------------------

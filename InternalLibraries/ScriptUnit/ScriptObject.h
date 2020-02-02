@@ -43,8 +43,8 @@ class ScriptObject : public QObject, protected QScriptable
 
         Q_INVOKABLE inline void setData(const double &__value)
             {
-                //if( value != __value )
-                if( !qFuzzyCompare(value, __value) )
+                if( value != __value )
+                //if( !qFuzzyCompare(value, __value) )
                 {
                     SEND_TO_LOG( QString("ScriptObject[%1] - setData(%2)").arg(m_fullName).arg(__value))
 

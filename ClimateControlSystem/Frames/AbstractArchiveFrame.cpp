@@ -30,6 +30,17 @@ AbstractArchiveFrame::AbstractArchiveFrame(QWidget *parent)
     QObject::connect(shortcutRemove, &QShortcut::activated,
                      this, &AbstractArchiveFrame::startRemoveData);
 
+    //! По сигналу - испустить сигнал на обновление
+    QObject::connect(this, &AbstractFrame::showed,
+                     this, &AbstractArchiveFrame::updateModelData);
+
+    //! По сигналу - обновить данные в модели
+    QObject::connect(this, &AbstractArchiveFrame::updateModelData,[=](){
+
+        m_model->setQuery( queryString(), QSqlDatabase::database(DbUnit::dbName()) );
+
+        m_tableView->resizeColumnsToContents();
+    });
 }
 //------------------------------------------------------------------------------------
 //!
@@ -77,17 +88,17 @@ void AbstractArchiveFrame::setup()
     mainLayout->addWidget(m_tableView);
 
     //-----------------------------------------------------------------
-    QSqlQueryModel *model = new QSqlQueryModel(this);
+    m_model = new QSqlQueryModel(this);
 
-    model->setQuery( queryString(), QSqlDatabase::database(DbUnit::dbName()) );
+    m_model->setQuery( queryString(), QSqlDatabase::database(DbUnit::dbName()) );
 
     m_tableView->resizeColumnsToContents();
 
-    //    model->setHeaderData(0, Qt::Horizontal, tr("Имя"));
-    //    model->setHeaderData(1, Qt::Horizontal, tr("Название"));
-    //    model->setHeaderData(2, Qt::Horizontal, tr("Значение"));
+    //    m_model->setHeaderData(0, Qt::Horizontal, tr("Имя"));
+    //    m_model->setHeaderData(1, Qt::Horizontal, tr("Название"));
+    //    m_model->setHeaderData(2, Qt::Horizontal, tr("Значение"));
 
-    m_tableView->setModel(model);
+    m_tableView->setModel(m_model);
     m_tableView->horizontalHeader()->hide();
     m_tableView->verticalHeader()->hide();
 

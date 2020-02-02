@@ -73,13 +73,18 @@ float regToFloatWorker(const quint16 &r0, const quint16 &r1)
 }
 //------------------------------------------------------------------------------------
 //!
-void archiveWorker(const int &msgId,
-                   const double &value)
+std::function<void(const int &msgId,
+                   const double &value)> ArchiveFunction;
+//------------------------------------------------------------------------------------
+//!
+void archiveWorker(const int &msgId, const double &value)
 {
     if(ArchiveFunction)
+    {
         ArchiveFunction(msgId, value);
+    }
 
-    SEND_TO_LOG( QString("CustomFunctions.cpp archiveWorker %1 %2").arg(msgId).arg(value));
+    //SEND_TO_LOG( QString("CustomFunctions.cpp archiveWorker %1 %2").arg(msgId).arg(value));
 }
 //------------------------------------------------------------------------------------
 //!

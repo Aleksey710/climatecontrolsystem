@@ -769,7 +769,7 @@ void DbUnit::createArchiveTable(const QString &tableName,
         ).arg(tableName));
 
     //--------------------------------------
-
+/*
     const int testDataCount = 40;
 
     for(int i = 0; i < testDataCount; ++i)
@@ -780,6 +780,6 @@ void DbUnit::createArchiveTable(const QString &tableName,
             ).arg(tableName).arg(QDateTime::currentMSecsSinceEpoch()+i*1000).arg(i)
         );
     }
-
+*/
     //--------------------------------------
 }

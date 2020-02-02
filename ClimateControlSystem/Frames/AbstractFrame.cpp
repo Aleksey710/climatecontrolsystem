@@ -27,7 +27,14 @@ void AbstractFrame::setupDisplay(const QString &name, QLabel *label)
     if(scriptObject)
     {
         connect(scriptObject, &ScriptObject::dataChanged, [=](){
-            label->setText(QString("%1").arg(scriptObject->data()));
+            double value = scriptObject->data();
+            if(value == std::numeric_limits<quint16>::max())
+            {
+                label->setText(QString("--"));
+            } else
+            {
+                label->setText(QString("%1").arg(value));
+            }
         });
         //! Начальная инициализация виджета
         scriptObject->dataChanged();
@@ -42,7 +49,14 @@ void AbstractFrame::setupDisplay(const QString &name, QLineEdit *lineEdit)
     if(scriptObject)
     {
         connect(scriptObject, &ScriptObject::dataChanged, [=](){
-            lineEdit->setText(QString("%1").arg(scriptObject->data()));
+            double value = scriptObject->data();
+            if(value == std::numeric_limits<quint16>::max())
+            {
+                lineEdit->setText(QString("--"));
+            } else
+            {
+                lineEdit->setText(QString("%1").arg(value));
+            }
         });
 
         //! Начальная инициализация виджета

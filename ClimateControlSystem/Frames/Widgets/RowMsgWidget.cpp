@@ -35,9 +35,9 @@ RowMsgWidget::RowMsgWidget(MsgWidget *lowColumn1MsgWidget,
         "padding: 1px;"
         "margin: 1px;"
         //"border: 1px solid #000000;"
-        "border: 2px solid #ff0000;"
+        "border: 2px solid #005500;"
         "border-radius : 5px;"
-        "color: red;"
+        "color: #005500;"
         //"background-color: yellow;"
         "}"
     );

@@ -41,7 +41,10 @@ class DbUnit : public QObject
 
     public slots:
         void writeMsg(const int &msgId, const double &value = 0.0)
-            { m_archiveWriter.writeMsg(msgId, value); }
+            {
+                //SEND_TO_LOG( QString("DbUnit::writeMsg() [%1][%2]").arg(msgId).arg(value) );
+                m_archiveWriter.writeMsg(msgId, value);
+            }
 
     private:
         void openDb();

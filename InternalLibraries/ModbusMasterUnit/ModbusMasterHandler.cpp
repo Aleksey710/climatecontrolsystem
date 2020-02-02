@@ -412,7 +412,7 @@ void ModbusMasterHandler::errorDataHandler()
     if(m_curentModbusRequest)
     {
         QModbusDataUnit modbusDataUnit = m_curentModbusRequest->modbusDataUnit();
-        modbusDataUnit.setValues( QVector<quint16>(modbusDataUnit.valueCount(), 0) );
+        modbusDataUnit.setValues( QVector<quint16>(modbusDataUnit.valueCount(), std::numeric_limits<quint16>::max()) );
         m_curentModbusRequest->setModbusDataUnit(modbusDataUnit, -1);
     }
 }

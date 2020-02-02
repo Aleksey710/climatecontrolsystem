@@ -286,7 +286,7 @@
       <item row="4" column="4">
        <widget class="QLineEdit" name="holdReg_30003">
         <property name="text">
-         <string>200</string>
+         <string>24</string>
         </property>
         <property name="maxLength">
          <number>32767</number>
@@ -322,7 +322,7 @@
       <item row="0" column="3">
        <widget class="QLabel" name="inputRegisters">
         <property name="text">
-         <string>Input Registers</string>
+         <string>Input Registers (F4)</string>
         </property>
        </widget>
       </item>
@@ -369,7 +369,7 @@
       <item row="0" column="4">
        <widget class="QLabel" name="holdingRegisters">
         <property name="text">
-         <string>Holding Registers</string>
+         <string>Holding Registers (F3)</string>
         </property>
        </widget>
       </item>
@@ -425,7 +425,7 @@
       <item row="6" column="4">
        <widget class="QLineEdit" name="holdReg_30005">
         <property name="text">
-         <string>200</string>
+         <string>5</string>
         </property>
         <property name="maxLength">
          <number>32767</number>
@@ -465,7 +465,7 @@
       <item row="2" column="4">
        <widget class="QLineEdit" name="holdReg_30001">
         <property name="text">
-         <string>200</string>
+         <string>5</string>
         </property>
         <property name="maxLength">
          <number>32767</number>
@@ -495,7 +495,7 @@
       <item row="8" column="4">
        <widget class="QLineEdit" name="holdReg_30007">
         <property name="text">
-         <string>200</string>
+         <string>1237</string>
         </property>
         <property name="maxLength">
          <number>32767</number>
@@ -551,7 +551,7 @@
       <item row="1" column="3">
        <widget class="QLineEdit" name="inReg_30000">
         <property name="text">
-         <string>15</string>
+         <string>32767</string>
         </property>
         <property name="maxLength">
          <number>32767</number>
@@ -652,7 +652,7 @@
       <item row="5" column="4">
        <widget class="QLineEdit" name="holdReg_30004">
         <property name="text">
-         <string>200</string>
+         <string>17</string>
         </property>
         <property name="maxLength">
          <number>32767</number>
@@ -735,7 +735,7 @@
       <item row="3" column="4">
        <widget class="QLineEdit" name="holdReg_30002">
         <property name="text">
-         <string>200</string>
+         <string>6</string>
         </property>
         <property name="maxLength">
          <number>32767</number>
@@ -748,7 +748,7 @@
       <item row="7" column="4">
        <widget class="QLineEdit" name="holdReg_30006">
         <property name="text">
-         <string>200</string>
+         <string>1236</string>
         </property>
         <property name="maxLength">
          <number>32767</number>
@@ -761,7 +761,7 @@
       <item row="1" column="4">
        <widget class="QLineEdit" name="holdReg_30000">
         <property name="text">
-         <string>200</string>
+         <string>32767</string>
         </property>
         <property name="maxLength">
          <number>32767</number>

@@ -154,7 +154,11 @@ void DigitalStripIndicator::paintEvent(QPaintEvent *)
     else
     {
         // отображение ошибки
-        qDebug() << "Отображение ошибки";
+        painter.drawText(QRect(0, 0, width(), stripHeight+indentHeight+digHeight),
+                         Qt::AlignCenter,
+                         QString("Error[%1]").arg(m_curentData));
+
+        //qDebug() << "Отображение ошибки" << m_minimum << m_curentData << m_maximum;
     }
 }
 //------------------------------------------------------------------------------------

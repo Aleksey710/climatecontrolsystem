@@ -23,11 +23,13 @@ class CurentTimeScriptObject : public ScriptObject
         {
                 QTimer *timer = new QTimer(this);
                 connect(timer, &QTimer::timeout, this, [=](){
-                    setData(static_cast<qint64>(QDateTime::currentSecsSinceEpoch()));
+
+                    value = QDateTime::currentSecsSinceEpoch();
+                    dataChanged();
 
 //                    SEND_TO_LOG( QString("CurentTimeScriptObject[%1] - setData(%2)")
 //                                 .arg(m_fullName)
-//                                 .arg(static_cast<qint64>(QDateTime::currentSecsSinceEpoch())))
+//                                 .arg(QDateTime::currentSecsSinceEpoch()) )
                 });
 
                 timer->start(1000);

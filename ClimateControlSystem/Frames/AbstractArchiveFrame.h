@@ -4,6 +4,9 @@
 #include <QObject>
 #include <QWidget>
 #include <QTableView>
+#include <QSqlQueryModel>
+//#include <>
+//#include <>
 //#include <>
 //#include <>
 
@@ -28,6 +31,7 @@ class AbstractArchiveFrame : public AbstractFrame
         inline virtual FrameName frameName() { return FrameName::Archive; }
 
     signals:
+        void updateModelData();
 
 
     public slots:
@@ -44,6 +48,7 @@ class AbstractArchiveFrame : public AbstractFrame
 
 
     private:
+        QSqlQueryModel *m_model;
         QTableView *m_tableView;
 
         RemoveRecordsFromArchiveWidget *m_removeRecordsFromArchiveWidget;

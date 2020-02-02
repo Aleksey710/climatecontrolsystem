@@ -83,8 +83,15 @@ double GigitalIndicatorWidget::data()
 //!
 void GigitalIndicatorWidget::setData(const double &value)
 {
-    m_digitalStripIndicator->setData(value);
-    m_dataLabel->setText(QString("%1 %2").arg(value).arg(m_measureTitle));
+    if(value == std::numeric_limits<quint16>::max())
+    {
+        m_digitalStripIndicator->setData(0);
+        m_dataLabel->setText(QString("--"));
+    } else
+    {
+        m_digitalStripIndicator->setData(value);
+        m_dataLabel->setText(QString("%1 %2").arg(value).arg(m_measureTitle));
+    }
 }
 //------------------------------------------------------------------------------------
 //!

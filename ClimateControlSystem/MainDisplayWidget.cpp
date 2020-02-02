@@ -159,27 +159,35 @@ void MainDisplayWidget::setupFrames()
 void MainDisplayWidget::setupMenu()
 {
     m_buttonsWidget = new ButtonsWidget();
-    connect(this, &MainDisplayWidget::frameChanged, m_buttonsWidget, &ButtonsWidget::setFrameName);
+
+    connect(this, &MainDisplayWidget::frameChanged,
+            m_buttonsWidget, &ButtonsWidget::setFrameName);
 
     m_mainLayout->addWidget(m_buttonsWidget);
 
     //-------------------------------------------------------------------
     connect(m_buttonsWidget, &ButtonsWidget::mainFrameClicked, [=](){
+
         if(m_curentFrameId == 0)
             return;
 
-        m_framesList[m_curentFrameId]->setHidden(true);
+        //! Скрыть
+        m_framesList[m_curentFrameId]->setHidden(true);        
         m_frameLayout->removeWidget( m_framesList[m_curentFrameId] );
 
         m_curentFrameId = 0;
 
         m_frameLayout->addWidget( m_framesList[m_curentFrameId] );
+        //! Отобразить
         m_framesList[m_curentFrameId]->setHidden(false);
+        //! Испустить сигнал, о том , что виджет стал отображаться
+        m_framesList[m_curentFrameId]->showed();
 
         emit frameChanged(m_framesList[m_curentFrameId]->frameName());
     });
     //-------------------------------------------------------------------
     connect(m_buttonsWidget, &ButtonsWidget::nextFrameClicked, [=](){
+        //! Скрыть
         m_framesList[m_curentFrameId]->setHidden(true);
         m_frameLayout->removeWidget( m_framesList[m_curentFrameId] );
 
@@ -192,12 +200,16 @@ void MainDisplayWidget::setupMenu()
         }
 
         m_frameLayout->addWidget( m_framesList[m_curentFrameId] );
+        //! Отобразить
         m_framesList[m_curentFrameId]->setHidden(false);
+        //! Испустить сигнал, о том , что виджет стал отображаться
+        m_framesList[m_curentFrameId]->showed();
 
         emit frameChanged(m_framesList[m_curentFrameId]->frameName());
     });
     //-------------------------------------------------------------------
     connect(m_buttonsWidget, &ButtonsWidget::previousFrameClicked, [=](){
+        //! Скрыть
         m_framesList[m_curentFrameId]->setHidden(true);
         m_frameLayout->removeWidget( m_framesList[m_curentFrameId] );
 
@@ -210,6 +222,7 @@ void MainDisplayWidget::setupMenu()
         }
 
         m_frameLayout->addWidget( m_framesList[m_curentFrameId] );
+        //! Отобразить
         m_framesList[m_curentFrameId]->setHidden(false);
 
         emit frameChanged(m_framesList[m_curentFrameId]->frameName());
@@ -240,7 +253,9 @@ void MainDisplayWidget::startEditSettings()
 
     m_menuConfigEditFrame = new MenuConfigEditFrame(m_menuItemDataList);
 
-    m_framesList[m_curentFrameId]->setHidden(true);
+    //! Скрыть
+    m_framesList[m_curentFrameId]->setHidden(true);    
+
     m_frameLayout->addWidget( m_menuConfigEditFrame );
 
     emit frameChanged(FrameName::MenuConfigEdit);
@@ -248,6 +263,7 @@ void MainDisplayWidget::startEditSettings()
     //----------------------------------------------------
     connect(m_menuConfigEditFrame, &QWidget::destroyed,[=](){
         m_menuConfigEditFrame = nullptr;        
+        //! Скрыть
         m_framesList[m_curentFrameId]->setHidden(false);
 
         emit frameChanged(m_framesList[m_curentFrameId]->frameName());

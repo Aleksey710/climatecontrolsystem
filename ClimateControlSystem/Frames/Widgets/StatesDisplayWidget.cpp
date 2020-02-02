@@ -176,12 +176,12 @@ void StatesDisplayWidget::setupRow7()
 //!
 void StatesDisplayWidget::setupRow8()
 {
-    MsgWidget *lowColumn1MsgWidget = new MsgWidget("display.d30000.condWorked",
+    MsgWidget *lowColumn1MsgWidget = new MsgWidget("display.BVV.condWorked",
                                                    "Кондицiонер РОБОТА");
-    MsgWidget *lowColumn2MsgWidget = new MsgWidget("display.d30000.heater",
+    MsgWidget *lowColumn2MsgWidget = new MsgWidget("display.BVV.heater",
                                                    "Ел. калорифер увiмкнено");
 
-    MsgWidget *highColumn1MsgWidget = new MsgWidget("display.d30000.condFailure",
+    MsgWidget *highColumn1MsgWidget = new MsgWidget("display.BVV.condFailure",
                                                     "Кондицiонер ВIДМОВА");
     MsgWidget *highColumn2MsgWidget = nullptr;
 

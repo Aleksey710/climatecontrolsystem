@@ -36,8 +36,6 @@ void ScriptEngine::appendCommon()
     globalObject().setProperty("regToFloat", regToFloat_sv);
 
     QScriptValue archive_sv = newFunction( archive );
-//    QScriptValue archive_sv = newFunction( [=](const int &msgId,
-//                                               const double &value){ emit archiveMessage(msgId, value); } );
     globalObject().setProperty("archive", archive_sv);
 
     //------------------------------------------------------------------------------------
@@ -66,7 +64,6 @@ void ScriptEngine::evaluate(const QString &scriptText,
                          .arg(uncaughtExceptionBacktrace().join(" "))
                          .arg(scriptText)
                          );
-
         }
 
         QMetaObject::invokeMethod(obj,
@@ -87,7 +84,6 @@ void ScriptEngine::evaluate(const QString &scriptText,
                          .arg(uncaughtExceptionBacktrace().join(" "))
                          .arg(scriptText)
                          );
-
         }
 
         //SEND_TO_LOG( QString("%1 - evaluate result [%2]").arg(objectName()).arg( scriptValue.toString() ) );

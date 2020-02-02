@@ -15,10 +15,10 @@ ScriptUnit::ScriptUnit(QObject *parent)
     connect(&m_scriptEngine, &ScriptEngine::archiveMessage, this, &ScriptUnit::archiveMessage);
 
     setupSettingsData();
-
-    setupScript(loadFile( qApp->applicationDirPath()+"/conf/script.json" ));
-
     createCurentTimeScriptObject();
+
+    //! Инициализировать скрипт после инициализации ВСЕХ системных переменных
+    setupScript(loadFile( qApp->applicationDirPath()+"/conf/script.json" ));
 
     SEND_TO_LOG( QString("%1 - создан").arg(objectName()));
 }
@@ -128,7 +128,7 @@ ScriptObject* ScriptUnit::createScriptObject(const QString &type,
     return nullptr;
 }
 //------------------------------------------------------------------------------------
-//!
+//!ScriptObject
 void ScriptUnit::createCurentTimeScriptObject()
 {
     const QString type      = "sys";
@@ -146,12 +146,7 @@ void ScriptUnit::createCurentTimeScriptObject()
     }
 
     //------------------------
-    ScriptObject *groupScriptObject = rootScriptObject->getChildren( "time" );
-
-    if( !groupScriptObject )
-    {
-        groupScriptObject = new ScriptObject(group, 0, rootScriptObject);
-    }
+    ScriptObject *groupScriptObject = new ScriptObject(group, 0, rootScriptObject);
     //------------------------
     ScriptObject *scriptObject = new CurentTimeScriptObject(groupScriptObject);
 

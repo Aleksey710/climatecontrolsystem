@@ -29,6 +29,9 @@ class AbstractFrame : public QWidget
 
         virtual FrameName frameName() = 0;
 
+    signals:
+        void showed();
+
     protected:
         void setupDisplay(const QString &name, QLabel *label);
         void setupDisplay(const QString &name, QLineEdit *lineEdit);

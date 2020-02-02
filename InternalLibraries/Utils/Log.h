@@ -16,7 +16,7 @@
     #include "easyloggingCustom.h"
     //------------------------------------------------------------------------------------
     // Костыль от варнингов
-#ifdef QT_OS_WIN
+#ifdef Q_OS_WIN
     static const char *_qwertyuiop_ = el::base::consts::kDefaultLoggerId;
 #else
     static const char *_qwertyuiop_ = el::base::consts::kPerformanceLoggerId;

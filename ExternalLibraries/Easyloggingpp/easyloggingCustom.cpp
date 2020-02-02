@@ -140,9 +140,10 @@ void easyloggingInit(int argc, char *argv[])
     LOG(INFO) << "Log file:" << logFileName;
 */
     //--------------------------------------------
+#ifndef Q_OS_WIN
     el::Helpers::setCrashHandler(myCrashHandler);
     LOG(INFO) << "The easylogging++ crash handler defined";
-
+#endif
     //--------------------------------------------
     //pthread_t logRotatorThread;
     //pthread_create(&logRotatorThread, NULL, logRotate, NULL);

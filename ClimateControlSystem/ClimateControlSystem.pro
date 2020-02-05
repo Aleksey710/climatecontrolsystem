@@ -89,6 +89,7 @@ SOURCES += \
     Frames/AbstractArchiveFrame.cpp \
     Frames/AbstractFrame.cpp \
     Frames/ArchiveFrames/RemoveRecordsFromArchiveWidget.cpp \
+    Frames/ArchiveFrames/WorkTimeArchiveFrame.cpp \
     Frames/CarInformationFrame.cpp \
     Frames/InOutDisplayFrame.cpp \
     Frames/MainFrame.cpp \

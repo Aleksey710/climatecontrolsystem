@@ -35,19 +35,19 @@ class AbstractArchiveFrame : public AbstractFrame
 
 
     public slots:
-        void pgUp();
-        void pgDown();
+        virtual void pgUp();
+        virtual void pgDown();
 
         void startSaveData();
         void startRemoveData();
 
     protected:
-        void setup();
+        virtual void setup();
         virtual QString headLabel() = 0; //{ return QString(); }
         virtual QString queryString() = 0; //{ return QString(); }
 
 
-    private:
+    protected:
         QSqlQueryModel *m_model;
         QTableView *m_tableView;
 

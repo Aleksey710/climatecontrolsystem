@@ -18,7 +18,7 @@ ArchiveWriter::~ArchiveWriter()
 void ArchiveWriter::writeMsg(const int &msgId,
                              const double &value)
 {
-    SEND_TO_LOG( QString("ArchiveWriter::writeMsg [%1][%2]").arg(msgId).arg(value) )
+    //SEND_TO_LOG( QString("ArchiveWriter::writeMsg [%1][%2]").arg(msgId).arg(value) )
 
     ArchiveMsg archiveMsg = createArchiveMsg(msgId, value);
 

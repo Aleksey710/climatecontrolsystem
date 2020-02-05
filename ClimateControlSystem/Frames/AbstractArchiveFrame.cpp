@@ -20,6 +20,8 @@
 //!
 AbstractArchiveFrame::AbstractArchiveFrame(QWidget *parent)
                     : AbstractFrame(parent),
+                      m_model ( nullptr ),
+                      m_tableView ( nullptr ),
                       m_removeRecordsFromArchiveWidget ( nullptr )
 {    
     QShortcut *shortcutSave = new QShortcut(QKeySequence("Ctrl+s"), this);
@@ -37,9 +39,11 @@ AbstractArchiveFrame::AbstractArchiveFrame(QWidget *parent)
     //! По сигналу - обновить данные в модели
     QObject::connect(this, &AbstractArchiveFrame::updateModelData,[=](){
 
-        m_model->setQuery( queryString(), QSqlDatabase::database(DbUnit::dbName()) );
+        if(m_model)
+            m_model->setQuery( queryString(), QSqlDatabase::database(DbUnit::dbName()) );
 
-        m_tableView->resizeColumnsToContents();
+        if(m_tableView)
+            m_tableView->resizeColumnsToContents();
     });
 }
 //------------------------------------------------------------------------------------
@@ -126,10 +130,13 @@ void AbstractArchiveFrame::pgUp()
     m_tableView->setCurrentIndex( current );
 */
     //--------------------------------------------------
-    int sliderPosition = m_tableView->verticalScrollBar()->sliderPosition();
-    m_tableView->verticalScrollBar()->setSliderPosition(sliderPosition-19);
+    if(m_tableView)
+    {
+        int sliderPosition = m_tableView->verticalScrollBar()->sliderPosition();
+        m_tableView->verticalScrollBar()->setSliderPosition(sliderPosition-19);
 
-    m_tableView->update();
+        m_tableView->update();
+    }
 }
 //------------------------------------------------------------------------------------
 //!
@@ -152,10 +159,13 @@ void AbstractArchiveFrame::pgDown()
     m_tableView->setCurrentIndex( current );
 */
     //--------------------------------------------------
-    int sliderPosition = m_tableView->verticalScrollBar()->sliderPosition();
-    m_tableView->verticalScrollBar()->setSliderPosition(sliderPosition+19);
+    if(m_tableView)
+    {
+        int sliderPosition = m_tableView->verticalScrollBar()->sliderPosition();
+        m_tableView->verticalScrollBar()->setSliderPosition(sliderPosition+19);
 
-    m_tableView->update();
+        m_tableView->update();
+    }
 }
 //------------------------------------------------------------------------------------
 //!

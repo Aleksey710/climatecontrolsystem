@@ -154,12 +154,31 @@ display.U_I.I_gen.setData(      display.U_I.I_gen.data()    +10);
 display.U_I.U_net.setData(      display.U_I.U_net.data()    +10);
 
 archive(1, 50);
-archive(2, 50);
-archive(3, 50);
-archive(4, 50);
-archive(5, 50);
 archive(6, 50);
-archive(7, 50);
+
+archive(2, 50);
+archive(3);
+archive(4, 50);
+archive(5);
+
+archive(44);
+archive(45);
+archive(46);
+archive(47);
+
+archive(19);
+archive(19);
+archive(19);
+
+archive(18);
+archive(18);
+archive(18);
+
+archive(19);
+archive(18);
+archive(19);
+archive(18);
+
 "
                 },
                 {

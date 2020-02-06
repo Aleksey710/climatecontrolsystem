@@ -4,11 +4,11 @@
 //------------------------------------------------------------------------------------
 //!
 ScriptObject::ScriptObject(const QString &name,
-                           const double &value,
+                           const double &__value,
                            ScriptObject *parent)
              :QObject(parent),
               m_fullName ( name ),
-              value ( value )
+              value ( __value )
 
 {
     setObjectName(name);

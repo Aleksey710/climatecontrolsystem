@@ -27,8 +27,8 @@ void ModbusMasterHandler::exequteRequest(ModbusRequest *request)
 {
     m_curentModbusRequest = request;
 
-    SEND_TO_LOG( QString("%1 - -----------------------------").arg(objectName()) );
-    SEND_TO_LOG( QString("%1 - --- start exequte request ---").arg(objectName()) );
+//    SEND_TO_LOG( QString("%1 - -----------------------------").arg(objectName()) );
+//    SEND_TO_LOG( QString("%1 - --- start exequte request ---").arg(objectName()) );
 
     //! Подключение
     if( !reconnect(m_curentModbusRequest->connectionSettings()) )
@@ -127,6 +127,8 @@ bool ModbusMasterHandler::reconnect(const ModbusConnectionSettings &modbusConnec
             SEND_TO_LOG( QString("%1 - %2").arg(objectName()).arg(strError) );
         });
 */
+        //------------------------------------------------------------
+/*
         connect(m_modbusDevice, &QModbusClient::stateChanged,
                 [this](QModbusDevice::State state) {
 
@@ -148,6 +150,7 @@ bool ModbusMasterHandler::reconnect(const ModbusConnectionSettings &modbusConnec
                     break;
             }
         });
+*/
     }
 
     //--------------------------------------------------
@@ -186,9 +189,9 @@ bool ModbusMasterHandler::reconnect(const ModbusConnectionSettings &modbusConnec
             return false;
         } else
         {
-            SEND_TO_LOG( QString("%1 - [%2] - is connected")
-                         .arg(objectName())
-                         .arg(modbusConnectionSettings.connectionName) );
+//            SEND_TO_LOG( QString("%1 - [%2] - is connected")
+//                         .arg(objectName())
+//                         .arg(modbusConnectionSettings.connectionName) );
         }
     } else {
         m_modbusDevice->disconnectDevice();
@@ -206,8 +209,8 @@ void ModbusMasterHandler::requestExecutionErrorHandler()
 
     deleteModbusDevice();
 
-    SEND_TO_LOG( QString("%1 - --- end exequte request -----").arg(objectName()) );
-    SEND_TO_LOG( QString("%1 - -----------------------------").arg(objectName()) );
+//    SEND_TO_LOG( QString("%1 - --- end exequte request -----").arg(objectName()) );
+//    SEND_TO_LOG( QString("%1 - -----------------------------").arg(objectName()) );
 
     emit exequted();
 }
@@ -249,6 +252,8 @@ void ModbusMasterHandler::readRequest(const int serverAddress, QModbusDataUnit &
 //!
 void ModbusMasterHandler::writeRequest(const int serverAddress, QModbusDataUnit &writeDataUnit)
 {
+    SEND_TO_LOG( QString("%1 - write request addr[%2]").arg(objectName()).arg(serverAddress) );
+
     if (!m_modbusDevice)
         return;
 
@@ -273,6 +278,8 @@ void ModbusMasterHandler::readWriteRequest(const int serverAddress,
                                            QModbusDataUnit &readDataUnit,
                                            QModbusDataUnit &writeDataUnit)
 {
+    SEND_TO_LOG( QString("%1 - read-write request addr[%2]").arg(objectName()).arg(serverAddress) );
+
     if (!m_modbusDevice)
         return;
 
@@ -377,8 +384,8 @@ void ModbusMasterHandler::readReplyHandler(QModbusReply *reply)
 
     reply->deleteLater();
     //-----------------------------------
-    SEND_TO_LOG( QString("%1 - --- end exequte request -----").arg(objectName()) );
-    SEND_TO_LOG( QString("%1 - -----------------------------").arg(objectName()) );
+//    SEND_TO_LOG( QString("%1 - --- end exequte request -----").arg(objectName()) );
+//    SEND_TO_LOG( QString("%1 - -----------------------------").arg(objectName()) );
 
     emit exequted();
 }

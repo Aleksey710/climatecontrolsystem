@@ -48,7 +48,7 @@ void ArchiveWriter::writeMsg(const int &msgId,
                 ).arg(tableName)
                  .arg(QDateTime::currentMSecsSinceEpoch())
                  .arg(archiveMsg.msg)
-                                 );
+    );
 }
 //------------------------------------------------------------------------------------
 //!
@@ -186,4 +186,19 @@ ArchiveMsg ArchiveWriter::createArchiveMsg(const int &msgId, const double &value
     return ArchiveMsg(ArchiveJournalType::ElectricalEquipment,
                       QString("ERROR - тип сообщения(msgType=[%1] value=[%2]) - неизвестен").arg((int)msgId).arg(value));
 }
-
+//------------------------------------------------------------------------------------
+//!
+void ArchiveWriter::saveSettings(const QString &groupe, const QString &param, const double &value)
+{
+    emit messageRecordingRequest(
+        QString(
+            "UPDATE `data` "
+            "SET `value`='%3' "
+            "WHERE "
+            "`group_id`=(SELECT `id` FROM `groups` WHERE `name`='%1') AND "
+            "`name`='%2';"
+        ).arg(groupe)
+         .arg(param)
+         .arg(value)
+    );
+}

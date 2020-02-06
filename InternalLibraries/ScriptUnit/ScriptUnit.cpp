@@ -111,9 +111,10 @@ ScriptObject* ScriptUnit::createScriptObject(const QString &type,
     {
         scriptObject = new ScriptObject(data, value, groupScriptObject);
 
-        SEND_TO_LOG( QString("%1 - создан [%2]-[%3]")
+        SEND_TO_LOG( QString("%1 - создан [%2]-value[%3]-[%4]")
                      .arg(objectName())
                      .arg(QString("%1.%2.%3").arg(type).arg(group).arg(data))
+                     .arg(value)
                      .arg(title)
                      );
 

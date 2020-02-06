@@ -38,6 +38,9 @@ void ScriptEngine::appendCommon()
     QScriptValue archive_sv = newFunction( archive );
     globalObject().setProperty("archive", archive_sv);
 
+    QScriptValue saveSettings_sv = newFunction( saveSettings );
+    globalObject().setProperty("saveSettings", saveSettings_sv);
+
     //------------------------------------------------------------------------------------
     SEND_TO_LOG( QString("%1 - стандартные функции добавлены").arg(objectName()) );
 }

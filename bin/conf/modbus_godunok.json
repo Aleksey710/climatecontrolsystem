@@ -4,8 +4,8 @@
         "isUsed": true,
         "type": "serial",
         "portName2": "/dev/ttyAMA0",
-        "portName": "/dev/ttyUSB0",
-        "portName1": "\\\\.\\COM4",
+        "portName3": "/dev/ttyUSB0",
+        "portName": "\\\\.\\COM12",        
         "parity": 0,
         "baudRate": 9600,
         "dataBits": 8,
@@ -19,7 +19,7 @@
                 "isUsed": true,
                 "serverAddress":8,
                 "title":"БВВ Входные регистры (input registers)",
-                "functionCode":4,
+                "functionCode":3,
                 "registers" : [
                     { "id":0, "name":"modbus.BVV.r30000", "title":"Регистр дискретных входов 1 [30000]" },
                     { "id":1, "name":"modbus.BVV.r30001", "title":"Регистр дискретных входов 2 [30001]" },
@@ -35,16 +35,20 @@
             {
                 "isUsed": true,
                 "serverAddress":8,
-                "title":"БВВ Хранимые регистры (holding registers). Чтение.",
-                "functionCode":3,
+                "title":"БВВ Хранимые регистры (holding registers)",
+                "functionCode":4,
                 "registers" : [
+                    { "id":0, "name":"modbus.BVV.r40000", "title":"Регистр дискретных выходов [40000]" },
+                    { "id":1, "name":"modbus.BVV.r40001", "title":"Выходное напряжение канала 1(Коррекция температуры) [40001]" },
+                    { "id":2, "name":"modbus.BVV.r40002", "title":"Выходное напряжение канала 2 [40002]" },
+                    { "id":3, "name":"modbus.BVV.r40003", "title":"Выходное напряжение канала 3 [40003]" },
+                    { "id":4, "name":"modbus.BVV.r40004", "title":"Выходное напряжение канала 4 [40004]" },
                     { "id":28, "name":"modbus.BVV.r40028", "title":"Версия встроенного ПО БВВ [40028]" },
                     { "id":29, "name":"modbus.BVV.r40029", "title":"Год прошивки [40029]" },
                     { "id":30, "name":"modbus.BVV.r40030", "title":"Месяц прошивки [40030]" },
                     { "id":31, "name":"modbus.BVV.r40031", "title":"День прошивки [40031]" }
                 ]
             },
-
             {
                 "isUsed": true,
                 "serverAddress":16,

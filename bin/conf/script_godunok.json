@@ -963,15 +963,8 @@
                         }
                     }
                 }"
-        },
-        {
-            "comment":"При изменении температуры уставки - Отобразить и Запись в базу ",
-            "name":"save_settings_temp_sut",
-            "sources":["settings.temp.sut"],
-            "processing":"
-                display.temp.t_ust.setData( settings.temp.sut.data() );
-                saveSettings('temp','sut', settings.temp.sut.data() );
-                "
         }
+
     ]
+
 }

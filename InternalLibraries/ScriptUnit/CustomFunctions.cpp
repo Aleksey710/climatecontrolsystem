@@ -100,3 +100,34 @@ QScriptValue archive(QScriptContext *context, QScriptEngine *engine)
 
     return QScriptValue();
 }
+//------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------
+//!
+std::function<void(const QString &, const QString &, const double &)> SaveSettingsFunction;
+//------------------------------------------------------------------------------------
+//!
+void saveSettingsWorker(const QString &groupe, const QString &param, const double &value)
+{
+    if(SaveSettingsFunction)
+    {
+        SaveSettingsFunction(groupe, param, value);
+    }
+
+    //SEND_TO_LOG( QString("CustomFunctions.cpp archiveWorker %1 %2").arg(msgId).arg(value));
+}
+//------------------------------------------------------------------------------------
+//!
+QScriptValue saveSettings(QScriptContext *context, QScriptEngine *engine)
+{
+    Q_UNUSED(engine);
+
+    const QString groupe = context->argument(0).toString();
+    const QString param = context->argument(1).toString();
+    const double value = context->argument(2).toNumber();
+
+    //SEND_TO_LOG( QString("saveSettings(%1, %2, %3)").arg(groupe).arg(param).arg(value) );
+
+    saveSettingsWorker(groupe, param, value);
+
+    return QScriptValue();
+}

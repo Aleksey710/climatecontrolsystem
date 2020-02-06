@@ -31,17 +31,6 @@ ClimateControlSystem::ClimateControlSystem(QObject *parent)
     setupRpi();
 #endif // __arm__
 
-
-    //-------------------------------------------------------------------
-
-//    m_dbUnit            = std::make_shared<DbUnit>();
-//    m_scriptUnit        = std::make_shared<ScriptUnit>();
-//    m_modbusMasterUnit  = std::make_shared<ModbusMasterUnit>();
-
-//    m_dbUnit            = new DbUnit(this);
-//    m_scriptUnit        = new ScriptUnit();
-//    m_modbusMasterUnit  = new ModbusMasterUnit();
-
     //-------------------------------------------------------------------
     //! Связать функцию архивирования в скрипте с функцией непосредственной работы с базой
     ArchiveFunction = [&](const int &msgId, const double &value = 0){
@@ -50,7 +39,13 @@ ClimateControlSystem::ClimateControlSystem(QObject *parent)
         m_dbUnit.writeMsg(msgId, value);
     };
 
-    //ArchiveFunction = std::bind( &DbUnit::writeMsg, &foo, _1 );
+    //-------------------------------------------------------------------
+    //! Связать функцию архивирования в скрипте с функцией непосредственной работы с базой
+    SaveSettingsFunction = [&](const QString &groupe, const QString &param, const double &value){
+
+        //SEND_TO_LOG( QString("ClimateControlSystem - ArchiveFunction[%1][%2]").arg(msgId).arg(value) );
+        m_dbUnit.saveSettings(groupe, param, value);
+    };
 
     //-------------------------------------------------------------------
     SEND_TO_LOG( QString("ClimateControlSystem - создан") );

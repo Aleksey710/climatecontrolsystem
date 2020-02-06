@@ -94,7 +94,8 @@ class ModbusMasterUnit : public QObject
         //! Решение1 - циклическое выполнение всех запросов(по очереди)
         QList<ModbusRequest*> m_requestList;
 
-        const static int PERIOD_BETWEEN_REQUEST_MS = 1000;
+        const static int PERIOD_REQUEST_MS          = 1000;
+        const static int PERIOD_BETWEEN_REQUEST_MS  = 10;
 
         uint m_curentRequestId;
 #else

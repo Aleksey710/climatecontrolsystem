@@ -27,7 +27,7 @@ class ScriptObject : public QObject, protected QScriptable
         Q_OBJECT
     public:
         explicit ScriptObject(const QString &name,
-                              const double &value,
+                              const double &__value,
                               ScriptObject *parent = Q_NULLPTR);
 
         virtual ~ScriptObject();

@@ -36,5 +36,12 @@ extern std::function<void(const int &, const double &)> ArchiveFunction;
 void archiveWorker(const int &msgId, const double &value);
 QScriptValue archive(QScriptContext *context, QScriptEngine *engine);
 
+//------------------------------------
+extern std::function<void(const QString &, const QString &, const double &)> SaveSettingsFunction;
+
+void saveSettingsWorker(const QString &groupe, const QString &param, const double &value);
+QScriptValue saveSettings(QScriptContext *context, QScriptEngine *engine);
+
+
 //------------------------------------------------------------------------------------
 #endif // CUSTOMFUNCTIONS_H

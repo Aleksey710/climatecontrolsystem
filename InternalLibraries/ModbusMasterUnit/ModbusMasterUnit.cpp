@@ -26,7 +26,13 @@ ModbusMasterUnit::ModbusMasterUnit(QObject *parent)
         //! Запустить таймер паузы
         connect(m_handler, &ModbusMasterHandler::exequted, [=](){
             //! После окончания паузы запустить на выполнение следующий запрос
-            m_pauseTimer->start(PERIOD_BETWEEN_REQUEST_MS);
+            if(m_curentRequestId == 0)
+            {
+                m_pauseTimer->start(PERIOD_REQUEST_MS);
+            } else
+            {
+                m_pauseTimer->start(PERIOD_BETWEEN_REQUEST_MS);
+            }
         });
 
         m_pauseTimer->setSingleShot(true);
@@ -69,8 +75,10 @@ void ModbusMasterUnit::excuteNextRequest()
         //qDebug()<< "ModbusMasterUnit::excuteNextRequest()" << m_curentRequestId;
         ModbusRequest *request = m_requestList.at(m_curentRequestId);
 
+        /*
         SEND_TO_LOG( QString("%1 - Выполнение запроса [%2]-[%3]")
                      .arg(objectName()).arg(m_curentRequestId).arg(request->objectName()) );
+        */
 
         //--------------------------------------------------
         m_curentRequestId++;

@@ -46,6 +46,12 @@ class DbUnit : public QObject
                 m_archiveWriter.writeMsg(msgId, value);
             }
 
+        void saveSettings(const QString &groupe, const QString &param, const double &value)
+            {
+                //SEND_TO_LOG( QString("DbUnit::writeMsg() [%1][%2]").arg(msgId).arg(value) );
+                m_archiveWriter.saveSettings(groupe, param, value);
+            }
+
     private:
         void openDb();
         void createDb();

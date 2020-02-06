@@ -41,15 +41,18 @@ QT += serialport
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
-    settingsdialog.cpp
+    settingsdialog.cpp \
+    mainwindowATOR.cpp
 
 HEADERS += \
     mainwindow.h \
-    settingsdialog.h
+    settingsdialog.h \
+    mainwindowATOR.h
 
 FORMS += \
     mainwindow.ui \
-    settingsdialog.ui
+    settingsdialog.ui \
+    mainwindowATOR.ui
 
 RESOURCES += slave.qrc
 

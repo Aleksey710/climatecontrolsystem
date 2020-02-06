@@ -23,8 +23,16 @@ MainFrame::MainFrame(QWidget *parent)
     setupDisplay("display.U_I.I_gen", widget2);
 
     m_tUstWidget = new GigitalIndicatorWidget("Корекцiя температури", "°C", 22, 26);
-    //setupDisplay("display.temp.t_ust", m_tUstWidget);
-    setupDisplay("settings.temp.sut", m_tUstWidget);
+    setupDisplay("display.temp.t_ust", m_tUstWidget);
+
+    ScriptObject *settingsScriptObject = ScriptUnit::getScriptObject("settings.temp.sut");
+    ScriptObject *displayScriptObject = ScriptUnit::getScriptObject("display.temp.t_ust");
+
+    if(settingsScriptObject && displayScriptObject)
+    {
+        //! Начальная инициализация display.temp.t_ust
+        displayScriptObject->setData(settingsScriptObject->data());
+    }
 
     GigitalIndicatorWidget *widget4 = new GigitalIndicatorWidget("Темп. салона", "°C", -20, 60);
     setupDisplay("display.temp.t_sal", widget4);
@@ -64,14 +72,36 @@ MainFrame::~MainFrame()
 void MainFrame::tUstPlus()
 {
     int value = static_cast<int>(m_tUstWidget->data());
-    m_tUstWidget->setData(value + 1);
+
+    if(value == 26)
+        return;
+
+    ScriptObject *scriptObject = ScriptUnit::getScriptObject("settings.temp.sut");
+
+    if(scriptObject)
+    {
+        scriptObject->setData(value + 1);
+    }
+
+    //m_tUstWidget->setData(value + 1);
 }
 //------------------------------------------------------------------------------------
 //!
 void MainFrame::tUstMinus()
 {
     int value = static_cast<int>(m_tUstWidget->data());
-    m_tUstWidget->setData(value - 1);
+
+    if(value == 22)
+        return;
+
+    ScriptObject *scriptObject = ScriptUnit::getScriptObject("settings.temp.sut");
+
+    if(scriptObject)
+    {
+        scriptObject->setData(value - 1);
+    }
+
+    //m_tUstWidget->setData(value - 1);
 }
 //------------------------------------------------------------------------------------
 //!

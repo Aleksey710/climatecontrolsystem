@@ -17,13 +17,17 @@ class ArchiveWriter : public QObject
         explicit ArchiveWriter(QObject *parent = nullptr);
         virtual ~ArchiveWriter();
 
-
     signals:
         void messageRecordingRequest(const QString &queryStr);
+
 
     public slots:
         void writeMsg(const int &msgId,
                       const double &value = 0.0);
+
+        void saveSettings(const QString &groupe,
+                          const QString &param,
+                          const double &value);
 
 
     private:

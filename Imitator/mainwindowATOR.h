@@ -48,20 +48,68 @@
 **
 ****************************************************************************/
 
-#include "mainwindow.h"
-#include "mainwindowATOR.h"
+#ifndef MAINWINDOWATOR_H
+#define MAINWINDOWATOR_H
 
-#include <QApplication>
-#include <QLoggingCategory>
+#include <QButtonGroup>
+#include <QMainWindow>
+#include <QModbusServer>
+#include <QVector>
 
-int main(int argc, char *argv[])
-{
-    // Uncomment the following line to enable logging
-    // QLoggingCategory::setFilterRules(QStringLiteral("qt.modbus* = true"));
-    QApplication a(argc, argv);
-    //MainWindow w;
-    MainWindowATOR w;
-    w.show();
+QT_BEGIN_NAMESPACE
 
-    return a.exec();
+class QLineEdit;
+
+namespace Ui {
+class MainWindowATOR;
+class SettingsDialog;
 }
+
+QT_END_NAMESPACE
+
+class SettingsDialog;
+
+class MainWindowATOR : public QMainWindow
+{
+    Q_OBJECT
+
+public:
+    explicit MainWindowATOR(QWidget *parent = nullptr);
+    ~MainWindowATOR();
+
+private Q_SLOTS:
+    void onConnectButtonClicked();
+    void onStateChanged(int state);
+
+    void coilChanged(int id);
+    void discreteInputChanged(int id);
+    void bitChanged(int id, QModbusDataUnit::RegisterType table, bool value);
+
+    void setRegister(const QString &value);
+    void updateWidgets(QModbusDataUnit::RegisterType table, int address, int size);
+
+    void onCurrentConnectTypeChanged(int);
+
+    void handleDeviceError(QModbusDevice::Error newError);
+
+    void onVVODigIn(const QString &text);
+    void onVVOReg0();
+    void onVVODigOut(const QString &text);
+
+private:
+    void initActions();
+    void initVVODigIn();
+    void initVVODigOut();
+    void setupDeviceData();
+    void setupWidgetContainers();
+
+    Ui::MainWindowATOR *ui = nullptr;
+    QModbusServer *modbusDevice = nullptr;
+
+    //QButtonGroup coilButtons;
+    //QButtonGroup discreteButtons;
+    QHash<QString, QLineEdit *> registers;
+    SettingsDialog *m_settingsDialog = nullptr;
+};
+
+#endif // MAINWINDOW_H

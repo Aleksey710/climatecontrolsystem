@@ -16,20 +16,25 @@ class MsgWidget : public QLabel
     public:
         explicit MsgWidget(const QString &scriptObjectName,
                            const QString &msg,
+                           const QString &color,
+                           const QString &backgroundColor = "",
                            QWidget *parent = nullptr)
                 :QLabel(msg, parent)
             {
-//                setStyleSheet(
-//                    "QLabel{ "
-//                    "padding: 1px;"
-//                    "margin: 1px;"
-//                    //"border: 1px solid #000000;"
-//                    "border: 2px solid #ff0000;"
-//                    "border-radius : 5px;"
-//                    "color: red;"
-//                    //"background-color: yellow;"
-//                    "}"
-//                );
+                setStyleSheet(QString(
+                    "QLabel{ "
+                    //"padding: 1px;"
+                    //"margin: 1px;"
+                    //"border: 1px solid #000000;"
+                    //"border: 2px solid #005500;"
+                    //"border-radius : 5px;"
+                    "color: %1;"
+                    "%1"
+                    "}")
+                   //.arg("#005500")
+                   .arg(color)
+                   .arg( (!backgroundColor.isEmpty()) ? QString() : QString("background-color: %1;").arg(backgroundColor) )
+                );
 
                 QFont titleFont = font();
                 titleFont.setPointSize(titleFont.pointSize() + 3);

@@ -44,7 +44,16 @@
                     { "id":31, "name":"modbus.BVV.r40031", "title":"День прошивки [40031]" }
                 ]
             },
-
+            {
+                "isUsed": true,
+                "serverAddress":8,
+                "title":"БВВ Хранимые регистры (holding registers). Запись.",
+                "functionCode":16,
+                "registers" : [
+                    { "id":0, "name":"modbus.BVV.r40000", "title":"Регистр дискретных выходов [40000]" },
+                    { "id":1, "name":"modbus.BVV.r40001", "title":"Коррекция температуры" }
+                ]
+            },
             {
                 "isUsed": true,
                 "serverAddress":16,

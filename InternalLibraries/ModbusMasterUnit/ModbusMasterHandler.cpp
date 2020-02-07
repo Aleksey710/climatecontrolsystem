@@ -48,6 +48,8 @@ void ModbusMasterHandler::exequteRequest(ModbusRequest *request)
             break;
         case QModbusPdu::WriteSingleCoil:
         case QModbusPdu::WriteSingleRegister:
+        case QModbusPdu::WriteMultipleCoils:
+        case QModbusPdu::WriteMultipleRegisters:
             writeRequest(m_curentModbusRequest->serverAddress(), m_curentModbusRequest->modbusDataUnit());
             break;
         //-------------------------
@@ -57,8 +59,6 @@ void ModbusMasterHandler::exequteRequest(ModbusRequest *request)
         case QModbusPdu::Diagnostics:
         case QModbusPdu::GetCommEventCounter:
         case QModbusPdu::GetCommEventLog:
-        case QModbusPdu::WriteMultipleCoils:
-        case QModbusPdu::WriteMultipleRegisters:
         case QModbusPdu::ReportServerId:
         case QModbusPdu::ReadFileRecord:
         case QModbusPdu::WriteFileRecord:
@@ -393,6 +393,12 @@ void ModbusMasterHandler::readReplyHandler(QModbusReply *reply)
 //!
 void ModbusMasterHandler::writeReplyHandler(QModbusReply *reply)
 {
+    if (!reply)
+    {
+        deleteModbusDevice();
+        return;
+    }
+
     if (reply->error() == QModbusDevice::ProtocolError)
     {
         SEND_TO_LOG( QString("%1 - Write response error: %2 (Mobus exception: 0x%3)")
@@ -400,6 +406,7 @@ void ModbusMasterHandler::writeReplyHandler(QModbusReply *reply)
                      .arg(reply->errorString())
                      .arg(reply->rawResult().exceptionCode(), -1, 16)
                    );
+        errorDataHandler();
 
     } else if (reply->error() != QModbusDevice::NoError)
     {
@@ -408,9 +415,20 @@ void ModbusMasterHandler::writeReplyHandler(QModbusReply *reply)
                      .arg(reply->errorString())
                      .arg(reply->error(), -1, 16)
                    );
+
+        errorDataHandler();
     }
 
+    m_curentModbusRequest = nullptr;
+
+    deleteModbusDevice();
+
     reply->deleteLater();
+    //-----------------------------------
+//    SEND_TO_LOG( QString("%1 - --- end exequte request -----").arg(objectName()) );
+//    SEND_TO_LOG( QString("%1 - -----------------------------").arg(objectName()) );
+
+    emit exequted();
 }
 //------------------------------------------------------------------------------------
 //!

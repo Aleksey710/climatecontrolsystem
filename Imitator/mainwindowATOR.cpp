@@ -70,8 +70,8 @@ MainWindowATOR::MainWindowATOR(QWidget *parent)
 {
     ui->setupUi(this);
 
-#ifdef QT_OS_WIN
-    ui->portEdit->setText("\\.\COM5");
+#if (defined (_WIN32) || defined (_WIN64))
+    ui->portEdit->setText("\\\\.\\COM5");
 #else
     ui->portEdit->setText("/dev/ttyUSB1");
 #endif

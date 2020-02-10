@@ -965,14 +965,21 @@
                 }"
         },
         {
-            "comment":"При изменении температуры уставки - Отобразить и Запись в базу ",
+            "comment":"При изменении температуры уставки - Отобразить и Запись в базу
+                       При разрыве связи с A9 - Отобразить и НЕ ПИСАТЬ в базу",
             "name":"save_settings_temp_sut",
-            "sources":["settings.temp.sut"],
+            "sources":["modbus.A9.device,
+                        vr.msg.A9ConnError
+                        settings.temp.sut"],
             "processing":"
-                if(vr.msg.A9ConnError.data() == 1)
+                if(vr.msg.A9ConnError.data() != 1)
                 {
                     display.temp.t_ust.setData( settings.temp.sut.data() );
                     saveSettings('temp','sut', settings.temp.sut.data() );
+                } else
+                {
+                    display.temp.t_ust.setData( 24 );
+                    settings.temp.sut.setData( 24 )
                 }
                 "
         },

@@ -27,13 +27,14 @@ class MsgWidget : public QLabel
                     //"margin: 1px;"
                     //"border: 1px solid #000000;"
                     //"border: 2px solid #005500;"
-                    //"border-radius : 5px;"
+                    "border: 2px;"
+                    "border-radius : 5px;"
                     "color: %1;"
                     "%2"
                     "}")
                    //.arg("#005500")
                    .arg(color)
-                   .arg( (!backgroundColor.isEmpty()) ? QString() : QString("background-color: %1;").arg(backgroundColor) )
+                   .arg( (backgroundColor.isEmpty()) ? QString() : QString("background-color: %1;").arg(backgroundColor) )
                 );
 
                 QFont titleFont = font();

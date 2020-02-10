@@ -30,14 +30,15 @@ RowMsgWidget::RowMsgWidget(MsgWidget *lowColumn1MsgWidget,
     m_mainLayout->setHorizontalSpacing(1);
 
     //---------------------------------------------------------
+    /*
     m_lowPriorityWidget->setStyleSheet(
         "QLabel{ "
         "padding: 1px;"
         "margin: 1px;"
         //"border: 1px solid #000000;"
-        "border: 2px solid #005500;"
+        "border: 2px;"
         "border-radius : 5px;"
-        "color: #005500;"
+//        "color: #005500;"
         //"background-color: yellow;"
         "}"
     );
@@ -48,11 +49,13 @@ RowMsgWidget::RowMsgWidget(MsgWidget *lowColumn1MsgWidget,
         "margin: 1px;"
         //"border: 1px solid #000000;"
         //"border: 2px solid #ff0000;"
+        "border: 2px;"
         "border-radius : 5px;"
-        "color: white;"
-        "background-color: red;"
+//        "color: white;"
+//        "background-color: red;"
         "}"
     );
+    */
     //---------------------------------------------------------
     QHBoxLayout *lowPriorityWidgetLayout = new QHBoxLayout();
 

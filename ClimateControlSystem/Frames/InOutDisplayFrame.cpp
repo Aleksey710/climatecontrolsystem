@@ -48,6 +48,7 @@ InOutDisplayFrame::InOutDisplayFrame(QWidget *parent)
     setupDigDisplay("display.BVV.heater",        ui->le_heater);
     setupDigDisplay("display.BVV.umax_zrk",      ui->le_umax_zrk);
     setupDigDisplay("display.BVV.r_insulation",  ui->le_r_insulation);
+    setupDigDisplay("display.BVV.ventilation",   ui->le_vent);
 
     //--------------------------------------
     setupDisplay("out.BVV.vvo1On",           ui->le_out_VVO1);

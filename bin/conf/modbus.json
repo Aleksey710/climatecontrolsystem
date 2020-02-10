@@ -51,14 +51,17 @@
                 "functionCode":16,
                 "registers" : [
                     { "id":0, "name":"modbus.BVV.r40000", "title":"Регистр дискретных выходов [40000]" },
-                    { "id":1, "name":"modbus.BVV.r40001", "title":"Коррекция температуры" }
+                    { "id":1, "name":"modbus.BVV.r40001", "title":"Коррекция температуры" },
+                    { "id":2, "name":"modbus.BVV.r40002", "title":"Коррекция температуры1" },
+                    { "id":3, "name":"modbus.BVV.r40003", "title":"Коррекция температуры2" },
+                    { "id":4, "name":"modbus.BVV.r40004", "title":"Коррекция температуры3" }
                 ]
             },
             {
                 "isUsed": true,
                 "serverAddress":16,
                 "title":"A9 Хранимые регистры (holding registers)",
-                "functionCode":4,
+                "functionCode":3,
                 "registers" : [
                     { "id":1,  "name":"modbus.A9.r40001", "title":"Коррекция температуры (22, 23, 24, 25, 26 С или 220, 230, 240, 250, 260 десятые С) запись" },
                     { "id":28, "name":"modbus.A9.r40028", "title":"Версия встроенного ПО БУТ" },
@@ -71,7 +74,7 @@
                 "isUsed": true,
                 "serverAddress":17,
                 "title":"Датчик температури салону",
-                "functionCode":3,
+                "functionCode":4,
                 "registers" : [
                     { "id":0, "name":"modbus.Tsal.r30000", "title":"Салон (tсал) " }
                 ]
@@ -80,7 +83,7 @@
                 "isUsed": true,
                 "serverAddress":18,
                 "title":"Датчик температура зовнішня",
-                "functionCode":3,
+                "functionCode":4,
                 "registers" : [
                     { "id":0, "name":"modbus.Tnv.r30000", "title":"Наружный (tнв)" }
                 ]
@@ -89,7 +92,7 @@
                 "isUsed": true,
                 "serverAddress":19,
                 "title":"Датчик температура приток",
-                "functionCode":3,
+                "functionCode":4,
                 "registers" : [
                     { "id":0, "name":"modbus.Tpr.r30000", "title":"Приточный (воздуховод) (tпр)" }
                 ]
@@ -98,7 +101,7 @@
                 "isUsed": true,
                 "serverAddress":20,
                 "title":"Датчик температура котла",
-                "functionCode":3,
+                "functionCode":4,
                 "registers" : [
                     { "id":0, "name":"modbus.Tkotl.r30000", "title":"Вода в котле (tкотла)" }
                 ]

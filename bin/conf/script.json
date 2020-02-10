@@ -969,9 +969,54 @@
             "name":"save_settings_temp_sut",
             "sources":["settings.temp.sut"],
             "processing":"
-                display.temp.t_ust.setData( settings.temp.sut.data() );
-                saveSettings('temp','sut', settings.temp.sut.data() );
+                if(vr.msg.A9ConnError.data() == 1)
+                {
+                    display.temp.t_ust.setData( settings.temp.sut.data() );
+                    saveSettings('temp','sut', settings.temp.sut.data() );
+                }
                 "
-        }
+        },
+        {
+            "name":"testArchive",
+            "sources":["sys.time.curent"],
+            "processing":
+"
+display.temp.t_sal.setData(     display.temp.t_sal.data()   +10);
+display.temp.t_pr.setData(      display.temp.t_pr.data()    +10);
+display.temp.t_nv.setData(      display.temp.t_nv.data()    +10);
+display.temp.t_kotl.setData(    display.temp.t_kotl.data()  +10);
+
+display.U_I.I_bat.setData(      display.U_I.I_bat.data()    +10);
+display.U_I.I_gen.setData(      display.U_I.I_gen.data()    +10);
+display.U_I.U_net.setData(      display.U_I.U_net.data()    +10);
+
+archive(1, 50);
+archive(6, 50);
+
+archive(2, 50);
+archive(3);
+archive(4, 50);
+archive(5);
+
+archive(44);
+archive(45);
+archive(46);
+archive(47);
+
+archive(19);
+archive(19);
+archive(19);
+
+archive(18);
+archive(18);
+archive(18);
+
+archive(19);
+archive(18);
+archive(19);
+archive(18);
+
+"
+    }
     ]
 }

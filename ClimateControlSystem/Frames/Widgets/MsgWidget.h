@@ -29,7 +29,7 @@ class MsgWidget : public QLabel
                     //"border: 2px solid #005500;"
                     //"border-radius : 5px;"
                     "color: %1;"
-                    "%1"
+                    "%2"
                     "}")
                    //.arg("#005500")
                    .arg(color)

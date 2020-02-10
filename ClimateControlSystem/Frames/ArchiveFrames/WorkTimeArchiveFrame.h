@@ -57,6 +57,7 @@ class WorkTimeArchiveFrame : public AbstractArchiveFrame
                                             QTableWidgetItem*> > *rowList);
 
     private:
+        QGridLayout *m_mainLayout;
         QTableWidget *m_tableWidget;
 
 };

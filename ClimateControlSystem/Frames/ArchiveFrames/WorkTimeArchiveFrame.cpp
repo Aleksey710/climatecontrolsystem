@@ -6,7 +6,32 @@ WorkTimeArchiveFrame::WorkTimeArchiveFrame(QWidget *parent)
                      :AbstractArchiveFrame(parent)
 {
     setObjectName(QString("WorkTimeArchiveFrame"));
+
+    //-----------------------------------------------------------------
+    m_mainLayout = new QGridLayout;
+
+    //mainLayout->setMargin(1);
+    //-----------------------------------------------------------------
+    QLabel *titleLabel = new QLabel( headLabel() );
+
+    m_mainLayout->addWidget(titleLabel);
+
+    //-----------------------------------------------------------------
+    m_tableWidget = new QTableWidget();
+    m_tableWidget->setColumnCount(4);
+
+    m_tableWidget->setVerticalScrollMode(QAbstractItemView::ScrollPerItem);
+
+    m_tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
+    m_tableWidget->horizontalHeader()->setStretchLastSection(true);
+
+    m_tableWidget->verticalHeader()->setDefaultSectionSize(20);
+
+    m_mainLayout->addWidget(m_tableWidget);
+
     setup();
+
+    setLayout(m_mainLayout);
 
     //! По сигналу - обновить данные в модели
     QObject::connect(this, &AbstractArchiveFrame::updateModelData,[=](){
@@ -25,32 +50,7 @@ WorkTimeArchiveFrame::~WorkTimeArchiveFrame()
 //!
 void WorkTimeArchiveFrame::setup()
 {
-    //-----------------------------------------------------------------
-    QGridLayout *mainLayout = new QGridLayout;
-
-    //mainLayout->setMargin(1);
-    //-----------------------------------------------------------------
-    QLabel *titleLabel = new QLabel( headLabel() );
-
-    mainLayout->addWidget(titleLabel);
-
-    //-----------------------------------------------------------------
-    m_tableWidget = new QTableWidget();
-    m_tableWidget->setColumnCount(4);
-
-    m_tableWidget->setVerticalScrollMode(QAbstractItemView::ScrollPerItem);
-
-    m_tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
-    m_tableWidget->horizontalHeader()->setStretchLastSection(true);
-
-    m_tableWidget->verticalHeader()->setDefaultSectionSize(20);
-
-    mainLayout->addWidget(m_tableWidget);
-
-    //-----------------------------------------------------------------
     updateData();
-    //-----------------------------------------------------------------
-    setLayout(mainLayout);
 }
 //------------------------------------------------------------------------------------
 //!
@@ -73,11 +73,6 @@ void WorkTimeArchiveFrame::updateData()
                           QTableWidgetItem*,
                           QTableWidgetItem*> > rowList;
 
-        QTableWidgetItem *column0 = nullptr;
-        QTableWidgetItem *column1 = nullptr;
-        QTableWidgetItem *column2 = nullptr;
-        QTableWidgetItem *column3 = nullptr;
-
         bool lastIsOn = false;
 
         while (sqlQuery.next())
@@ -85,15 +80,21 @@ void WorkTimeArchiveFrame::updateData()
             QString dt  = sqlQuery.value(0).toString();
             QString msg = sqlQuery.value(1).toString();
 
+            QTableWidgetItem *column0 = new QTableWidgetItem("");
+            QTableWidgetItem *column1 = new QTableWidgetItem("");
+            QTableWidgetItem *column2 = new QTableWidgetItem("");
+            QTableWidgetItem *column3 = new QTableWidgetItem("");
+
             if(msg == "Увімкнення")
             {
                 if(lastIsOn)
                 {
-                    rowListAppend(&rowList, column0, column1, column2, column3);
+                    //rowListAppend(&rowList, column0, column1, column2, column3);
+                    rowList.append( std::make_tuple( column0,column1,column2,column3 ) );
                 }
 
-                column0 = new QTableWidgetItem(dt);
-                column1 = new QTableWidgetItem(msg);
+                column0->setText(dt);
+                column1->setText(msg);
 
                 //rowListAppend(&rowList, column0, column1, column2, column3);
 
@@ -102,11 +103,12 @@ void WorkTimeArchiveFrame::updateData()
             {
                 if(!lastIsOn)
                 {
-                    rowListAppend(&rowList, column0, column1, column2, column3);
+                    //rowListAppend(&rowList, column0, column1, column2, column3);
+                    rowList.append( std::make_tuple( column0,column1,column2,column3 ) );
                 }
 
-                column2 = new QTableWidgetItem(dt);
-                column3 = new QTableWidgetItem(msg);
+                column2->setText(dt);
+                column3->setText(msg);
 
                 lastIsOn = false;
             }
@@ -130,16 +132,7 @@ void WorkTimeArchiveFrame::rowListAppend(QList< std::tuple<QTableWidgetItem*,
                                          QTableWidgetItem *column2,
                                          QTableWidgetItem *column3)
 {
-    rowList->append( std::make_tuple( (column0)?column0:new QTableWidgetItem(""),
-                                      (column1)?column1:new QTableWidgetItem(""),
-                                      (column2)?column2:new QTableWidgetItem(""),
-                                      (column3)?column3:new QTableWidgetItem("")
-                                     )
-                   );
-    column0 = nullptr;
-    column1 = nullptr;
-    column2 = nullptr;
-    column3 = nullptr;
+    rowList->append( std::make_tuple( column0,column1,column2,column3 ) );
 }
 //------------------------------------------------------------------------------------
 //!
@@ -148,6 +141,7 @@ void WorkTimeArchiveFrame::resetRowList(QList< std::tuple<QTableWidgetItem*,
                                                           QTableWidgetItem*,
                                                           QTableWidgetItem*> > *rowList)
 {
+    m_tableWidget->clearContents();
     m_tableWidget->setRowCount(rowList->size());
 
     for (int row = 0; row < rowList->size(); ++row)
@@ -162,6 +156,8 @@ void WorkTimeArchiveFrame::resetRowList(QList< std::tuple<QTableWidgetItem*,
         m_tableWidget->setItem(row, 2, std::get<2>(rowTuple));
         m_tableWidget->setItem(row, 3, std::get<3>(rowTuple));
     }
+
+    m_tableWidget->resizeColumnsToContents();
 }
 //------------------------------------------------------------------------------------
 //!

@@ -27,7 +27,7 @@ class MsgWidget : public QLabel
                     //"margin: 1px;"
                     //"border: 1px solid #000000;"
                     //"border: 2px solid #005500;"
-                    "border: 2px;"
+                    "border: 2px solid %1;"
                     "border-radius : 5px;"
                     "color: %1;"
                     "%2"

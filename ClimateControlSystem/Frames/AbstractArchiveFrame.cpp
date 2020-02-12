@@ -184,6 +184,9 @@ void AbstractArchiveFrame::startSaveData()
 
     //fileName = QFileDialog::getSaveFileName(
     QFileDialog fileDialog;
+
+    Qt::WindowModality windowModality = Qt::ApplicationModal;
+    fileDialog.setWindowModality(windowModality);
 //    (
 ////------------------------------------------------
 ///* parent */                this
@@ -300,15 +303,52 @@ void AbstractArchiveFrame::startSaveData()
 //!
 void AbstractArchiveFrame::startRemoveData()
 {
-    qDebug() << "AbstractArchiveFrame::startRemoveData()";
-
     m_removeRecordsFromArchiveWidget = new RemoveRecordsFromArchiveWidget();
 
+    Qt::WindowModality windowModality = Qt::ApplicationModal;
+    m_removeRecordsFromArchiveWidget->setWindowModality(windowModality);
     m_removeRecordsFromArchiveWidget->show();
 
     connect(m_removeRecordsFromArchiveWidget, &RemoveRecordsFromArchiveWidget::removeAll,[=](){
-        qDebug() << "AbstractArchiveFrame::startRemoveData() - removeAll";
 
+        //--------------------------------------------------------------
+        QStringList queryStringList;
+
+        queryStringList.append(
+            QString("DELETE FROM electrical_equipment_events %1;").arg(""/* "WHERE datetime >"*/)
+        );
+        queryStringList.append(
+            QString("DELETE FROM climate_device_auto_events %1;").arg(""/* "WHERE datetime >"*/)
+        );
+        queryStringList.append(
+            QString("DELETE FROM climate_device_manual_events %1;").arg(""/* "WHERE datetime >"*/)
+        );
+        queryStringList.append(
+            QString("DELETE FROM work_time_events %1;").arg(""/* "WHERE datetime >"*/)
+        );
+
+        QSqlDatabase db(QSqlDatabase::database(DbUnit::dbName()));
+
+        QSqlQuery sqlQuery(db);
+
+        QStringList::const_iterator constIterator;
+        for (constIterator = queryStringList.constBegin();
+                constIterator != queryStringList.constEnd();
+                    ++constIterator)
+        {
+            if( !sqlQuery.exec( (*constIterator) ) )
+            {
+                QSqlError err = db.lastError();
+
+                SEND_TO_LOG( QString("%1 - Error [%2] [%3]")
+                             .arg(objectName()).arg( (*constIterator) ).arg(err.text()))
+            }
+        }
+
+        //--------------------------------------------------------------
+        emit updateModelData();
+
+        //--------------------------------------------------------------
         m_removeRecordsFromArchiveWidget->close();
         m_removeRecordsFromArchiveWidget->deleteLater();
         m_removeRecordsFromArchiveWidget = nullptr;

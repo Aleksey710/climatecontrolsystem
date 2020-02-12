@@ -56,6 +56,7 @@ InOutDisplayFrame::InOutDisplayFrame(QWidget *parent)
     setupDisplay("out.BVV.pompOn",           ui->le_out_pump_heater);
     setupDisplay("out.BVV.nvoOn",            ui->le_out_NVO);
     setupDisplay("out.BVV.fault",            ui->le_out_alarm);
+    //setupDisplay("vr.test.sys_time",            ui->le_out_alarm);
 
     //--------------------------------------
 

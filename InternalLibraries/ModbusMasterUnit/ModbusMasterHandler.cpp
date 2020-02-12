@@ -335,7 +335,7 @@ void ModbusMasterHandler::readReplyHandler(QModbusReply *reply)
 {
     if (!reply)
     {
-        deleteModbusDevice();
+        //deleteModbusDevice();
         return;
     }
 
@@ -396,7 +396,7 @@ void ModbusMasterHandler::writeReplyHandler(QModbusReply *reply)
 {
     if (!reply)
     {
-        deleteModbusDevice();
+        //deleteModbusDevice();
         return;
     }
 

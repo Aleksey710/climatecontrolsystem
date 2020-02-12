@@ -25,8 +25,8 @@ class ModbusConnectionSettings
                                  const QString &__networkAddressParameter,
                                  const int __networkPortParameter,
                                  //
-                                 const int __responseTime = 100,
-                                 const int __numberOfRetries = 3)
+                                 const int __responseTime = 50,
+                                 const int __numberOfRetries = 1)
             :modbusConnectionType ( __modbusConnectionType ),
              //
              serialPortNameParameter ( __serialPortNameParameter ),

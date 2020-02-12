@@ -218,12 +218,12 @@ void ModbusMasterHandler::requestExecutionErrorHandler()
 //! Удалить предыдущий обработчик устройства
 void ModbusMasterHandler::deleteModbusDevice()
 {
-    if (m_modbusDevice)
+    if (m_modbusDevice )
     {
         if(m_modbusDevice->state() != QModbusDevice::UnconnectedState)
             m_modbusDevice->disconnectDevice();
 
-        m_modbusDevice->deleteLater();
+        delete m_modbusDevice;//->deleteLater();
         m_modbusDevice = nullptr;
     }
 }

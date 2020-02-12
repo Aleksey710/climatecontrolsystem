@@ -85,35 +85,7 @@ class ModbusConnectionSettings
 
             if(responseTime < 50) responseTime = 50;
         }
-        //------------------------------------------------------------------------------------
-/*
-        ModbusConnectionSettings(const QString &__serialPortNameParameter,
-                                 const int __serialParityParameter,
-                                 const int __serialBaudRateParameter,
-                                 const int __serialDataBitsParameter,
-                                 const int __serialStopBitsParameter)
-            :serialPortNameParameter ( __serialPortNameParameter ),
-             serialParityParameter ( __serialParityParameter ),
-             serialBaudRateParameter ( __serialBaudRateParameter ),
-             serialDataBitsParameter ( __serialDataBitsParameter ),
-             serialStopBitsParameter ( __serialStopBitsParameter ),
-             //
-             modbusConnectionType ( ModbusConnection::Serial )
-        {
 
-        }
-
-        //------------------------------------------------------------------------------------
-        ModbusConnectionSettings(const QString &__networkAddressParameter,
-                                 const int __networkPortParameter)
-            :networkAddressParameter ( __networkAddressParameter ),
-             networkPortParameter ( __networkPortParameter ),
-             //
-             modbusConnectionType ( ModbusConnection::Tcp )
-        {
-
-        }
-*/
         //------------------------------------------------------------------------------------
         QString connectionName;
 
@@ -132,5 +104,4 @@ class ModbusConnectionSettings
         int numberOfRetries;
 };
 //------------------------------------------------------------------------------------
-//!
 #endif // MODBUSCONNECTIONSETTINGS_H

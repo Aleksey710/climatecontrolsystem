@@ -2121,8 +2121,8 @@ modbus.BVV.r40004.setData(vr.timout.dlhon.data());
             "comment":"При изменении температуры уставки - Отобразить и Запись в базу
                        При разрыве связи с A9 - Отобразить и НЕ ПИСАТЬ в базу",
             "name":"save_settings_temp_sut",
-            "sources":["vr.msg.A9ConnError
-                        settings.temp.sut"],
+            "sources":["vr.msg.A9ConnError",
+                        "settings.temp.sut"],
             "processing":"
                 /* Если НЕ обрыв */
                 if(vr.msg.A9ConnError.data() != 1)

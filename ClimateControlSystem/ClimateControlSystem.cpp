@@ -78,7 +78,7 @@ void ClimateControlSystem::setupRpi()
 
     SEND_TO_LOG("*****************************************************************************************");
     SEND_TO_LOG( QString("ClimateControlSystem - setup Raspberry Pi") );
-
+/*
     const int clockPin  = 5;
     const int dataPin   = 3;
     const int csPin     = 1;
@@ -115,7 +115,7 @@ void ClimateControlSystem::setupRpi()
                         )
                     );
     }
-
+*/
     //setDSclock ();
     SEND_TO_LOG("*****************************************************************************************");  
 }

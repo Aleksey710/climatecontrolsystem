@@ -223,7 +223,8 @@ void ModbusMasterHandler::deleteModbusDevice()
         if(m_modbusDevice->state() != QModbusDevice::UnconnectedState)
             m_modbusDevice->disconnectDevice();
 
-        delete m_modbusDevice;//->deleteLater();
+        m_modbusDevice->deleteLater();
+        QThread::yieldCurrentThread();
         m_modbusDevice = nullptr;
     }
 }

@@ -9,7 +9,7 @@
 #include <QModbusRtuSerialMaster>
 #include <QUrl>
 #include <QSerialPort>
-//#include <>
+#include <QThread>
 //#include <>
 
 

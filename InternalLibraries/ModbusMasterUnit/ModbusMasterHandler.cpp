@@ -86,12 +86,23 @@ bool ModbusMasterHandler::reconnect(const ModbusConnectionSettings &modbusConnec
     //! Создать обработчик устройства
     if (modbusConnectionType == Serial)
     {
-        m_modbusDevice = new QModbusRtuSerialMaster(this);
-    } else if (modbusConnectionType == Tcp)
-    {
-        m_modbusDevice = new QModbusTcpClient(this);
+        if(!m_modbusDevice)
+        {
+            m_modbusDevice = new QModbusRtuSerialMaster(this);
+        } else
+        {
+            m_modbusDevice->disconnectDevice();
+        }
     }
-
+    /*
+    else if (modbusConnectionType == Tcp)
+    {
+        if(!m_modbusDevice)
+        {
+            m_modbusDevice = new QModbusTcpClient(this);
+        }
+    }
+    */
     //-------------------------------------
     if (!m_modbusDevice)
     {
@@ -223,9 +234,9 @@ void ModbusMasterHandler::deleteModbusDevice()
         if(m_modbusDevice->state() != QModbusDevice::UnconnectedState)
             m_modbusDevice->disconnectDevice();
 
-        m_modbusDevice->deleteLater();
-        QThread::yieldCurrentThread();
-        m_modbusDevice = nullptr;
+//        m_modbusDevice->deleteLater();
+//        QThread::yieldCurrentThread();
+//        m_modbusDevice = nullptr;
     }
 }
 //------------------------------------------------------------------------------------

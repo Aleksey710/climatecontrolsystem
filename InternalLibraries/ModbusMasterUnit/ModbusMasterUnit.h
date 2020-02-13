@@ -38,7 +38,7 @@
 #include "ModbusConnection.h"
 #include "ModbusConnectionSettings.h"
 #include "ModbusMasterHandler.h"
-#include "ModbusMaster485Handler.h"
+//#include "ModbusMaster485Handler.h"
 #include "ModbusRequest.h"
 //
 #include "ScriptObject.h"

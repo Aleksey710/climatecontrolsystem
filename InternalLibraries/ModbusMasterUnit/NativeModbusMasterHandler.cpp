@@ -438,17 +438,6 @@ void NativeModbusMasterHandler::writeReplyHandler(QModbusReply *reply)
 }
 //------------------------------------------------------------------------------------
 //!
-void NativeModbusMasterHandler::errorDataHandler()
-{
-    if(m_curentModbusRequest)
-    {
-        QModbusDataUnit modbusDataUnit = m_curentModbusRequest->modbusDataUnit();
-        modbusDataUnit.setValues( QVector<quint16>(modbusDataUnit.valueCount(), std::numeric_limits<quint16>::max()) );
-        m_curentModbusRequest->setModbusDataUnit(modbusDataUnit, -1);
-    }
-}
-//------------------------------------------------------------------------------------
-//!
 QString NativeModbusMasterHandler::modbusExceptionCodeToString(const QModbusPdu::ExceptionCode &code)
 {
     switch (code)

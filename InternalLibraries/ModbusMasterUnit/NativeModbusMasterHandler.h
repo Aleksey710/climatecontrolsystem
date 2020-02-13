@@ -55,7 +55,6 @@ class NativeModbusMasterHandler : public AbstractModbusMasterHandler
         void readReplyHandler(QModbusReply *reply);
         void writeReplyHandler(QModbusReply *reply);
 
-        void errorDataHandler();
         QString modbusExceptionCodeToString(const QModbusPdu::ExceptionCode &code);
 
     protected:

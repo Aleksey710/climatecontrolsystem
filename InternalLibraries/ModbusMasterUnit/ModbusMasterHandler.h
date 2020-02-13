@@ -24,8 +24,8 @@
 #include "ModbusMaster485Handler.h"
 //------------------------------------------------------------------------------------
 //!
-class ModbusMasterHandler : public NativeModbusMasterHandler
-//class ModbusMasterHandler : public LibmodbusModbusMasterHandler
+//class ModbusMasterHandler : public NativeModbusMasterHandler
+class ModbusMasterHandler : public LibmodbusModbusMasterHandler
 //class ModbusMasterHandler : public ModbusMaster485Handler
 {
         Q_OBJECT

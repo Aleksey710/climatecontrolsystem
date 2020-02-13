@@ -3,8 +3,8 @@
 //------------------------------------------------------------------------------------
 //!
 ModbusMasterHandler::ModbusMasterHandler(QObject *parent)
-                    :NativeModbusMasterHandler(parent)
-//                    :LibmodbusModbusMasterHandler(parent)
+//                    :NativeModbusMasterHandler(parent)
+                    :LibmodbusModbusMasterHandler(parent)
 //                    :ModbusMaster485Handler(parent)
 {
     setObjectName("ModbusMasterHandler");

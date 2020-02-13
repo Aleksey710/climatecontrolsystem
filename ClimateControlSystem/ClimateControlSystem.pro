@@ -152,6 +152,7 @@ unix:LIBS += \
     -lWiringPi \
     -lModbus485 \
     -larduPi \
+    -lmodbus \
 
 
 LIBS += \

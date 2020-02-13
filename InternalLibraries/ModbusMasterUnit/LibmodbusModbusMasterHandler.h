@@ -42,18 +42,19 @@ class LibmodbusModbusMasterHandler : public AbstractModbusMasterHandler
         virtual void exequteRequest(ModbusRequest *request);
 
 
-    private slots:
-        bool reconnect(const ModbusConnectionSettings &modbusConnectionSettings);
-
-        void readRequest(const int serverAddress, QModbusDataUnit &readDataUnit);
-        void writeRequest(const int serverAddress, QModbusDataUnit &writeDataUnit);
-        void readWriteRequest(const int serverAddress,
-                              QModbusDataUnit &readDataUnit,
-                              QModbusDataUnit &writeDataUnit);
-
     private:
-        void deleteModbusDevice();
-        void requestExecutionErrorHandler();
+        template < typename T >
+        T* modbusDataUnitToDest(QModbusDataUnit &dataUnit);
+
+        template < typename T >
+        void exequte( modbus_t *ctx,
+                      QModbusDataUnit &dataUnit,
+                      int (*function)(modbus_t*,
+                                      int,
+                                      int,
+                                      T*) );
+
+
 
     private:
 

@@ -40,7 +40,7 @@ class AbstractModbusMasterHandler : public QObject
         virtual void exequteRequest(ModbusRequest *request) = 0;
 
     protected:
-
+        virtual void errorDataHandler();
 
 
     protected:

@@ -48,15 +48,6 @@
 //#include ".h"
 //-------------------------------------------------------------------------
 //! В ModbusMasterUnit.pro
-//! DEFINES += NATIVE_MODBUS_HANDLER
-//! #define NATIVE_MODBUS_HANDLER
-//!
-//! NATIVE_MODBUS_HANDLER - Использовать модбас обработчик на основе библиотек Qt
-//! ИЛИ
-//! Использовать модбас обработчик на основе библиотеки
-//! https://www.cooking-hacks.com/documentation/tutorials/modbus-module-shield-tutorial-for-arduino-raspberry-pi-intel-galileo/
-//-------------------------------------------------------------------------
-//! В ModbusMasterUnit.pro
 //! DEFINES += CIRCULAR_PROCESSING_REQUEST
 //! #define CIRCULAR_PROCESSING_REQUEST
 //!
@@ -96,16 +87,8 @@ class ModbusMasterUnit : public QObject
                            const QJsonObject &deviceJsonObject);
 
     private:
-//-------------------------------------------
-#ifdef __arm__
-    #ifdef NATIVE_MODBUS_HANDLER
-            ModbusMasterHandler     *m_handler;
-    #else
-            ModbusMaster485Handler  *m_handler;
-    #endif // NATIVE_MODBUS_HANDLER
-#else // __arm__
-     ModbusMasterHandler     *m_handler;
-#endif // __arm__
+        ModbusMasterHandler     *m_handler;
+
 //-------------------------------------------
 #ifdef CIRCULAR_PROCESSING_REQUEST
         QTimer *m_pauseTimer;

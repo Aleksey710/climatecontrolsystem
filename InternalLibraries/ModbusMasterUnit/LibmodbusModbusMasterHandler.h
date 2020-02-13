@@ -43,17 +43,24 @@ class LibmodbusModbusMasterHandler : public AbstractModbusMasterHandler
 
 
     private:
-        template < typename T >
-        T* modbusDataUnitToDest(QModbusDataUnit &dataUnit);
+//        template < typename T >
+//        T* modbusDataUnitToDest(QModbusDataUnit &dataUnit);
 
         template < typename T >
-        void exequte( modbus_t *ctx,
-                      QModbusDataUnit &dataUnit,
-                      int (*function)(modbus_t*,
-                                      int,
-                                      int,
-                                      T*) );
+        void exequteRead( modbus_t *ctx,
+                          QModbusDataUnit &dataUnit,
+                          int (*function)(modbus_t*,
+                                          int,
+                                          int,
+                                          T*) );
 
+        template < typename T >
+        void exequteWrite( modbus_t *ctx,
+                           QModbusDataUnit &dataUnit,
+                           int (*function)(modbus_t*,
+                                           int,
+                                           int,
+                                           T*) );
 
 
     private:

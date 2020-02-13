@@ -47,13 +47,12 @@ INCLUDEPATH += $$ROOT_PATH/InternalLibraries/DbUnit/ArchiveForms
 INCLUDEPATH += $$ROOT_PATH/InternalLibraries/ModbusMasterUnit
 INCLUDEPATH += $$ROOT_PATH/InternalLibraries/ScriptUnit
 
-INCLUDEPATH += $$ROOT_PATH/ExternalLibraries/WiringPi
-INCLUDEPATH += $$ROOT_PATH/ExternalLibraries/WiringPi/devLib
-INCLUDEPATH += $$ROOT_PATH/ExternalLibraries/WiringPi/wiringPi
+#INCLUDEPATH += $$ROOT_PATH/ExternalLibraries/WiringPi
+#INCLUDEPATH += $$ROOT_PATH/ExternalLibraries/WiringPi/devLib
+#INCLUDEPATH += $$ROOT_PATH/ExternalLibraries/WiringPi/wiringPi
 
-INCLUDEPATH += $$ROOT_PATH/ExternalLibraries/arduPi
-
-INCLUDEPATH += $$ROOT_PATH/ExternalLibraries/Modbus485
+#INCLUDEPATH += $$ROOT_PATH/ExternalLibraries/arduPi
+#INCLUDEPATH += $$ROOT_PATH/ExternalLibraries/Modbus485
 
 
 INCLUDEPATH += ./

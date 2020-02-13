@@ -10,7 +10,10 @@
 /* Define to 1 if you have the <byteswap.h> header file. */
 //#define HAVE_BYTESWAP_H 1
 
-#ifdef Q_OS_LINUX
+//#######################################
+//#ifdef Q_OS_LINUX
+//#######################################
+
 /* Define to 1 if you have the declaration of `TIOCM_RTS', and to 0 if you
    don't. */
 #define HAVE_DECL_TIOCM_RTS 1
@@ -18,7 +21,9 @@
 /* Define to 1 if you have the declaration of `TIOCSRS485', and to 0 if you
    don't. */
 #define HAVE_DECL_TIOCSRS485 1
-#endif
+//#######################################
+//#endif
+//#######################################
 
 /* Define to 1 if you have the declaration of `__CYGWIN__', and to 0 if you
    don't. */

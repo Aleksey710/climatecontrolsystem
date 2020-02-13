@@ -59,7 +59,6 @@ SOURCES += \
 
 
 HEADERS += \
-    $$LIBMODBUS/config.h \
     $$LIBMODBUS/src/modbus-version.h \
     $$LIBMODBUS/src/modbus.h \
     $$LIBMODBUS/src/modbus-private.h \
@@ -67,6 +66,7 @@ HEADERS += \
     $$LIBMODBUS/src/modbus-rtu-private.h \
     $$LIBMODBUS/src/modbus-tcp.h \
     $$LIBMODBUS/src/modbus-tcp-private.h \
+    $$LIBMODBUS/config.h \
 
 
 #############################################################

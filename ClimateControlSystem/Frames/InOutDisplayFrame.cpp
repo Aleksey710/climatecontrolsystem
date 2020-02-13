@@ -51,11 +51,12 @@ InOutDisplayFrame::InOutDisplayFrame(QWidget *parent)
     setupDigDisplay("display.BVV.ventilation",   ui->le_vent);
 
     //--------------------------------------
-    setupDisplay("out.BVV.vvo1On",           ui->le_out_VVO1);
-    setupDisplay("out.BVV.vvo2On",           ui->le_out_VVO2);
-    setupDisplay("out.BVV.pompOn",           ui->le_out_pump_heater);
-    setupDisplay("out.BVV.nvoOn",            ui->le_out_NVO);
-    setupDisplay("out.BVV.fault",            ui->le_out_alarm);
+    setupDigDisplay("out.BVV.vvo1On",           ui->le_out_VVO1);
+    setupDigDisplay("out.BVV.vvo2On",           ui->le_out_VVO2);
+    setupDigDisplay("out.BVV.pompOn",           ui->le_out_pump_heater);
+    setupDigDisplay("out.BVV.nvoOn",            ui->le_out_NVO);
+    setupDigDisplay("out.BVV.fault",            ui->le_out_alarm);
+
     //setupDisplay("vr.test.sys_time",            ui->le_out_alarm);
 
     //--------------------------------------

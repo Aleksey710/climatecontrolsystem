@@ -353,7 +353,7 @@ void DbUnit::createTempGroup(QStringList &queryStringList)
     queryStringList.append(
         "INSERT INTO `data` (`group_id`,`name`,`title`,`value`) "
         "VALUES ((SELECT `id` FROM `groups` WHERE `name`='temp'), "
-        "'ibt', 'Iнтервал перевищення максимальної температури котла, мСек', 10000);");
+        "'ibt', 'Iнтервал перевищення максимальної температури котла, Сек', 10);");
     queryStringList.append(
         "INSERT INTO `data` (`group_id`,`name`,`title`,`value`) "
         "VALUES ((SELECT `id` FROM `groups` WHERE `name`='temp'), "
@@ -443,7 +443,7 @@ void DbUnit::createBatGroup(QStringList &queryStringList)
     queryStringList.append(
         "INSERT INTO `data` (`group_id`,`name`,`title`,`value`) "
         "VALUES ((SELECT `id` FROM `groups` WHERE `name`='bat'), "
-        "'imcb', 'Iнтервал перевищення струму батареї, мСек', 60000);");
+        "'imcb', 'Iнтервал перевищення струму батареї, Сек', 60);");
 }
 //------------------------------------------------------------------------------------
 //!
@@ -517,7 +517,7 @@ void DbUnit::createGenGroup(QStringList &queryStringList)
     queryStringList.append(
         "INSERT INTO `data` (`group_id`,`name`,`title`,`value`) "
         "VALUES ((SELECT `id` FROM `groups` WHERE `name`='gen'), "
-        "'imcg', 'Iнтервал перевищення струму генератора, мСек', 2000);");
+        "'imcg', 'Iнтервал перевищення струму генератора, Сек', 2);");
 }
 //------------------------------------------------------------------------------------
 //!
@@ -530,7 +530,7 @@ void DbUnit::createVoltGroup(QStringList &queryStringList)
     queryStringList.append(
         "INSERT INTO `data` (`group_id`,`name`,`title`,`value`) "
         "VALUES ((SELECT `id` FROM `groups` WHERE `name`='volt'), "
-        "'maibn', 'Iнтервал перевищення напруги бортової мережі, мСек', 2000);");
+        "'maibn', 'Iнтервал перевищення напруги бортової мережі, Сек', 2);");
     queryStringList.append(
         "INSERT INTO `data` (`group_id`,`name`,`title`,`value`) "
         "VALUES ((SELECT `id` FROM `groups` WHERE `name`='volt'), "
@@ -538,7 +538,7 @@ void DbUnit::createVoltGroup(QStringList &queryStringList)
     queryStringList.append(
         "INSERT INTO `data` (`group_id`,`name`,`title`,`value`) "
         "VALUES ((SELECT `id` FROM `groups` WHERE `name`='volt'), "
-        "'miibn', 'Iнтервал заниження напруги бортової мережі, мСек', 10000);");
+        "'miibn', 'Iнтервал заниження напруги бортової мережі, Сек', 10);");
 }
 //------------------------------------------------------------------------------------
 //!
@@ -580,31 +580,31 @@ void DbUnit::createDelayGroup(QStringList &queryStringList)
     queryStringList.append(
         "INSERT INTO `data` (`group_id`,`name`,`title`,`value`) "
         "VALUES ((SELECT `id` FROM `groups` WHERE `name`='delay'), "
-        "'vvodsd', 'Час простою перед наступним включенням ВВО, мСек', 5000);");
+        "'vvodsd', 'Затримка повторного включення ВВО, Сек', 15);");
     queryStringList.append(
         "INSERT INTO `data` (`group_id`,`name`,`title`,`value`) "
         "VALUES ((SELECT `id` FROM `groups` WHERE `name`='delay'), "
-        "'vvosod', 'Затримка включення ВВО, мСек', 5000);");
+        "'vvosod', 'Затримка включення ВВО, Сек', 5);");
     queryStringList.append(
         "INSERT INTO `data` (`group_id`,`name`,`title`,`value`) "
         "VALUES ((SELECT `id` FROM `groups` WHERE `name`='delay'), "
-        "'vvord', 'Затримка відповіді включення ВВО від БВВ, мСек', 5000);");
+        "'vvord', 'Затримка відповіді включення ВВО від БВВ, Сек', 5);");
     queryStringList.append(
         "INSERT INTO `data` (`group_id`,`name`,`title`,`value`) "
         "VALUES ((SELECT `id` FROM `groups` WHERE `name`='delay'), "
-        "'dlhon', 'Затримка включення НВО, мСек', 5000);");
+        "'dlhon', 'Затримка включення НВО, Сек', 5);");
     queryStringList.append(
         "INSERT INTO `data` (`group_id`,`name`,`title`,`value`) "
         "VALUES ((SELECT `id` FROM `groups` WHERE `name`='delay'), "
-        "'dlhoff', 'Затримка виключення НВО, мСек', 5000);");
+        "'dlhoff', 'Затримка виключення НВО, Сек', 5);");
     queryStringList.append(
         "INSERT INTO `data` (`group_id`,`name`,`title`,`value`) "
         "VALUES ((SELECT `id` FROM `groups` WHERE `name`='delay'), "
-        "'dlhr', 'Затримка відповіді включення НВО від БВВ, мСек', 5000);");
+        "'dlhr', 'Затримка відповіді включення НВО від БВВ, cек', 5);");
     queryStringList.append(
         "INSERT INTO `data` (`group_id`,`name`,`title`,`value`) "
         "VALUES ((SELECT `id` FROM `groups` WHERE `name`='delay'), "
-        "'dlh', 'Затримка повторного включення НВО, мСек', 15000);");
+        "'dlh', 'Затримка повторного включення НВО, cек', 15);");
 }
 //------------------------------------------------------------------------------------
 //!

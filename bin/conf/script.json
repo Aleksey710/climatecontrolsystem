@@ -153,6 +153,12 @@
             { "lineComment":"---------------------------------------------------------------------" },
 
 
+            { "name":"vr.debug.vr1", "title":"Отладка1",                 "value": 0 },
+            { "name":"vr.debug.vr2", "title":"Отладка2",                 "value": 0 },
+            { "name":"vr.debug.vr3", "title":"Отладка3",                 "value": 0 },
+            { "name":"vr.debug.vr4", "title":"Отладка4",                 "value": 0 },
+            { "name":"vr.debug.vr5", "title":"Отладка5",                 "value": 0 },
+            { "name":"vr.debug.vr6", "title":"Отладка6",                 "value": 0 },
         { "lineComment":"------------------------------------------------------------------------------------------------------" },
 
         { "lineComment":"------------------------------------------------------------------------------------------------------" },
@@ -260,42 +266,42 @@
 
                     if ( out.BVV.vvo1On.data() == 1 )
                     {
-                        outData |= 1;
+                        outData |= 0x00000001;
                     } else
                     {
-                        outData &= ~1;
+                        outData &= ~0x00000001;
                     }
 
                     if ( out.BVV.vvo2On.data() == 1 )
                     {
-                        outData |= 2;
+                        outData |= 0x00000002;
                     } else
                     {
-                        outData &= ~2;
+                        outData &= ~0x00000002;
                     }
 
                     if ( out.BVV.pompOn.data() == 1 )
                     {
-                        outData |= 4;
+                        outData |= 0x00000004;
                     } else
                     {
-                        outData &= ~4;
+                        outData &= ~0x00000004;
                     }
 
                     if ( out.BVV.nvoOn.data() == 1 )
                     {
-                        outData |= 8;
+                        outData |= 0x00000008;
                     } else
                     {
-                        outData &= ~8;
+                        outData &= ~0x00000008;
                     }
 
                     if ( out.BVV.fault.data() == 1 )
                     {
-                        outData |= 16;
+                        outData |= 0x00000010;
                     } else
                     {
-                        outData &= ~16;
+                        outData &= ~0x00000010;
                     }
 
                     modbus.BVV.r40000.setData( outData );
@@ -867,7 +873,21 @@
             "processing":"
                 if( modbus.BVV.device.data() == 1 )
                 {
-                    display.BVV.crash.setData( ( modbus.BVV.r30000.data() & 64) > 0 );
+                    if ( ( modbus.BVV.r30000.data() & 64 ) > 0 )
+                    {
+                        if ( display.BVV.crash.data() == 0 )
+                        {
+                            display.BVV.crash.setData( 1 );
+                            /*Запись в журнал*/
+                            archive( 20 );
+                        }
+                    } else
+                    {
+                        if ( display.BVV.crash.data() == 1 )
+                        {
+                            display.BVV.crash.setData( 0 );
+                        }
+                    }
                 }else if ( vr.msg.BVVConnError.data() == 1 )
                 {
                     display.BVV.crash.setData(0);
@@ -1097,7 +1117,11 @@
                         {
                             display.BVV.umax_zrk.setData( 1 );
                             /*Запись в журнал*/
-                            archive( 6 );
+                            /*В ТЗ запис 'Umax ЗРК=ХХХ В', но аварию получайм по дискретнику,
+                              а в параметр что-то нужно передавать. Поэтому передаем настройку
+                              по которой выдаем Umax БВВ.
+                            */
+                            archive( 6, settings.volt.mabn.data() );
                         }
                     } else
                     {
@@ -1363,19 +1387,12 @@
 
                 if ( vr.temp.nvoOn.data() == 1 && out.BVV.nvoOn.data() == 0 )
                 {
-
-/*Для отладки*/
-modbus.BVV.r40001.setData(sys.time.curent.data());
-modbus.BVV.r40002.setData(out.BVV.nvoOn.data());
-modbus.BVV.r40003.setData(vr.temp.nvoOn.data());
-modbus.BVV.r40004.setData(vr.timout.dlhon.data());
-
                     if ( vr.temp.nvoFirst.data() == 0 )
                     {
                         if ( vr.timout.dlhon.data() == 0 )
                         {
                             vr.timout.dlhon.setData( sys.time.curent.data() +
-                                                      settings.delay.dlhon.data() * 1000
+                                                      settings.delay.dlhon.data()
                                                      );
                         }
 
@@ -1385,15 +1402,15 @@ modbus.BVV.r40004.setData(vr.timout.dlhon.data());
                             vr.temp.nvoFirst.setData( 1 );
                             vr.timout.nvoResponseTime.setData(
                                                 sys.time.curent.data() +
-                                                settings.delay.dlhr.data() * 1000 );
+                                                settings.delay.dlhr.data() );
                         }
                     } else {
                         if ( vr.timout.dlhon.data() == 0 )
                         {
                             vr.timout.dlhon.setData( sys.time.curent.data() +
                                                 + 60000 +
-                                                settings.delay.dlh.data() * 1000 +
-                                                settings.delay.dlhon.data() * 1000 );
+                                                settings.delay.dlh.data() +
+                                                settings.delay.dlhon.data() );
                         }
 
                         if ( sys.time.curent.data() >= vr.timout.dlhon.data() )
@@ -1401,7 +1418,7 @@ modbus.BVV.r40004.setData(vr.timout.dlhon.data());
                             out.BVV.nvoOn.setData( 1 );
                             vr.timout.nvoResponseTime.setData(
                                                 sys.time.curent.data() +
-                                                settings.delay.dlhr.data() * 1000 );
+                                                settings.delay.dlhr.data() );
                         }
                     }
                 } else
@@ -1486,7 +1503,7 @@ modbus.BVV.r40004.setData(vr.timout.dlhon.data());
                        }
                     } else {
                         vr.timout.dlhoff.setData( sys.time.curent.data() +
-                                                   settings.delay.dlhoff.data() * 1000 );
+                                                   settings.delay.dlhoff.data() );
                     }
                 } else
                 {
@@ -1498,9 +1515,7 @@ modbus.BVV.r40004.setData(vr.timout.dlhon.data());
        {
            "name":"checkKotlOverheat",
            "sources":[
-               "modbus.BVV.device",
-               "vr.msg.BVVConnError",
-               "display.temp.t_kotl"
+               "sys.time.curent"
                ],
            "processing":"
                /*
@@ -1517,37 +1532,37 @@ modbus.BVV.r40004.setData(vr.timout.dlhon.data());
                Значение температуры +ХХС и задержки ХХсек (0...30)сек устанавливается из
                сервисного меню.
                */
-
                if ( modbus.BVV.device.data() == 1 )
                {
-                   if (display.temp.t_kotl.data() >= settings.temp.bt.data() )
+                   if ( display.temp.t_kotl.data() >= settings.temp.bt.data() )
                    {
-                      if ( sys.time.curent.data() >= vr.kotl.time.data() )
-                      {
-                          /*Запись в журнал и вывод на экран*/
-                          if ( vr.kotl.overheat.data() == 0 )
-                          {
-                              if ( display.BVV.automode.data() == 1 )
-                              {
-                                  archive( 2, display.temp.t_kotl.data() );
-                              } else
-                              {
-                                  archive( 2, display.temp.t_kotl.data() );
-                              }
-                          }
-
-                          vr.kotl.overheat.setData( 1 );
-                      }
-                   } else {
-                       vr.kotl.time.setData ( sys.time.curent.data() +
-                                               settings.temp.ibt.data() * 1000);
+                       if ( vr.kotl.time.data() == 0 )
+                       {
+                           /*Запуск счетчика аварии*/
+                           vr.kotl.time.setData(   sys.time.curent.data()
+                                                   + settings.temp.ibt.data() );
+                       } else if ( sys.time.curent.data() >= vr.kotl.time.data() )
+                       {
+                            /*Запись в журнал и вывод на экран*/
+                            if ( vr.kotl.overheat.data() == 0 )
+                            {
+                                vr.kotl.overheat.setData( 1 );
+                                if ( display.BVV.automode.data() == 1 )
+                                {
+                                    archive( 2, settings.temp.bt.data() );
+                                } else
+                                {
+                                    archive( 43, settings.temp.bt.data() );
+                                }
+                            }
+                       }
+                   } else
+                   {
+                       vr.kotl.time.setData( 0 );
                        vr.kotl.overheat.setData( 0 );
                    }
-               }else if ( vr.msg.BVVConnError.data() == 1 )
-               {
-                       vr.kotl.time.setData ( 0 );
-                       vr.kotl.overheat.setData( 0 );
-               }"
+               }
+               "
         },
         {
              "name":"setVvoKotlOn",
@@ -1703,7 +1718,7 @@ modbus.BVV.r40004.setData(vr.timout.dlhon.data());
                         if ( vr.timout.vvosod.data() == 0 )
                         {
                             vr.timout.vvosod.setData( sys.time.curent.data() +
-                                                  settings.delay.vvosod.data() * 1000
+                                                  settings.delay.vvosod.data()
                                                   );
                         }
 
@@ -1717,8 +1732,8 @@ modbus.BVV.r40004.setData(vr.timout.dlhon.data());
                         {
                             vr.timout.vvosod.setData( sys.time.curent.data() +
                                                   + 120000 +
-                                                  settings.delay.vvodsd.data() * 1000 +
-                                                  settings.delay.vvosod.data() * 1000
+                                                  settings.delay.vvodsd.data() +
+                                                  settings.delay.vvosod.data()
                                                   );
                         }
 
@@ -1750,14 +1765,14 @@ modbus.BVV.r40004.setData(vr.timout.dlhon.data());
                                 out.BVV.vvo1On.setData( 1 );
                                 vr.timout.vvo1ResponseTime.setData(
                                                   sys.time.curent.data() +
-                                                  settings.delay.vvord.data() * 1000 );
+                                                  settings.delay.vvord.data() );
                             }
                             if ( out.BVV.vvo2On.data() == 0 && vr.temp.vvo2On.data() == 1 )
                             {
                                 out.BVV.vvo2On.setData( 1 );
                                 vr.timout.vvo2ResponseTime.setData(
                                                   sys.time.curent.data() +
-                                                  settings.delay.vvord.data() * 1000 );
+                                                  settings.delay.vvord.data() );
                             }
                         } else {
                             if ( out.BVV.vvo1On.data() == 0 && vr.temp.vvo2On.data() == 1 )
@@ -1765,14 +1780,14 @@ modbus.BVV.r40004.setData(vr.timout.dlhon.data());
                                 out.BVV.vvo1On.setData( 1 );
                                 vr.timout.vvo1ResponseTime.setData(
                                                   sys.time.curent.data() +
-                                                  settings.delay.vvord.data() * 1000 );
+                                                  settings.delay.vvord.data() );
                             }
                             if ( out.BVV.vvo2On.data() == 0 && vr.temp.vvo1On.data() == 1 )
                             {
                                 out.BVV.vvo2On.setData( 1 );
                                 vr.timout.vvo2ResponseTime.setData(
                                                   sys.time.curent.data() +
-                                                  settings.delay.vvord.data() * 1000 );
+                                                  settings.delay.vvord.data() );
                             }
                         }
 
@@ -1795,7 +1810,7 @@ modbus.BVV.r40004.setData(vr.timout.dlhon.data());
                             out.BVV.vvo1On.setData( 1 );
                             vr.timout.vvo1ResponseTime.setData(
                                               sys.time.curent.data() +
-                                              settings.delay.vvord.data() * 1000 );
+                                              settings.delay.vvord.data() );
                         }
                         out.BVV.vvo2On.setData( 0 );
 
@@ -1812,7 +1827,7 @@ modbus.BVV.r40004.setData(vr.timout.dlhon.data());
                             out.BVV.vvo2On.setData( 1 );
                             vr.timout.vvo2ResponseTime.setData(
                                               sys.time.curent.data() +
-                                              settings.delay.vvord.data() * 1000 );
+                                              settings.delay.vvord.data() );
                         }
                         out.BVV.vvo1On.setData( 0 );
 
@@ -1985,6 +2000,8 @@ modbus.BVV.r40004.setData(vr.timout.dlhon.data());
                                 archive( 4, display.U_I.U_net.data() );
                                 vr.msg.Umax.setData( 1 );
                             }
+                        } else
+                        {
                         }
                     } else
                     {
@@ -2054,7 +2071,7 @@ modbus.BVV.r40004.setData(vr.timout.dlhon.data());
                 */
                 if ( modbus.BVV.device.data() == 1 )
                 {
-                    if ( display.U_I.I_gen.data() <= settings.gen.mcg.data() )
+                    if ( display.U_I.I_gen.data() >= settings.gen.mcg.data() )
                     {
                         if ( vr.timout.Imax.data() == 0 )
                         {
@@ -2101,14 +2118,19 @@ modbus.BVV.r40004.setData(vr.timout.dlhon.data());
                 "vr.msg.ImaxGeneral",
                 "vr.msg.Umin",
                 "vr.msg.Umax",
-                "display.BVV.umax_zrk"
+                "display.BVV.umax_zrk",
+                "display.BVV.crash"
                 ],
             "processing":"
-                /* Переводит пеереводит электрооборудование в режим АВАРИЯ.*/
-                if (    ( vr.msg.ImaxGeneral.data() == 1 )
-                     || ( vr.msg.Umin.data() == 1 )
-                     || ( vr.msg.Umax.data() == 1 )
-                     || ( display.BVV.umax_zrk.data() == 1 ) )
+                /* Переводит пеереводит электрооборудование в режим АВАРИЯ.
+                   По последним данным, взводим этот сигнал только если БВВ не выставил АВАРИЮ.
+                   Если он выставил, условия не анализируем и свой фаулт сбрасываем.
+                */
+                if ( (    ( vr.msg.ImaxGeneral.data() == 1 )
+                       || ( vr.msg.Umin.data() == 1 )
+                       || ( vr.msg.Umax.data() == 1 )
+                       || ( display.BVV.umax_zrk.data() == 1 )
+                     ) && display.BVV.crash.data() == 0 )
                 {
                     out.BVV.fault.setData( 1 );
                 } else
@@ -2121,8 +2143,10 @@ modbus.BVV.r40004.setData(vr.timout.dlhon.data());
             "comment":"При изменении температуры уставки - Отобразить и Запись в базу
                        При разрыве связи с A9 - Отобразить и НЕ ПИСАТЬ в базу",
             "name":"save_settings_temp_sut",
-            "sources":["vr.msg.A9ConnError",
-                        "settings.temp.sut"],
+            "sources":[
+                "vr.msg.A9ConnError",
+                "settings.temp.sut"
+                ],
             "processing":"
                 /* Если НЕ обрыв */
                 if(vr.msg.A9ConnError.data() != 1)

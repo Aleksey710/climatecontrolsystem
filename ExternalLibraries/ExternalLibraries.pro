@@ -5,10 +5,10 @@ SUBDIRS += Easyloggingpp
 
 SUBDIRS += libmodbus
 
-SUBDIRS += WiringPi
+#SUBDIRS += WiringPi
 
-SUBDIRS += arduPi
-SUBDIRS += Modbus485
+#SUBDIRS += arduPi
+#SUBDIRS += Modbus485
 
-Modbus485.depends = \
-    arduPi
+#Modbus485.depends = \
+#    arduPi

@@ -44,6 +44,16 @@ contains( MAKE_RESULT, APP ) {
 
     FORMS += \
         ModbusMasterUnitTestForm.ui
+
+    LIBS += \
+        -L$$ROOT_PATH/lib \
+        -lmodbus \
+
+        win32|win64:LIBS += -lwsock32
+        win32|win64:LIBS += -lws2_32
+
+
+        qnx:LIBS += -lsocket
 }
 #############################################################
 QT += gui
@@ -79,7 +89,7 @@ SOURCES += \
     AbstractModbusMasterHandler.cpp \
     LibmodbusModbusMasterHandler.cpp \
     ModbusMasterHandler.cpp \
-    ModbusMaster485Handler.cpp \
+#    ModbusMaster485Handler.cpp \
     ModbusMasterUnit.cpp \
     ModbusRequest.cpp \
     NativeModbusMasterHandler.cpp
@@ -92,7 +102,7 @@ HEADERS  += \
     ModbusConnection.h \
     ModbusConnectionSettings.h \
     ModbusMasterHandler.h \
-    ModbusMaster485Handler.h \
+#    ModbusMaster485Handler.h \
     ModbusMasterUnit.h \
     NativeModbusMasterHandler.h \
     ModbusRequest.h
@@ -119,22 +129,22 @@ LIBS += \
     -leasylogging++
 
 
-unix:LIBS += \
-    -L$$ROOT_PATH/lib \
-    -lWiringPi \
-    -lModbus485 \
-    -larduPi \
+#unix:LIBS += \
+#    -L$$ROOT_PATH/lib \
+#    -lWiringPi \
+#    -lModbus485 \
+#    -larduPi \
 
 
-LIBS += \
-    -lpthread \
-    -lrt
+#LIBS += \
+#    -lpthread \
+#    -lrt
 
 
-win32|win64:LIBS += -lwsock32
-win32|win64:LIBS += -lws2_32
+#win32|win64:LIBS += -lwsock32
+#win32|win64:LIBS += -lws2_32
 
 
-qnx:LIBS += -lsocket
+#qnx:LIBS += -lsocket
 #############################################################
 

@@ -9,12 +9,14 @@
 
 #include <functional>
 //
+/*
 #ifndef Q_OS_WIN
     #ifdef __arm__
         #include <wiringPi.h>
         #include <ds1302.h>
     #endif
 #endif
+*/
 //
 #include "Log.h"
 #include "DbUnit.h"

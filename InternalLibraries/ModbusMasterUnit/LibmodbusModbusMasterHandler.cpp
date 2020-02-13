@@ -75,7 +75,6 @@ void LibmodbusModbusMasterHandler::exequteRequest(ModbusRequest *request)
 
     uint32_t sec_to = 1;
     uint32_t usec_to = 0;
-    int i;
 
     if (ctx == NULL)
     {
@@ -106,14 +105,6 @@ void LibmodbusModbusMasterHandler::exequteRequest(ModbusRequest *request)
     QModbusDataUnit &dataUnit = m_curentModbusRequest->modbusDataUnit();
 
     int addr = dataUnit.startAddress();
-    int nb = dataUnit.valueCount();
-
-    // modbus sample query - modify it for your own purpose
-    int status;
-    int value;
-
-    int rc;
-    //rc = modbus_read_registers(ctx, addr,nb, dest16);
 
     switch (m_curentModbusRequest->functionCode())
     {
@@ -123,16 +114,18 @@ void LibmodbusModbusMasterHandler::exequteRequest(ModbusRequest *request)
         case 0x04: exequteRead<uint16_t>(ctx, dataUnit, modbus_read_input_registers); break;
         case 0x05:
         {
-            rc = modbus_write_bit(ctx, addr, status);
+            int status = dataUnit.value(0);
+            int rc = modbus_write_bit(ctx, addr, status);
         }
             break;
         case 0x06:
         {
-            rc = modbus_write_register(ctx, addr, value);
+            int value = dataUnit.value(0);
+            int rc = modbus_write_register(ctx, addr, value);
         }
             break;
-        case 0x0F: exequteWrite<const uint8_t>(ctx, dataUnit, modbus_write_bits); break;
-        case 0x10: exequteWrite<const uint16_t>(ctx, dataUnit, modbus_write_registers); break;
+        case 0x0F: exequteWrite<uint8_t>(ctx, dataUnit, modbus_write_bits); break;
+        case 0x10: exequteWrite<uint16_t>(ctx, dataUnit, modbus_write_registers); break;
 
         default:
             SEND_TO_LOG( QString("%1 - Попытка выполнить необрабатываемую функцию [%2]")
@@ -152,17 +145,6 @@ void LibmodbusModbusMasterHandler::exequteRequest(ModbusRequest *request)
 
     emit exequted();
 }
-////------------------------------------------------------------------------------------
-////!
-//template < typename T >
-//T* LibmodbusModbusMasterHandler::modbusDataUnitToDest(QModbusDataUnit &dataUnit)
-//{
-//    int nb = dataUnit.valueCount();
-//    T* dest = (T*) malloc(nb * sizeof(T));
-//    memset(dest, 0, nb * sizeof(T));
-
-//    return dest;
-//}
 //------------------------------------------------------------------------------------
 //!
 template < typename T >
@@ -209,7 +191,7 @@ void LibmodbusModbusMasterHandler::exequteWrite( modbus_t *ctx,
                                                  int (*function)(modbus_t*,
                                                                  int,
                                                                  int,
-                                                                 T*) )
+                                                                 const T*) )
 {
 
 }

@@ -145,19 +145,19 @@ LIBS += \
     -lScriptUnit \
     -lDbUnit \
     -leasylogging++ \
-
-
-unix:LIBS += \
-    -L$$ROOT_PATH/lib \
-    -lWiringPi \
-    -lModbus485 \
-    -larduPi \
     -lmodbus \
 
 
-LIBS += \
-    -lpthread \
-    -lrt
+#unix:LIBS += \
+#    -L$$ROOT_PATH/lib \
+#    -lWiringPi \
+#    -lModbus485 \
+#    -larduPi \
+
+
+#LIBS += \
+#    -lpthread \
+#    -lrt
 
 
 win32|win64:LIBS += -lwsock32

@@ -1,24 +1,28 @@
-#include "ModbusMasterHandler.h"
+#include "AbstractModbusMasterHandler.h"
 
 //------------------------------------------------------------------------------------
 //!
-ModbusMasterHandler::ModbusMasterHandler(QObject *parent)
-                    :NativeModbusMasterHandler(parent)
-//                    :LibmodbusModbusMasterHandler(parent)
-//                    :ModbusMaster485Handler(parent)
+AbstractModbusMasterHandler::AbstractModbusMasterHandler(QObject *parent)
+                            :QObject(parent),
+                             m_curentModbusRequest ( nullptr )
+
 {
     setObjectName("ModbusMasterHandler");
     //-------------------------------------------
 
 
     //-------------------------------------------
-    SEND_TO_LOG( QString("%1 - создан").arg(objectName()) );
+    //SEND_TO_LOG( QString("%1 - создан").arg(objectName()) );
 }
 //------------------------------------------------------------------------------------
 //!
-ModbusMasterHandler::~ModbusMasterHandler()
-{    
+AbstractModbusMasterHandler::~AbstractModbusMasterHandler()
+{
     SEND_TO_LOG( QString("%1 - удален").arg(objectName()) );
 }
 //------------------------------------------------------------------------------------
 //!
+//void AbstractModbusMasterHandler::exequteRequest(ModbusRequest *request)
+//{
+
+//}

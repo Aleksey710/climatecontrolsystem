@@ -42,7 +42,7 @@ class ModbusConnectionSettings
              numberOfRetries ( __numberOfRetries )
         {
             //! Создать обработчик устройства
-            if (modbusConnectionType == Serial)
+            if (modbusConnectionType == ModbusConnection::Serial)
             {
                 QString parityString;
 
@@ -76,7 +76,7 @@ class ModbusConnectionSettings
                                  .arg(parityString)
                                  .arg(serialStopBitsParameter)
                                  ;
-            } else if (modbusConnectionType == Tcp)
+            } else if (modbusConnectionType == ModbusConnection::Tcp)
             {
                 connectionName = QString("TCP[%1:%2]")
                                 .arg(networkAddressParameter)

@@ -14,8 +14,10 @@
 //#include ""
 //#include ""
 #ifndef Q_OS_WIN
-#include <wiringPi.h>
-#endif
+    #ifdef __arm__
+        #include <wiringPi.h>
+    #endif // __arm__
+#endif // Q_OS_WIN
 //
 #include "Log.h"
 #include "Versions.h"

@@ -20,15 +20,16 @@ DEPENDPATH  = $$ROOT_PATH/lib
 DESTDIR     = $$ROOT_PATH/lib
 
 #------------------------------------------------------------
-#TEMPLATE    = app
-#DEPENDPATH += $$ROOT_PATH/bin/
-#DESTDIR     = $$ROOT_PATH/bin/
+#MAKE_RESULT = APP
+contains( MAKE_RESULT, APP ) {
+    #TEMPLATE    = app
+    #DEPENDPATH += $$ROOT_PATH/bin/
+    #DESTDIR     = $$ROOT_PATH/bin/
 
-#CONFIG += console
+    #CONFIG += console
 
-#SOURCES += main.cpp
-
-
+    #SOURCES += main.cpp
+}
 #############################################################
 QT -= gui
 QT -= widgets

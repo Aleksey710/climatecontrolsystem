@@ -1,7 +1,7 @@
 #ifndef MODBUSCONNECTION_H
 #define MODBUSCONNECTION_H
 //------------------------------------------------------------------------------------
-enum ModbusConnection {
+enum class ModbusConnection {
     Serial,
     Tcp
 };

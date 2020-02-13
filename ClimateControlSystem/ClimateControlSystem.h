@@ -10,8 +10,10 @@
 #include <functional>
 //
 #ifndef Q_OS_WIN
-#include <wiringPi.h>
-#include <ds1302.h>
+    #ifdef __arm__
+        #include <wiringPi.h>
+        #include <ds1302.h>
+    #endif
 #endif
 //
 #include "Log.h"
@@ -32,43 +34,15 @@ class ClimateControlSystem : public QObject
         explicit ClimateControlSystem(QObject *parent = nullptr);
         virtual ~ClimateControlSystem();
 
-//        inline std::shared_ptr<DbUnit>              dbUnit()            { return m_dbUnit; }
-//        inline std::shared_ptr<ScriptUnit>          scriptUnit()        { return m_scriptUnit; }
-//        inline std::shared_ptr<ModbusMasterUnit>    modbusMasterUnit()  { return m_modbusMasterUnit; }
-
         inline DbUnit*              dbUnit()            { return &m_dbUnit; }
-//        inline ScriptUnit&          scriptUnit()        { return m_scriptUnit; }
-//        inline ModbusMasterUnit&    modbusMasterUnit()  { return m_modbusMasterUnit; }
 
     signals:
 
     private:
-#ifndef Q_OS_WIN
         void setupRpi();
 
-        //! bcdToD: dToBCD:
-        //!	BCD decode/encode
-        static int bcdToD (unsigned int byte, unsigned int mask);
-        static unsigned int dToBcd (unsigned int byte);
-
-        //! ramTest:
-        //!	Simple test of the 31 bytes of RAM inside the DS1302 chip
-        static int ramTest (void);
-
-        //! setLinuxClock:
-        //! Set the Linux clock from the hardware
-        static int setLinuxClock (void);
-
-        //! setDSclock:
-        //! Set the DS1302 block from Linux time
-        static int setDSclock (void);
-#endif
 
     private:
-//        std::shared_ptr<DbUnit>                 m_dbUnit;
-//        std::shared_ptr<ScriptUnit>             m_scriptUnit;
-//        std::shared_ptr<ModbusMasterUnit>       m_modbusMasterUnit;
-
         DbUnit                 m_dbUnit;
         ScriptUnit             m_scriptUnit;
         ModbusMasterUnit       m_modbusMasterUnit;

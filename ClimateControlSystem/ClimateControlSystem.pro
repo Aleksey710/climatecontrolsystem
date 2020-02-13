@@ -36,6 +36,9 @@ CONFIG += console
 #############################################################
 INCLUDEPATH += $$ROOT_PATH/ExternalLibraries/Easyloggingpp
 
+#INCLUDEPATH += $$ROOT_PATH/ExternalLibraries/libmodbus/modbus/libmodbus-3.1.3-ascii/src
+INCLUDEPATH += $$ROOT_PATH/ExternalLibraries/libmodbus/modbus/libmodbus-rpi/src
+
 INCLUDEPATH += $$ROOT_PATH/InternalLibraries/Utils
 
 INCLUDEPATH += $$ROOT_PATH/InternalLibraries/DbUnit
@@ -47,6 +50,10 @@ INCLUDEPATH += $$ROOT_PATH/InternalLibraries/ScriptUnit
 INCLUDEPATH += $$ROOT_PATH/ExternalLibraries/WiringPi
 INCLUDEPATH += $$ROOT_PATH/ExternalLibraries/WiringPi/devLib
 INCLUDEPATH += $$ROOT_PATH/ExternalLibraries/WiringPi/wiringPi
+
+INCLUDEPATH += $$ROOT_PATH/ExternalLibraries/arduPi
+
+INCLUDEPATH += $$ROOT_PATH/ExternalLibraries/Modbus485
 
 
 INCLUDEPATH += ./
@@ -140,10 +147,21 @@ LIBS += \
     -leasylogging++ \
 
 
-
 unix:LIBS += \
     -L$$ROOT_PATH/lib \
     -lWiringPi \
+    -lModbus485 \
+    -larduPi \
 
+
+LIBS += \
+    -lpthread \
+    -lrt
+
+
+win32|win64:LIBS += -lwsock32
+win32|win64:LIBS += -lws2_32
+
+qnx: LIBS += -lsocket
 
 #############################################################

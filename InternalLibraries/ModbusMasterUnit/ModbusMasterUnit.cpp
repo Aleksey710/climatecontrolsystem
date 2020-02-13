@@ -11,6 +11,7 @@ ModbusMasterUnit::ModbusMasterUnit(QObject *parent)
 #else
                   ,m_requestQueueSemaphore ( 10 )
 #endif // CIRCULAR_PROCESSING_REQUEST
+//-------------------------------------------
 {
     setObjectName("ModbusMasterUnit");
 
@@ -25,6 +26,7 @@ ModbusMasterUnit::ModbusMasterUnit(QObject *parent)
         //! При получении сигнала о выполнении запроса
         //! Запустить таймер паузы
         connect(m_handler, &ModbusMasterHandler::exequted, [=](){
+
             //! После окончания паузы запустить на выполнение следующий запрос
             if(m_curentRequestId == 0)
             {

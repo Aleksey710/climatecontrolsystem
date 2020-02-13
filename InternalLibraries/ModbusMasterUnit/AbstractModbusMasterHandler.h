@@ -1,5 +1,5 @@
-#ifndef MODBUSMASTERHANDLER_H
-#define MODBUSMASTERHANDLER_H
+#ifndef ABSTRACTMODBUSMASTERHANDLER_H
+#define ABSTRACTMODBUSMASTERHANDLER_H
 //------------------------------------------------------------------------------------
 #include <QObject>
 #include <QModbusDataUnit>
@@ -12,28 +12,39 @@
 #include <QThread>
 //#include <>
 
+#include <stdio.h>
+#include <unistd.h>
+#include <string.h>
+#include <stdlib.h>
+#include <errno.h>
+#include <modbus.h>
+
 
 #include "Log.h"
 #include "ModbusConnection.h"
 #include "ModbusConnectionSettings.h"
 #include "ModbusRequest.h"
-//#include ""
-
-#include "LibmodbusModbusMasterHandler.h"
-#include "NativeModbusMasterHandler.h"
-#include "ModbusMaster485Handler.h"
 //------------------------------------------------------------------------------------
 //!
-class ModbusMasterHandler : public NativeModbusMasterHandler
-//class ModbusMasterHandler : public LibmodbusModbusMasterHandler
-//class ModbusMasterHandler : public ModbusMaster485Handler
+class AbstractModbusMasterHandler : public QObject
 {
         Q_OBJECT
     public:
-        explicit ModbusMasterHandler(QObject *parent = nullptr);
+        explicit AbstractModbusMasterHandler(QObject *parent = nullptr);
+        virtual ~AbstractModbusMasterHandler();
 
-        virtual ~ModbusMasterHandler();
+    signals:
+        void exequted();
 
+    public slots:
+        virtual void exequteRequest(ModbusRequest *request) = 0;
+
+    protected:
+
+
+
+    protected:
+        ModbusRequest *m_curentModbusRequest;
 };
 //------------------------------------------------------------------------------------
-#endif // MODBUSMASTERHANDLER_H
+#endif // ABSTRACTMODBUSMASTERHANDLER_H

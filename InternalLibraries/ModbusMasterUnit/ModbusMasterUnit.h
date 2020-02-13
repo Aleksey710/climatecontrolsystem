@@ -38,6 +38,7 @@
 #include "ModbusConnection.h"
 #include "ModbusConnectionSettings.h"
 #include "ModbusMasterHandler.h"
+#include "ModbusMaster485Handler.h"
 #include "ModbusRequest.h"
 //
 #include "ScriptObject.h"
@@ -45,9 +46,18 @@
 
 //#include ".h"
 //#include ".h"
-//Q_PROCESSOR_ARM
 //-------------------------------------------------------------------------
 //! В ModbusMasterUnit.pro
+//! DEFINES += NATIVE_MODBUS_HANDLER
+//! #define NATIVE_MODBUS_HANDLER
+//!
+//! NATIVE_MODBUS_HANDLER - Использовать модбас обработчик на основе библиотек Qt
+//! ИЛИ
+//! Использовать модбас обработчик на основе библиотеки
+//! https://www.cooking-hacks.com/documentation/tutorials/modbus-module-shield-tutorial-for-arduino-raspberry-pi-intel-galileo/
+//-------------------------------------------------------------------------
+//! В ModbusMasterUnit.pro
+//! DEFINES += CIRCULAR_PROCESSING_REQUEST
 //! #define CIRCULAR_PROCESSING_REQUEST
 //!
 //! Решение1 - циклическое выполнение всех запросов(по очереди)
@@ -86,8 +96,17 @@ class ModbusMasterUnit : public QObject
                            const QJsonObject &deviceJsonObject);
 
     private:
-        ModbusMasterHandler *m_handler;
-
+//-------------------------------------------
+#ifdef __arm__
+    #ifdef NATIVE_MODBUS_HANDLER
+            ModbusMasterHandler     *m_handler;
+    #else
+            ModbusMaster485Handler  *m_handler;
+    #endif // NATIVE_MODBUS_HANDLER
+#else // __arm__
+     ModbusMasterHandler     *m_handler;
+#endif // __arm__
+//-------------------------------------------
 #ifdef CIRCULAR_PROCESSING_REQUEST
         QTimer *m_pauseTimer;
 
@@ -103,6 +122,7 @@ class ModbusMasterUnit : public QObject
         QQueue<ModbusRequest*> m_requestQueue;
         QSemaphore m_requestQueueSemaphore;
 #endif // CIRCULAR_PROCESSING_REQUEST
+//-------------------------------------------
 
 };
 //------------------------------------------------------------------------------------

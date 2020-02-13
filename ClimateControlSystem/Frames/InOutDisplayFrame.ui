@@ -42,7 +42,7 @@
         </font>
        </property>
        <property name="text">
-        <string>Виходы</string>
+        <string>Виходи</string>
        </property>
       </widget>
      </item>
@@ -638,7 +638,7 @@
         </font>
        </property>
        <property name="text">
-        <string>Входы</string>
+        <string>Входи</string>
        </property>
       </widget>
      </item>

@@ -78,6 +78,10 @@ void ModbusMasterHandler::exequteRequest(ModbusRequest *request)
         int port = modbusConnectionSettings.networkPortParameter;
 
         ctx = modbus_new_tcp(ip_address, port);
+
+        // Для modbus server (slave)
+//        int socket = modbus_tcp_listen(ctx, 1);
+//        modbus_tcp_accept(ctx, &socket);
     }
 
 #define BCM_PIN_DE 17
@@ -148,8 +152,6 @@ void ModbusMasterHandler::exequteRequest(ModbusRequest *request)
                          .arg(objectName()).arg(m_curentModbusRequest->functionCode()) );
             break;
     }
-
-
 
     /* Close the connection */
 #ifdef __arm__

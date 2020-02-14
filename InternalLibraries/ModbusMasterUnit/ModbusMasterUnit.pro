@@ -33,6 +33,10 @@ contains( MAKE_RESULT, APP ) {
 
     CONFIG += console
 
+    QT += gui
+    QT += widgets
+    QT += scripttools
+
     HEADERS  += \
         ModbusMasterUnitTestForm.h
 
@@ -47,6 +51,8 @@ contains( MAKE_RESULT, APP ) {
 
     LIBS += \
         -L$$ROOT_PATH/lib \
+        -lScriptUnit \
+        -lDbUnit \
         -lmodbus \
 
         win32|win64:LIBS += -lwsock32
@@ -56,23 +62,15 @@ contains( MAKE_RESULT, APP ) {
         qnx:LIBS += -lsocket
 }
 #############################################################
-QT += gui
-QT += widgets
+
 QT += core
-QT += network
 QT += serialbus
 QT += serialport
-QT += sql
 QT += script
-QT += scripttools
-
+QT += sql
 
 #############################################################
 INCLUDEPATH += $$ROOT_PATH/ExternalLibraries/Easyloggingpp
-
-INCLUDEPATH += $$ROOT_PATH/ExternalLibraries/arduPi
-
-INCLUDEPATH += $$ROOT_PATH/ExternalLibraries/Modbus485
 
 #INCLUDEPATH += $$ROOT_PATH/ExternalLibraries/libmodbus/modbus/libmodbus-3.1.3-ascii/src
 INCLUDEPATH += $$ROOT_PATH/ExternalLibraries/libmodbus/modbus/libmodbus-rpi/src
@@ -86,32 +84,21 @@ INCLUDEPATH += $$ROOT_PATH/InternalLibraries/ScriptUnit/
 INCLUDEPATH += ./
 #############################################################
 SOURCES += \
-    AbstractModbusMasterHandler.cpp \
-    LibmodbusModbusMasterHandler.cpp \
     ModbusMasterHandler.cpp \
-#    ModbusMaster485Handler.cpp \
     ModbusMasterUnit.cpp \
     ModbusRequest.cpp \
-    NativeModbusMasterHandler.cpp
-
 
 
 HEADERS  += \
-    AbstractModbusMasterHandler.h \
-    LibmodbusModbusMasterHandler.h \
     ModbusConnection.h \
     ModbusConnectionSettings.h \
     ModbusMasterHandler.h \
-#    ModbusMaster485Handler.h \
     ModbusMasterUnit.h \
-    NativeModbusMasterHandler.h \
     ModbusRequest.h
 
 
 
 FORMS += \
-
-
 
 
 RESOURCES += \
@@ -123,28 +110,9 @@ OTHER_FILES += \
 #############################################################
 LIBS += \
     -L$$ROOT_PATH/lib \
-    -lScriptUnit \
-    -lDbUnit \
     -lUtils \
     -leasylogging++
 
 
-#unix:LIBS += \
-#    -L$$ROOT_PATH/lib \
-#    -lWiringPi \
-#    -lModbus485 \
-#    -larduPi \
-
-
-#LIBS += \
-#    -lpthread \
-#    -lrt
-
-
-#win32|win64:LIBS += -lwsock32
-#win32|win64:LIBS += -lws2_32
-
-
-#qnx:LIBS += -lsocket
 #############################################################
 

@@ -12,7 +12,7 @@ MainDisplayWidget::MainDisplayWidget(QWidget *parent)
 
     setStyleSheet(//"font: 12px; "
                   //"font-weight: bold; "
-                  "margin: 0px, 0px, 0px, 0px;"
+                  "margin: 3px, 5px, 3px, 3px;"
                   "padding: 0px, 0px, 0px, 0px; "
                   //"border:  1px solid black; "
                   );

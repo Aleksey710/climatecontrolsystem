@@ -3,15 +3,6 @@
 //------------------------------------------------------------------------------------
 #include <QObject>
 //
-#include <QModbusDataUnit>
-#include <QModbusReply>
-#include <QModbusClient>
-#include <QModbusTcpClient>
-#include <QModbusRtuSerialMaster>
-#include <QModbusPdu>
-//
-#include <QSerialPort>
-//
 #include <QJsonParseError>
 #include <QJsonObject>
 #include <QJsonValue>
@@ -38,7 +29,6 @@
 #include "ModbusConnection.h"
 #include "ModbusConnectionSettings.h"
 #include "ModbusMasterHandler.h"
-//#include "ModbusMaster485Handler.h"
 #include "ModbusRequest.h"
 //
 #include "ScriptObject.h"

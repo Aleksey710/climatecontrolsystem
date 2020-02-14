@@ -209,5 +209,31 @@ void ModbusMasterHandler::exequteWrite( modbus_t *ctx,
                                                         int,
                                                         const T*) )
 {
+    int addr = dataUnit.startAddress();
+    int nb = dataUnit.valueCount();
 
+    T* dest = (T*) malloc(nb * sizeof(T));
+    memset(dest, 0, nb * sizeof(T));
+
+    int rc = function(ctx, addr,nb, dest);
+
+    if(rc == -1)
+    {
+        errorDataHandler();
+    } else
+    {
+        for(int i = 0; i < nb; ++i)
+        {
+            dataUnit.setValue(addr+i, dest[i]);
+
+            SEND_TO_LOG( QString("%1 - transmited : [%2]-[%3]")
+                         .arg(objectName())
+                         .arg(addr+i)
+                         .arg(dest[i]) );
+        }
+
+        m_curentModbusRequest->setModbusDataUnit(dataUnit, 1);
+    }
+
+    free(dest);
 }

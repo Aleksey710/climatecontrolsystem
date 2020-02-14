@@ -8,20 +8,20 @@ StatesDisplayWidget::StatesDisplayWidget(QWidget *parent)
 {
     setObjectName("StatesDisplayWidget");
 
-//    setStyleSheet(
-//        "QWidget{ "
-//        "padding: 1px;"
-//        "margin: 1px;"
-////        "border: 1px solid #000000;"
-////        "border-radius : 5px;"
-////        "color: blue;"
-////        "background-color: yellow;"
-//        "}"
-//    );
+    setStyleSheet(
+        "QWidget{ "
+        "padding: 0px;"
+        "margin: 0px;"
+//        "border: 1px solid #000000;"
+//        "border-radius : 5px;"
+//        "color: blue;"
+//        "background-color: yellow;"
+        "}"
+    );
 
     m_mainLayout->setMargin(0);
-    m_mainLayout->setVerticalSpacing(1);
-    m_mainLayout->setHorizontalSpacing(1);
+    m_mainLayout->setVerticalSpacing(0);
+    m_mainLayout->setHorizontalSpacing(0);
 
     //---------------------------------------------------------
 
@@ -63,7 +63,7 @@ void StatesDisplayWidget::setupRow1()
                                                   lowColumn2MsgWidget,
                                                   highColumn1MsgWidget,
                                                   highColumn2MsgWidget);
-    m_mainLayout->addWidget(rowMsgWidget, 0,0,1,1);
+    m_mainLayout->addWidget(rowMsgWidget, 0,0);
 }
 //------------------------------------------------------------------------------------
 //!
@@ -89,7 +89,7 @@ void StatesDisplayWidget::setupRow2()
                                                   lowColumn2MsgWidget,
                                                   highColumn1MsgWidget,
                                                   highColumn2MsgWidget);
-    m_mainLayout->addWidget(rowMsgWidget, 1,0,1,1);
+    m_mainLayout->addWidget(rowMsgWidget, 1,0);
 }
 //------------------------------------------------------------------------------------
 //!
@@ -112,7 +112,7 @@ void StatesDisplayWidget::setupRow3()
                                                   lowColumn2MsgWidget,
                                                   highColumn1MsgWidget,
                                                   highColumn2MsgWidget);
-    m_mainLayout->addWidget(rowMsgWidget, 2,0,1,1);
+    m_mainLayout->addWidget(rowMsgWidget, 2,0);
 }
 //------------------------------------------------------------------------------------
 //!
@@ -131,7 +131,7 @@ void StatesDisplayWidget::setupRow4()
                                                   lowColumn2MsgWidget,
                                                   highColumn1MsgWidget,
                                                   highColumn2MsgWidget);
-    m_mainLayout->addWidget(rowMsgWidget, 3,0,1,1);
+    m_mainLayout->addWidget(rowMsgWidget, 3,0);
 }
 //------------------------------------------------------------------------------------
 //!
@@ -150,7 +150,7 @@ void StatesDisplayWidget::setupRow5()
                                                   lowColumn2MsgWidget,
                                                   highColumn1MsgWidget,
                                                   highColumn2MsgWidget);
-    m_mainLayout->addWidget(rowMsgWidget, 4,0,1,1);
+    m_mainLayout->addWidget(rowMsgWidget, 4,0);
 }
 //------------------------------------------------------------------------------------
 //!
@@ -171,7 +171,7 @@ void StatesDisplayWidget::setupRow6()
                                                   lowColumn2MsgWidget,
                                                   highColumn1MsgWidget,
                                                   highColumn2MsgWidget);
-    m_mainLayout->addWidget(rowMsgWidget, 5,0,1,1);
+    m_mainLayout->addWidget(rowMsgWidget, 5,0);
 }
 //------------------------------------------------------------------------------------
 //!
@@ -190,7 +190,7 @@ void StatesDisplayWidget::setupRow7()
                                                   lowColumn2MsgWidget,
                                                   highColumn1MsgWidget,
                                                   highColumn2MsgWidget);
-    m_mainLayout->addWidget(rowMsgWidget, 6,0,1,1);
+    m_mainLayout->addWidget(rowMsgWidget, 6,0);
 }
 //------------------------------------------------------------------------------------
 //!
@@ -212,7 +212,7 @@ void StatesDisplayWidget::setupRow8()
                                                   lowColumn2MsgWidget,
                                                   highColumn1MsgWidget,
                                                   highColumn2MsgWidget);
-    m_mainLayout->addWidget(rowMsgWidget, 7,0,1,1);
+    m_mainLayout->addWidget(rowMsgWidget, 7,0);
 }
 //------------------------------------------------------------------------------------
 //!

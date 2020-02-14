@@ -25,7 +25,7 @@ RowMsgWidget::RowMsgWidget(MsgWidget *lowColumn1MsgWidget,
         "}"
     );
 
-    m_mainLayout->setMargin(1);
+    m_mainLayout->setMargin(0);
     m_mainLayout->setVerticalSpacing(1);
     m_mainLayout->setHorizontalSpacing(1);
 
@@ -58,6 +58,7 @@ RowMsgWidget::RowMsgWidget(MsgWidget *lowColumn1MsgWidget,
     */
     //---------------------------------------------------------
     QHBoxLayout *lowPriorityWidgetLayout = new QHBoxLayout();
+    lowPriorityWidgetLayout->setMargin(0);
 
     if(lowColumn1MsgWidget)
     {
@@ -80,6 +81,7 @@ RowMsgWidget::RowMsgWidget(MsgWidget *lowColumn1MsgWidget,
     m_mainLayout->addWidget(m_lowPriorityWidget);
     //---------------------------------------------------------
     QHBoxLayout *highPriorityWidgetLayout = new QHBoxLayout();
+    highPriorityWidgetLayout->setMargin(0);
 
     if(highColumn1MsgWidget)
     {

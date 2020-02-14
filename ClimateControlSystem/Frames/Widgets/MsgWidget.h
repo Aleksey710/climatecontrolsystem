@@ -23,10 +23,8 @@ class MsgWidget : public QLabel
             {
                 setStyleSheet(QString(
                     "QLabel{ "
-                    //"padding: 1px;"
-                    //"margin: 1px;"
-                    //"border: 1px solid #000000;"
-                    //"border: 2px solid #005500;"
+                    "padding: 0px;"
+                    "margin: 0px;"
                     "border: 2px solid %1;"
                     "border-radius : 5px;"
                     "color: %1;"
@@ -38,7 +36,7 @@ class MsgWidget : public QLabel
                 );
 
                 QFont titleFont = font();
-                titleFont.setPointSize(titleFont.pointSize() + 3);
+                titleFont.setPointSize(titleFont.pointSize() + 2);
 
                 setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
                 setFont(titleFont);

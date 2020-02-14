@@ -120,8 +120,6 @@ void ModbusMasterHandler::exequteRequest(ModbusRequest *request)
 
     QModbusDataUnit &dataUnit = m_curentModbusRequest->modbusDataUnit();
 
-    int addr = dataUnit.startAddress();
-
     switch (m_curentModbusRequest->functionCode())
     {
         case 0x01: exequteRead<uint8_t>(ctx, dataUnit, modbus_read_bits); break;
@@ -130,14 +128,16 @@ void ModbusMasterHandler::exequteRequest(ModbusRequest *request)
         case 0x04: exequteRead<uint16_t>(ctx, dataUnit, modbus_read_input_registers); break;
         case 0x05:
         {
-            int status = dataUnit.value(0);
-            int rc = modbus_write_bit(ctx, addr, status);
+//            int addr = dataUnit.startAddress();
+//            int status = dataUnit.value(0);
+//            int rc = modbus_write_bit(ctx, addr, status);
         }
             break;
         case 0x06:
         {
-            int value = dataUnit.value(0);
-            int rc = modbus_write_register(ctx, addr, value);
+//            int addr = dataUnit.startAddress();
+//            int value = dataUnit.value(0);
+//            int rc = modbus_write_register(ctx, addr, value);
         }
             break;
         case 0x0F: exequteWrite<uint8_t>(ctx, dataUnit, modbus_write_bits); break;
@@ -213,7 +213,12 @@ void ModbusMasterHandler::exequteWrite( modbus_t *ctx,
     int nb = dataUnit.valueCount();
 
     T* dest = (T*) malloc(nb * sizeof(T));
-    memset(dest, 0, nb * sizeof(T));
+    //memset(dest, 0, nb * sizeof(T));
+
+    for(int i = 0; i < nb; ++i)
+    {
+        dest[i] = (T)dataUnit.value(addr+i);
+    }
 
     int rc = function(ctx, addr,nb, dest);
 

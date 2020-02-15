@@ -3,9 +3,7 @@
 //------------------------------------------------------------------------------------
 #include <tuple>
 #include <QObject>
-#include <QModbusDataUnit>
 #include <QTimer>
-#include <QModbusPdu>
 //#include <>
 //#include <>
 //#include <>
@@ -21,6 +19,7 @@
 #include "ModbusConnectionSettings.h"
 #include "ScriptObject.h"
 #include "ScriptUnit.h"
+#include "ModbusDataUnit.h"
 //------------------------------------------------------------------------------------
 //!
 class ModbusRequest : public QObject
@@ -29,7 +28,7 @@ class ModbusRequest : public QObject
     public:
         explicit ModbusRequest(const ModbusConnectionSettings &connectionSettings,
                                const quint16 &serverAddress,
-                               const QModbusPdu::FunctionCode &functionCode,
+                               const int &functionCode,
                                QList< std::tuple<int, QString, QString> > &registerList, // Будет отсортирован
 #ifndef CIRCULAR_PROCESSING_REQUEST
                                const int &period,
@@ -43,15 +42,15 @@ class ModbusRequest : public QObject
         inline quint16 serverAddress() const
             { return m_serverAddress; }
 
-        inline QModbusPdu::FunctionCode functionCode()
+        inline int functionCode()
             { return m_functionCode; }
 
         inline ScriptObject* deviceScriptObject()
             { return m_deviceScriptObject; }
 
-        QModbusDataUnit& modbusDataUnit();
+        ModbusDataUnit &modbusDataUnit();
 
-        void setModbusDataUnit(const QModbusDataUnit &dataUnit, int deviceState);
+        void setModbusDataUnit(const ModbusDataUnit &dataUnit, int deviceState);
 
     public slots:
 
@@ -61,13 +60,11 @@ class ModbusRequest : public QObject
         void wantExecuteQuery(ModbusRequest *request);
 
     private:
-        QModbusDataUnit::RegisterType registerTypeFromFunctionCode(const QModbusPdu::FunctionCode &functionCode);
-
-    private:
         ModbusConnectionSettings        m_connectionSettings;
         quint16                         m_serverAddress;
-        QModbusPdu::FunctionCode        m_functionCode;
-        QModbusDataUnit                 m_modbusDataUnit;
+
+        int                             m_functionCode;
+        ModbusDataUnit                  m_modbusDataUnit;
 
         ScriptObject                    *m_deviceScriptObject;
 

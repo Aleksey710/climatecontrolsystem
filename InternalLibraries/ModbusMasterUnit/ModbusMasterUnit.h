@@ -8,7 +8,6 @@
 #include <QJsonValue>
 #include <QJsonArray>
 //
-#include <QUrl>
 #include <QThread>
 #include <QMultiHash>
 #include <QHash>

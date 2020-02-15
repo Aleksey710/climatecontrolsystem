@@ -74,13 +74,10 @@ void ModbusMasterUnit::excuteNextRequest()
         }
 
         //--------------------------------------------------
-        //qDebug()<< "ModbusMasterUnit::excuteNextRequest()" << m_curentRequestId;
         ModbusRequest *request = m_requestList.at(m_curentRequestId);
 
-        /*
-        SEND_TO_LOG( QString("%1 - Выполнение запроса [%2]-[%3]")
-                     .arg(objectName()).arg(m_curentRequestId).arg(request->objectName()) );
-        */
+//        SEND_TO_LOG( QString("%1 - Выполнение запроса [%2]-[%3]")
+//                     .arg(objectName()).arg(m_curentRequestId).arg(request->objectName()) );
 
         //--------------------------------------------------
         m_curentRequestId++;
@@ -161,10 +158,10 @@ void ModbusMasterUnit::connectionParsing(const QJsonObject &connectionJsonObject
     //----------------------------------------------------------------
     const QString serialPortNameParameter       = connectionJsonObject.value("portName").toString();
 
-    const int serialParityParameter             = static_cast<QSerialPort::Parity>(connectionJsonObject.value("parity").toInt());
-    const int serialBaudRateParameter           = static_cast<QSerialPort::BaudRate>(connectionJsonObject.value("baudRate").toInt());
-    const int serialDataBitsParameter           = static_cast<QSerialPort::DataBits>(connectionJsonObject.value("dataBits").toInt());
-    const int serialStopBitsParameter           = static_cast<QSerialPort::StopBits>(connectionJsonObject.value("stopBits").toInt());
+    const char serialParityParameter             = connectionJsonObject.value("parity").toString().toLatin1().at(0);
+    const int serialBaudRateParameter           = connectionJsonObject.value("baudRate").toInt();
+    const int serialDataBitsParameter           = connectionJsonObject.value("dataBits").toInt();
+    const int serialStopBitsParameter           = connectionJsonObject.value("stopBits").toInt();
     //
     const QString &networkAddressParameter      = connectionJsonObject.value("networkAddress").toString();
     const int networkPortParameter              = connectionJsonObject.value("networkPort").toInt();
@@ -209,11 +206,11 @@ void ModbusMasterUnit::connectionParsing(const QJsonObject &connectionJsonObject
 void ModbusMasterUnit::deviceParsing(const ModbusConnectionSettings &modbusConnectionSettings,
                                      const QJsonObject &deviceJsonObject)
 {
-    const quint16 serverAddress                 = static_cast<quint16>(deviceJsonObject.value("serverAddress").toInt());
-    const QString title                         = deviceJsonObject.value("title").toString();
-    const QModbusPdu::FunctionCode functionCode = static_cast<QModbusPdu::FunctionCode>(deviceJsonObject.value("functionCode").toInt());
+    const quint16 serverAddress  = static_cast<quint16>(deviceJsonObject.value("serverAddress").toInt());
+    const QString title          = deviceJsonObject.value("title").toString();
+    const int functionCode       = deviceJsonObject.value("functionCode").toInt();
 
-    const QJsonArray registersJsonArray         = deviceJsonObject.value("registers").toArray();
+    const QJsonArray registersJsonArray = deviceJsonObject.value("registers").toArray();
 
     QList< std::tuple<int, QString, QString> > registerList;
 

@@ -64,8 +64,6 @@ contains( MAKE_RESULT, APP ) {
 #############################################################
 
 QT += core
-QT += serialbus
-QT += serialport
 QT += script
 QT += sql
 
@@ -92,6 +90,7 @@ SOURCES += \
 HEADERS  += \
     ModbusConnection.h \
     ModbusConnectionSettings.h \
+    ModbusDataUnit.h \
     ModbusMasterHandler.h \
     ModbusMasterUnit.h \
     ModbusRequest.h

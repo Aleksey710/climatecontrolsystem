@@ -3,7 +3,6 @@
 //------------------------------------------------------------------------------------
 #include <QString>
 #include <QDebug>
-#include <QSerialPort>
 
 #include "ModbusConnection.h"
 //------------------------------------------------------------------------------------
@@ -17,7 +16,7 @@ class ModbusConnectionSettings
         ModbusConnectionSettings(const ModbusConnection &__modbusConnectionType,
                                  //
                                  const QString &__serialPortNameParameter,
-                                 const int __serialParityParameter,
+                                 const char __serialParityParameter,
                                  const int __serialBaudRateParameter,
                                  const int __serialDataBitsParameter,
                                  const int __serialStopBitsParameter,
@@ -44,36 +43,11 @@ class ModbusConnectionSettings
             //! Создать обработчик устройства
             if (modbusConnectionType == ModbusConnection::Serial)
             {
-                QString parityString;
-
-                switch (serialParityParameter)
-                {
-                    case QSerialPort::NoParity:
-                        parityString = "N";
-                        break;
-                    case QSerialPort::EvenParity:
-                        parityString = "E";
-                        break;
-                    case QSerialPort::OddParity:
-                        parityString = "O";
-                        break;
-                    case QSerialPort::SpaceParity:
-                        parityString = "S";
-                        break;
-                    case QSerialPort::MarkParity:
-                        parityString = "M";
-                        break;
-                    case QSerialPort::UnknownParity:
-                    default:
-                        parityString = "U";
-                        break;
-                }
-
                 connectionName = QString("RTU[%1(%2)%3%4%5]")
                                  .arg(serialPortNameParameter)
                                  .arg(serialBaudRateParameter)
                                  .arg(serialDataBitsParameter)
-                                 .arg(parityString)
+                                 .arg(serialParityParameter)
                                  .arg(serialStopBitsParameter)
                                  ;
             } else if (modbusConnectionType == ModbusConnection::Tcp)
@@ -92,7 +66,7 @@ class ModbusConnectionSettings
         ModbusConnection modbusConnectionType;
 
         QString serialPortNameParameter;
-        int serialParityParameter;
+        char serialParityParameter;
         int serialBaudRateParameter;
         int serialDataBitsParameter;
         int serialStopBitsParameter;

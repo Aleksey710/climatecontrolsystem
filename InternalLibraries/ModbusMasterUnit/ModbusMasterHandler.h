@@ -2,8 +2,8 @@
 #define MODBUSMASTERHANDLER_H
 //------------------------------------------------------------------------------------
 #include <QObject>
-#include <QUrl>
-#include <QModbusDataUnit>
+#include <QVector>
+#include <QDebug>
 
 #include <stdio.h>
 #include <unistd.h>
@@ -38,7 +38,7 @@ class ModbusMasterHandler : public QObject
     private:
         template < typename T >
         void exequteRead( modbus_t *ctx,
-                          QModbusDataUnit &dataUnit,
+                          ModbusDataUnit &dataUnit,
                           int (*function)(modbus_t*,
                                           int,
                                           int,
@@ -46,7 +46,7 @@ class ModbusMasterHandler : public QObject
 
         template < typename T >
         void exequteWrite( modbus_t *ctx,
-                           QModbusDataUnit &dataUnit,
+                           ModbusDataUnit &dataUnit,
                            int (*function)(modbus_t*,
                                            int,
                                            int,

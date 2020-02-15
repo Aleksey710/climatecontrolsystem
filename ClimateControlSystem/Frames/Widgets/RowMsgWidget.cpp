@@ -58,7 +58,7 @@ RowMsgWidget::RowMsgWidget(MsgWidget *lowColumn1MsgWidget,
     */
     //---------------------------------------------------------
     QHBoxLayout *lowPriorityWidgetLayout = new QHBoxLayout();
-    lowPriorityWidgetLayout->setMargin(0);
+    lowPriorityWidgetLayout->setMargin(1);
 
     if(lowColumn1MsgWidget)
     {
@@ -81,7 +81,7 @@ RowMsgWidget::RowMsgWidget(MsgWidget *lowColumn1MsgWidget,
     m_mainLayout->addWidget(m_lowPriorityWidget);
     //---------------------------------------------------------
     QHBoxLayout *highPriorityWidgetLayout = new QHBoxLayout();
-    highPriorityWidgetLayout->setMargin(0);
+    highPriorityWidgetLayout->setMargin(1);
 
     if(highColumn1MsgWidget)
     {

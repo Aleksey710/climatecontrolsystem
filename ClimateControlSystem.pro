@@ -56,3 +56,20 @@ ClimateControlSystem.depends = \
 # (As per this issue link : https://github.com/stephane/libmodbus/issues/302).
 # You may want to use modbus_flush(ctx) after modbus_connect call just to ensure that byte is flushed.
 # If problem persists, you may try OP's mothod of modifying modbus-rtu.c and recompile to make it effective.
+
+###############################################################################
+# Настройка часов реального времени
+###############################################################################
+# https://pimylifeup.com/raspberry-pi-rtc/
+# read time directly from rtc module
+# hwclock -r
+
+# update rtc module time from system time (system time should be regularly updated by ntp from the internet if your pi is networked):
+# hwclock -w
+
+# update system time from the rtc module (this should happen on startup):
+# hwclock -s
+
+# and the most fun of all - monitor the "drift" between your system clock and the rtc module:
+# hwclock -c
+###############################################################################

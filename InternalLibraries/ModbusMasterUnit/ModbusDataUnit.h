@@ -6,7 +6,7 @@
 //------------------------------------------------------------------------------------
 //#include "ModbusDataUnit.h"
 //------------------------------------------------------------------------------------
-//!
+template < typename T = uint16_t >
 class ModbusDataUnit
 {
     public:
@@ -14,35 +14,33 @@ class ModbusDataUnit
         {}
 
         ModbusDataUnit(const int __startAddress,
-                       const int size)
+                       const int nb)
             : startAddress ( __startAddress )
         {
-            values.fill(0,size);
+            //values.fill(0, nb);
+
+            values = (T*) malloc(nb * sizeof(T));
+            memset(values, 0, nb * sizeof(T));
         }
 
-        ModbusDataUnit(const int __startAddress,
-                       const QVector<uint16_t> &__values)
-            : startAddress ( __startAddress ),
-              values ( __values )
-        { }
-
-        inline void setValue(int addr, uint16_t value )
+        inline void setValue(int addr, const T value )
         {
             values[addr - startAddress] = value;
         }
 
-        inline void setValues(const QVector<uint16_t> &__values)
+//        inline void setValues(const QVector<uint16_t> &__values)
+//        {
+//            values = __values;
+//        }
+
+        inline T value(const int addr) const
         {
-            values = __values;
+            return values[addr-startAddress];
         }
 
-        inline uint16_t value(const int addr) const
-        {
-            return values.at(addr-startAddress);
-        }
-
-        int                startAddress;
-        QVector<uint16_t>  values;
+        int startAddress;
+        //QVector<uint16_t>  values;
+        T   *values;
 };
 //------------------------------------------------------------------------------------
 #endif // MODBUSDATAUNIT_H

@@ -38,7 +38,7 @@ class ModbusMasterHandler : public QObject
     private:
         template < typename T >
         void exequteRead( modbus_t *ctx,
-                          ModbusDataUnit<T> &dataUnit,
+                          ModbusDataUnit &dataUnit,
                           int (*function)(modbus_t*,
                                           int,
                                           int,
@@ -46,7 +46,7 @@ class ModbusMasterHandler : public QObject
 
         template < typename T >
         void exequteWrite( modbus_t *ctx,
-                           ModbusDataUnit<T> &dataUnit,
+                           ModbusDataUnit &dataUnit,
                            int (*function)(modbus_t*,
                                            int,
                                            int,

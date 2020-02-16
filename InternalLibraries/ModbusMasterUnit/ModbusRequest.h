@@ -48,9 +48,9 @@ class ModbusRequest : public QObject
         inline ScriptObject* deviceScriptObject()
             { return m_deviceScriptObject; }
 
-        ModbusDataUnit<> &modbusDataUnit();
+        ModbusDataUnit &modbusDataUnit();
 
-        void setModbusDataUnit(const ModbusDataUnit<> &dataUnit, int deviceState);
+        void setModbusDataUnit(const ModbusDataUnit &dataUnit, int deviceState);
 
     public slots:
 
@@ -64,7 +64,7 @@ class ModbusRequest : public QObject
         quint16                         m_serverAddress;
 
         int                             m_functionCode;
-        ModbusDataUnit<>                m_modbusDataUnit;
+        ModbusDataUnit                  m_modbusDataUnit;
 
         ScriptObject                    *m_deviceScriptObject;
 

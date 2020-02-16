@@ -152,7 +152,7 @@ void ModbusMasterHandler::exequteRequest(ModbusRequest *request)
 //------------------------------------------------------------------------------------
 //!
 template < typename T >
-void ModbusMasterHandler::exequteRead( modbus_t *ctx,
+void ModbusMasterHandler::exequteRead(modbus_t *ctx,
                                        ModbusDataUnit &dataUnit,
                                        int (*function)(modbus_t*,
                                                        int,

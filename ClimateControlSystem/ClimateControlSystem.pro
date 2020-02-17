@@ -14,13 +14,9 @@ include($$ROOT_PATH/easylogging++.pri)
 
 #############################################################
 QT += core
-#QT += network
 QT += gui
 QT += widgets
-#QT += xml
 QT += sql
-QT += serialbus
-QT += serialport
 QT += script
 #QT += scripttools
 
@@ -47,9 +43,9 @@ INCLUDEPATH += $$ROOT_PATH/InternalLibraries/DbUnit/ArchiveForms
 INCLUDEPATH += $$ROOT_PATH/InternalLibraries/ModbusMasterUnit
 INCLUDEPATH += $$ROOT_PATH/InternalLibraries/ScriptUnit
 
-#INCLUDEPATH += $$ROOT_PATH/ExternalLibraries/WiringPi
-#INCLUDEPATH += $$ROOT_PATH/ExternalLibraries/WiringPi/devLib
-#INCLUDEPATH += $$ROOT_PATH/ExternalLibraries/WiringPi/wiringPi
+INCLUDEPATH += $$ROOT_PATH/ExternalLibraries/WiringPi
+INCLUDEPATH += $$ROOT_PATH/ExternalLibraries/WiringPi/devLib
+INCLUDEPATH += $$ROOT_PATH/ExternalLibraries/WiringPi/wiringPi
 
 
 INCLUDEPATH += ./

@@ -4,7 +4,7 @@
 //!
 ModbusRequest::ModbusRequest(const ModbusConnectionSettings &connectionSettings,
                              const quint16 &serverAddress,
-                             const QModbusPdu::FunctionCode &functionCode,
+                             const int &functionCode,
                              QList< std::tuple<int, QString, QString> > &registerList,
 #ifndef CIRCULAR_PROCESSING_REQUEST
                              const int &period,
@@ -37,11 +37,7 @@ ModbusRequest::ModbusRequest(const ModbusConnectionSettings &connectionSettings,
                   );
 
     //--------------------------------------------
-    QModbusDataUnit::RegisterType type = registerTypeFromFunctionCode(m_functionCode);
-    //--------------------------------------------
-    m_modbusDataUnit = QModbusDataUnit(type,
-                                       startAddress,
-                                       size);
+    m_modbusDataUnit = ModbusDataUnit(startAddress, size);
 
     //--------------------------------------------
 
@@ -118,80 +114,37 @@ ModbusRequest::~ModbusRequest()
 }
 //------------------------------------------------------------------------------------
 //!
-QModbusDataUnit::RegisterType ModbusRequest::registerTypeFromFunctionCode(const QModbusPdu::FunctionCode &functionCode)
+ModbusDataUnit& ModbusRequest::modbusDataUnit()
 {
-    QModbusDataUnit::RegisterType type;
+    QHashIterator<quint16, ScriptObject*> i(m_scriptObjectList);
 
-    //! Выполнение запроса
-    switch (functionCode)
+    while (i.hasNext())
     {
-        case QModbusPdu::Invalid:                   type = QModbusDataUnit::Invalid;            break;
-        //-------------------------
-        case QModbusPdu::ReadCoils:                 type = QModbusDataUnit::Coils;              break;
-        case QModbusPdu::ReadDiscreteInputs:        type = QModbusDataUnit::DiscreteInputs;     break;
-        case QModbusPdu::ReadHoldingRegisters:      type = QModbusDataUnit::HoldingRegisters;   break;
-        case QModbusPdu::ReadInputRegisters:        type = QModbusDataUnit::InputRegisters;     break;
-        case QModbusPdu::WriteSingleCoil:           type = QModbusDataUnit::Coils;              break;
-        case QModbusPdu::WriteSingleRegister:       type = QModbusDataUnit::HoldingRegisters;   break;
-        //-------------------------
-        case QModbusPdu::ReadExceptionStatus:       type = QModbusDataUnit::Invalid;            break;
-        case QModbusPdu::Diagnostics:               type = QModbusDataUnit::Invalid;            break;
-        case QModbusPdu::GetCommEventCounter:       type = QModbusDataUnit::Invalid;            break;
-        case QModbusPdu::GetCommEventLog:           type = QModbusDataUnit::Invalid;            break;
-        //-------------------------
-        case QModbusPdu::WriteMultipleCoils:        type = QModbusDataUnit::Coils;              break;
-        case QModbusPdu::WriteMultipleRegisters:    type = QModbusDataUnit::HoldingRegisters;   break;
-        //-------------------------
-        case QModbusPdu::ReportServerId:
-        case QModbusPdu::ReadFileRecord:
-        case QModbusPdu::WriteFileRecord:
-        case QModbusPdu::MaskWriteRegister:
-        case QModbusPdu::ReadFifoQueue:
-        case QModbusPdu::EncapsulatedInterfaceTransport:
-        case QModbusPdu::UndefinedFunctionCode:
-        default:
-            type = QModbusDataUnit::Invalid;
-            SEND_TO_LOG( QString("%1 - Попытка выполнить необрабатываемую функцию [%2]")
-                         .arg(objectName()).arg(m_functionCode) );
-            break;
-    }
+        i.next();
 
-    return type;
-}
-//------------------------------------------------------------------------------------
-//!
-QModbusDataUnit& ModbusRequest::modbusDataUnit()
-{
-    if(m_functionCode == QModbusPdu::WriteSingleCoil ||
-       m_functionCode == QModbusPdu::WriteSingleRegister)
-    {
-        QHashIterator<quint16, ScriptObject*> i(m_scriptObjectList);
+        const quint16 addr          = i.key();
+        ScriptObject *scriptObject  = i.value();
 
-        int startAddress = m_modbusDataUnit.startAddress();
+        quint16 value = 0;
 
-        while (i.hasNext())
+        if(scriptObject)
         {
-            i.next();
+            value = static_cast<quint16>(scriptObject->data()) ;
 
-            const quint16 addr          = i.key() + startAddress;
-            ScriptObject *scriptObject  = i.value();
-
-            quint16 value = 0;
-
-            if(scriptObject)
-            {
-                value = static_cast<quint16>(scriptObject->data()) ;
-            }
-
-            m_modbusDataUnit.setValue( addr, value );
+//            qDebug() << "ModbusRequest::modbusDataUnit()"
+//                     << scriptObject->fullName()
+//                     << scriptObject->data()
+//                     << value;
         }
+
+        m_modbusDataUnit.setValue( addr, value );
     }
 
     return m_modbusDataUnit;
 }
 //------------------------------------------------------------------------------------
 //!
-void ModbusRequest::setModbusDataUnit(const QModbusDataUnit &dataUnit, int deviceState)
+void ModbusRequest::setModbusDataUnit(const ModbusDataUnit &dataUnit, int deviceState)
 {
     //qDebug() << "ModbusRequest::setModbusDataUnit" << dataUnit.values();
 
@@ -201,20 +154,17 @@ void ModbusRequest::setModbusDataUnit(const QModbusDataUnit &dataUnit, int devic
     }
 
     //-----------------------------------------
-    if(dataUnit.isValid())
+    if(deviceState == 1)
     {        
-        for (uint i = 0; i < dataUnit.valueCount(); i++)
+        for (int i = 0; i < dataUnit.values.size(); ++i)
         {
-            const int id          = dataUnit.startAddress() + i;
-            //const quint16 value   = dataUnit.value(i);
-            const qint16 value   = (qint16)dataUnit.value(i);
+            const int id = dataUnit.startAddress + i;
 
-            //-----------------------------------------
             ScriptObject *scriptObject = m_scriptObjectList.value(id, nullptr);
 
             if(scriptObject)
             {
-                scriptObject->setData(value);
+                scriptObject->setData( dataUnit.value(id) );
             }
         }
     } else

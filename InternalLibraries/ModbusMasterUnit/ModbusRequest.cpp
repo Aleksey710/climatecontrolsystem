@@ -23,21 +23,17 @@ ModbusRequest::ModbusRequest(const ModbusConnectionSettings &connectionSettings,
         return std::get<0>(lh) < std::get<0>(rh);
     });
 
-    int startAddress = std::get<0>( registerList.at(0) );
-    int size = std::get<0>( registerList.last() ) - std::get<0>( registerList.first() ) + 1;
-    //int size = std::get<0>( registerList.last() ) - std::get<0>( registerList.first() );
+    m_startAddress = std::get<0>( registerList.at(0) );
+    m_number       = std::get<0>( registerList.last() ) - std::get<0>( registerList.first() ) + 1;
 
     //--------------------------------------------
     setObjectName(QString("ModbusRequest[%1]servAddr[%2]f[%3]reg[%4:%5]")
                   .arg(connectionSettings.connectionName)
                   .arg(serverAddress)
                   .arg(m_functionCode)
-                  .arg(startAddress)
-                  .arg(size)
+                  .arg(m_startAddress)
+                  .arg(m_number)
                   );
-
-    //--------------------------------------------
-    m_modbusDataUnit = ModbusDataUnit(startAddress, size);
 
     //--------------------------------------------
 
@@ -105,7 +101,6 @@ ModbusRequest::~ModbusRequest()
     {
         i.next();
 
-        //i.value() = nullptr;
         m_scriptObjectList.remove(i.key());
     }
 
@@ -114,8 +109,15 @@ ModbusRequest::~ModbusRequest()
 }
 //------------------------------------------------------------------------------------
 //!
-ModbusDataUnit& ModbusRequest::modbusDataUnit()
+template < typename T >
+T* ModbusRequest::modbusData()
 {
+    T* dest = (T*) malloc(m_number * sizeof(T));
+
+    //---------------------------------------------------------
+    memset(dest, 0, m_number * sizeof(T)); // ???
+
+    //---------------------------------------------------------
     QHashIterator<quint16, ScriptObject*> i(m_scriptObjectList);
 
     while (i.hasNext())
@@ -125,28 +127,25 @@ ModbusDataUnit& ModbusRequest::modbusDataUnit()
         const quint16 addr          = i.key();
         ScriptObject *scriptObject  = i.value();
 
-        quint16 value = 0;
-
         if(scriptObject)
         {
-            value = static_cast<quint16>(scriptObject->data()) ;
+            dest[addr - m_startAddress] = static_cast<T>(scriptObject->data()) ;
 
-//            qDebug() << "ModbusRequest::modbusDataUnit()"
-//                     << scriptObject->fullName()
-//                     << scriptObject->data()
-//                     << value;
+//            SEND_TO_LOG( QString("%1 - modbusData : [%2]-[%3]")
+//                         .arg(objectName())
+//                         .arg(scriptObject->fullName())
+//                         .arg(dest[addr - m_startAddress]) );
         }
-
-        m_modbusDataUnit.setValue( addr, value );
     }
 
-    return m_modbusDataUnit;
+    return dest;
 }
 //------------------------------------------------------------------------------------
 //!
-void ModbusRequest::setModbusDataUnit(const ModbusDataUnit &dataUnit, int deviceState)
+template < typename T >
+void ModbusRequest::setModbusData(T *values, int deviceState)
 {
-    //qDebug() << "ModbusRequest::setModbusDataUnit" << dataUnit.values();
+    //qDebug() << "ModbusRequest::setModbusData" << dataUnit.values();
 
     if(m_deviceScriptObject)
     {
@@ -154,26 +153,38 @@ void ModbusRequest::setModbusDataUnit(const ModbusDataUnit &dataUnit, int device
     }
 
     //-----------------------------------------
-    if(deviceState == 1)
-    {        
-        for (int i = 0; i < dataUnit.values.size(); ++i)
-        {
-            const int id = dataUnit.startAddress + i;
+    QHashIterator<quint16, ScriptObject*> i(m_scriptObjectList);
 
-            ScriptObject *scriptObject = m_scriptObjectList.value(id, nullptr);
-
-            if(scriptObject)
-            {
-                scriptObject->setData( dataUnit.value(id) );
-            }
-        }
-    } else
+    while (i.hasNext())
     {
-        if(m_deviceScriptObject)
-        {
-            m_deviceScriptObject->setData(-1);
-        }
+        i.next();
+
+        const int id = i.key();
+        ScriptObject *scriptObject = i.value();
+
+        uint16_t value = (deviceState == 1) ?
+                            values[id - m_startAddress] :
+                                std::numeric_limits<uint16_t>::max();
+
+        scriptObject->setData( value );
+
+        SEND_TO_LOG( QString("%1 - setModbusData : [%2]-[%3]")
+                     .arg(objectName())
+                     .arg(scriptObject->fullName())
+                     .arg(value) );
     }
 }
 //------------------------------------------------------------------------------------
-//!
+//! https://bytefreaks.net/programming-2/c/c-undefined-reference-to-templated-class-function
+//! Явная инстанциация конкретных экземпляров функции.
+//! Без явного определения - не считает нужным создавать
+//! В данном случае (Колличество инстанциаций известно заранее) предпочтительнее перед
+//! перемещением кода реализации в заголовочный файл.
+template void ModbusRequest::setModbusData(uint8_t *values,     int deviceState);
+template void ModbusRequest::setModbusData(uint16_t *values,    int deviceState);
+template void ModbusRequest::setModbusData(int *value,          int deviceState);
+
+template uint8_t*   ModbusRequest::modbusData();
+template uint16_t*  ModbusRequest::modbusData();
+template int*       ModbusRequest::modbusData();
+//------------------------------------------------------------------------------------

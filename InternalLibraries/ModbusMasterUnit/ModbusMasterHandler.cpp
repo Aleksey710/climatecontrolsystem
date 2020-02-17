@@ -20,17 +20,6 @@ ModbusMasterHandler::~ModbusMasterHandler()
 }
 //------------------------------------------------------------------------------------
 //!
-void ModbusMasterHandler::errorDataHandler()
-{
-    if(m_curentModbusRequest)
-    {
-        ModbusDataUnit modbusDataUnit = m_curentModbusRequest->modbusDataUnit();
-        modbusDataUnit.setValues( QVector<uint16_t>(modbusDataUnit.values.size(), std::numeric_limits<quint16>::max()) );
-        m_curentModbusRequest->setModbusDataUnit(modbusDataUnit, -1);
-    }
-}
-//------------------------------------------------------------------------------------
-//!
 void ModbusMasterHandler::exequteRequest(ModbusRequest *request)
 {
     m_curentModbusRequest = request;
@@ -45,7 +34,7 @@ void ModbusMasterHandler::exequteRequest(ModbusRequest *request)
 
     if (modbusConnectionType == ModbusConnection::Serial)
     {
-        const char *device  = modbusConnectionSettings.serialPortNameParameter.toLatin1().data();
+        const char *device  = modbusConnectionSettings.serialPortNameParameter;
         int baud            = modbusConnectionSettings.serialBaudRateParameter;
         char parity         = modbusConnectionSettings.serialParityParameter;
         int data_bit        = modbusConnectionSettings.serialDataBitsParameter;
@@ -54,7 +43,7 @@ void ModbusMasterHandler::exequteRequest(ModbusRequest *request)
         ctx = modbus_new_rtu(device,baud,parity,data_bit,stop_bit);
 
     } else {
-        const char *ip_address  = modbusConnectionSettings.networkAddressParameter.toLatin1().data();
+        const char *ip_address  = modbusConnectionSettings.networkAddressParameter;
         int port                = modbusConnectionSettings.networkPortParameter;
 
         ctx = modbus_new_tcp(ip_address, port);
@@ -110,30 +99,16 @@ void ModbusMasterHandler::exequteRequest(ModbusRequest *request)
         return ;
     }
 
-    ModbusDataUnit &dataUnit = m_curentModbusRequest->modbusDataUnit();
-
     switch (m_curentModbusRequest->functionCode())
     {
-        case 0x01: exequteRead<uint8_t>(ctx, dataUnit, modbus_read_bits); break;
-        case 0x02: exequteRead<uint8_t>(ctx, dataUnit, modbus_read_input_bits); break;
-        case 0x03: exequteRead<uint16_t>(ctx, dataUnit, modbus_read_registers); break;
-        case 0x04: exequteRead<uint16_t>(ctx, dataUnit, modbus_read_input_registers); break;
-        case 0x05:
-        {
-//            int addr = dataUnit.startAddress();
-//            int status = dataUnit.value(0);
-//            int rc = modbus_write_bit(ctx, addr, status);
-        }
-            break;
-        case 0x06:
-        {
-//            int addr = dataUnit.startAddress();
-//            int value = dataUnit.value(0);
-//            int rc = modbus_write_register(ctx, addr, value);
-        }
-            break;
-        case 0x0F: exequteWrite<uint8_t>(ctx, dataUnit, modbus_write_bits); break;
-        case 0x10: exequteWrite<uint16_t>(ctx, dataUnit, modbus_write_registers); break;
+        case 0x01: exequteRead<uint8_t>  (ctx, m_curentModbusRequest, modbus_read_bits);            break;
+        case 0x02: exequteRead<uint8_t>  (ctx, m_curentModbusRequest, modbus_read_input_bits);      break;
+        case 0x03: exequteRead<uint16_t> (ctx, m_curentModbusRequest, modbus_read_registers);       break;
+        case 0x04: exequteRead<uint16_t> (ctx, m_curentModbusRequest, modbus_read_input_registers); break;
+        case 0x05: exequteWrite          (ctx, m_curentModbusRequest, modbus_write_bit);            break;
+        case 0x06: exequteWrite          (ctx, m_curentModbusRequest, modbus_write_register);       break;
+        case 0x0F: exequteWrite<uint8_t> (ctx, m_curentModbusRequest, modbus_write_bits);           break;
+        case 0x10: exequteWrite<uint16_t>(ctx, m_curentModbusRequest, modbus_write_registers);      break;
 
         default:
             SEND_TO_LOG( QString("%1 - Попытка выполнить необрабатываемую функцию [%2]")
@@ -155,37 +130,21 @@ void ModbusMasterHandler::exequteRequest(ModbusRequest *request)
 //!
 template < typename T >
 void ModbusMasterHandler::exequteRead(modbus_t *ctx,
-                                       ModbusDataUnit &dataUnit,
-                                       int (*function)(modbus_t*,
-                                                       int,
-                                                       int,
-                                                       T*) )
+                                      ModbusRequest *modbusRequest,
+                                      int (*function)(modbus_t*,
+                                                      int,
+                                                      int,
+                                                      T*) )
 {
-    int addr = dataUnit.startAddress;
-    int nb = dataUnit.values.size();
+    int addr = modbusRequest->startAddress();
+    int nb = modbusRequest->number();
 
     T* dest = (T*) malloc(nb * sizeof(T));
-    memset(dest, 0, nb * sizeof(T));
+    memset(&dest, 0, nb * sizeof(T));
 
-    int rc = function(ctx, addr,nb, dest);
+    int rc = function(ctx, addr, nb, dest);
 
-    if(rc == -1)
-    {
-        errorDataHandler();
-    } else
-    {
-        for(int i = 0; i < nb; ++i)
-        {
-            dataUnit.setValue(addr+i, dest[i]);
-
-            SEND_TO_LOG( QString("%1 - received : [%2]-[%3]")
-                         .arg(objectName())
-                         .arg(addr+i)
-                         .arg(dest[i]) );
-        }
-
-        m_curentModbusRequest->setModbusDataUnit(dataUnit, 1);
-    }
+    m_curentModbusRequest->setModbusData<T>(dest, ((rc == -1) ? -1 : 1));
 
     free(dest);
 }
@@ -193,42 +152,47 @@ void ModbusMasterHandler::exequteRead(modbus_t *ctx,
 //!
 template < typename T >
 void ModbusMasterHandler::exequteWrite( modbus_t *ctx,
-                                        ModbusDataUnit &dataUnit,
+                                        ModbusRequest *modbusRequest,
                                         int (*function)(modbus_t*,
                                                         int,
                                                         int,
                                                         const T*) )
 {
-    int addr = dataUnit.startAddress;
-    int nb = dataUnit.values.size();
+    int addr = modbusRequest->startAddress();
+    int nb = modbusRequest->number();
 
-    T* dest = (T*) malloc(nb * sizeof(T));
-    //memset(dest, 0, nb * sizeof(T));
-
-    for(int i = 0; i < nb; ++i)
-    {
-        dest[i] = (T)dataUnit.value(addr+i);
-    }
+    T* dest = m_curentModbusRequest->modbusData<T>();
 
     int rc = function(ctx, addr,nb, dest);
 
-    if(rc == -1)
-    {
-        errorDataHandler();
-    } else
-    {
-        for(int i = 0; i < nb; ++i)
-        {
-            dataUnit.setValue(addr+i, dest[i]);
-
-            SEND_TO_LOG( QString("%1 - transmited : [%2]-[%3]")
-                         .arg(objectName())
-                         .arg(addr+i)
-                         .arg(dest[i]) );
-        }
-
-        m_curentModbusRequest->setModbusDataUnit(dataUnit, 1);
-    }
+    m_curentModbusRequest->setModbusData<T>(dest, (rc == -1) ? -1 : 1);
 
     free(dest);
 }
+//------------------------------------------------------------------------------------
+//!
+void ModbusMasterHandler::exequteWrite( modbus_t *ctx,
+                                        ModbusRequest *modbusRequest,
+                                        int (*function)(modbus_t*,
+                                                        int,
+                                                        int) )
+{
+    Q_UNUSED(ctx);
+    Q_UNUSED(modbusRequest);
+    Q_UNUSED(function);
+
+    SEND_TO_LOG( QString("%1 - Not used!!!").arg(objectName()) );
+    /*
+    int addr = modbusRequest->startAddress();
+
+    int dest = *m_curentModbusRequest->modbusData<int>();
+
+    int rc = function(ctx, addr, dest);
+
+    m_curentModbusRequest->setModbusData<ModbusDataType_t>(dest, (rc == -1) ? -1 : 1);
+
+    free(dest);
+    */
+}
+
+

@@ -156,18 +156,18 @@ void ModbusMasterUnit::connectionParsing(const QJsonObject &connectionJsonObject
     }
 
     //----------------------------------------------------------------
-    const QString serialPortNameParameter       = connectionJsonObject.value("portName").toString();
+    const char *serialPortNameParameter = connectionJsonObject.value("portName").toString().toLatin1().data();
 
-    const char serialParityParameter             = connectionJsonObject.value("parity").toString().toLatin1().at(0);
-    const int serialBaudRateParameter           = connectionJsonObject.value("baudRate").toInt();
-    const int serialDataBitsParameter           = connectionJsonObject.value("dataBits").toInt();
-    const int serialStopBitsParameter           = connectionJsonObject.value("stopBits").toInt();
+    const char serialParityParameter    = connectionJsonObject.value("parity").toString().toLatin1().at(0);
+    const int serialBaudRateParameter   = connectionJsonObject.value("baudRate").toInt();
+    const int serialDataBitsParameter   = connectionJsonObject.value("dataBits").toInt();
+    const int serialStopBitsParameter   = connectionJsonObject.value("stopBits").toInt();
     //
-    const QString &networkAddressParameter      = connectionJsonObject.value("networkAddress").toString();
-    const int networkPortParameter              = connectionJsonObject.value("networkPort").toInt();
+    const char *networkAddressParameter = connectionJsonObject.value("networkAddress").toString().toLatin1().data();
+    const int networkPortParameter      = connectionJsonObject.value("networkPort").toInt();
     //
-    const int responseTime                      = connectionJsonObject.value("responseTime").toInt();
-    const int numberOfRetries                   = connectionJsonObject.value("numberOfRetries").toInt();
+    const int responseTime              = connectionJsonObject.value("responseTime").toInt();
+    const int numberOfRetries           = connectionJsonObject.value("numberOfRetries").toInt();
     //
     //----------------------------------------------------------------
     const ModbusConnectionSettings modbusConnectionSettings(

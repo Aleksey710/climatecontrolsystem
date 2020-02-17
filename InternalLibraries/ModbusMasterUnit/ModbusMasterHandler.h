@@ -13,7 +13,6 @@
 #include <modbus.h>
 
 #include "Log.h"
-#include "ModbusConnection.h"
 #include "ModbusConnectionSettings.h"
 #include "ModbusRequest.h"
 //#include ""
@@ -32,13 +31,12 @@ class ModbusMasterHandler : public QObject
         void exequted();
 
     public slots:
-        virtual void exequteRequest(ModbusRequest *request);
-
+        void exequteRequest(ModbusRequest *request);
 
     private:
         template < typename T >
         void exequteRead( modbus_t *ctx,
-                          ModbusDataUnit &dataUnit,
+                          ModbusRequest *modbusRequest,
                           int (*function)(modbus_t*,
                                           int,
                                           int,
@@ -46,13 +44,20 @@ class ModbusMasterHandler : public QObject
 
         template < typename T >
         void exequteWrite( modbus_t *ctx,
-                           ModbusDataUnit &dataUnit,
+                           ModbusRequest *modbusRequest,
                            int (*function)(modbus_t*,
                                            int,
                                            int,
                                            const T*) );
+
+        void exequteWrite( modbus_t *ctx,
+                           ModbusRequest *modbusRequest,
+                           int (*function)(modbus_t*,
+                                           int,
+                                           int) );
+
     private:
-        virtual void errorDataHandler();
+
 
 
     private:

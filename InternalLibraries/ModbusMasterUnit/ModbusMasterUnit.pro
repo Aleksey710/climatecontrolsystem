@@ -23,6 +23,11 @@ CONFIG      += staticlib
 
 DEPENDPATH  += $$ROOT_PATH/lib
 DESTDIR     = $$ROOT_PATH/lib
+
+#############################################################
+QT += core
+QT += script
+QT += sql
 #------------------------------------------------------------
 #MAKE_RESULT = APP
 contains( MAKE_RESULT, APP ) {
@@ -62,12 +67,6 @@ contains( MAKE_RESULT, APP ) {
         qnx:LIBS += -lsocket
 }
 #############################################################
-
-QT += core
-QT += script
-QT += sql
-
-#############################################################
 INCLUDEPATH += $$ROOT_PATH/ExternalLibraries/Easyloggingpp
 
 #INCLUDEPATH += $$ROOT_PATH/ExternalLibraries/libmodbus/modbus/libmodbus-3.1.3-ascii/src
@@ -88,9 +87,7 @@ SOURCES += \
 
 
 HEADERS  += \
-    ModbusConnection.h \
     ModbusConnectionSettings.h \
-    ModbusDataUnit.h \
     ModbusMasterHandler.h \
     ModbusMasterUnit.h \
     ModbusRequest.h

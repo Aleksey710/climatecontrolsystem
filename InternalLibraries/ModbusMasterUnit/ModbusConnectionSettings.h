@@ -2,11 +2,14 @@
 #define MODBUSCONNECTIONSETTINGS_H
 //------------------------------------------------------------------------------------
 #include <QString>
-#include <QDebug>
 
-#include "ModbusConnection.h"
 //------------------------------------------------------------------------------------
 // #include "ModbusConnectionSettings.h"
+//------------------------------------------------------------------------------------
+enum class ModbusConnection {
+    Serial,
+    Tcp
+};
 //------------------------------------------------------------------------------------
 //!
 class ModbusConnectionSettings
@@ -15,13 +18,13 @@ class ModbusConnectionSettings
         //------------------------------------------------------------------------------------
         ModbusConnectionSettings(const ModbusConnection &__modbusConnectionType,
                                  //
-                                 const QString &__serialPortNameParameter,
+                                 const char *__serialPortNameParameter,
                                  const char __serialParityParameter,
                                  const int __serialBaudRateParameter,
                                  const int __serialDataBitsParameter,
                                  const int __serialStopBitsParameter,
                                  //
-                                 const QString &__networkAddressParameter,
+                                 const char *__networkAddressParameter,
                                  const int __networkPortParameter,
                                  //
                                  const int __responseTime = 50,
@@ -65,13 +68,13 @@ class ModbusConnectionSettings
 
         ModbusConnection modbusConnectionType;
 
-        QString serialPortNameParameter;
+        const char *serialPortNameParameter;
         char serialParityParameter;
         int serialBaudRateParameter;
         int serialDataBitsParameter;
         int serialStopBitsParameter;
 
-        QString networkAddressParameter;
+        const char *networkAddressParameter;
         int networkPortParameter;
 
         int responseTime;

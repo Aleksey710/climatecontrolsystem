@@ -25,7 +25,6 @@
 
 
 #include "Log.h"
-#include "ModbusConnection.h"
 #include "ModbusConnectionSettings.h"
 #include "ModbusMasterHandler.h"
 #include "ModbusRequest.h"

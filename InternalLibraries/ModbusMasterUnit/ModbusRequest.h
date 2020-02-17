@@ -19,7 +19,6 @@
 #include "ModbusConnectionSettings.h"
 #include "ScriptObject.h"
 #include "ScriptUnit.h"
-#include "ModbusDataUnit.h"
 //------------------------------------------------------------------------------------
 //!
 class ModbusRequest : public QObject
@@ -42,29 +41,37 @@ class ModbusRequest : public QObject
         inline quint16 serverAddress() const
             { return m_serverAddress; }
 
-        inline int functionCode()
+        inline int functionCode() const
             { return m_functionCode; }
 
         inline ScriptObject* deviceScriptObject()
             { return m_deviceScriptObject; }
 
-        ModbusDataUnit &modbusDataUnit();
+        inline int startAddress() const
+            { return m_startAddress; }
 
-        void setModbusDataUnit(const ModbusDataUnit &dataUnit, int deviceState);
+        inline int number() const
+            { return m_number; }
+
+        template < typename T >
+        T* modbusData();
+
+        template < typename T >
+        void setModbusData(T *values, int deviceState);
 
     public slots:
 
-
-
     signals:
         void wantExecuteQuery(ModbusRequest *request);
+
 
     private:
         ModbusConnectionSettings        m_connectionSettings;
         quint16                         m_serverAddress;
 
         int                             m_functionCode;
-        ModbusDataUnit                  m_modbusDataUnit;
+        int                             m_startAddress;
+        int                             m_number;
 
         ScriptObject                    *m_deviceScriptObject;
 

@@ -85,7 +85,7 @@ class ModbusMasterUnit : public QObject
         QList<ModbusRequest*> m_requestList;
 
         const static int PERIOD_REQUEST_MS          = 1000;
-        const static int PERIOD_BETWEEN_REQUEST_MS  = 10;
+        const static int PERIOD_BETWEEN_REQUEST_MS  = 200;
 
         uint m_curentRequestId;
 #else

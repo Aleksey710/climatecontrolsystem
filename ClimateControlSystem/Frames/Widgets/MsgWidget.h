@@ -37,6 +37,7 @@ class MsgWidget : public QLabel
 
                 QFont titleFont = font();
                 titleFont.setPointSize(titleFont.pointSize() + 2);
+                titleFont.setBold(true);
 
                 setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
                 setFont(titleFont);

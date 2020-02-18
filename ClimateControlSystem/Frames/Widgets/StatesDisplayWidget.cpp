@@ -122,8 +122,20 @@ void StatesDisplayWidget::setupRow4()
                                                    "Не можлива корекція температури",
                                                    "#FFFFFF", "#FF0000");
     MsgWidget *lowColumn2MsgWidget = nullptr;
+
+    //---------------------------------------------------------------
+    int tCotla = 0;
+
+    ScriptObject *tCotlaScriptObject = ScriptUnit::getScriptObject("settings.temp.bt");
+
+    if(tCotlaScriptObject)
+    {
+        tCotla = tCotlaScriptObject->data();
+    }
+    //---------------------------------------------------------------
+
     MsgWidget *highColumn1MsgWidget = new MsgWidget("vr.kotl.overheat",
-                                                    "Температура води в котлі >ХХ о С",
+                                                    QString("Температура води в котлі >%1 °C").arg(tCotla),
                                                     "#FFFFFF", "#FF0000");
     MsgWidget *highColumn2MsgWidget = nullptr;
 

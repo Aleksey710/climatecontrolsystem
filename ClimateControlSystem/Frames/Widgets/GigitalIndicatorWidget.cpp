@@ -41,6 +41,7 @@ GigitalIndicatorWidget::GigitalIndicatorWidget(const QString &title,
     //---------------------------------------------------------
     QFont titleFont = font();
     titleFont.setPointSize(titleFont.pointSize() + 3);
+    titleFont.setBold(true);
 
     QLabel *titleLabel = new QLabel(title);
     titleLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
@@ -50,6 +51,7 @@ GigitalIndicatorWidget::GigitalIndicatorWidget(const QString &title,
     //---------------------------------------------------------
     QFont dataFont = font();
     dataFont.setPointSize(dataFont.pointSize() + 10);
+    dataFont.setBold(true);
 
     m_dataLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     m_dataLabel->setFont(dataFont);
@@ -83,10 +85,11 @@ double GigitalIndicatorWidget::data()
 //!
 void GigitalIndicatorWidget::setData(const double &value)
 {
-    if(value == std::numeric_limits<quint16>::max())
+    //if(value == std::numeric_limits<quint16>::max())
+    if(value == 1000)
     {
         m_digitalStripIndicator->setData(0);
-        m_dataLabel->setText(QString("--"));
+        m_dataLabel->setText(QString("Обрив датчика"));
     } else
     {
         m_digitalStripIndicator->setData(value);

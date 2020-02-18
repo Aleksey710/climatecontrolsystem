@@ -41,7 +41,7 @@ class ElectricalEquipmentOperatingTimeArchiveFrame : public AbstractArchiveFrame
                 "`events`.`event_group_id`=(SELECT `id` FROM `event_groups` WHERE `name`='electrical_equipment_operating_time') AND "
                 "`events`.`event_group_id`=`event_groups`.`id` AND "
                 "`events`.`event_type_id`=`event_types`.`id` "
-                ";");
+                "ORDER BY `dt` DESC;");
         }
 
 };

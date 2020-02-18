@@ -41,6 +41,7 @@ DateTimeWidget::DateTimeWidget(QWidget *parent)
     //---------------------------------------------------------
     QFont dateFont = font();
     dateFont.setPointSize(dateFont.pointSize() + 5);
+    dateFont.setBold(true);
 
     QLabel *dateLabel = new QLabel();
     dateLabel->setFont(dateFont);
@@ -50,6 +51,7 @@ DateTimeWidget::DateTimeWidget(QWidget *parent)
     //---------------------------------------------------------
     QFont timeFont = font();
     timeFont.setPointSize(timeFont.pointSize() + 10);
+    timeFont.setBold(true);
 
     QLabel *timeLabel = new QLabel();
     timeLabel->setFont(timeFont);

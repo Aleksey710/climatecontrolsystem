@@ -18,13 +18,13 @@ class ModbusConnectionSettings
         //------------------------------------------------------------------------------------
         ModbusConnectionSettings(const ModbusConnection &__modbusConnectionType,
                                  //
-                                 const char *__serialPortNameParameter,
+                                 const QString &__serialPortNameParameter,
                                  const char __serialParityParameter,
                                  const int __serialBaudRateParameter,
                                  const int __serialDataBitsParameter,
                                  const int __serialStopBitsParameter,
                                  //
-                                 const char *__networkAddressParameter,
+                                 const QString &__networkAddressParameter,
                                  const int __networkPortParameter,
                                  //
                                  const int __responseTime = 50,
@@ -68,13 +68,13 @@ class ModbusConnectionSettings
 
         ModbusConnection modbusConnectionType;
 
-        const char *serialPortNameParameter;
+        const QString serialPortNameParameter;
         char serialParityParameter;
         int serialBaudRateParameter;
         int serialDataBitsParameter;
         int serialStopBitsParameter;
 
-        const char *networkAddressParameter;
+        const QString networkAddressParameter;
         int networkPortParameter;
 
         int responseTime;

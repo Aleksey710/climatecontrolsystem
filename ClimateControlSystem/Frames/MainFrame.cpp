@@ -13,17 +13,29 @@ MainFrame::MainFrame(QWidget *parent)
     mainLayout->setVerticalSpacing(1);
     mainLayout->setHorizontalSpacing(1);
 
-    GigitalIndicatorWidget *widget0 = new GigitalIndicatorWidget("Напруга мережi", "В", 0, 200);
-    setupDisplay("display.U_I.U_net", widget0);
+    GigitalIndicatorWidget *widget0 = createGigitalIndicatorWidget("display.U_I.U_net",
+                                                                   "Напруга мережi",
+                                                                   "В",
+                                                                   "settings.lim.mivn",
+                                                                   "settings.lim.mavn");
 
-    GigitalIndicatorWidget *widget1 = new GigitalIndicatorWidget("Струм АКБ", "А", -150, 160);
-    setupDisplay("display.U_I.I_bat", widget1);
+    GigitalIndicatorWidget *widget1 = createGigitalIndicatorWidget("display.U_I.I_bat",
+                                                                   "Струм АКБ",
+                                                                   "А",
+                                                                   "settings.lim.micb",
+                                                                   "settings.lim.macb");
 
-    GigitalIndicatorWidget *widget2 = new GigitalIndicatorWidget("Струм генератора", "А", 0, 250);
-    setupDisplay("display.U_I.I_gen", widget2);
+    GigitalIndicatorWidget *widget2 = createGigitalIndicatorWidget("display.U_I.I_gen",
+                                                                   "Струм генератора",
+                                                                   "А",
+                                                                   "settings.lim.micg",
+                                                                   "settings.lim.macg");
 
-    m_tUstWidget = new GigitalIndicatorWidget("Корекцiя температури", "°C", 22, 26);
-    setupDisplay("display.temp.t_ust", m_tUstWidget);
+    m_tUstWidget = createGigitalIndicatorWidget("display.temp.t_ust",
+                                                "Корекцiя температури",
+                                                "°C",
+                                                22,
+                                                26);
 
     ScriptObject *settingsScriptObject = ScriptUnit::getScriptObject("settings.temp.sut");
     ScriptObject *displayScriptObject = ScriptUnit::getScriptObject("display.temp.t_ust");
@@ -34,11 +46,17 @@ MainFrame::MainFrame(QWidget *parent)
         displayScriptObject->setData(settingsScriptObject->data());
     }
 
-    GigitalIndicatorWidget *widget4 = new GigitalIndicatorWidget("Темп. салона", "°C", -20, 60);
-    setupDisplay("display.temp.t_sal", widget4);
+    GigitalIndicatorWidget *widget4 = createGigitalIndicatorWidget("display.temp.t_sal",
+                                                                   "Темп. салона",
+                                                                   "°C",
+                                                                   "settings.lim.miti",
+                                                                   "settings.lim.mati");
 
-    GigitalIndicatorWidget *widget5 = new GigitalIndicatorWidget("Темп. зовнiшня", "°C", -40, 60);
-    setupDisplay("display.temp.t_nv", widget5);
+    GigitalIndicatorWidget *widget5 = createGigitalIndicatorWidget("display.U_I.I_gen",
+                                                                   "Темп. зовнiшня",
+                                                                   "°C",
+                                                                   "settings.lim.mito",
+                                                                   "settings.lim.mato");
 
     DateTimeWidget *dateTimeWidget = new DateTimeWidget();
 

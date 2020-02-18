@@ -34,7 +34,7 @@ void ModbusMasterHandler::exequteRequest(ModbusRequest *request)
 
     if (modbusConnectionType == ModbusConnection::Serial)
     {
-        const char *device  = modbusConnectionSettings.serialPortNameParameter;
+        const char *device  = modbusConnectionSettings.serialPortNameParameter.toLatin1().data();
         int baud            = modbusConnectionSettings.serialBaudRateParameter;
         char parity         = modbusConnectionSettings.serialParityParameter;
         int data_bit        = modbusConnectionSettings.serialDataBitsParameter;
@@ -43,7 +43,7 @@ void ModbusMasterHandler::exequteRequest(ModbusRequest *request)
         ctx = modbus_new_rtu(device,baud,parity,data_bit,stop_bit);
 
     } else {
-        const char *ip_address  = modbusConnectionSettings.networkAddressParameter;
+        const char *ip_address  = modbusConnectionSettings.networkAddressParameter.toLatin1().data();
         int port                = modbusConnectionSettings.networkPortParameter;
 
         ctx = modbus_new_tcp(ip_address, port);
@@ -140,7 +140,7 @@ void ModbusMasterHandler::exequteRead(modbus_t *ctx,
     int nb = modbusRequest->number();
 
     T* dest = (T*) malloc(nb * sizeof(T));
-    memset(&dest, 0, nb * sizeof(T));
+    memset(dest, 0, nb * sizeof(T));
 
     int rc = function(ctx, addr, nb, dest);
 

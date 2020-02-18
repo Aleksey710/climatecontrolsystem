@@ -20,6 +20,22 @@ AbstractFrame::~AbstractFrame()
 }
 //------------------------------------------------------------------------------------
 //!
+void AbstractFrame::setupStringDisplay(const QString &name, QLabel *label)
+{
+    ScriptObject *scriptObject = ScriptUnit::getScriptObject(name);
+
+    if(scriptObject)
+    {
+        connect(scriptObject, &ScriptObject::dataChanged, [=](){
+
+            label->setText(QString("%1").arg(scriptObject->data()));
+        });
+        //! Начальная инициализация виджета
+        scriptObject->dataChanged();
+    }
+}
+//------------------------------------------------------------------------------------
+//!
 void AbstractFrame::setupDisplay(const QString &name, QLabel *label)
 {
     ScriptObject *scriptObject = ScriptUnit::getScriptObject(name);
@@ -28,12 +44,13 @@ void AbstractFrame::setupDisplay(const QString &name, QLabel *label)
     {
         connect(scriptObject, &ScriptObject::dataChanged, [=](){
             double value = scriptObject->data();
-            if(value == std::numeric_limits<quint16>::max())
+            //if(value == std::numeric_limits<quint16>::max())
+            if(value == 1000)
             {
-                label->setText(QString("--"));
+                label->setText(QString("Обрив датчика"));
             } else
             {
-                label->setText(QString("%1").arg(value));
+                label->setText(QString("%1").arg( round(value*10)/10 ));
             }
         });
         //! Начальная инициализация виджета
@@ -50,12 +67,13 @@ void AbstractFrame::setupDisplay(const QString &name, QLineEdit *lineEdit)
     {
         connect(scriptObject, &ScriptObject::dataChanged, [=](){
             double value = scriptObject->data();
-            if(value == std::numeric_limits<quint16>::max())
+            //if(value == std::numeric_limits<quint16>::max())
+            if(value == 1000)
             {
-                lineEdit->setText(QString("--"));
+                lineEdit->setText(QString("Обрив датчика"));
             } else
             {
-                lineEdit->setText(QString("%1").arg(value));
+                lineEdit->setText(QString("%1").arg( round(value*10)/10 ));
             }
         });
 
@@ -88,19 +106,65 @@ void AbstractFrame::setupDigDisplay(const QString &name, QLineEdit *lineEdit)
 }
 //------------------------------------------------------------------------------------
 //!
-void AbstractFrame::setupDisplay(const QString &name, GigitalIndicatorWidget *displayWidget)
+GigitalIndicatorWidget* AbstractFrame::createGigitalIndicatorWidget(const QString &name,
+                                                                    const QString &title,
+                                                                    const QString &measureTitle,
+                                                                    const QString &minimumRegData,
+                                                                    const QString &maximumRegData)
 {
+    int minimum = 0;
+
+    ScriptObject *minScriptObject = ScriptUnit::getScriptObject(minimumRegData);
+
+    if(minScriptObject)
+    {
+        minimum = minScriptObject->data();
+    }
+
+    //--------------------------------------
+    int maximum = 0;
+
+    ScriptObject *maxScriptObject = ScriptUnit::getScriptObject(maximumRegData);
+
+    if(maxScriptObject)
+    {
+        maximum = maxScriptObject->data();
+    }
+
+    //--------------------------------------
+    return createGigitalIndicatorWidget(name,
+                                        title,
+                                        measureTitle,
+                                        minimum,
+                                        maximum);
+}
+//------------------------------------------------------------------------------------
+//!
+GigitalIndicatorWidget* AbstractFrame::createGigitalIndicatorWidget(const QString &name,
+                                                                    const QString &title,
+                                                                    const QString &measureTitle,
+                                                                    const int minimum,
+                                                                    const int maximum)
+{
+    GigitalIndicatorWidget *displayWidget = new GigitalIndicatorWidget(title,
+                                                                       measureTitle,
+                                                                       minimum,
+                                                                       maximum);
+
     ScriptObject *scriptObject = ScriptUnit::getScriptObject(name);
 
     if(scriptObject)
     {
         connect(scriptObject, &ScriptObject::dataChanged, [=](){
-            displayWidget->setData(scriptObject->data());
+            displayWidget->setData( round(scriptObject->data()) );
         });
 
         //! Начальная инициализация виджета
         scriptObject->dataChanged();
     }
+
+
+    return displayWidget;
 }
 //------------------------------------------------------------------------------------
 //!

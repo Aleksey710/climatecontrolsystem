@@ -67,8 +67,11 @@ void DigitalStripIndicator::paintEvent(QPaintEvent *)
     painter.translate(painter.window().width()*borderPercent, 0);
     painter.scale(1-(2*borderPercent), 1);
 
-    QColor positiveColor(255, 0, 0);
-    QColor negativeColor(0, 0, 255);
+//    QColor positiveColor(255, 0, 0);
+//    QColor negativeColor(0, 0, 255);
+    QColor positiveColor(0, 150, 0);
+    QColor negativeColor(0, 150, 0);
+
     QColor transparentColor(0, 255, 0, 20);
 
     qreal stripHeight = 5;

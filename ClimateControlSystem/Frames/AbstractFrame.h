@@ -5,6 +5,8 @@
 #include <QWidget>
 #include <QLineEdit>
 #include <QLabel>
+//
+#include <iomanip>
 //#include <>
 //#include <>
 //#include <>
@@ -33,9 +35,21 @@ class AbstractFrame : public QWidget
         void showed();
 
     protected:
+        void setupStringDisplay(const QString &name, QLabel *label);
         void setupDisplay(const QString &name, QLabel *label);
         void setupDisplay(const QString &name, QLineEdit *lineEdit);
-        void setupDisplay(const QString &name, GigitalIndicatorWidget *displayWidget);
+        GigitalIndicatorWidget* createGigitalIndicatorWidget(const QString &name,
+                                                             const QString &title,
+                                                             const QString &measureTitle,
+                                                             const QString &minimumRegData,
+                                                             const QString &maximumRegData);
+
+        GigitalIndicatorWidget* createGigitalIndicatorWidget(const QString &name,
+                                                             const QString &title,
+                                                             const QString &measureTitle,
+                                                             const int minimum,
+                                                             const int maximum);
+
 
         void setupDigDisplay(const QString &name, QLineEdit *lineEdit);
 

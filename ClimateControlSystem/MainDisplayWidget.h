@@ -40,6 +40,7 @@
 #include "ConfigEditFrame.h"
 #include "MenuConfigEditFrame.h"
 #include "NumericKeypadWidget.h"
+#include "DateTimeSetup.h"
 //#include ""
 //#include ""
 //#include ""

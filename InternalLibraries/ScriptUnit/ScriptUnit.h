@@ -54,7 +54,8 @@ class ScriptUnit : public QObject
                                          const QString &group,
                                          const QString &data,
                                          const QString &title,
-                                         const double &value);
+                                         const QString &value,
+                                         const QString &valueType);
 
         QJsonObject loadFile(const QString &fileName);
         void setupScript(const QJsonObject &jsonObject);

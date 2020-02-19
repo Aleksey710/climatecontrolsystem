@@ -29,6 +29,9 @@ ClimateControlSystem::ClimateControlSystem(QObject *parent)
     };
 
     //-------------------------------------------------------------------
+    coolerSetup();
+
+    //-------------------------------------------------------------------
     SEND_TO_LOG( QString("ClimateControlSystem - создан") );
 }
 //------------------------------------------------------------------------------------
@@ -39,7 +42,7 @@ ClimateControlSystem::~ClimateControlSystem()
 }
 //------------------------------------------------------------------------------------
 //!
-void ClimateControlSystem::setupRpi()
+void ClimateControlSystem::rpiSetup()
 {
     SEND_TO_LOG("*****************************************************************************************");
     SEND_TO_LOG( QString("ClimateControlSystem - setup Raspberry Pi") );
@@ -67,3 +70,44 @@ void ClimateControlSystem::setupRpi()
 */
     SEND_TO_LOG("*****************************************************************************************");  
 }
+//------------------------------------------------------------------------------------
+//!
+void ClimateControlSystem::coolerSetup()
+{
+    /*
+    QProcess process;
+
+    process.start("/bin/bash");
+    process.waitForStarted(3000);
+
+    //123456 - пароль. \n - имитирует нажатие Enter.
+    process.write("echo 123456 | sudo -S rcnagios restart\n");
+    process.waitForFinished(4000);
+    */
+
+#ifdef __arm__
+    static const QString PROGRAM_NAME = "./temp_control.py";
+    QProcess::startDetached( PROGRAM_NAME );
+#endif // __arm__
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

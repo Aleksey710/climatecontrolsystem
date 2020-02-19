@@ -79,9 +79,20 @@ MainDisplayWidget::MainDisplayWidget(QWidget *parent)
 #endif
 
     //-----------------------------------------------------------
-    QShortcut *shortcut = new QShortcut(QKeySequence("Ctrl+E"), this);
-    QObject::connect(shortcut, &QShortcut::activated,
+    QShortcut *shortcutEditSettings = new QShortcut(QKeySequence("Ctrl+E"), this);
+    QObject::connect(shortcutEditSettings, &QShortcut::activated,
                      this, &MainDisplayWidget::startEditSettings);
+
+    //-----------------------------------------------------------
+    QShortcut *shortcutDateTimeSetup = new QShortcut(QKeySequence("Ctrl+T"), this);
+    QObject::connect(shortcutDateTimeSetup, &QShortcut::activated,[=](){
+
+        DateTimeSetup *dateTimeSetup = new DateTimeSetup();
+        dateTimeSetup->setWindowModality ( Qt::WindowModality::ApplicationModal );
+        dateTimeSetup->setAttribute(Qt::WA_DeleteOnClose);
+        dateTimeSetup->show();
+    });
+
 
     //-----------------------------------------------------------
     SEND_TO_LOG("MainDisplayWidget - создан");

@@ -8,6 +8,7 @@ ScriptObject::ScriptObject(const QString &name,
                            ScriptObject *parent)
              :QObject(parent),
               m_fullName ( name ),
+              m_dataType ( "double" ),
               value ( __value )
 
 {
@@ -17,9 +18,6 @@ ScriptObject::ScriptObject(const QString &name,
     {
         m_fullName.prepend( QString("%1.").arg(parent->fullName()) );
     }
-
-    //! Начальная инициализация
-    //ScriptUnit::scriptEngine()->evaluate(QString("%1=%2;").arg(m_fullName).arg(value));
 
     //----------------------------------------------------------
     //! test
@@ -33,6 +31,26 @@ ScriptObject::ScriptObject(const QString &name,
     });
     timer->start(1000);
 */
+    //----------------------------------------------------------
+    //SEND_TO_LOG( QString("ScriptObject[%1] - создан").arg(objectName()))
+}
+//------------------------------------------------------------------------------------
+//!
+ScriptObject::ScriptObject(const QString &name,
+                           const QString &__stringValue,
+                           ScriptObject *parent)
+             :QObject(parent),
+              m_fullName ( name ),
+              m_dataType ( "string" ),
+              stringValue ( __stringValue )
+
+{
+    setObjectName(name);
+
+    if(parent != Q_NULLPTR)
+    {
+        m_fullName.prepend( QString("%1.").arg(parent->fullName()) );
+    }
     //----------------------------------------------------------
     //SEND_TO_LOG( QString("ScriptObject[%1] - создан").arg(objectName()))
 }

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>DateTimeSetup</class>
+ <widget class="QWidget" name="DateTimeSetup">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>420</width>
+    <height>244</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout_2">
+   <item row="0" column="0">
+    <layout class="QGridLayout" name="gridLayout">
+     <item row="0" column="0">
+      <widget class="QTimeEdit" name="timeEdit"/>
+     </item>
+     <item row="1" column="0">
+      <widget class="QCalendarWidget" name="calendarWidget"/>
+     </item>
+     <item row="2" column="0">
+      <widget class="QPushButton" name="pbSet">
+       <property name="text">
+        <string>Встановити</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

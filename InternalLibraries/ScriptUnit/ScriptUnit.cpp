@@ -84,7 +84,8 @@ ScriptObject* ScriptUnit::createScriptObject(const QString &type,
                                              const QString &group,
                                              const QString &data,
                                              const QString &title,
-                                             const double &value)
+                                             const QString &value,
+                                             const QString &valueType)
 {
     //------------------------
     ScriptObject *rootScriptObject = m_rootObjects.value( type, nullptr );
@@ -109,7 +110,13 @@ ScriptObject* ScriptUnit::createScriptObject(const QString &type,
 
     if( !scriptObject )
     {
-        scriptObject = new ScriptObject(data, value, groupScriptObject);
+        if(valueType == "double")
+        {
+            scriptObject = new ScriptObject(data, value.toDouble(), groupScriptObject);
+        } else
+        {
+            scriptObject = new ScriptObject(data, value, groupScriptObject);
+        }
 
         SEND_TO_LOG( QString("%1 - создан [%2]-value[%3]-[%4]")
                      .arg(objectName())
@@ -171,9 +178,11 @@ void ScriptUnit::setupSettingsData()
         "`groups`.`name` AS `group`, "
         "`data`.`name` AS `data`, "
         "`data`.`title` AS `title`, "
-        "`data`.`value` AS `value` "
-        "FROM `types`,`groups`,`data` "
+        "`data`.`value` AS `value`, "
+        "`data_types`.`type` AS `value_type` "
+        "FROM `types`,`groups`,`data`,`data_types` "
         "WHERE "
+        "`data_types`.id = `data`.`data_type_id` AND "
         "`types`.`id`=`groups`.`type_id` AND "
         "`groups`.`id`=`data`.`group_id` "
         "GROUP BY `type`,`group`,`data`; "
@@ -190,21 +199,23 @@ void ScriptUnit::setupSettingsData()
         return;
     }
 
-    int type_id     = sqlQuery.record().indexOf("type");
-    int group_id    = sqlQuery.record().indexOf("group");
-    int data_id     = sqlQuery.record().indexOf("data");
-    int title_id    = sqlQuery.record().indexOf("title");
-    int value_id    = sqlQuery.record().indexOf("value");
+    int type_id          = sqlQuery.record().indexOf("type");
+    int group_id         = sqlQuery.record().indexOf("group");
+    int data_id          = sqlQuery.record().indexOf("data");
+    int title_id         = sqlQuery.record().indexOf("title");
+    int value_id         = sqlQuery.record().indexOf("value");
+    int value_type_id    = sqlQuery.record().indexOf("value_type");
 
     while (sqlQuery.next())
     {
-        QString type = sqlQuery.value(type_id).toString();
-        QString group = sqlQuery.value(group_id).toString();
-        QString data = sqlQuery.value(data_id).toString();
-        QString title = sqlQuery.value(title_id).toString();
-        double value = sqlQuery.value(value_id).toDouble();
+        QString type            = sqlQuery.value(type_id).toString();
+        QString group           = sqlQuery.value(group_id).toString();
+        QString data            = sqlQuery.value(data_id).toString();
+        QString title           = sqlQuery.value(title_id).toString();
+        QString value            = sqlQuery.value(value_id).toString();
+        QString valueType       = sqlQuery.value(value_type_id).toString();
 
-        createScriptObject(type, group, data, title, value);
+        createScriptObject(type, group, data, title, value, valueType);
     }
 }
 //------------------------------------------------------------------------------------
@@ -278,9 +289,9 @@ void ScriptUnit::setupData(const QJsonArray &jsonArray)
                 } else
                 {
                     QString title = dataJsonObject.value("title").toString();
-                    double value = 0;
+                    QString value = "0";
 
-                    createScriptObject(type, group, data, title, value);
+                    createScriptObject(type, group, data, title, value, "double");
                 }
             } else
             {

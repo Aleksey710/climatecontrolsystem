@@ -28,11 +28,18 @@ class ScriptObject : public QObject, protected QScriptable
 {
         Q_OBJECT
     public:
-        explicit ScriptObject(const QString &name,
-                              const double &__value,
-                              ScriptObject *parent = Q_NULLPTR);
+    explicit ScriptObject(const QString &name,
+                          const double &__value,
+                          ScriptObject *parent = Q_NULLPTR);
+
+    explicit ScriptObject(const QString &name,
+                          const QString &__stringValue,
+                          ScriptObject *parent = Q_NULLPTR);
 
         virtual ~ScriptObject();
+
+        inline QString dataType() const
+            { return m_dataType; }
 
         inline QString fullName() const
             { return m_fullName; }
@@ -43,6 +50,10 @@ class ScriptObject : public QObject, protected QScriptable
         Q_INVOKABLE inline double data() const
             { return value; }
 
+        Q_INVOKABLE inline QString stringData() const
+            { return stringValue; }
+
+        //--------------------------------------------------
         Q_INVOKABLE inline void setData(const double &__value)
             {
                 if( value != __value )
@@ -56,13 +67,29 @@ class ScriptObject : public QObject, protected QScriptable
                 }
             }
 
+        Q_INVOKABLE inline void setStringData(const QString &__stringValue)
+            {
+                if( stringValue != __stringValue )
+                {
+                    SEND_TO_LOG( QString("ScriptObject[%1] - setStringData(%2)").arg(m_fullName).arg(__stringValue))
+
+                    stringValue = __stringValue;
+                    dataChanged();
+                }
+            }
+        //--------------------------------------------------
+
     signals:
         Q_INVOKABLE void dataChanged();
 
     protected:
         QString     m_fullName;
 
+        QString     m_dataType;
+
         double      value;
+        QString     stringValue;
+
 
     private:
         // https://ravesli.com/urok-42-operatory-sravneniya/

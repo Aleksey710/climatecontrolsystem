@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------------
 //#include <>
 //#include <>
-//#include <>
+#include <QProcess>
 #include <QString>
 #include <QObject>
 
@@ -41,8 +41,8 @@ class ClimateControlSystem : public QObject
     signals:
 
     private:
-        void setupRpi();
-
+        void rpiSetup();
+        void coolerSetup();
 
     private:
         DbUnit                 m_dbUnit;

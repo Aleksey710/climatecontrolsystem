@@ -62,6 +62,7 @@ ArchiveMsg ArchiveWriter::createArchiveMsg(const int &msgId, const double &value
                                   QString("Температура води в котлі > %1°C").arg(value)); break;
     case 3:     return ArchiveMsg(ArchiveJournalType::ClimateDeviceAuto,
                                   QString("Відсутня напруга 3000В")); break;
+    //--------------------
     case 4:     return ArchiveMsg(ArchiveJournalType::ElectricalEquipment,
                                   QString("Umax БВВ=%1 В").arg(value)); break;
     case 5:     return ArchiveMsg(ArchiveJournalType::ElectricalEquipment,
@@ -70,25 +71,28 @@ ArchiveMsg ArchiveWriter::createArchiveMsg(const int &msgId, const double &value
                                   QString("Umax ЗРК=%1 В").arg(value)); break;
     case 7:     return ArchiveMsg(ArchiveJournalType::ElectricalEquipment,
                                   QString("R ізоляції < 1 кОм")); break;
-
+    //--------------------
     case 12:    return ArchiveMsg(ArchiveJournalType::ClimateDeviceAuto,
                                   QString("Увімкнено НВО")); break;
     case 13:    return ArchiveMsg(ArchiveJournalType::ClimateDeviceAuto,
                                   QString("Вимкнено НВО")); break;
     case 14:    return ArchiveMsg(ArchiveJournalType::ClimateDeviceAuto,
                                   QString("Насос опалення увімкнено")); break;
-    case 15:    return ArchiveMsg(ArchiveJournalType::ElectricalEquipment,
+    case 15:    return ArchiveMsg(ArchiveJournalType::ClimateDeviceAuto,
                                   QString("Насос опалення вимкнено")); break;
-    case 16:    return ArchiveMsg(ArchiveJournalType::ElectricalEquipment,
+    case 16:    return ArchiveMsg(ArchiveJournalType::ClimateDeviceAuto,
                                   QString("Автоматичний режим увімкнено")); break;
-    case 17:    return ArchiveMsg(ArchiveJournalType::ElectricalEquipment,
+    case 17:    return ArchiveMsg(ArchiveJournalType::ClimateDeviceAuto,
                                   QString("Автоматичний режим вимкнено")); break;
+    //--------------------
     case 18:    return ArchiveMsg(ArchiveJournalType::WorkTime,
                                   QString("Вимкнення")); break;
     case 19:    return ArchiveMsg(ArchiveJournalType::WorkTime,
                                   QString("Увімкнення")); break;
+    //--------------------
     case 20:    return ArchiveMsg(ArchiveJournalType::ElectricalEquipment,
                                   QString("Аварія")); break;
+    //--------------------
     case 21:    return ArchiveMsg(ArchiveJournalType::ClimateDeviceAuto,
                                   QString("Обрив датчика зовнішньої температури")); break;
     case 22:    return ArchiveMsg(ArchiveJournalType::ClimateDeviceAuto,
@@ -97,10 +101,12 @@ ArchiveMsg ArchiveWriter::createArchiveMsg(const int &msgId, const double &value
                                   QString("Обрив датчика температури приточного повітря")); break;
     case 24:    return ArchiveMsg(ArchiveJournalType::ClimateDeviceAuto,
                                   QString("Обрив датчика температури салону")); break;
+    //--------------------
     case 25:    return ArchiveMsg(ArchiveJournalType::ElectricalEquipment,
                                   QString("I max генератора %1 А").arg(value)); break;
     case 26:    return ArchiveMsg(ArchiveJournalType::ElectricalEquipment,
                                   QString("Umin АБ=%1 В").arg(value)); break;
+    //--------------------
     case 27:    return ArchiveMsg(ArchiveJournalType::ClimateDeviceAuto,
                                   QString("Кондиционер ВІДМОВА увімкнено")); break;
     case 28:    return ArchiveMsg(ArchiveJournalType::ClimateDeviceAuto,
@@ -125,14 +131,17 @@ ArchiveMsg ArchiveWriter::createArchiveMsg(const int &msgId, const double &value
                                   QString("Нагрів увімкнено")); break;
     case 38:    return ArchiveMsg(ArchiveJournalType::ClimateDeviceAuto,
                                   QString("Нагрів вимкнено")); break;
-    case 39:    return ArchiveMsg(ArchiveJournalType::ClimateDeviceAuto,
+    //--------------------
+    case 39:    return ArchiveMsg(ArchiveJournalType::ClimateDeviceAuto,            // !!!
                                   QString("Відсутній зв’язок з БУТ")); break;
+    //--------------------
     case 40:    return ArchiveMsg(ArchiveJournalType::ClimateDeviceAuto,
                                   QString("Відсутній відгук від НВО")); break;
     case 41:    return ArchiveMsg(ArchiveJournalType::ClimateDeviceAuto,
                                   QString("Відсутній відгук від ВВО 1 гр")); break;
     case 42:    return ArchiveMsg(ArchiveJournalType::ClimateDeviceAuto,
                                   QString("Відсутній відгук від ВВО 2 гр")); break;
+    //--------------------
     case 43:    return ArchiveMsg(ArchiveJournalType::ClimateDeviceManual,
                                   QString("Температура води в котлі > %1°C").arg(value)); break;
     case 44:    return ArchiveMsg(ArchiveJournalType::ClimateDeviceManual,
@@ -147,22 +156,27 @@ ArchiveMsg ArchiveWriter::createArchiveMsg(const int &msgId, const double &value
                                   QString("Увімкнено НВО")); break;
     case 49:    return ArchiveMsg(ArchiveJournalType::ClimateDeviceManual,
                                   QString("Вимкнено НВО")); break;
+    //--------------------
     case 50:    return ArchiveMsg(ArchiveJournalType::ClimateDeviceAuto,
                                   QString("Насос опалення увімкнено")); break;         // в ручном режиме не используется?
     case 51:    return ArchiveMsg(ArchiveJournalType::ClimateDeviceAuto,
                                   QString("Насос опалення вимкнено")); break;          // в ручном режиме не используется?
+    //--------------------
     case 52:    return ArchiveMsg(ArchiveJournalType::ClimateDeviceManual,
                                   QString("Ручний режим увімкнено")); break;
-    case 53:    return ArchiveMsg(ArchiveJournalType::ClimateDeviceManual,
+    case 53:    return ArchiveMsg(ArchiveJournalType::ClimateDeviceManual,                                  
                                   QString("Ручний режим вимкнено")); break;
+    //--------------------
     case 54:    return ArchiveMsg(ArchiveJournalType::ClimateDeviceManual,
                                   QString("Увімкнено НВО")); break;
     case 55:    return ArchiveMsg(ArchiveJournalType::ClimateDeviceManual,
                                   QString("Увімкнено ВВО 1 гр.")); break;
     case 56:    return ArchiveMsg(ArchiveJournalType::ClimateDeviceManual,
                                   QString("Увімкнено ВВО 2 гр.")); break;
+    //--------------------
     case 57:    return ArchiveMsg(ArchiveJournalType::ClimateDeviceAuto,
                                   QString("Відсутня напруга 3000В")); break;        // в ручном режиме не используется?
+    //--------------------
     case 58:    return ArchiveMsg(ArchiveJournalType::ClimateDeviceAuto,
                                   QString("Вентиляція увімкнено")); break;
     case 59:    return ArchiveMsg(ArchiveJournalType::ClimateDeviceAuto,
@@ -175,6 +189,7 @@ ArchiveMsg ArchiveWriter::createArchiveMsg(const int &msgId, const double &value
                                   QString("Вимкнено ВВО 1 гр.")); break;
     case 63:    return ArchiveMsg(ArchiveJournalType::ClimateDeviceAuto,
                                   QString("Вимкнено ВВО 2 гр.")); break;
+    //--------------------
     case 64:    return ArchiveMsg(ArchiveJournalType::ClimateDeviceManual,
                                   QString("Вентиляція увімкнено")); break;
     case 65:    return ArchiveMsg(ArchiveJournalType::ClimateDeviceManual,

@@ -68,7 +68,8 @@ void ModbusMasterUnit::excuteNextRequest()
     //! Если в конфигурации существуют корректно описанные запросы
     if(m_requestList.size() > 0)
     {
-        if(m_curentRequestId >= m_requestList.size())
+        if(m_curentRequestId >= m_requestList.size() ||
+           m_curentRequestId < 0)
         {
             m_curentRequestId = 0;
         }

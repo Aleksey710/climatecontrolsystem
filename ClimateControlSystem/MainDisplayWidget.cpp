@@ -87,10 +87,14 @@ MainDisplayWidget::MainDisplayWidget(QWidget *parent)
     QShortcut *shortcutDateTimeSetup = new QShortcut(QKeySequence("Ctrl+T"), this);
     QObject::connect(shortcutDateTimeSetup, &QShortcut::activated,[=](){
 
-        DateTimeSetup *dateTimeSetup = new DateTimeSetup();
-        dateTimeSetup->setWindowModality ( Qt::WindowModality::ApplicationModal );
-        dateTimeSetup->setAttribute(Qt::WA_DeleteOnClose);
-        dateTimeSetup->show();
+        CheckPasswordWidget *checkPasswordWidget =
+            new CheckPasswordWidget([=](){
+                    DateTimeSetup *dateTimeSetup = new DateTimeSetup();
+                    dateTimeSetup->setWindowModality ( Qt::WindowModality::ApplicationModal );
+                    dateTimeSetup->setAttribute(Qt::WA_DeleteOnClose);
+                });
+
+        Q_UNUSED(checkPasswordWidget);
     });
 
 
@@ -262,23 +266,28 @@ void MainDisplayWidget::startEditSettings()
     if(m_menuConfigEditFrame)
         return;
 
-    m_menuConfigEditFrame = new MenuConfigEditFrame(m_menuItemDataList);
+    CheckPasswordWidget *checkPasswordWidget =
+        new CheckPasswordWidget([=](){
+            m_menuConfigEditFrame = new MenuConfigEditFrame(m_menuItemDataList);
 
-    //! Скрыть
-    m_framesList[m_curentFrameId]->setHidden(true);    
+            //! Скрыть
+            m_framesList[m_curentFrameId]->setHidden(true);
 
-    m_frameLayout->addWidget( m_menuConfigEditFrame );
+            m_frameLayout->addWidget( m_menuConfigEditFrame );
 
-    emit frameChanged(FrameName::MenuConfigEdit);
+            emit frameChanged(FrameName::MenuConfigEdit);
 
-    //----------------------------------------------------
-    connect(m_menuConfigEditFrame, &QWidget::destroyed,[=](){
-        m_menuConfigEditFrame = nullptr;        
-        //! Скрыть
-        m_framesList[m_curentFrameId]->setHidden(false);
+            //----------------------------------------------------
+            connect(m_menuConfigEditFrame, &QWidget::destroyed,[=](){
+                m_menuConfigEditFrame = nullptr;
+                //! Скрыть
+                m_framesList[m_curentFrameId]->setHidden(false);
 
-        emit frameChanged(m_framesList[m_curentFrameId]->frameName());
-    });
+                emit frameChanged(m_framesList[m_curentFrameId]->frameName());
+            });
+        });
+
+    Q_UNUSED(checkPasswordWidget);
 }
 
 

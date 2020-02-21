@@ -87,7 +87,7 @@ class ModbusMasterUnit : public QObject
         const static int PERIOD_REQUEST_MS          = 1000;
         const static int PERIOD_BETWEEN_REQUEST_MS  = 200;
 
-        uint m_curentRequestId;
+        int m_curentRequestId;
 #else
         //! Решение2 - периодическая постановка запросов в очередь на выполнение
         QQueue<ModbusRequest*> m_requestQueue;

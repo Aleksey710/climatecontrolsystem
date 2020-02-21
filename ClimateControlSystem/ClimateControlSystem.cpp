@@ -29,6 +29,14 @@ ClimateControlSystem::ClimateControlSystem(QObject *parent)
     };
 
     //-------------------------------------------------------------------
+    ScriptObject *scriptObject = ScriptUnit::getScriptObject("settings.password.new");
+
+    if(scriptObject)
+    {
+        __PASSWORD__ = scriptObject->stringData();
+    }
+
+    //-------------------------------------------------------------------
     coolerSetup();
 
     //-------------------------------------------------------------------

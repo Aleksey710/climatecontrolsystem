@@ -74,6 +74,7 @@ HEADERS += \
     Frames/SettingsFrames/MenuConfigEditFrame.h \
     Frames/SettingsFrames/NumericButton.h \
     Frames/SettingsFrames/NumericKeypadWidget.h \
+    Frames/Widgets/CheckPasswordWidget.h \
     Frames/Widgets/DateTimeWidget.h \
     Frames/Widgets/DigitalStripIndicator.h \
     Frames/Widgets/GigitalIndicatorWidget.h \
@@ -81,7 +82,8 @@ HEADERS += \
     Frames/Widgets/RowMsgWidget.h \
     Frames/Widgets/StatesDisplayWidget.h \
     MainDisplayWidget.h \
-    ButtonsWidget.h
+    ButtonsWidget.h \
+    Password.h
 
 
 SOURCES += \
@@ -99,6 +101,7 @@ SOURCES += \
     Frames/SettingsFrames/MenuConfigEditFrame.cpp \
     Frames/SettingsFrames/NumericButton.cpp \
     Frames/SettingsFrames/NumericKeypadWidget.cpp \
+    Frames/Widgets/CheckPasswordWidget.cpp \
     Frames/Widgets/DateTimeWidget.cpp \
     Frames/Widgets/DigitalStripIndicator.cpp \
     Frames/Widgets/GigitalIndicatorWidget.cpp \
@@ -114,7 +117,8 @@ FORMS += \
     Frames/CarInformationFrame.ui \
     Frames/InOutDisplayFrame.ui \
     Frames/SettingsFrames/DateTimeSetup.ui \
-    Frames/SettingsFrames/ItemEditSettingsWidget.ui
+    Frames/SettingsFrames/ItemEditSettingsWidget.ui \
+    Frames/Widgets/CheckPasswordWidget.ui
 
 
 

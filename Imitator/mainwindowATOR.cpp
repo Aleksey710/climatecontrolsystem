@@ -339,12 +339,15 @@ void MainWindowATOR::onStateChanged(int state)
 
 void MainWindowATOR::coilChanged(int id)
 {
+    Q_UNUSED(id);
+
     //QAbstractButton *button = coilButtons.button(id);
     //bitChanged(id, QModbusDataUnit::Coils, button->isChecked());
 }
 
 void MainWindowATOR::discreteInputChanged(int id)
 {
+    Q_UNUSED(id);
     //QAbstractButton *button = discreteButtons.button(id);
     //bitChanged(id, QModbusDataUnit::DiscreteInputs, button->isChecked());
 }

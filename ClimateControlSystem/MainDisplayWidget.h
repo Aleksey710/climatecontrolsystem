@@ -41,6 +41,7 @@
 #include "MenuConfigEditFrame.h"
 #include "NumericKeypadWidget.h"
 #include "DateTimeSetup.h"
+#include "CheckPasswordWidget.h"
 //#include ""
 //#include ""
 //#include ""

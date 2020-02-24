@@ -12,6 +12,8 @@ ItemEditSettingsWidget::ItemEditSettingsWidget(const QVariant &value,
 
     setWindowTitle("Редагування параметру");
 
+    setWindowModality ( Qt::WindowModality::ApplicationModal );
+
     ui->lbDisplayOld->setText( value.toString() );
 
     connect(ui->pbCancel, &QPushButton::released,[=](){

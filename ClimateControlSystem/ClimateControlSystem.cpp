@@ -33,7 +33,13 @@ ClimateControlSystem::ClimateControlSystem(QObject *parent)
 
     if(scriptObject)
     {
-        __PASSWORD__ = scriptObject->stringData();
+        connect(scriptObject, &ScriptObject::dataChanged,[=](){
+            __PASSWORD__ = scriptObject->stringData();
+
+            SEND_TO_LOG( QString("ClimateControlSystem - пароль задан: [%2]").arg(__PASSWORD__) );
+        });
+
+        scriptObject->dataChanged();
     }
 
     //-------------------------------------------------------------------

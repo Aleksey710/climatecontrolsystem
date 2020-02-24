@@ -35,14 +35,14 @@ ConfigEditFrame::ConfigEditFrame(const QString &groupName,
 
     updateModelData();
 
-    m_model->setHeaderData(0, Qt::Horizontal, tr("Имя"));
-    m_model->setHeaderData(1, Qt::Horizontal, tr("Название"));
-    m_model->setHeaderData(2, Qt::Horizontal, tr("Значение"));
+    m_model->setHeaderData(0, Qt::Horizontal, tr("Iм`я"));
+    m_model->setHeaderData(1, Qt::Horizontal, tr("Назва"));
+    m_model->setHeaderData(2, Qt::Horizontal, tr("Значення"));
 
     m_tableView->setModel(m_model);
 
     //-----------------------------------------------------------------
-    QPushButton *exitButton = new QPushButton("Выхiд");
+    QPushButton *exitButton = new QPushButton("Вихiд");
     setAttribute(Qt::WA_DeleteOnClose);
     connect(exitButton, &QPushButton::released, this, &QWidget::close);
     mainLayout->addWidget(exitButton);

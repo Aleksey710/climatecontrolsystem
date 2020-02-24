@@ -28,13 +28,13 @@ class ScriptObject : public QObject, protected QScriptable
 {
         Q_OBJECT
     public:
-    explicit ScriptObject(const QString &name,
-                          const double &__value,
-                          ScriptObject *parent = Q_NULLPTR);
+        explicit ScriptObject(const QString &name,
+                              const double &__value,
+                              ScriptObject *parent = Q_NULLPTR);
 
-    explicit ScriptObject(const QString &name,
-                          const QString &__stringValue,
-                          ScriptObject *parent = Q_NULLPTR);
+        explicit ScriptObject(const QString &name,
+                              const QString &__stringValue,
+                              ScriptObject *parent = Q_NULLPTR);
 
         virtual ~ScriptObject();
 

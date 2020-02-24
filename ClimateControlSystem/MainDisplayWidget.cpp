@@ -84,6 +84,7 @@ MainDisplayWidget::MainDisplayWidget(QWidget *parent)
                      this, &MainDisplayWidget::startEditSettings);
 
     //-----------------------------------------------------------
+/*
     QShortcut *shortcutDateTimeSetup = new QShortcut(QKeySequence("Ctrl+T"), this);
     QObject::connect(shortcutDateTimeSetup, &QShortcut::activated,[=](){
 
@@ -96,7 +97,7 @@ MainDisplayWidget::MainDisplayWidget(QWidget *parent)
 
         Q_UNUSED(checkPasswordWidget);
     });
-
+*/
 
     //-----------------------------------------------------------
     SEND_TO_LOG("MainDisplayWidget - создан");

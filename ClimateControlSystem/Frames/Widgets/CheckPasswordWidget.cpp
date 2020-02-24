@@ -10,6 +10,8 @@ CheckPasswordWidget::CheckPasswordWidget(std::function<void()> function,
 {
     ui->setupUi(this);
 
+    setWindowTitle("Введiть пароль");
+
     ui->lePassword->setEchoMode(QLineEdit::Password);
 
     setWindowModality ( Qt::WindowModality::ApplicationModal );

@@ -56,7 +56,7 @@ void StatesDisplayWidget::setupRow1()
     MsgWidget *lowColumn2MsgWidget = nullptr;
     MsgWidget *highColumn1MsgWidget = new MsgWidget("vr.msg.BVVConnError",
                                                     "Перейти в резервний режим управління",
-                                                    "#FFFFFF", "#FF0000");
+                                                    /*"#FFFFFF",*/ "#FF0000");
     MsgWidget *highColumn2MsgWidget = nullptr;
 
     RowMsgWidget *rowMsgWidget = new RowMsgWidget(lowColumn1MsgWidget,
@@ -83,7 +83,7 @@ void StatesDisplayWidget::setupRow2()
 
     MsgWidget *highColumn2MsgWidget = new MsgWidget("display.BVV.r_insulation",
                                                     "R iзоляцiї < 1 kOm",
-                                                    "#FFFFFF", "#FF0000");
+                                                    /*"#FFFFFF", */"#FF0000");
 
     RowMsgWidget *rowMsgWidget = new RowMsgWidget(lowColumn1MsgWidget,
                                                   lowColumn2MsgWidget,
@@ -105,7 +105,7 @@ void StatesDisplayWidget::setupRow3()
 
     MsgWidget *highColumn1MsgWidget = new MsgWidget("vr.msg.u3000Error",
                                                     "Вiдсутня напруга 3000В",
-                                                    "#FFFFFF", "#FF0000");
+                                                    /*"#FFFFFF",*/ "#FF0000");
     MsgWidget *highColumn2MsgWidget = nullptr;
 
     RowMsgWidget *rowMsgWidget = new RowMsgWidget(lowColumn1MsgWidget,
@@ -136,7 +136,7 @@ void StatesDisplayWidget::setupRow4()
 
     MsgWidget *highColumn1MsgWidget = new MsgWidget("vr.kotl.overheat",
                                                     QString("Температура води в котлі >%1 °C").arg(tCotla),
-                                                    "#FFFFFF", "#FF0000");
+                                                    /*"#FFFFFF",*/ "#FF0000");
     MsgWidget *highColumn2MsgWidget = nullptr;
 
     RowMsgWidget *rowMsgWidget = new RowMsgWidget(lowColumn1MsgWidget,
@@ -153,10 +153,10 @@ void StatesDisplayWidget::setupRow5()
     MsgWidget *lowColumn2MsgWidget = nullptr;
     MsgWidget *highColumn1MsgWidget = new MsgWidget("display.BVV.cont1Failure",
                                                     "Вiдмова контура охолодження 1",
-                                                    "#FFFFFF", "#FF0000");
+                                                    /*"#FFFFFF",*/ "#FF0000");
     MsgWidget *highColumn2MsgWidget = new MsgWidget("display.BVV.cont2Failure",
                                                     "Вiдмова контура охолодження 2",
-                                                    "#FFFFFF", "#FF0000");
+                                                    /*"#FFFFFF",*/ "#FF0000");
 
     RowMsgWidget *rowMsgWidget = new RowMsgWidget(lowColumn1MsgWidget,
                                                   lowColumn2MsgWidget,
@@ -174,10 +174,10 @@ void StatesDisplayWidget::setupRow6()
     MsgWidget *lowColumn2MsgWidget = nullptr;
     MsgWidget *highColumn1MsgWidget = new MsgWidget("vr.msg.ImaxGeneral",
                                                     "Високий струм",
-                                                    "#FFFFFF", "#FF0000");
+                                                    /*"#FFFFFF",*/ "#FF0000");
     MsgWidget *highColumn2MsgWidget = new MsgWidget("vr.msg.Umax",
                                                     "Висока напруга",
-                                                    "#FFFFFF", "#FF0000");
+                                                    /*"#FFFFFF",*/ "#FF0000");
 
     RowMsgWidget *rowMsgWidget = new RowMsgWidget(lowColumn1MsgWidget,
                                                   lowColumn2MsgWidget,
@@ -195,7 +195,7 @@ void StatesDisplayWidget::setupRow7()
     MsgWidget *lowColumn2MsgWidget = nullptr;
     MsgWidget *highColumn1MsgWidget = new MsgWidget("vr.msg.Umin",
                                                     "Батарея розряджена",
-                                                    "#FFFFFF", "#FF0000");
+                                                    /*"#FFFFFF",*/ "#FF0000");
     MsgWidget *highColumn2MsgWidget = nullptr;
 
     RowMsgWidget *rowMsgWidget = new RowMsgWidget(lowColumn1MsgWidget,
@@ -217,7 +217,7 @@ void StatesDisplayWidget::setupRow8()
 
     MsgWidget *highColumn1MsgWidget = new MsgWidget("display.BVV.condFailure",
                                                     "Кондицiонер ВIДМОВА",
-                                                    "#FFFFFF", "#FF0000");
+                                                    /*"#FFFFFF",*/ "#FF0000");
     MsgWidget *highColumn2MsgWidget = nullptr;
 
     RowMsgWidget *rowMsgWidget = new RowMsgWidget(lowColumn1MsgWidget,

@@ -14,6 +14,9 @@ DateTimeSetup::DateTimeSetup(QWidget *parent)
     connect(ui->pbSet, &QPushButton::released,
             this, &DateTimeSetup::setDateTime);
 
+    connect(ui->pbExit, &QPushButton::released,
+            this, &QWidget::close);
+
     ui->calendarWidget->setDateRange(QDate(2020, 1, 1),
                                      QDate(2120,12,31));
 

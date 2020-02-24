@@ -28,7 +28,7 @@ void AbstractFrame::setupStringDisplay(const QString &name, QLabel *label)
     {
         connect(scriptObject, &ScriptObject::dataChanged, [=](){
 
-            label->setText(QString("%1").arg(scriptObject->data()));
+            label->setText(QString("%1").arg(scriptObject->stringData()));
         });
         //! Начальная инициализация виджета
         scriptObject->dataChanged();

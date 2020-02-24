@@ -469,7 +469,7 @@
                             if ( vr.msg.t_nv.data() < 1 )
                             {
                                 /*Запись в журнал*/
-                                archive( 22 );
+                                archive( 21 );
                                 vr.msg.t_nv.setData( 1 );
                             }
                         } else
@@ -651,12 +651,14 @@
             "processing":"
                 if( modbus.BVV.device.data() == 1 )
                 {
+                    /* Выводить сообщение на экран и в журнал нужно толко,
+                       тогда когда 3000В нужно для включения ВВО */
                     if ( ( modbus.BVV.r30000.data() & 1 ) > 0 )
                     {
                         display.BVV.u3000.setData( 1 );
 
                         /*Скрываем сообщение*/
-                        vr.msg.u3000Error.setData( 0 );
+                        /*vr.msg.u3000Error.setData( 0 );*/
                     } else
                     {
                         if ( display.BVV.u3000.data() == 1 )
@@ -664,17 +666,17 @@
                             display.BVV.u3000.setData( 0 );
 
                             /*Выводим на экран сообщение*/
-                            vr.msg.u3000Error.setData( 1 );
+                            /*vr.msg.u3000Error.setData( 1 );*/
 
                             /*Запись в журнал*/
-                            archive( 3 );
+                            /*archive( 3 );*/
                         }
                     }
                 } else if ( vr.msg.BVVConnError.data() == 1)
                 {
                     display.BVV.u3000.setData( 0 );
                     /*Скрываем сообщение*/
-                    vr.msg.u3000Error.setData( 0 );
+                    /*vr.msg.u3000Error.setData( 0 );*/
                 }
                 "
         },
@@ -1307,27 +1309,25 @@
                 "display.BVV.automode"
                 ],
             "processing":"
-                if( display.BVV.automode.data() == 1 )
+                if(    display.BVV.automode.data() == 0
+                    && (    display.BVV.VVO_1.data() == 1
+                         || display.BVV.VVO_2.data() == 1
+                         || display.BVV.NVO.data() == 1
+                         || display.BVV.ventilation.data() == 1 )
+                )
                 {
-                    if(    display.BVV.VVO_1.data() == 1
-                        || display.BVV.VVO_2.data() == 1
-                        || display.BVV.NVO.data() == 1
-                        || display.BVV.ventilation.data() == 1
-                    )
+                    if ( vr.msg.manualModeOn.data() == 0 )
                     {
-                        if ( vr.msg.manualModeOn.data() == 0 )
-                        {
-                            vr.msg.manualModeOn.setData( 1 );
-                            /*Запись в журнал*/
-                            archive( 52 );
-                        }
-                    }else{
-                        if ( vr.msg.manualModeOn.data() == 1 )
-                        {
-                            vr.msg.manualModeOn.setData( 0 );
-                            /*Запись в журнал*/
-                            archive( 53 );
-                        }
+                        vr.msg.manualModeOn.setData( 1 );
+                        /*Запись в журнал*/
+                        archive( 52 );
+                    }
+                }else{
+                    if ( vr.msg.manualModeOn.data() == 1 )
+                    {
+                        vr.msg.manualModeOn.setData( 0 );
+                        /*Запись в журнал*/
+                        archive( 53 );
                     }
                 }
                 "
@@ -1534,7 +1534,8 @@
                */
                if ( modbus.BVV.device.data() == 1 )
                {
-                   if ( display.temp.t_kotl.data() >= settings.temp.bt.data() )
+                   if (    display.temp.t_kotl.data() >= settings.temp.bt.data()
+                        && vr.msg.t_kotl.data() == 0 )
                    {
                        if ( vr.kotl.time.data() == 0 )
                        {
@@ -1625,6 +1626,7 @@
                 "display.temp.t_kotl",
                 "display.BVV.cooling" ],
             "processing":"
+                /* При отсутвии 3000В нужно выводить сообщение о его отсутствии на экран и журнал*/
                 if ( modbus.BVV.device.data() == 1 )
                 {
                     if (    ( display.BVV.automode.data() == 1 )
@@ -1632,18 +1634,30 @@
                          && (    vr.temp.vvo1ResponseError.data() == 0
                               || vr.temp.vvo2ResponseError.data() == 0 )
                          && ( vr.kotl.overheat.data() == 0 )
-                         && ( display.BVV.u3000.data()  == 1 )
+                         /* && ( display.BVV.u3000.data()  == 1 ) */
                          && ( display.temp.t_sal.data() < ( settings.temp.sut.data() -
                                                             settings.temp.vvohefon.data() ) )
                          && ( display.BVV.cooling.data() == 0)
                          && ( display.temp.t_kotl.data() < vr.temp.vvokotlon.data() ) )
                     {
-                        if ( display.temp.t_nv.data() <= settings.temp.vvohoton.data() )
-                        {
-                            vr.temp.vvo1On.setData( 1 );
-                            if (display.temp.t_nv.data() < settings.temp.vvootfdon.data() )
+
+                        if ( display.BVV.u3000.data()  == 1 ) {
+                            if ( display.temp.t_nv.data() <= settings.temp.vvohoton.data() )
                             {
-                                vr.temp.vvo2On.setData( 1 );
+                                vr.temp.vvo1On.setData( 1 );
+                                if (display.temp.t_nv.data() < settings.temp.vvootfdon.data() )
+                                {
+                                    vr.temp.vvo2On.setData( 1 );
+                                }
+                            }
+                        } else
+                        {
+                            /*Выводим на экран сообщение*/
+                            if ( vr.msg.u3000Error.data( ) != 1 )
+                            {
+                                vr.msg.u3000Error.setData( 1 );
+                                /*Запись в журнал*/
+                                archive( 3 );
                             }
                         }
                     }
@@ -1667,6 +1681,7 @@
                 "display.temp.t_kotl",
                 "display.BVV.cooling" ],
             "processing":"
+            /* При наличии 3000В или отсутсвия условий для включения ВВО нужно скрывать сообщение сообщение о его отсутствии с экрана*/
                 if ( modbus.BVV.device.data() == 1 )
                 {
                     if (     ( display.BVV.automode.data() == 0 )
@@ -1692,9 +1707,18 @@
                             vr.temp.vvo2On.setData( 0 );
                         }
                     }
+
+
+                    /*Если решили выключить ВВО, но при этом 3000В есть, гасим сообщение*/
+                    if ( vr.temp.vvo1On.data( ) == 0 && display.BVV.u3000.data() == 1 )
+                    {
+                        vr.temp.vvo2On.setData( 0 );
+                    }
+
                 } else if ( vr.msg.BVVConnError.data() == 1 )
                 {
                     vr.temp.vvo1On.setData( 0 );
+                    vr.temp.vvo2On.setData( 0 );
                     vr.temp.vvo2On.setData( 0 );
                 }"
         },
@@ -2130,6 +2154,8 @@
                        || ( vr.msg.Umin.data() == 1 )
                        || ( vr.msg.Umax.data() == 1 )
                        || ( display.BVV.umax_zrk.data() == 1 )
+                       || (    display.BVV.r_insulation.data() == 1
+                            && settings.resist.val.data() == 1 )
                      ) && display.BVV.crash.data() == 0 )
                 {
                     out.BVV.fault.setData( 1 );

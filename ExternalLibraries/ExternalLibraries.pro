@@ -5,7 +5,7 @@ SUBDIRS += Easyloggingpp
 
 SUBDIRS += libmodbus
 
-#SUBDIRS += WiringPi
+linux:SUBDIRS += WiringPi
 
 #SUBDIRS += arduPi
 #SUBDIRS += Modbus485

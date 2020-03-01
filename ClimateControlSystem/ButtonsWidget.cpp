@@ -100,6 +100,33 @@ ButtonsWidget::ButtonsWidget(QWidget *parent)
     setFrameName(FrameName::Main);
     //-------------------------------------------------------------------
     setLayout( mainLayout );
+
+    //-------------------------------------------------------------------
+    m_buttonsControlThread = new ButtonsControlThread(this);
+    connect(m_buttonsControlThread, &ButtonsControlThread::finished, m_buttonsControlThread, &QObject::deleteLater);
+
+    connect(m_buttonsControlThread, &ButtonsControlThread::bt1_pressed, [=](){
+        if(m_mainFrameButton->isVisible())
+            m_mainFrameButton->click();
+    });
+    connect(m_buttonsControlThread, &ButtonsControlThread::bt2_pressed, [=](){
+        if(m_nextFrameButton->isVisible())
+            m_nextFrameButton->click();
+    });
+    connect(m_buttonsControlThread, &ButtonsControlThread::bt3_pressed, [=](){
+        if(m_minusFrameButton->isVisible())
+            m_minusFrameButton->click();
+        if(m_pgUpFrameButton->isVisible())
+            m_pgUpFrameButton->click();
+    });
+    connect(m_buttonsControlThread, &ButtonsControlThread::bt4_pressed, [=](){
+        if(m_plusFrameButton->isVisible())
+            m_plusFrameButton->click();
+        if(m_pgDownFrameButton->isVisible())
+            m_pgDownFrameButton->click();
+    });
+
+    m_buttonsControlThread->start();
 }
 //------------------------------------------------------------------------------------
 //!

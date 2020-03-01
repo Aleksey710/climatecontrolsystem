@@ -17,6 +17,7 @@
 //#include ""
 #include "Log.h"
 #include "FrameName.h"
+#include "ButtonsControlThread.h"
 //------------------------------------------------------------------------------------
 //!
 class ButtonsWidget : public QWidget
@@ -70,6 +71,7 @@ class ButtonsWidget : public QWidget
         QPushButton *m_plusFrameButton;
 
 
+        ButtonsControlThread *m_buttonsControlThread;
 };
 //------------------------------------------------------------------------------------
 #endif // BUTTONSWIDGET_H

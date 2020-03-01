@@ -55,6 +55,7 @@ INCLUDEPATH += ./Frames/ArchiveFrames
 INCLUDEPATH += ./Frames/SettingsFrames
 #############################################################
 HEADERS += \
+    ButtonsControlThread.h \
     ClimateControlSystem.h \
     FrameName.h \
     Frames/AbstractArchiveFrame.h \
@@ -87,6 +88,7 @@ HEADERS += \
 
 
 SOURCES += \
+    ButtonsControlThread.cpp \
     ClimateControlSystem.cpp \
     Frames/AbstractArchiveFrame.cpp \
     Frames/AbstractFrame.cpp \
@@ -147,8 +149,14 @@ LIBS += \
     -lmodbus \
 
 
+linux:LIBS += \
+    -L$$ROOT_PATH/lib \
+    -lWiringPi
+
+
 win32|win64:LIBS += -lwsock32
 win32|win64:LIBS += -lws2_32
+
 
 qnx: LIBS += -lsocket
 

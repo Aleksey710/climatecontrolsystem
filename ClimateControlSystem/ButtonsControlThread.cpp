@@ -73,12 +73,14 @@ void ButtonsControlThread::run()
         if(m_bt_off_state == 0 && bt_off_state == 1)
             emit bt_off_released();
         //---------------------------------------------------
+        /*
         qDebug() << "ButtonsControlThread"
                  << bt_1_state
                  << bt_2_state
                  << bt_3_state
                  << bt_4_state
                  << bt_off_state ;
+        */
         //---------------------------------------------------
         m_bt_1_state    = bt_1_state;
         m_bt_2_state    = bt_2_state;

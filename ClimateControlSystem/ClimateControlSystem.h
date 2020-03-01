@@ -31,7 +31,8 @@ class ClimateControlSystem : public QObject
         explicit ClimateControlSystem(QObject *parent = nullptr);
         virtual ~ClimateControlSystem();
 
-        inline DbUnit*              dbUnit()            { return &m_dbUnit; }
+        inline DbUnit* dbUnit()
+            { return &m_dbUnit; }
 
     signals:
 

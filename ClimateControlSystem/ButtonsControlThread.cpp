@@ -13,8 +13,6 @@ ButtonsControlThread::ButtonsControlThread(QObject *parent)
 
     wiringPiSetup() ;
 
-    wiringPiMode = WPI_MODE_PHYS;
-
     pinMode (BUTTON_1_PIN, INPUT) ;
     pinMode (BUTTON_2_PIN, INPUT) ;
     pinMode (BUTTON_3_PIN, INPUT) ;

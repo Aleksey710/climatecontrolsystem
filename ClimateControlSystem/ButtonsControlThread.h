@@ -27,10 +27,11 @@ class ButtonsControlThread : public QThread
         // wiringPiMode = WPI_MODE_PHYS;
         // wiringPiMode = WPI_MODE_GPIO;
 
-        static const int BUTTON_1_PIN   = 5;  // F1 - GPIO5   pin 29
-        static const int BUTTON_2_PIN   = 6;  // F2 - GPIO6   pin 31
-        static const int BUTTON_3_PIN   = 33;  // F3 - GPIO13  pin 33
-        static const int BUTTON_4_PIN   = 35;  // F4 - GPIO19  pin 35
+    //21, 22, 23, 24
+        static const int BUTTON_1_PIN   = 21;  // F1 - GPIO5   pin 29
+        static const int BUTTON_2_PIN   = 22;  // F2 - GPIO6   pin 31
+        static const int BUTTON_3_PIN   = 23;  // F3 - GPIO13  pin 33
+        static const int BUTTON_4_PIN   = 24;  // F4 - GPIO19  pin 35
         static const int BUTTON_OFF_PIN = 37;   // F1 - GPIO26  pin 37
 
     public:

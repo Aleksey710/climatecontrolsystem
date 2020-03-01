@@ -5,8 +5,6 @@
 ClimateControlSystem::ClimateControlSystem(QObject *parent)
                      :QObject(parent)
 {
-    rpiSetup();
-
     //-------------------------------------------------------------------
     //! Связать функцию архивирования в скрипте с функцией непосредственной работы с базой
     ArchiveFunction = [&](const int &msgId, const double &value = 0){
@@ -58,11 +56,13 @@ void ClimateControlSystem::rpiSetup()
 
 
     //--------------------------------------------
+/*
 #ifdef __arm__
     SEND_TO_LOG("Raspberry Pi blink");
 
     wiringPiSetup () ;
 #endif // __arm__
+*/
     SEND_TO_LOG("*****************************************************************************************");  
 }
 //------------------------------------------------------------------------------------

@@ -44,17 +44,17 @@ void DateTimeSetup::setDateTime()
 #ifdef __arm__
     //-----------------------------------------------------------------
     //! Установка даты из командной строки
-    //! date +%Y%m%d -s "20120418"
+    //! sudo date +%Y%m%d -s "20120418"
     static const QString setDateCommandString =
-        QString("date +%Y%m%d -s \"%1\"")
+        QString("sudo date +%Y%m%d -s \"%1\"")
             .arg(QDateTime::currentDateTime().toString("yyyyMMdd"));
 
     QProcess::startDetached( setDateCommandString );
     //-----------------------------------------------------------------
     //! Установка времени из командной строки
-    //! date +%T -s "11:14:00"
+    //! sudo date +%T -s "11:14:00"
     static const QString setTimeCommandString =
-        QString("date +%T -s \"\"")
+        QString("sudo date +%T -s \"\"")
             .arg(QDateTime::currentDateTime().toString("HH:mm:ss"));
 
     QProcess::startDetached( setTimeCommandString );

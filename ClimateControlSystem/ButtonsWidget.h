@@ -6,7 +6,7 @@
 #include <QString>
 #include <QVBoxLayout>
 #include <QPushButton>
-//#include <>
+#include <QProcess>
 //#include <>
 //#include <>
 //#include <>

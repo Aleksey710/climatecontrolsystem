@@ -105,25 +105,34 @@ ButtonsWidget::ButtonsWidget(QWidget *parent)
     m_buttonsControlThread = new ButtonsControlThread(this);
     connect(m_buttonsControlThread, &ButtonsControlThread::finished, m_buttonsControlThread, &QObject::deleteLater);
 
-    connect(m_buttonsControlThread, &ButtonsControlThread::bt1_pressed, [=](){
+    connect(m_buttonsControlThread, &ButtonsControlThread::bt_1_pressed, [=](){
         if(m_mainFrameButton->isVisible())
             m_mainFrameButton->click();
     });
-    connect(m_buttonsControlThread, &ButtonsControlThread::bt2_pressed, [=](){
+    connect(m_buttonsControlThread, &ButtonsControlThread::bt_2_pressed, [=](){
         if(m_nextFrameButton->isVisible())
             m_nextFrameButton->click();
     });
-    connect(m_buttonsControlThread, &ButtonsControlThread::bt3_pressed, [=](){
+    connect(m_buttonsControlThread, &ButtonsControlThread::bt_3_pressed, [=](){
         if(m_minusFrameButton->isVisible())
             m_minusFrameButton->click();
         if(m_pgUpFrameButton->isVisible())
             m_pgUpFrameButton->click();
     });
-    connect(m_buttonsControlThread, &ButtonsControlThread::bt4_pressed, [=](){
+    connect(m_buttonsControlThread, &ButtonsControlThread::bt_4_pressed, [=](){
         if(m_plusFrameButton->isVisible())
             m_plusFrameButton->click();
         if(m_pgDownFrameButton->isVisible())
             m_pgDownFrameButton->click();
+    });
+
+    connect(m_buttonsControlThread, &ButtonsControlThread::bt_off_pressed, [=](){
+        /*
+        //! Выключение из командной строки
+        static const QString setDateCommandString = QString("shutdown");
+
+        QProcess::startDetached( setDateCommandString );
+        */
     });
 
     m_buttonsControlThread->start();

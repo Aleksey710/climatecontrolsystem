@@ -42,6 +42,13 @@ extern std::function<void(const QString &, const QString &, const double &)> Sav
 void saveSettingsWorker(const QString &groupe, const QString &param, const double &value);
 QScriptValue saveSettings(QScriptContext *context, QScriptEngine *engine);
 
+//------------------------------------
+extern std::function<void(const bool &)> SetCoolerModeFunction;
+
+void setCoolerModeWorker(const bool &value);
+QScriptValue setCoolerMode(QScriptContext *context, QScriptEngine *engine);
+
+
 
 //------------------------------------------------------------------------------------
 #endif // CUSTOMFUNCTIONS_H

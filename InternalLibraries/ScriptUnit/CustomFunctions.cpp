@@ -131,3 +131,39 @@ QScriptValue saveSettings(QScriptContext *context, QScriptEngine *engine)
 
     return QScriptValue();
 }
+//------------------------------------------------------------------------------------
+//!
+void setCoolerModeWorker(const bool &value)
+{
+    if(SetCoolerModeFunction)
+    {
+        SetCoolerModeFunction(value);
+    }
+}
+//------------------------------------------------------------------------------------
+//!
+QScriptValue setCoolerMode(QScriptContext *context, QScriptEngine *engine)
+{
+    Q_UNUSED(engine);
+
+    const bool value = context->argument(0).toBool();
+
+    //SEND_TO_LOG( QString("saveSettings(%1, %2, %3)").arg(groupe).arg(param).arg(value) );
+
+    setCoolerModeWorker(value);
+
+    return QScriptValue();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

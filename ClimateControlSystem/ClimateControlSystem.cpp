@@ -6,6 +6,11 @@ ClimateControlSystem::ClimateControlSystem(QObject *parent)
                      :QObject(parent)
 {
     //-------------------------------------------------------------------
+#ifdef __arm__
+    rpiSetup();
+#endif // __arm__
+
+    //-------------------------------------------------------------------
     //! Связать функцию архивирования в скрипте с функцией непосредственной работы с базой
     ArchiveFunction = [&](const int &msgId, const double &value = 0){
 
@@ -19,6 +24,22 @@ ClimateControlSystem::ClimateControlSystem(QObject *parent)
 
         //SEND_TO_LOG( QString("ClimateControlSystem - ArchiveFunction[%1][%2]").arg(msgId).arg(value) );
         m_dbUnit.saveSettings(groupe, param, value);
+    };
+
+    //-------------------------------------------------------------------
+    //! Связать функцию архивирования в скрипте с функцией непосредственной работы с базой
+    SetCoolerModeFunction = [&](const bool &value){
+
+        SEND_TO_LOG( QString("ClimateControlSystem - SetCoolerModeFunction[%1]").arg(value) );
+#ifdef __arm__
+        // GPIO22, pin 15
+        // static int pinToGpioR2 [64]
+        pinMode (3, OUTPUT) ;
+        if(value)
+            digitalWrite(3, 1);
+        else
+            digitalWrite(3, 0);
+#endif // __arm__
     };
 
     //-------------------------------------------------------------------

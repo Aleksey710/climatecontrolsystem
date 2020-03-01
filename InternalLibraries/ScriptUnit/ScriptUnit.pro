@@ -24,28 +24,28 @@ DESTDIR     = $$ROOT_PATH/lib
 
 #------------------------------------------------------------
 #MAKE_RESULT = APP
-contains( MAKE_RESULT, APP ) {
-    TEMPLATE    = app
-    DEPENDPATH += $$ROOT_PATH/bin/
-    DESTDIR     = $$ROOT_PATH/bin/
+#contains( MAKE_RESULT, APP ) {
+#    TEMPLATE    = app
+#    DEPENDPATH += $$ROOT_PATH/bin/
+#    DESTDIR     = $$ROOT_PATH/bin/
 
-    QT += gui
-    QT += widgets
+#    QT += gui
+#    QT += widgets
 
-    CONFIG += console
+#    CONFIG += console
 
-    HEADERS += \
-        View/RegisterDataProcessingForm.h \
-        View/ScriptHighlighter.h
+#    HEADERS += \
+#        View/RegisterDataProcessingForm.h \
+#        View/ScriptHighlighter.h
 
-    SOURCES += \
-        main.cpp \
-        View/RegisterDataProcessingForm.cpp \
-        View/ScriptHighlighter.cpp
+#    SOURCES += \
+#        main.cpp \
+#        View/RegisterDataProcessingForm.cpp \
+#        View/ScriptHighlighter.cpp
 
-    FORMS += \
-        View/RegisterDataProcessingForm.ui
-}
+#    FORMS += \
+#        View/RegisterDataProcessingForm.ui
+#}
 #############################################################
 QT += core
 QT += sql

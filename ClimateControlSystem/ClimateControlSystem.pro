@@ -140,6 +140,11 @@ DISTFILES += \
     ../bin/conf/script_panasenko.json
 
 #############################################################
+linux:LIBS += \
+    -L$$ROOT_PATH/lib \
+    -lWiringPi
+
+
 LIBS += \
     -L$$ROOT_PATH/lib \
     -lModbusMasterUnit \
@@ -147,11 +152,6 @@ LIBS += \
     -lDbUnit \
     -leasylogging++ \
     -lmodbus \
-
-
-linux:LIBS += \
-    -L$$ROOT_PATH/lib \
-    -lWiringPi
 
 
 win32|win64:LIBS += -lwsock32

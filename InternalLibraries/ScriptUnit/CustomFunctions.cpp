@@ -133,6 +133,9 @@ QScriptValue saveSettings(QScriptContext *context, QScriptEngine *engine)
 }
 //------------------------------------------------------------------------------------
 //!
+std::function<void(const bool &)> SetCoolerModeFunction;
+//------------------------------------------------------------------------------------
+//!
 void setCoolerModeWorker(const bool &value)
 {
     if(SetCoolerModeFunction)

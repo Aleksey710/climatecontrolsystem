@@ -5,12 +5,7 @@
 ClimateControlSystem::ClimateControlSystem(QObject *parent)
                      :QObject(parent)
 {
-
-    //-------------------------------------------------------------------
-
-#ifdef __arm__
-    setupRpi();
-#endif // __arm__
+    rpiSetup();
 
     //-------------------------------------------------------------------
     //! Связать функцию архивирования в скрипте с функцией непосредственной работы с базой
@@ -63,25 +58,11 @@ void ClimateControlSystem::rpiSetup()
 
 
     //--------------------------------------------
-    // LED Pin - wiringPi pin 0 is BCM_GPIO 17.
-/*
 #ifdef __arm__
-    #define	LED	0
-
     SEND_TO_LOG("Raspberry Pi blink");
 
     wiringPiSetup () ;
-    pinMode (0, OUTPUT) ;
-
-    for (int i = 0; i < 10; ++i)
-    {
-        digitalWrite (LED, HIGH) ;	// On
-        delay (500) ;		// mS
-        digitalWrite (LED, LOW) ;	// Off
-        delay (500) ;
-    }
 #endif // __arm__
-*/
     SEND_TO_LOG("*****************************************************************************************");  
 }
 //------------------------------------------------------------------------------------

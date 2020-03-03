@@ -219,3 +219,19 @@ void ArchiveWriter::saveSettings(const QString &groupe, const QString &param, co
          .arg(value)
     );
 }
+//------------------------------------------------------------------------------------
+//!
+void ArchiveWriter::saveStringSettings(const QString &groupe, const QString &param, const QString &value)
+{
+    emit messageRecordingRequest(
+        QString(
+            "UPDATE `data` "
+            "SET `value`='%3' "
+            "WHERE "
+            "`group_id`=(SELECT `id` FROM `groups` WHERE `name`='%1') AND "
+            "`name`='%2';"
+        ).arg(groupe)
+         .arg(param)
+         .arg(value)
+    );
+}

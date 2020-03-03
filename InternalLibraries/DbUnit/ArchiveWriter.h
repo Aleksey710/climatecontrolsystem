@@ -29,6 +29,9 @@ class ArchiveWriter : public QObject
                           const QString &param,
                           const double &value);
 
+        void saveStringSettings(const QString &groupe,
+                                const QString &param,
+                                const QString &value);
 
     private:
         ArchiveMsg createArchiveMsg(const int &msgId,

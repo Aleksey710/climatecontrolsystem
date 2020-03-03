@@ -7,7 +7,7 @@ ClimateControlSystem::ClimateControlSystem(QObject *parent)
 {
     //-------------------------------------------------------------------
 #ifdef __arm__
-    rpiSetup();
+    wiringPiSetup();
 #endif // __arm__
 
     //-------------------------------------------------------------------
@@ -25,6 +25,15 @@ ClimateControlSystem::ClimateControlSystem(QObject *parent)
         //SEND_TO_LOG( QString("ClimateControlSystem - ArchiveFunction[%1][%2]").arg(msgId).arg(value) );
         m_dbUnit.saveSettings(groupe, param, value);
     };
+
+    //-------------------------------------------------------------------
+    //! Связать функцию архивирования в скрипте с функцией непосредственной работы с базой
+    SaveStringSettingsFunction = [&](const QString &groupe, const QString &param, const QString &value){
+
+        //SEND_TO_LOG( QString("ClimateControlSystem - ArchiveFunction[%1][%2]").arg(msgId).arg(value) );
+        m_dbUnit.saveStringSettings(groupe, param, value);
+    };
+
 
     //-------------------------------------------------------------------
     //! Связать функцию архивирования в скрипте с функцией непосредственной работы с базой
@@ -47,13 +56,11 @@ ClimateControlSystem::ClimateControlSystem(QObject *parent)
 
     if(scriptObject)
     {
-        connect(scriptObject, &ScriptObject::dataChanged,[scriptObject](){
-            __PASSWORD__ = scriptObject->stringData();
+        __PASSWORD__ = scriptObject->stringData();
+        SEND_TO_LOG( QString("ClimateControlSystem - пароль задан: [%1]").arg(__PASSWORD__) );
 
-            SEND_TO_LOG( QString("ClimateControlSystem - пароль задан: [%1]").arg(__PASSWORD__) );
-        });
-
-        scriptObject->dataChanged();
+        connect(scriptObject, &ScriptObject::dataChanged,
+                this, &ClimateControlSystem::setPassword);
     }
 
     //-------------------------------------------------------------------
@@ -70,21 +77,16 @@ ClimateControlSystem::~ClimateControlSystem()
 }
 //------------------------------------------------------------------------------------
 //!
-void ClimateControlSystem::rpiSetup()
+void ClimateControlSystem::setPassword()
 {
-    SEND_TO_LOG("*****************************************************************************************");
-    SEND_TO_LOG( QString("ClimateControlSystem - setup Raspberry Pi") );
+    ScriptObject *scriptObject = ScriptUnit::getScriptObject("settings.password.new");
 
+    if(scriptObject)
+    {
+        __PASSWORD__ = scriptObject->stringData();
 
-    //--------------------------------------------
-/*
-#ifdef __arm__
-    SEND_TO_LOG("Raspberry Pi blink");
-
-    wiringPiSetup () ;
-#endif // __arm__
-*/
-    SEND_TO_LOG("*****************************************************************************************");  
+        SEND_TO_LOG( QString("ClimateControlSystem - пароль задан: [%1]").arg(__PASSWORD__) );
+    }
 }
 //------------------------------------------------------------------------------------
 //!

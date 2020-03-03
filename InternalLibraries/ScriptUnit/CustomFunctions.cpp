@@ -132,6 +132,38 @@ QScriptValue saveSettings(QScriptContext *context, QScriptEngine *engine)
     return QScriptValue();
 }
 //------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------
+//!
+std::function<void(const QString &, const QString &, const QString &)> SaveStringSettingsFunction;
+//------------------------------------------------------------------------------------
+//!
+void saveStringSettingsWorker(const QString &groupe, const QString &param, const QString &value)
+{
+    if(SaveStringSettingsFunction)
+    {
+        SaveStringSettingsFunction(groupe, param, value);
+    }
+
+    //SEND_TO_LOG( QString("CustomFunctions.cpp archiveWorker %1 %2").arg(msgId).arg(value));
+}
+//------------------------------------------------------------------------------------
+//!
+QScriptValue saveStringSettings(QScriptContext *context, QScriptEngine *engine)
+{
+    Q_UNUSED(engine);
+
+    const QString groupe = context->argument(0).toString();
+    const QString param = context->argument(1).toString();
+    const QString value = context->argument(2).toString();
+
+    //SEND_TO_LOG( QString("saveSettings(%1, %2, %3)").arg(groupe).arg(param).arg(value) );
+
+    saveStringSettingsWorker(groupe, param, value);
+
+    return QScriptValue();
+}
+//------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------
 //!
 std::function<void(const bool &)> SetCoolerModeFunction;
 //------------------------------------------------------------------------------------

@@ -91,7 +91,6 @@ void ConfigEditFrame::onClicked(const QModelIndex &index)
 
         QVariant value  = m_model->data(index, Qt::EditRole);
 
-
         //NumericKeypadWidget *editSettingsWidget = new NumericKeypadWidget(value);
         ItemEditSettingsWidget *editSettingsWidget = new ItemEditSettingsWidget(value);
 

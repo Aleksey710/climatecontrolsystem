@@ -21,6 +21,8 @@ ButtonsControlThread::ButtonsControlThread(QObject *parent)
     pinMode (BUTTON_OFF_PIN,    INPUT) ;
 
 #endif // __arm__
+
+    setTerminationEnabled(true);
 }
 //------------------------------------------------------------------------------------
 //!
@@ -90,6 +92,7 @@ void ButtonsControlThread::run()
 
         usleep(500);
     }
+    exec();
 }
 //------------------------------------------------------------------------------------
 //!

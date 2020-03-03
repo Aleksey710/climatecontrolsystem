@@ -36,8 +36,11 @@ class ClimateControlSystem : public QObject
 
     signals:
 
+    private slots:
+        void setPassword();
+
+
     private:
-        void rpiSetup();
         void coolerSetup();
 
     private:

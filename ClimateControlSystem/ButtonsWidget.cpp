@@ -103,6 +103,7 @@ ButtonsWidget::ButtonsWidget(QWidget *parent)
 
     //-------------------------------------------------------------------
     m_buttonsControlThread = new ButtonsControlThread(this);
+
     connect(m_buttonsControlThread, &ButtonsControlThread::finished, m_buttonsControlThread, &QObject::deleteLater);
 
     connect(m_buttonsControlThread, &ButtonsControlThread::bt_1_pressed, [=](){
@@ -127,12 +128,11 @@ ButtonsWidget::ButtonsWidget(QWidget *parent)
     });
 
     connect(m_buttonsControlThread, &ButtonsControlThread::bt_off_pressed, [=](){
-        /*
+
         //! Выключение из командной строки
-        static const QString setDateCommandString = QString("shutdown");
+        static const QString setDateCommandString = QString("sudo poweroff");
 
         QProcess::startDetached( setDateCommandString );
-        */
     });
 
     m_buttonsControlThread->start();
@@ -141,7 +141,7 @@ ButtonsWidget::ButtonsWidget(QWidget *parent)
 //!
 ButtonsWidget::~ButtonsWidget()
 {
-    m_buttonsControlThread->quit();
+    m_buttonsControlThread->terminate();
     m_buttonsControlThread->wait();
 }
 //------------------------------------------------------------------------------------

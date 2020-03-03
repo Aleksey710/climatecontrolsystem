@@ -157,7 +157,12 @@ void ModbusMasterUnit::connectionParsing(const QJsonObject &connectionJsonObject
     }
 
     //----------------------------------------------------------------
+#ifdef __arm__
+    // Только под платформу ARM
+    const QString serialPortNameParameter = QString("/dev/ttyAMA0");
+#else
     const QString serialPortNameParameter = connectionJsonObject.value("portName").toString();
+#endif // __arm__
 
     const char serialParityParameter    = connectionJsonObject.value("parity").toString().toLatin1().at(0);
     const int serialBaudRateParameter   = connectionJsonObject.value("baudRate").toInt();

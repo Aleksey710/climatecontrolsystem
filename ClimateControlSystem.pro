@@ -73,3 +73,20 @@ ClimateControlSystem.depends = \
 # and the most fun of all - monitor the "drift" between your system clock and the rtc module:
 # hwclock -c
 ###############################################################################
+# Настройка заставки
+# https://raspberry-projects.com/pi/pi-operating-systems/raspbian/custom-boot-up-screen
+# sudo apt-get install fbi
+#
+# Replace the file /usr/share/plymouth/themes/pix/splash.png with your own (or just remove it for a blank screen)
+
+# Add logo.nologo to the end of the line in /boot/cmdline.txt to remove the four raspberries (on pi3)
+###############################################################################
+# настройка яркости и гаммы
+# sudo apt install xcalib
+# sudo apt install xbacklight
+# https://xakep.ru/2017/06/14/linux-powersaving/
+# https://booss.org/reducing-screen-brightness-at-night-on-linux-with-xcalib/
+
+
+
+

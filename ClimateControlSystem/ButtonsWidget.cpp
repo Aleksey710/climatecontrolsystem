@@ -141,7 +141,8 @@ ButtonsWidget::ButtonsWidget(QWidget *parent)
 //!
 ButtonsWidget::~ButtonsWidget()
 {
-
+    m_buttonsControlThread->quit();
+    m_buttonsControlThread->wait();
 }
 //------------------------------------------------------------------------------------
 //!

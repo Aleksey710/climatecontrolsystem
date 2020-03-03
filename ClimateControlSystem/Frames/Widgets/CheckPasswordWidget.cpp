@@ -33,15 +33,20 @@ CheckPasswordWidget::~CheckPasswordWidget()
 //!
 void CheckPasswordWidget::checkPassword()
 {
-    if(ui->lePassword->text() == __PASSWORD__)
+    QString enteredPassword = ui->lePassword->text();
+
+    if(enteredPassword == __PASSWORD__)
     {
-        qDebug() << "Пароль верен" << ui->lePassword->text() << __PASSWORD__;
+        qDebug() << "Пароль верен" << enteredPassword << __PASSWORD__;
+
+        SEND_TO_LOG( QString("CheckPasswordWidget - пароль: [%1]").arg(__PASSWORD__) );
         m_function();
 
         emit passwordIsCorrect(true);
     } else
     {
-        qDebug() << "Пароль НЕ верен!" << ui->lePassword->text() << __PASSWORD__;
+        qDebug() << "Пароль НЕ верен!" << enteredPassword << __PASSWORD__;
+        SEND_TO_LOG( QString("CheckPasswordWidget - пароль: [%1]").arg(__PASSWORD__) );
 
         emit passwordIsCorrect(false);
     }

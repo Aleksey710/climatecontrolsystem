@@ -222,6 +222,10 @@ void AbstractArchiveFrame::startSaveData()
     fileDialog.setFilter(QDir::Files | QDir::Hidden | QDir::NoSymLinks);
     fileDialog.selectNameFilter("html (*.html)");
 
+
+//    void QFileDialog::directoryEntered ( const QString & directory )
+//    void QFileDialog::setDirectory ( const QString & directory )
+
     fileDialog.setAcceptMode(QFileDialog::AcceptSave);
     fileDialog.setOption(//QFileDialog::ShowDirsOnly | QFileDialog::ReadOnly
                          QFileDialog::DontUseNativeDialog,

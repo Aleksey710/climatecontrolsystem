@@ -79,6 +79,9 @@
             { "name":"display.A9.year",           "title":"Год прошивки",                    "value": 0 },
             { "name":"display.A9.month",          "title":"Месяц прошивки",                  "value": 0 },
             { "name":"display.A9.day",            "title":"День прошивки",                   "value": 0 },
+
+            { "name":"display.wagon.res",         "title":"Ресур в часах",                   "value": 0 },
+
         { "lineComment":"------------------------------------------------------------------------------------------------------" },
 
         { "lineComment":"------------------------------------------------------------------------------------------------------" },
@@ -2206,6 +2209,12 @@
                     settings.temp.sut.setData( 24 );
                 }
                 "
+        },
+        {
+            "comment":"Считает ресурс в часах, для отображения",
+            "name":"set_display_wagon_res",
+            "sources":["settings.wagon.res"],
+            "processing":"display.wagon.res.setData( settings.wagon.res.data()/60 );"
         }
     ]
 }

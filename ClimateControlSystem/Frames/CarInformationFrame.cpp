@@ -55,9 +55,7 @@ CarInformationFrame::CarInformationFrame(QWidget *parent)
 
     setupDisplay("settings.wagon.dd",   ui->lbStartUseDate);
 
-    setupDisplay("settings.wagon.res",  ui->lbWorkTime);
-
-
+    setupDisplay("display.wagon.res",  ui->lbWorkTime);
 
     //-------------------------------------------------
     SEND_TO_LOG( QString("%1 - создан").arg(objectName()) );

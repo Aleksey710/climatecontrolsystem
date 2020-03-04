@@ -111,6 +111,7 @@ SOURCES += \
     Frames/Widgets/StatesDisplayWidget.cpp \
     MainDisplayWidget.cpp \
     ButtonsWidget.cpp \
+    Password.cpp \
     main.cpp
 
 

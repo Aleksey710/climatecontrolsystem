@@ -86,7 +86,9 @@ ClimateControlSystem.depends = \
 # sudo apt install xbacklight
 # https://xakep.ru/2017/06/14/linux-powersaving/
 # https://booss.org/reducing-screen-brightness-at-night-on-linux-with-xcalib/
-
-
+###############################################################################
+# Сенсорный экран
+# https://www.waveshare.com/w/upload/5/56/PWM_control_backlight_manual.pdf
+# https://www.waveshare.com/wiki/7inch_HDMI_LCD_(B)
 
 

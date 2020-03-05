@@ -13,6 +13,7 @@
 
 
 #include "Log.h"
+#include "AbstractMsgWidget.h"
 #include "MsgWidget.h"
 //#include ".h"
 //#include ".h"
@@ -23,10 +24,10 @@ class RowMsgWidget : public QWidget
 {
         Q_OBJECT
     public:
-        explicit RowMsgWidget(MsgWidget *lowColumn1MsgWidget = nullptr,
-                              MsgWidget *lowColumn2MsgWidget = nullptr,
-                              MsgWidget *highColumn1MsgWidget = nullptr,
-                              MsgWidget *highColumn2MsgWidget = nullptr,
+        explicit RowMsgWidget(AbstractMsgWidget *lowColumn1MsgWidget = nullptr,
+                              AbstractMsgWidget *lowColumn2MsgWidget = nullptr,
+                              AbstractMsgWidget *highColumn1MsgWidget = nullptr,
+                              AbstractMsgWidget *highColumn2MsgWidget = nullptr,
                               QWidget *parent = nullptr);
         virtual ~RowMsgWidget();
 

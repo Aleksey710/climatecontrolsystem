@@ -8,9 +8,11 @@
 
 #include "ScriptUnit.h"
 #include "ScriptObject.h"
+
+#include "AbstractMsgWidget.h"
 //------------------------------------------------------------------------------------
 //!
-class MsgWidget : public QLabel
+class MsgWidget : public AbstractMsgWidget
 {
         Q_OBJECT
     public:
@@ -19,7 +21,7 @@ class MsgWidget : public QLabel
                            const QString &color,
                            const QString &backgroundColor = "",
                            QWidget *parent = nullptr)
-                :QLabel(msg, parent)
+                :AbstractMsgWidget(msg, parent)
             {
                 setStyleSheet(QString(
                     "QLabel{ "
@@ -66,9 +68,6 @@ class MsgWidget : public QLabel
 
         virtual ~MsgWidget()
             {  }
-
-    signals:
-        void displayed(bool state);
 
     protected:
 

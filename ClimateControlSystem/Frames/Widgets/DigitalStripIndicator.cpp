@@ -86,7 +86,7 @@ void DigitalStripIndicator::paintEvent(QPaintEvent *)
     painter.drawRect(rectangle);
 
     //--------------------------------------------
-    qreal digWidth      = 26;   // ширина цифры
+    qreal digWidth      = 30;   // ширина цифры
     qreal indentHeight  = 4;    // промежуток между линией и цифрой
     qreal digHeight     = 12;   // высота цифры
 

@@ -16,6 +16,7 @@
 #include "Log.h"
 #include "MsgWidget.h"
 #include "RowMsgWidget.h"
+#include "MultiMsgWidget.h"
 //#include ".h"
 //#include ".h"
 //------------------------------------------------------------------------------------

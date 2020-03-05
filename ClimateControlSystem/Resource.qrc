@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>images/logo_ukr.png</file>
+    </qresource>
+</RCC>

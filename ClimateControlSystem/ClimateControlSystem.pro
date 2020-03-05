@@ -75,11 +75,13 @@ HEADERS += \
     Frames/SettingsFrames/MenuConfigEditFrame.h \
     Frames/SettingsFrames/NumericButton.h \
     Frames/SettingsFrames/NumericKeypadWidget.h \
+    Frames/Widgets/AbstractMsgWidget.h \
     Frames/Widgets/CheckPasswordWidget.h \
     Frames/Widgets/DateTimeWidget.h \
     Frames/Widgets/DigitalStripIndicator.h \
     Frames/Widgets/GigitalIndicatorWidget.h \
     Frames/Widgets/MsgWidget.h \
+    Frames/Widgets/MultiMsgWidget.h \
     Frames/Widgets/RowMsgWidget.h \
     Frames/Widgets/StatesDisplayWidget.h \
     MainDisplayWidget.h \
@@ -107,6 +109,7 @@ SOURCES += \
     Frames/Widgets/DateTimeWidget.cpp \
     Frames/Widgets/DigitalStripIndicator.cpp \
     Frames/Widgets/GigitalIndicatorWidget.cpp \
+    Frames/Widgets/MultiMsgWidget.cpp \
     Frames/Widgets/RowMsgWidget.cpp \
     Frames/Widgets/StatesDisplayWidget.cpp \
     MainDisplayWidget.cpp \
@@ -127,6 +130,7 @@ FORMS += \
 
 
 RESOURCES += \
+    Resource.qrc
 
 
 
@@ -138,7 +142,9 @@ DISTFILES += \
     ../bin/conf/modbus_godunok.json \
     ../bin/conf/modbus_panasenko.json \
     ../bin/conf/script_godunok.json \
-    ../bin/conf/script_panasenko.json
+    ../bin/conf/script_panasenko.json \
+    images/logo_ukr.png
+
 
 #############################################################
 linux:LIBS += \

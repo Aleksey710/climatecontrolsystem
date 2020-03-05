@@ -12,6 +12,13 @@ CarInformationFrame::CarInformationFrame(QWidget *parent)
     setObjectName("CarInformationFrame");
 
     //-------------------------------------------------
+    //QPixmap image(":/images/logo_ukr.png");
+
+    //ui->lbCompany->setScaledContents(false);
+    //ui->lbCompany->setPixmap(image);
+
+    ui->lbCompany->setPixmap( QPixmap::fromImage( QImage(":/images/logo_ukr.png") ) );
+    //-------------------------------------------------
     ui->lcdTime->setStyleSheet(QString("QLCDNumber{"
                                        "color:rgb(0, 0, 0);"
                                        //"background-color:rgb(255, 255, 255);"

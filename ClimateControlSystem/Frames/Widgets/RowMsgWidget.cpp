@@ -2,10 +2,10 @@
 
 //------------------------------------------------------------------------------------
 //!
-RowMsgWidget::RowMsgWidget(MsgWidget *lowColumn1MsgWidget,
-                           MsgWidget *lowColumn2MsgWidget,
-                           MsgWidget *highColumn1MsgWidget,
-                           MsgWidget *highColumn2MsgWidget,
+RowMsgWidget::RowMsgWidget(AbstractMsgWidget *lowColumn1MsgWidget,
+                           AbstractMsgWidget *lowColumn2MsgWidget,
+                           AbstractMsgWidget *highColumn1MsgWidget,
+                           AbstractMsgWidget *highColumn2MsgWidget,
                            QWidget *parent)
              :QWidget(parent),
               m_mainLayout ( new QGridLayout() ),

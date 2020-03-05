@@ -314,8 +314,6 @@
                 }
                 "
         },
-
-
         {
             "name":"setT_sal",
             "sources":[
@@ -2215,6 +2213,24 @@
             "name":"set_display_wagon_res",
             "sources":["settings.wagon.res"],
             "processing":"display.wagon.res.setData( settings.wagon.res.data()/60 );"
+        },
+        {
+            "comment":"Вызывается после окончания инициализации скриптового движка",
+            "name":"systemActivation",
+            "sources":[],
+            "processing":"
+                /*Запись в журнал*/
+                archive( 18 );
+            "
+        },
+        {
+            "comment":"Вызывается при нажатии кнопки - Завершить работу",
+            "name":"systemShutdown",
+            "sources":[],
+            "processing":"
+                /*Запись в журнал*/
+                archive( 19 );
+            "
         }
     ]
 }

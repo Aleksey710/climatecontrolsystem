@@ -41,6 +41,14 @@ void ScriptEngine::appendCommon()
     QScriptValue saveSettings_sv = newFunction( saveSettings );
     globalObject().setProperty("saveSettings", saveSettings_sv);
 
+    QScriptValue saveStringSettings_sv = newFunction( saveStringSettings );
+    globalObject().setProperty("saveStringSettings", saveStringSettings_sv);
+
+    QScriptValue setCoolerMode_sv = newFunction( setCoolerMode );
+    globalObject().setProperty("setCoolerMode", setCoolerMode_sv);
+
+
+
     //------------------------------------------------------------------------------------
     SEND_TO_LOG( QString("%1 - стандартные функции добавлены").arg(objectName()) );
 }

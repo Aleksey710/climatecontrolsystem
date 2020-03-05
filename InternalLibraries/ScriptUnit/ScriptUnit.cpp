@@ -3,6 +3,8 @@
 //------------------------------------------------------------------------------------
 ScriptEngine* ScriptUnit::m_scriptEnginePtr = nullptr;
 QHash<QString, ScriptObject*> ScriptUnit::m_rootObjects;
+QString ScriptUnit::m_systemActivationFunctionText;
+QString ScriptUnit::m_systemShutdownFunctionText;
 //------------------------------------------------------------------------------------
 //!
 ScriptUnit::ScriptUnit(QObject *parent)
@@ -19,6 +21,8 @@ ScriptUnit::ScriptUnit(QObject *parent)
 
     //! Инициализировать скрипт после инициализации ВСЕХ системных переменных
     setupScript(loadFile( qApp->applicationDirPath()+"/conf/script.json" ));
+
+    systemActivation();
 
     SEND_TO_LOG( QString("%1 - создан").arg(objectName()));
 }
@@ -212,7 +216,7 @@ void ScriptUnit::setupSettingsData()
         QString group           = sqlQuery.value(group_id).toString();
         QString data            = sqlQuery.value(data_id).toString();
         QString title           = sqlQuery.value(title_id).toString();
-        QString value            = sqlQuery.value(value_id).toString();
+        QString value           = sqlQuery.value(value_id).toString();
         QString valueType       = sqlQuery.value(value_type_id).toString();
 
         createScriptObject(type, group, data, title, value, valueType);
@@ -334,27 +338,36 @@ void ScriptUnit::setupFunctions(const QJsonArray &jsonArray)
         //------------------------------------------
         if( !functionText.isEmpty() )
         {
-            //------------------------------------------
-            QJsonArray sourcesArray = functionJsonObject.value("sources").toArray();
-
-            foreach (const QJsonValue &sourcesJsonValue, sourcesArray)
+            if(name == "systemActivation")
             {
-                const QString sourceName = sourcesJsonValue.toString();
+                m_systemActivationFunctionText = functionText;
+            } else if(name == "systemShutdown")
+            {
+                m_systemShutdownFunctionText = functionText;
+            } else
+            {
+                //------------------------------------------
+                QJsonArray sourcesArray = functionJsonObject.value("sources").toArray();
 
-                ScriptObject *scriptObject = getScriptObject(sourceName);
+                foreach (const QJsonValue &sourcesJsonValue, sourcesArray)
+                {
+                    const QString sourceName = sourcesJsonValue.toString();
 
-                if( !scriptObject )
-                {
-                    SEND_TO_LOG( QString("%1 - ERROR (Несуществующий источник [%2])")
-                                 .arg(objectName()).arg( sourceName ) );
-                } else
-                {
-                    connect(scriptObject, &ScriptObject::dataChanged,[this, functionText](){
-                        m_scriptEngine.evaluate( functionText );
-                    });
+                    ScriptObject *scriptObject = getScriptObject(sourceName);
+
+                    if( !scriptObject )
+                    {
+                        SEND_TO_LOG( QString("%1 - ERROR (Несуществующий источник [%2])")
+                                     .arg(objectName()).arg( sourceName ) );
+                    } else
+                    {
+                        connect(scriptObject, &ScriptObject::dataChanged,[this, functionText](){
+                            m_scriptEngine.evaluate( functionText );
+                        });
+                    }
                 }
+                //------------------------------------------
             }
-            //------------------------------------------
         } else
         {
             SEND_TO_LOG( QString("%1 - ERROR (Функция [%2] не имеет кода)")

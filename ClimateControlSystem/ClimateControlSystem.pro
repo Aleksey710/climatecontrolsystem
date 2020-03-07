@@ -86,10 +86,11 @@ HEADERS += \
     Frames/Widgets/StatesDisplayWidget.h \
     MainDisplayWidget.h \
     ButtonsWidget.h \
-    Password.h
+    Password.h \
+    Frames/Widgets/DataAverager.h
 
 
-SOURCES += \
+SOURCES += main.cpp \
     ButtonsControlThread.cpp \
     ClimateControlSystem.cpp \
     Frames/AbstractArchiveFrame.cpp \
@@ -115,7 +116,8 @@ SOURCES += \
     MainDisplayWidget.cpp \
     ButtonsWidget.cpp \
     Password.cpp \
-    main.cpp
+    Frames/Widgets/DataAverager.cpp
+
 
 
 FORMS += \

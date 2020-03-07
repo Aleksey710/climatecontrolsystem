@@ -22,14 +22,14 @@ InOutDisplayFrame::InOutDisplayFrame(QWidget *parent)
 
     //--------------------------------------
     setupDisplay("display.temp.t_ust",  ui->le_t_ust);
-    setupDisplay("display.temp.t_sal",  ui->le_t_sal);
-    setupDisplay("display.temp.t_pr",   ui->le_t_pr);
-    setupDisplay("display.temp.t_nv",   ui->le_t_nv);
-    setupDisplay("display.temp.t_kotl", ui->le_t_kotl);
+    setupDisplay("display.temp.t_sal",  ui->le_t_sal, "settings.avg.coupe");
+    setupDisplay("display.temp.t_pr",   ui->le_t_pr, "settings.avg.airflow");
+    setupDisplay("display.temp.t_nv",   ui->le_t_nv, "settings.avg.out");
+    setupDisplay("display.temp.t_kotl", ui->le_t_kotl, "settings.avg.boiler");
 
-    setupDisplay("display.U_I.I_bat", ui->le_I_bat);
-    setupDisplay("display.U_I.U_net", ui->le_U_net);
-    setupDisplay("display.U_I.I_gen", ui->le_I_gen);
+    setupDisplay("display.U_I.I_bat", ui->le_I_bat, "settings.avg.volt");
+    setupDisplay("display.U_I.U_net", ui->le_U_net, "settings.avg.bat");
+    setupDisplay("display.U_I.I_gen", ui->le_I_gen, "settings.avg.gen");
 
     //--------------------------------------
     setupDigDisplay("display.BVV.u3000",         ui->le_u3000);

@@ -17,19 +17,22 @@ MainFrame::MainFrame(QWidget *parent)
                                                                    "Напруга мережi",
                                                                    "В",
                                                                    "settings.lim.mivn",
-                                                                   "settings.lim.mavn");
+                                                                   "settings.lim.mavn",
+                                                                   "settings.avg.volt");
 
     GigitalIndicatorWidget *widget1 = createGigitalIndicatorWidget("display.U_I.I_bat",
                                                                    "Струм АКБ",
                                                                    "А",
                                                                    "settings.lim.micb",
-                                                                   "settings.lim.macb");
+                                                                   "settings.lim.macb",
+                                                                   "settings.avg.bat");
 
     GigitalIndicatorWidget *widget2 = createGigitalIndicatorWidget("display.U_I.I_gen",
                                                                    "Струм генератора",
                                                                    "А",
                                                                    "settings.lim.micg",
-                                                                   "settings.lim.macg");
+                                                                   "settings.lim.macg",
+                                                                   "settings.avg.gen");
 
     m_tUstWidget = createGigitalIndicatorWidget("display.temp.t_ust",
                                                 "Корекцiя температури",
@@ -50,13 +53,15 @@ MainFrame::MainFrame(QWidget *parent)
                                                                    "Темп. салона",
                                                                    "°C",
                                                                    "settings.lim.miti",
-                                                                   "settings.lim.mati");
+                                                                   "settings.lim.mati",
+                                                                   "settings.avg.coupe");
 
-    GigitalIndicatorWidget *widget5 = createGigitalIndicatorWidget("display.U_I.I_gen",
+    GigitalIndicatorWidget *widget5 = createGigitalIndicatorWidget("display.temp.t_nv",
                                                                    "Темп. зовнiшня",
                                                                    "°C",
                                                                    "settings.lim.mito",
-                                                                   "settings.lim.mato");
+                                                                   "settings.lim.mato",
+                                                                   "settings.avg.out");
 
     DateTimeWidget *dateTimeWidget = new DateTimeWidget();
 

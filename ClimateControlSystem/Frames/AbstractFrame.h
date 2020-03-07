@@ -15,11 +15,12 @@
 
 //#include ""
 //#include ""
-//#include ""
+//
 #include "Log.h"
 #include "ScriptUnit.h"
 #include "GigitalIndicatorWidget.h"
 #include "FrameName.h"
+#include "DataAverager.h"
 //------------------------------------------------------------------------------------
 //!
 class AbstractFrame : public QWidget
@@ -36,19 +37,26 @@ class AbstractFrame : public QWidget
 
     protected:
         void setupStringDisplay(const QString &name, QLabel *label);
+
         void setupDisplay(const QString &name, QLabel *label);
-        void setupDisplay(const QString &name, QLineEdit *lineEdit);
+
+        void setupDisplay(const QString &name,
+                          QLineEdit *lineEdit,
+                          const QString &averageSizeScriptObjectName = QString());
+
         GigitalIndicatorWidget* createGigitalIndicatorWidget(const QString &name,
                                                              const QString &title,
                                                              const QString &measureTitle,
                                                              const QString &minimumRegData,
-                                                             const QString &maximumRegData);
+                                                             const QString &maximumRegData,
+                                                             const QString &averageSizeScriptObjectName = QString());
 
         GigitalIndicatorWidget* createGigitalIndicatorWidget(const QString &name,
                                                              const QString &title,
                                                              const QString &measureTitle,
                                                              const int minimum,
-                                                             const int maximum);
+                                                             const int maximum,
+                                                             const QString &averageSizeScriptObjectName = QString());
 
 
         void setupDigDisplay(const QString &name, QLineEdit *lineEdit);

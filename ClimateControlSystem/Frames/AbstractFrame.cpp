@@ -59,14 +59,17 @@ void AbstractFrame::setupDisplay(const QString &name, QLabel *label)
 }
 //------------------------------------------------------------------------------------
 //!
-void AbstractFrame::setupDisplay(const QString &name, QLineEdit *lineEdit)
+void AbstractFrame::setupDisplay(const QString &name,
+                                 QLineEdit *lineEdit,
+                                 const QString &averageSizeScriptObjectName)
 {
-    ScriptObject *scriptObject = ScriptUnit::getScriptObject(name);
-
-    if(scriptObject)
+    if( !averageSizeScriptObjectName.isEmpty() )
     {
-        connect(scriptObject, &ScriptObject::dataChanged, [=](){
-            double value = scriptObject->data();
+        DataAverager *dataAverager = new DataAverager(name,
+                                                      averageSizeScriptObjectName,
+                                                      lineEdit);
+
+        connect(dataAverager, &DataAverager::dataUpdate, [=](const double value){
             //if(value == std::numeric_limits<quint16>::max())
             if(value == 1000)
             {
@@ -76,9 +79,27 @@ void AbstractFrame::setupDisplay(const QString &name, QLineEdit *lineEdit)
                 lineEdit->setText(QString("%1").arg( round(value*10)/10 ));
             }
         });
+    } else
+    {
+        ScriptObject *scriptObject = ScriptUnit::getScriptObject(name);
 
-        //! Начальная инициализация виджета
-        scriptObject->dataChanged();
+        if(scriptObject)
+        {
+            connect(scriptObject, &ScriptObject::dataChanged, [=](){
+                double value = scriptObject->data();
+                //if(value == std::numeric_limits<quint16>::max())
+                if(value == 1000)
+                {
+                    lineEdit->setText(QString("Обрив датчика"));
+                } else
+                {
+                    lineEdit->setText(QString("%1").arg( round(value*10)/10 ));
+                }
+            });
+
+            //! Начальная инициализация виджета
+            scriptObject->dataChanged();
+        }
     }
 }
 //------------------------------------------------------------------------------------
@@ -110,7 +131,8 @@ GigitalIndicatorWidget* AbstractFrame::createGigitalIndicatorWidget(const QStrin
                                                                     const QString &title,
                                                                     const QString &measureTitle,
                                                                     const QString &minimumRegData,
-                                                                    const QString &maximumRegData)
+                                                                    const QString &maximumRegData,
+                                                                    const QString &averageSizeScriptObjectName)
 {
     int minimum = 0;
 
@@ -136,7 +158,8 @@ GigitalIndicatorWidget* AbstractFrame::createGigitalIndicatorWidget(const QStrin
                                         title,
                                         measureTitle,
                                         minimum,
-                                        maximum);
+                                        maximum,
+                                        averageSizeScriptObjectName);
 }
 //------------------------------------------------------------------------------------
 //!
@@ -144,25 +167,37 @@ GigitalIndicatorWidget* AbstractFrame::createGigitalIndicatorWidget(const QStrin
                                                                     const QString &title,
                                                                     const QString &measureTitle,
                                                                     const int minimum,
-                                                                    const int maximum)
+                                                                    const int maximum,
+                                                                    const QString &averageSizeScriptObjectName)
 {
     GigitalIndicatorWidget *displayWidget = new GigitalIndicatorWidget(title,
                                                                        measureTitle,
                                                                        minimum,
                                                                        maximum);
 
-    ScriptObject *scriptObject = ScriptUnit::getScriptObject(name);
-
-    if(scriptObject)
+    if( !averageSizeScriptObjectName.isEmpty() )
     {
-        connect(scriptObject, &ScriptObject::dataChanged, [=](){
-            displayWidget->setData( round(scriptObject->data()) );
+        DataAverager *dataAverager = new DataAverager(name,
+                                                      averageSizeScriptObjectName,
+                                                      displayWidget);
+
+        connect(dataAverager, &DataAverager::dataUpdate, [=](const double value){
+            displayWidget->setData( round(value) );
         });
+    } else
+    {
+        ScriptObject *scriptObject = ScriptUnit::getScriptObject(name);
 
-        //! Начальная инициализация виджета
-        scriptObject->dataChanged();
+        if(scriptObject)
+        {
+            connect(scriptObject, &ScriptObject::dataChanged, [=](){
+                displayWidget->setData( round(scriptObject->data()) );
+            });
+
+            //! Начальная инициализация виджета
+            scriptObject->dataChanged();
+        }
     }
-
 
     return displayWidget;
 }

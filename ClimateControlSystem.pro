@@ -90,7 +90,34 @@ ClimateControlSystem.depends = \
 # Сенсорный экран
 # https://www.waveshare.com/w/upload/5/56/PWM_control_backlight_manual.pdf
 # https://www.waveshare.com/wiki/7inch_HDMI_LCD_(B)
-
-
-
-
+###############################################################################
+# Часто не требуется использовать графическую оболочку в Linux
+# Теперь правильнее отключать графическую оболочку в systemd.
+#
+# Для отключения вводим команду:
+# systemctl set-default multi-user.target
+#
+# Для включения обратно:
+# systemctl set-default graphical.target
+#
+# посмотреть текущее состояние:
+# systemctl get-default
+#
+# Если в ответе будет graphical.target, то графическая оболочка включена и multi-user.target, если выключена.
+###############################################################################
+# https://www.cryptoprofi.info/?p=4949
+# Display Manager - /usr/sbin/lightdm
+# Посмотреть какой DM используется можно так:
+# cat /etc/X11/default-display-manager
+#
+# Если графическая оболочка не удалена из системы, то в нее можно перейти, выполнив команду:
+# sudo /etc/init.d/lightdm start
+#
+# Удалить DM
+# update-rc.d -f используемый-DM remove
+#
+# Вернуть всё на место:
+# update-rc.d -f используемый-DM defaults
+###############################################################################
+# https://losst.ru/nastrojka-linghtdm-v-linux
+###############################################################################

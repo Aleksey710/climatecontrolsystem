@@ -81,6 +81,7 @@ class DbUnit : public QObject
         void createScreenGroup(QStringList &queryStringList);
         void createCondGroup(QStringList &queryStringList);
         void createResistGroup(QStringList &queryStringList);
+        void createFunGroup(QStringList &queryStringList);
 
         //------------------------------------------------------
         void setupArchiveEvents(QStringList &queryStringList);

@@ -194,7 +194,12 @@ ArchiveMsg ArchiveWriter::createArchiveMsg(const int &msgId, const double &value
                                   QString("Вентиляція увімкнено")); break;
     case 65:    return ArchiveMsg(ArchiveJournalType::ClimateDeviceManual,
                                   QString("Вентиляція вимкнено")); break;
-
+    //--------------------
+    case 66:    return ArchiveMsg(ArchiveJournalType::ClimateDeviceManual,
+                                  QString("Охолодження увімкнено")); break;
+    case 67:    return ArchiveMsg(ArchiveJournalType::ClimateDeviceManual,
+                                  QString("Охолодження вимкнено")); break;
+    //--------------------
     default:
         SEND_TO_LOG(QString("ArchiveWriter - ERROR - тип сообщения(msgType=[%1] value=[%2]) - неизвестен").arg((int)msgId).arg(value));
             break;

@@ -271,6 +271,11 @@ void DbUnit::setupSettings(QStringList &queryStringList)
                            "'Аварія при порушенні ізоляції');");
     createResistGroup(queryStringList);
 
+    queryStringList.append("INSERT INTO `groups` (`type_id`,`name`,`title`) "
+                           "VALUES ((SELECT `id` FROM `types` WHERE `name`='settings'),'fun', "
+                           "'Налаштування параметрів охолодження процессора');");
+    createFunGroup(queryStringList);
+
     //queryStringList.append("INSERT INTO `groups` (`name`,`title`) VALUES ('',   '');");
 }
 //------------------------------------------------------------------------------------
@@ -674,6 +679,20 @@ void DbUnit::createResistGroup(QStringList &queryStringList)
         "INSERT INTO `data` (`group_id`,`name`,`title`,`value`) "
         "VALUES ((SELECT `id` FROM `groups` WHERE `name`='resist'), "
         "'val', 'Аварія при порушенні ізоляції true(1) або false(0)', 1);");
+}
+//------------------------------------------------------------------------------------
+//!
+void DbUnit::createFunGroup(QStringList &queryStringList)
+{
+    queryStringList.append(
+        "INSERT INTO `data` (`group_id`,`name`,`title`,`value`) "
+        "VALUES ((SELECT `id` FROM `groups` WHERE `name`='fun'), "
+        "'ton', 'Температура увiмкнення', 35);");
+
+    queryStringList.append(
+        "INSERT INTO `data` (`group_id`,`name`,`title`,`value`) "
+        "VALUES ((SELECT `id` FROM `groups` WHERE `name`='fun'), "
+        "'toff', 'Температура вимкнення', 30);");
 }
 //------------------------------------------------------------------------------------
 //!

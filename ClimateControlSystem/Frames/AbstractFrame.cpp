@@ -45,7 +45,7 @@ void AbstractFrame::setupDisplay(const QString &name, QLabel *label)
         connect(scriptObject, &ScriptObject::dataChanged, [=](){
             double value = scriptObject->data();
             //if(value == std::numeric_limits<quint16>::max())
-            if(value == 1000)
+            if(value == 65535)
             {
                 label->setText(QString("Обрив датчика"));
             } else
@@ -71,7 +71,7 @@ void AbstractFrame::setupDisplay(const QString &name,
 
         connect(dataAverager, &DataAverager::dataUpdate, [=](const double value){
             //if(value == std::numeric_limits<quint16>::max())
-            if(value == 1000)
+            if(value == 65535)
             {
                 lineEdit->setText(QString("Обрив датчика"));
             } else
@@ -88,7 +88,7 @@ void AbstractFrame::setupDisplay(const QString &name,
             connect(scriptObject, &ScriptObject::dataChanged, [=](){
                 double value = scriptObject->data();
                 //if(value == std::numeric_limits<quint16>::max())
-                if(value == 1000)
+                if(value == 65535)
                 {
                     lineEdit->setText(QString("Обрив датчика"));
                 } else

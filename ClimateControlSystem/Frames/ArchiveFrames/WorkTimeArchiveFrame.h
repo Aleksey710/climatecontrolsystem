@@ -42,23 +42,31 @@ class WorkTimeArchiveFrame : public AbstractArchiveFrame
 
         virtual void setup() override;
 
-        void rowListAppend(QList< std::tuple<QTableWidgetItem*,
-                                             QTableWidgetItem*,
-                                             QTableWidgetItem*,
-                                             QTableWidgetItem*> > *rowList,
-                           QTableWidgetItem *column0,
-                           QTableWidgetItem *column1,
-                           QTableWidgetItem *column2,
-                           QTableWidgetItem *column3);
+        struct RowOnOff;
 
-        void resetRowList(QList< std::tuple<QTableWidgetItem*,
-                                            QTableWidgetItem*,
-                                            QTableWidgetItem*,
-                                            QTableWidgetItem*> > *rowList);
+        void resetRowList(const QList<RowOnOff> &rowList);
 
     private:
         QGridLayout *m_mainLayout;
         QTableWidget *m_tableWidget;
+
+        //---------------------------------------------
+        struct RowOnOff {
+            RowOnOff(const QString &column1String = "",
+                     const QString &column2String = "",
+                     const QString &column3String = "",
+                     const QString &column4String = "")
+                : column0 ( new QTableWidgetItem(column1String) ),
+                  column1 ( new QTableWidgetItem(column2String) ),
+                  column2 ( new QTableWidgetItem(column3String) ),
+                  column3 ( new QTableWidgetItem(column4String) )
+            { }
+
+            QTableWidgetItem *column0;
+            QTableWidgetItem *column1;
+            QTableWidgetItem *column2;
+            QTableWidgetItem *column3;
+        };
 
 };
 //------------------------------------------------------------------------------------

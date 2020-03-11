@@ -164,7 +164,7 @@ void ModbusRequest::setModbusData(T *values, int deviceState)
 
         uint16_t value = (deviceState == 1) ?
                             values[id - m_startAddress] :
-                                std::numeric_limits<uint16_t>::max();
+                                std::numeric_limits<uint16_t>::max(); //65535
 
         scriptObject->setData( value );
 

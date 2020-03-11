@@ -350,7 +350,7 @@ void DbUnit::createTempGroup(QStringList &queryStringList)
     queryStringList.append(
         "INSERT INTO `data` (`group_id`,`name`,`title`,`value`) "
         "VALUES ((SELECT `id` FROM `groups` WHERE `name`='temp'), "
-        "'sev', 'Значення при якому з\`являеться повідомлення про обрив датчика', 1000);");
+        "'sev', 'Значення при якому з`являеться повідомлення про обрив датчика', 1000);");
     queryStringList.append(
         "INSERT INTO `data` (`group_id`,`name`,`title`,`value`) "
         "VALUES ((SELECT `id` FROM `groups` WHERE `name`='temp'), "

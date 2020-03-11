@@ -2231,6 +2231,23 @@
                 /*Запись в журнал*/
                 archive( 19 );
             "
+        },
+        {
+            "comment":"ТЕСТ!!!",
+            "name":"test",
+            "sources":[ "sys.time.curent" ],
+            "processing":"
+                if(sys.time.curent.data()%2)
+                {
+                    archive( 18 );
+                    setCoolerMode( 0 );
+                } else
+                {
+                    archive( 19 );
+                    archive( 19 );
+                    setCoolerMode( 1 );
+                }
+              "
         }
     ]
 }

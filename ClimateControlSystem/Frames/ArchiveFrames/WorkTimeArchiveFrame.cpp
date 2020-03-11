@@ -68,54 +68,42 @@ void WorkTimeArchiveFrame::updateData()
                      .arg(objectName()).arg(queryString()).arg(err.text()))
     } else
     {
-        QList< std::tuple<QTableWidgetItem*,
-                          QTableWidgetItem*,
-                          QTableWidgetItem*,
-                          QTableWidgetItem*> > rowList;
-
         bool lastIsOn = false;
 
+        RowOnOff curentRow;
+        QList<RowOnOff> rowList;
+
+        // Обработка результата запроса
         while (sqlQuery.next())
         {
             QString dt  = sqlQuery.value(0).toString();
             QString msg = sqlQuery.value(1).toString();
 
-            QTableWidgetItem *column0 = new QTableWidgetItem("");
-            QTableWidgetItem *column1 = new QTableWidgetItem("");
-            QTableWidgetItem *column2 = new QTableWidgetItem("");
-            QTableWidgetItem *column3 = new QTableWidgetItem("");
-
             if(msg == "Увімкнення")
             {
-                if(lastIsOn)
-                {
-                    //rowListAppend(&rowList, column0, column1, column2, column3);
-                    rowList.append( std::make_tuple( column0,column1,column2,column3 ) );
-                }
-
-                column0->setText(dt);
-                column1->setText(msg);
-
-                //rowListAppend(&rowList, column0, column1, column2, column3);
+                curentRow = RowOnOff(dt,msg);
 
                 lastIsOn = true;
             } else if(msg == "Вимкнення")
             {
-                if(!lastIsOn)
+                if(lastIsOn)
                 {
-                    //rowListAppend(&rowList, column0, column1, column2, column3);
-                    rowList.append( std::make_tuple( column0,column1,column2,column3 ) );
-                }
+                    curentRow.column2->setText(dt);
+                    curentRow.column3->setText(msg);
 
-                column2->setText(dt);
-                column3->setText(msg);
+                    rowList.append(curentRow);
+                } else
+                {
+                    curentRow = RowOnOff("","",dt,msg);
+                    rowList.append(curentRow);
+                }
 
                 lastIsOn = false;
             }
         }
 
         //------------------------------------------------------------
-        resetRowList(&rowList);
+        resetRowList(rowList);
     }
 
     m_tableWidget->horizontalHeader()->hide();
@@ -123,38 +111,19 @@ void WorkTimeArchiveFrame::updateData()
 }
 //------------------------------------------------------------------------------------
 //!
-void WorkTimeArchiveFrame::rowListAppend(QList< std::tuple<QTableWidgetItem*,
-                                                           QTableWidgetItem*,
-                                                           QTableWidgetItem*,
-                                                           QTableWidgetItem*> > *rowList,
-                                         QTableWidgetItem *column0,
-                                         QTableWidgetItem *column1,
-                                         QTableWidgetItem *column2,
-                                         QTableWidgetItem *column3)
-{
-    rowList->append( std::make_tuple( column0,column1,column2,column3 ) );
-}
-//------------------------------------------------------------------------------------
-//!
-void WorkTimeArchiveFrame::resetRowList(QList< std::tuple<QTableWidgetItem*,
-                                                          QTableWidgetItem*,
-                                                          QTableWidgetItem*,
-                                                          QTableWidgetItem*> > *rowList)
+void WorkTimeArchiveFrame::resetRowList(const QList<RowOnOff> &rowList)
 {
     m_tableWidget->clearContents();
-    m_tableWidget->setRowCount(rowList->size());
+    m_tableWidget->setRowCount(rowList.size());
 
-    for (int row = 0; row < rowList->size(); ++row)
+    for (int row = 0; row < rowList.size(); ++row)
     {
-        std::tuple<QTableWidgetItem*,
-                   QTableWidgetItem*,
-                   QTableWidgetItem*,
-                   QTableWidgetItem*> rowTuple = rowList->at(row);
+        RowOnOff curentRow = rowList.at(row);
 
-        m_tableWidget->setItem(row, 0, std::get<0>(rowTuple));
-        m_tableWidget->setItem(row, 1, std::get<1>(rowTuple));
-        m_tableWidget->setItem(row, 2, std::get<2>(rowTuple));
-        m_tableWidget->setItem(row, 3, std::get<3>(rowTuple));
+        m_tableWidget->setItem(row, 0, curentRow.column0);
+        m_tableWidget->setItem(row, 1, curentRow.column1);
+        m_tableWidget->setItem(row, 2, curentRow.column2);
+        m_tableWidget->setItem(row, 3, curentRow.column3);
     }
 
     m_tableWidget->resizeColumnsToContents();

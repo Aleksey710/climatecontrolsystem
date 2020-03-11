@@ -140,11 +140,6 @@ DISTFILES += \
     $$ROOT_PATH/bin/conf/script.json \
     $$ROOT_PATH/bin/conf/modbus.json \
     $$ROOT_PATH/bin/easylogging++.conf \
-    ../bin/conf/modbus_do_not_writes.json \
-    ../bin/conf/modbus_godunok.json \
-    ../bin/conf/modbus_panasenko.json \
-    ../bin/conf/script_godunok.json \
-    ../bin/conf/script_panasenko.json \
     images/logo_ukr.png
 
 

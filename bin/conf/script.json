@@ -2239,12 +2239,12 @@
             "processing":"
                 if(sys.time.curent.data()%2)
                 {
-                    archive( 18 );
+                    //archive( 18 );
                     setCoolerMode( 0 );
                 } else
                 {
-                    archive( 19 );
-                    archive( 19 );
+                    //archive( 19 );
+                    //archive( 19 );
                     setCoolerMode( 1 );
                 }
               "

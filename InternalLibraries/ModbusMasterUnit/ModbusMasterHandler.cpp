@@ -85,9 +85,9 @@ void ModbusMasterHandler::exequteRequest(ModbusRequest *request)
     modbus_get_response_timeout(ctx, &sec_to, &usec_to);
 
 #ifdef __arm__
-    modbus_enable_rpi(ctx,TRUE);
-    modbus_configure_rpi_bcm_pins(ctx,BCM_PIN_DE,BCM_PIN_RE);
-    modbus_rpi_pin_export_direction(ctx);
+    //modbus_enable_rpi(ctx,TRUE);
+    //modbus_configure_rpi_bcm_pins(ctx,BCM_PIN_DE,BCM_PIN_RE);
+    //modbus_rpi_pin_export_direction(ctx);
 #endif // __arm__
 
     if (modbus_connect(ctx) == -1)
@@ -118,7 +118,7 @@ void ModbusMasterHandler::exequteRequest(ModbusRequest *request)
 
     /* Close the connection */
 #ifdef __arm__
-    modbus_rpi_pin_unexport_direction(ctx);
+    //modbus_rpi_pin_unexport_direction(ctx);
 #endif // __arm__
 
     modbus_close(ctx);

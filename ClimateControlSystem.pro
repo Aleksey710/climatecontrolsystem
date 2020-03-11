@@ -121,3 +121,12 @@ ClimateControlSystem.depends = \
 ###############################################################################
 # https://losst.ru/nastrojka-linghtdm-v-linux
 ###############################################################################
+# lubuntu-desktop xubuntu-desktop kubuntu-desktop mate-desktop cinnamon-desktop
+# apt list --installed | grep desktop
+# https://www.geeks3d.com/hacklab/20160108/how-to-disable-the-blank-screen-on-raspberry-pi-raspbian/
+# https://www.element14.com/community/community/raspberry-pi/raspberrypi2/blog/2015/04/08/setting-up-an-xfce-desktop-environment-on-pi
+# https://help.ubuntu.ru/wiki/lightdm  ЯРКОСТЬ
+#
+#
+#
+

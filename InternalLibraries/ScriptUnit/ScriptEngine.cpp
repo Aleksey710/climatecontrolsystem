@@ -47,6 +47,9 @@ void ScriptEngine::appendCommon()
     QScriptValue setCoolerMode_sv = newFunction( setCoolerMode );
     globalObject().setProperty("setCoolerMode", setCoolerMode_sv);
 
+    QScriptValue getCpuT_sv = newFunction( getCpuT );
+    globalObject().setProperty("getCpuT", getCpuT_sv);
+
 
 
     //------------------------------------------------------------------------------------

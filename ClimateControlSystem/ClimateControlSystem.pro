@@ -57,6 +57,7 @@ INCLUDEPATH += ./Frames/SettingsFrames
 HEADERS += \
     ButtonsControlThread.h \
     ClimateControlSystem.h \
+    CpuTemperature.h \
     FrameName.h \
     Frames/AbstractArchiveFrame.h \
     Frames/AbstractFrame.h \

@@ -189,6 +189,44 @@ QScriptValue setCoolerMode(QScriptContext *context, QScriptEngine *engine)
 
     return QScriptValue();
 }
+//------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------
+//!
+inline int v_stoi(std::string &arg, int def)
+{
+    try {
+        return stoi(arg);
+    } catch (...) {
+        return def;
+    }
+}
+
+float getCpuTWorker()
+{
+    std::string line;
+    std::ifstream infile("/sys/class/thermal/thermal_zone0/temp");
+    if (infile.is_open())
+    {
+        getline(infile, line);
+        infile.close();
+    }
+
+    int value = v_stoi(line, 0);
+
+    return (value / 1000);
+}
+//------------------------------------------------------------------------------------
+//!
+QScriptValue getCpuT(QScriptContext *context, QScriptEngine *engine)
+{
+    Q_UNUSED(context);
+    Q_UNUSED(engine);
+
+    float value = getCpuTWorker();
+
+    return engine->newVariant( value );
+}
+
 
 
 

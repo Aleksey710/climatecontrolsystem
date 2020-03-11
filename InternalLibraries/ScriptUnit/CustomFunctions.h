@@ -57,7 +57,12 @@ extern std::function<void(const bool &)> SetCoolerModeFunction;
 void setCoolerModeWorker(const bool &value);
 QScriptValue setCoolerMode(QScriptContext *context, QScriptEngine *engine);
 
+//------------------------------------
+// Получить температуру процессора
+extern std::function<float()> getCpuTFunction;
 
+float getCpuTWorker();
+QScriptValue getCpuT(QScriptContext *context, QScriptEngine *engine);
 
 //------------------------------------------------------------------------------------
 #endif // CUSTOMFUNCTIONS_H

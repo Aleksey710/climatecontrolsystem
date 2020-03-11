@@ -92,23 +92,13 @@ void ClimateControlSystem::setPassword()
 //!
 void ClimateControlSystem::coolerSetup()
 {
-    /*
-    QProcess process;
-
-    process.start("/bin/bash");
-    process.waitForStarted(3000);
-
-    //123456 - пароль. \n - имитирует нажатие Enter.
-    process.write("echo 123456 | sudo -S rcnagios restart\n");
-    process.waitForFinished(4000);
-    */
-
+/*
 #ifdef __arm__
     static const QString PROGRAM_NAME = "./temp_control.py";
     QProcess::startDetached( PROGRAM_NAME );
 #endif // __arm__
+*/
 }
-
 
 
 

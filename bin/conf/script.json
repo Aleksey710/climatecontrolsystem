@@ -2215,6 +2215,22 @@
             "processing":"display.wagon.res.setData( settings.wagon.res.data()/60 );"
         },
         {
+            "comment":"Контроль вентилятора процессора",
+            "name":"funControl",
+            "sources":[ "sys.time.curent" ],
+            "processing":"
+                if( getCpuT() >= settings.fun.ton)
+                {
+                    setCoolerMode( 1 );
+                }
+
+                if( getCpuT() <= settings.fun.toff)
+                {
+                    setCoolerMode( 0 );
+                }
+            "
+        },
+        {
             "comment":"Вызывается после окончания инициализации скриптового движка",
             "name":"systemActivation",
             "sources":[],
@@ -2240,12 +2256,12 @@
                 if(sys.time.curent.data()%2)
                 {
                     //archive( 18 );
-                    setCoolerMode( 0 );
+                    //setCoolerMode( 0 );
                 } else
                 {
                     //archive( 19 );
                     //archive( 19 );
-                    setCoolerMode( 1 );
+                    //setCoolerMode( 1 );
                 }
               "
         }

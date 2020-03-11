@@ -2219,12 +2219,12 @@
             "name":"funControl",
             "sources":[ "sys.time.curent" ],
             "processing":"
-                if( getCpuT() >= settings.fun.ton)
+                if( getCpuT() >= settings.fun.ton.data())
                 {
                     setCoolerMode( 1 );
                 }
 
-                if( getCpuT() <= settings.fun.toff)
+                if( getCpuT() <= settings.fun.toff.data())
                 {
                     setCoolerMode( 0 );
                 }

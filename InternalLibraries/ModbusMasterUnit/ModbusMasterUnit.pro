@@ -84,13 +84,15 @@ SOURCES += \
     ModbusMasterHandler.cpp \
     ModbusMasterUnit.cpp \
     ModbusRequest.cpp \
+    ModbusThreadController.cpp
 
 
 HEADERS  += \
     ModbusConnectionSettings.h \
     ModbusMasterHandler.h \
     ModbusMasterUnit.h \
-    ModbusRequest.h
+    ModbusRequest.h \
+    ModbusThreadController.h
 
 
 

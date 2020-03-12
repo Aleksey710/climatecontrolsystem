@@ -20,11 +20,11 @@ ModbusMasterHandler::~ModbusMasterHandler()
 }
 //------------------------------------------------------------------------------------
 //!
-void ModbusMasterHandler::exequteRequest(ModbusRequest *request)
+void ModbusMasterHandler::exequteRequest(ModbusRequest *modbusRequest)
 {
-    m_curentModbusRequest = request;
+    //m_curentModbusRequest = request;
 
-    ModbusConnectionSettings modbusConnectionSettings = m_curentModbusRequest->connectionSettings();
+    ModbusConnectionSettings modbusConnectionSettings = modbusRequest->connectionSettings();
 
     setObjectName( QString("ModbusMasterHandler[%1]").arg(modbusConnectionSettings.connectionName) );
 
@@ -78,7 +78,7 @@ void ModbusMasterHandler::exequteRequest(ModbusRequest *request)
 
     modbus_set_debug(ctx, TRUE);
     modbus_set_error_recovery(ctx, (modbus_error_recovery_mode)(MODBUS_ERROR_RECOVERY_LINK | MODBUS_ERROR_RECOVERY_PROTOCOL));
-    modbus_set_slave(ctx, m_curentModbusRequest->serverAddress());
+    modbus_set_slave(ctx, modbusRequest->serverAddress());
 
     uint32_t sec_to = 0;
     uint32_t usec_to = 100;
@@ -99,20 +99,20 @@ void ModbusMasterHandler::exequteRequest(ModbusRequest *request)
         return ;
     }
 
-    switch (m_curentModbusRequest->functionCode())
+    switch (modbusRequest->functionCode())
     {
-        case 0x01: exequteRead<uint8_t>  (ctx, m_curentModbusRequest, modbus_read_bits);            break;
-        case 0x02: exequteRead<uint8_t>  (ctx, m_curentModbusRequest, modbus_read_input_bits);      break;
-        case 0x03: exequteRead<uint16_t> (ctx, m_curentModbusRequest, modbus_read_registers);       break;
-        case 0x04: exequteRead<uint16_t> (ctx, m_curentModbusRequest, modbus_read_input_registers); break;
-        case 0x05: exequteWrite          (ctx, m_curentModbusRequest, modbus_write_bit);            break;
-        case 0x06: exequteWrite          (ctx, m_curentModbusRequest, modbus_write_register);       break;
-        case 0x0F: exequteWrite<uint8_t> (ctx, m_curentModbusRequest, modbus_write_bits);           break;
-        case 0x10: exequteWrite<uint16_t>(ctx, m_curentModbusRequest, modbus_write_registers);      break;
+        case 0x01: exequteRead<uint8_t>  (ctx, modbusRequest, modbus_read_bits);            break;
+        case 0x02: exequteRead<uint8_t>  (ctx, modbusRequest, modbus_read_input_bits);      break;
+        case 0x03: exequteRead<uint16_t> (ctx, modbusRequest, modbus_read_registers);       break;
+        case 0x04: exequteRead<uint16_t> (ctx, modbusRequest, modbus_read_input_registers); break;
+        case 0x05: exequteWrite          (ctx, modbusRequest, modbus_write_bit);            break;
+        case 0x06: exequteWrite          (ctx, modbusRequest, modbus_write_register);       break;
+        case 0x0F: exequteWrite<uint8_t> (ctx, modbusRequest, modbus_write_bits);           break;
+        case 0x10: exequteWrite<uint16_t>(ctx, modbusRequest, modbus_write_registers);      break;
 
         default:
             SEND_TO_LOG( QString("%1 - Попытка выполнить необрабатываемую функцию [%2]")
-                         .arg(objectName()).arg(m_curentModbusRequest->functionCode()) );
+                         .arg(objectName()).arg(modbusRequest->functionCode()) );
             break;
     }
 
@@ -144,7 +144,7 @@ void ModbusMasterHandler::exequteRead(modbus_t *ctx,
 
     int rc = function(ctx, addr, nb, dest);
 
-    m_curentModbusRequest->setModbusData<T>(dest, ((rc == -1) ? -1 : 1));
+    modbusRequest->setModbusData<T>(dest, ((rc == -1) ? -1 : 1));
 
     free(dest);
 }
@@ -161,11 +161,11 @@ void ModbusMasterHandler::exequteWrite( modbus_t *ctx,
     int addr = modbusRequest->startAddress();
     int nb = modbusRequest->number();
 
-    T* dest = m_curentModbusRequest->modbusData<T>();
+    T* dest = modbusRequest->modbusData<T>();
 
     int rc = function(ctx, addr,nb, dest);
 
-    m_curentModbusRequest->setModbusData<T>(dest, (rc == -1) ? -1 : 1);
+    modbusRequest->setModbusData<T>(dest, (rc == -1) ? -1 : 1);
 
     free(dest);
 }
@@ -185,11 +185,11 @@ void ModbusMasterHandler::exequteWrite( modbus_t *ctx,
     /*
     int addr = modbusRequest->startAddress();
 
-    int dest = *m_curentModbusRequest->modbusData<int>();
+    int dest = *modbusRequest->modbusData<int>();
 
     int rc = function(ctx, addr, dest);
 
-    m_curentModbusRequest->setModbusData<ModbusDataType_t>(dest, (rc == -1) ? -1 : 1);
+    modbusRequest->setModbusData<ModbusDataType_t>(dest, (rc == -1) ? -1 : 1);
 
     free(dest);
     */

@@ -16,7 +16,6 @@
 #include "ModbusConnectionSettings.h"
 #include "ModbusRequest.h"
 //#include ""
-
 //------------------------------------------------------------------------------------
 //!
 class ModbusMasterHandler : public QObject
@@ -31,7 +30,7 @@ class ModbusMasterHandler : public QObject
         void exequted();
 
     public slots:
-        void exequteRequest(ModbusRequest *request);
+        void exequteRequest(ModbusRequest *modbusRequest);
 
     private:
         template < typename T >
@@ -58,10 +57,6 @@ class ModbusMasterHandler : public QObject
 
     private:
 
-
-
-    private:
-        ModbusRequest *m_curentModbusRequest;
 
 };
 //------------------------------------------------------------------------------------

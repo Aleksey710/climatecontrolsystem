@@ -74,6 +74,14 @@ ClimateControlSystem::ClimateControlSystem(QObject *parent)
 //!
 ClimateControlSystem::~ClimateControlSystem()
 {
+#ifdef __arm__
+        // GPIO22, pin 15
+        // static int pinToGpioR2 [64]
+        pinMode (3, OUTPUT) ;
+
+        digitalWrite(3, 0);
+#endif // __arm__
+
     SEND_TO_LOG( QString("ClimateControlSystem - удален") );
 }
 //------------------------------------------------------------------------------------

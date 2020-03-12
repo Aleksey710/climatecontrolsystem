@@ -18,7 +18,7 @@
 #include "DbUnit.h"
 #include "AbstractFrame.h"
 #include "RemoveRecordsFromArchiveWidget.h"
-//#include "FrameName.h"
+#include "CheckPasswordWidget.h"
 //------------------------------------------------------------------------------------
 //!
 class AbstractArchiveFrame : public AbstractFrame

@@ -55,10 +55,10 @@ ModbusMasterUnit::ModbusMasterUnit(QObject *parent)
 //!
 ModbusMasterUnit::~ModbusMasterUnit()
 {
-    while (!m_requestList.isEmpty())
-    {
-        delete m_requestList.takeFirst();
-    }
+//    while (!m_requestList.isEmpty())
+//    {
+//        delete m_requestList.takeFirst();
+//    }
 
     SEND_TO_LOG( QString("%1 - удален").arg(objectName()) );
 }
@@ -244,7 +244,7 @@ void ModbusMasterUnit::deviceParsing(const ModbusConnectionSettings &modbusConne
 #ifndef CIRCULAR_PROCESSING_REQUEST
                                                      1000,
 #endif // CIRCULAR_PROCESSING_REQUEST
-                                                     nullptr /* this */
+                                                     /*nullptr*/ this
                                                      );
 
 #ifndef CIRCULAR_PROCESSING_REQUEST

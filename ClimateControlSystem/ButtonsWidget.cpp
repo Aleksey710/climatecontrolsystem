@@ -131,8 +131,6 @@ ButtonsWidget::ButtonsWidget(QWidget *parent)
 
     connect(m_buttonsControlThread, &ButtonsControlThread::bt_off_pressed, [=](){
 
-        ScriptUnit::systemShutdown();
-
         //! Выключение из командной строки
         static const QString setDateCommandString = QString("sudo poweroff");
 

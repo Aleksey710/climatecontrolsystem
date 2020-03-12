@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Config>
+	<Slave>
+		<Description>БВВ</Description>
+		<id>8</id>
+                <config>bvv</config>
+	</Slave>
+	<Slave>
+		<Description>БУТ</Description>
+		<id>16</id>
+		<config>but</config>
+	</Slave>
+</Config>

@@ -3,8 +3,8 @@
 //------------------------------------------------------------------------------------
 ScriptEngine* ScriptUnit::m_scriptEnginePtr = nullptr;
 QHash<QString, ScriptObject*> ScriptUnit::m_rootObjects;
-QString ScriptUnit::m_systemActivationFunctionText;
-QString ScriptUnit::m_systemShutdownFunctionText;
+QString ScriptUnit::m_systemActivationFunctionText = "archive( 18 );";
+QString ScriptUnit::m_systemShutdownFunctionText = "archive( 19 );";
 //------------------------------------------------------------------------------------
 //!
 ScriptUnit::ScriptUnit(QObject *parent)
@@ -30,6 +30,8 @@ ScriptUnit::ScriptUnit(QObject *parent)
 //!
 ScriptUnit::~ScriptUnit()
 {
+    systemShutdown();
+
     QHashIterator<QString, ScriptObject*> i(m_rootObjects);
     while (i.hasNext())
     {

@@ -27,6 +27,7 @@
 #include "Log.h"
 #include "ModbusConnectionSettings.h"
 #include "ModbusMasterHandler.h"
+#include "ModbusThreadController.h"
 #include "ModbusRequest.h"
 //
 #include "ScriptObject.h"
@@ -75,7 +76,8 @@ class ModbusMasterUnit : public QObject
                            const QJsonObject &deviceJsonObject);
 
     private:
-        ModbusMasterHandler     *m_handler;
+        ModbusThreadController  *m_modbusThreadController;
+        //ModbusMasterHandler     *m_handler;
 
 //-------------------------------------------
 #ifdef CIRCULAR_PROCESSING_REQUEST

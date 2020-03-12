@@ -25,6 +25,7 @@ class ModbusThreadController : public QObject
             { emit operate(request); }
 
     signals:
+        void exequted();
         void operate(ModbusRequest *request);
 
     private:

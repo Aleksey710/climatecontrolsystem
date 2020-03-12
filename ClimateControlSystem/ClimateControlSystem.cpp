@@ -39,7 +39,8 @@ ClimateControlSystem::ClimateControlSystem(QObject *parent)
     //! Связать функцию архивирования в скрипте с функцией непосредственной работы с базой
     SetCoolerModeFunction = [&](const bool &value){
 
-        SEND_TO_LOG( QString("ClimateControlSystem - SetCoolerModeFunction[%1]").arg(value) );
+        Q_UNUSED(value);
+        //SEND_TO_LOG( QString("ClimateControlSystem - SetCoolerModeFunction[%1]").arg(value) );
 #ifdef __arm__
         // GPIO22, pin 15
         // static int pinToGpioR2 [64]

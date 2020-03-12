@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Config>
+    <HoldingRegister>
+            <address>1</address>
+            <description>Ткор</description>
+            <value>0</value>
+    </HoldingRegister>
+    <HoldingRegister>
+            <address>28</address>
+            <description>Версия</description>
+            <value>36</value>
+    </HoldingRegister>
+    <HoldingRegister>
+            <address>29</address>
+            <description>Год</description>
+            <value>2018</value>
+    </HoldingRegister>
+    <HoldingRegister>
+            <address>30</address>
+            <description>Месяц</description>
+            <value>5</value>
+    </HoldingRegister>
+    <HoldingRegister>
+            <address>31</address>
+            <description>День</description>
+            <value>3</value>
+    </HoldingRegister>	
+<Config>

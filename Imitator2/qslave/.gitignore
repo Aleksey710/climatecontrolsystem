@@ -1,6 +1,0 @@
-pkg/pkg/
-pkg/qmaster/
-pkg/src/
-*.pro.user
-*.pro.user.*
-*.pkg.tar.xz

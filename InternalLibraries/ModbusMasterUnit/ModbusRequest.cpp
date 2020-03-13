@@ -14,7 +14,8 @@ ModbusRequest::ModbusRequest(const ModbusConnectionSettings &connectionSettings,
                m_connectionSettings ( connectionSettings ),
                m_serverAddress ( serverAddress ),
                m_functionCode ( functionCode ),
-               m_deviceScriptObject ( nullptr )
+               m_deviceScriptObject ( nullptr ),
+               m_lastDeviceState ( 0 )
 {
     //! Отсортировать адреса по возростающей
     std::sort(registerList.begin(), registerList.end(),
@@ -141,18 +142,52 @@ T* ModbusRequest::modbusData()
     return dest;
 }
 //------------------------------------------------------------------------------------
-//!
+//! Комплексная обработка записи значений в скриптовые регистры
+template < typename T >
+void ModbusRequest::setModbusDataComplex(T *values, int deviceState)
+{
+    //qDebug() << "ModbusRequest::setModbusData" << dataUnit.values();
+    // [ 0] - начальное состояние
+    // [-1] - обрыв
+    // [ 1] - работа
+    int stateCod = ( (m_lastDeviceState == 1) ? 1 : 0 ) +
+                   ( (deviceState == 1)       ? 2 : 0 );
+
+    //-----------------------------------------------
+    //! Состояние устройства не менялось
+    switch (stateCod)
+    {
+        // Устройство не работало и не работает
+        case 0:
+            //!
+            break;
+        // Обрыв связи - Сначала изменить состояние устройства, потом данные
+        case 1:
+            if(m_deviceScriptObject)
+                { m_deviceScriptObject->setData(deviceState); }
+            //----------------------------------
+            setModbusData(values, deviceState);
+            break;
+        // Востановление связи - Сначала изменить данные, потом состояние устройства
+        case 2:
+            setModbusData(values, deviceState);
+            //----------------------------------
+            if(m_deviceScriptObject)
+                { m_deviceScriptObject->setData(deviceState); }
+            break;
+        // Нормальная работа (работало и работает) - изменить данные
+        case 3:
+            setModbusData(values, deviceState);
+            break;
+        default:
+            break;
+    }
+}
+//------------------------------------------------------------------------------------
+//! Запись значений в скриптовые регистры
 template < typename T >
 void ModbusRequest::setModbusData(T *values, int deviceState)
 {
-    //qDebug() << "ModbusRequest::setModbusData" << dataUnit.values();
-
-    if(m_deviceScriptObject)
-    {
-        m_deviceScriptObject->setData(deviceState);
-    }
-
-    //-----------------------------------------
     QHashIterator<quint16, ScriptObject*> i(m_scriptObjectList);
 
     while (i.hasNext())
@@ -164,14 +199,27 @@ void ModbusRequest::setModbusData(T *values, int deviceState)
 
         uint16_t value = (deviceState == 1) ?
                             values[id - m_startAddress] :
-                                std::numeric_limits<uint16_t>::max(); //65535
+                                //---------------------------------------------
+                                //std::numeric_limits<uint16_t>::max(); //65535
+                                //---------------------------------------------
+                                0
+                                //---------------------------------------------
+                                ;
 
-        scriptObject->setData( value );
+        //--------------------------------------------------
+        QMetaObject::invokeMethod(scriptObject,
+                                  "setData",
+                                  Qt::QueuedConnection,
+                                  //Qt::DirectConnection,
+                                  Q_ARG(double, value));
 
-        SEND_TO_LOG( QString("%1 - setModbusData : [%2]-[%3]")
+        //scriptObject->setData( value);
+        //--------------------------------------------------
+        SEND_TO_LOG( QString("%1 - setModbusData : [%2]-[%3] device(%4)")
                      .arg(objectName())
                      .arg(scriptObject->fullName())
-                     .arg(value) );
+                     .arg(value)
+                     .arg( (deviceState == 1) ? "connect" : "disconnect" ) );
     }
 }
 //------------------------------------------------------------------------------------
@@ -180,9 +228,13 @@ void ModbusRequest::setModbusData(T *values, int deviceState)
 //! Без явного определения - не считает нужным создавать
 //! В данном случае (Колличество инстанциаций известно заранее) предпочтительнее перед
 //! перемещением кода реализации в заголовочный файл.
-template void ModbusRequest::setModbusData(uint8_t *values,     int deviceState);
-template void ModbusRequest::setModbusData(uint16_t *values,    int deviceState);
-template void ModbusRequest::setModbusData(int *value,          int deviceState);
+template void ModbusRequest::setModbusDataComplex(uint8_t *values,      int deviceState);
+template void ModbusRequest::setModbusDataComplex(uint16_t *values,     int deviceState);
+template void ModbusRequest::setModbusDataComplex(int *values,          int deviceState);
+
+template void ModbusRequest::setModbusData(uint8_t *values,             int deviceState);
+template void ModbusRequest::setModbusData(uint16_t *values,            int deviceState);
+template void ModbusRequest::setModbusData(int *value,                  int deviceState);
 
 template uint8_t*   ModbusRequest::modbusData();
 template uint16_t*  ModbusRequest::modbusData();

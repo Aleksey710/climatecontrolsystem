@@ -9,6 +9,8 @@
 
 #include <cmath>
 //#include <QRandomGenerator>
+#include <QMutex>
+#include <QMutexLocker>
 //#include <>
 //#include <>
 //#include <>
@@ -60,7 +62,9 @@ class ScriptObject : public QObject, protected QScriptable
                 //if( !approximatelyEqualAbsRel(value, __value) )
                 //if( !qFuzzyCompare(value, __value) )
                 {
-                    SEND_TO_LOG( QString("ScriptObject[%1] - setData(%2)").arg(m_fullName).arg(__value))
+                    SEND_TO_LOG( QString("ScriptObject[%1] - setData(%2)")
+                                 .arg(m_fullName)
+                                 .arg(__value) );
 
                     value = __value;
                     dataChanged();
@@ -89,7 +93,6 @@ class ScriptObject : public QObject, protected QScriptable
 
         double      value;
         QString     stringValue;
-
 
     private:
         // https://ravesli.com/urok-42-operatory-sravneniya/

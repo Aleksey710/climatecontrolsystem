@@ -144,7 +144,7 @@ void ModbusMasterHandler::exequteRead(modbus_t *ctx,
 
     int rc = function(ctx, addr, nb, dest);
 
-    modbusRequest->setModbusData<T>(dest, ((rc == -1) ? -1 : 1));
+    modbusRequest->setModbusDataComplex<T>(dest, ((rc == -1) ? -1 : 1));
 
     free(dest);
 }
@@ -165,7 +165,7 @@ void ModbusMasterHandler::exequteWrite( modbus_t *ctx,
 
     int rc = function(ctx, addr,nb, dest);
 
-    modbusRequest->setModbusData<T>(dest, (rc == -1) ? -1 : 1);
+    modbusRequest->setModbusDataComplex<T>(dest, (rc == -1) ? -1 : 1);
 
     free(dest);
 }
@@ -189,7 +189,7 @@ void ModbusMasterHandler::exequteWrite( modbus_t *ctx,
 
     int rc = function(ctx, addr, dest);
 
-    modbusRequest->setModbusData<ModbusDataType_t>(dest, (rc == -1) ? -1 : 1);
+    modbusRequest->setModbusDataComplex<ModbusDataType_t>(dest, (rc == -1) ? -1 : 1);
 
     free(dest);
     */

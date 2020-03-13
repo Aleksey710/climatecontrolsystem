@@ -56,13 +56,19 @@ class ModbusRequest : public QObject
         template < typename T >
         T* modbusData();
 
+        //! Комплексная обработка записи значений в скриптовые регистры
         template < typename T >
-        void setModbusData(T *values, int deviceState);
+        void setModbusDataComplex(T *values, int deviceState);
 
     public slots:
 
     signals:
         void wantExecuteQuery(ModbusRequest *request);
+
+    private:
+        //! Запись значений в скриптовые регистры
+        template < typename T >
+        void setModbusData(T *values, int deviceState);
 
 
     private:
@@ -74,6 +80,8 @@ class ModbusRequest : public QObject
         int                             m_number;
 
         ScriptObject                    *m_deviceScriptObject;
+
+        int                             m_lastDeviceState;
 
         QHash<quint16, ScriptObject*>   m_scriptObjectList;
 };

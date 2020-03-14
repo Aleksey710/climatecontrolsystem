@@ -207,13 +207,13 @@ void ModbusRequest::setModbusData(T *values, int deviceState)
                                 ;
 
         //--------------------------------------------------
-        QMetaObject::invokeMethod(scriptObject,
-                                  "setData",
-                                  Qt::QueuedConnection,
-                                  //Qt::DirectConnection,
-                                  Q_ARG(double, value));
+//        QMetaObject::invokeMethod(scriptObject,
+//                                  "setData",
+//                                  Qt::QueuedConnection,
+//                                  //Qt::DirectConnection,
+//                                  Q_ARG(double, value));
 
-        //scriptObject->setData( value);
+        scriptObject->setData( value);
         //--------------------------------------------------
         SEND_TO_LOG( QString("%1 - setModbusData : [%2]-[%3] device(%4)")
                      .arg(objectName())

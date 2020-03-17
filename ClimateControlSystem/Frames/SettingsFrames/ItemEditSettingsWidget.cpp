@@ -15,6 +15,7 @@ ItemEditSettingsWidget::ItemEditSettingsWidget(const QVariant &value,
     setWindowModality ( Qt::WindowModality::ApplicationModal );
 
     ui->lbDisplayOld->setText( value.toString() );
+    ui->leDisplayNew->setText( value.toString() );
 
     connect(ui->pbCancel, &QPushButton::released,[=](){
         ui->leDisplayNew->setText( ui->lbDisplayOld->text() );

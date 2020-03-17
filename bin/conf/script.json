@@ -1303,7 +1303,7 @@
                 }
 
                 if(    vr.temp.vvo1ResponseError.data() == 1
-                    || vr.temp.vvo2ResponseError.data() == 1 )
+                    && vr.temp.vvo2ResponseError.data() == 1 )
                 {
                     errorVvo = 1;
                 }
@@ -1360,7 +1360,6 @@
                             archive( 53 );
                         }
                     }
-                }
                 "
         },
         {
@@ -1439,7 +1438,7 @@
                         if ( vr.timout.dlhon.data() == 0 )
                         {
                             vr.timout.dlhon.setData( sys.time.curent.data() +
-                                                + 60000 +
+                                                + 60 +
                                                 settings.delay.dlh.data() +
                                                 settings.delay.dlhon.data() );
                         }
@@ -1455,6 +1454,7 @@
                 } else
                 {
                     vr.timout.dlhon.setData( 0 );
+                    vr.timout.nvoResponseTime.setData( 0 );
                 }
 
                 if ( vr.timout.nvoResponseTime.data() > 0 )
@@ -1774,7 +1774,6 @@
                 {
                     vr.temp.vvo1On.setData( 0 );
                     vr.temp.vvo2On.setData( 0 );
-                    vr.temp.vvo2On.setData( 0 );
                 }"
         },
         {
@@ -1810,7 +1809,7 @@
                         if ( vr.timout.vvosod.data() == 0 )
                         {
                             vr.timout.vvosod.setData( sys.time.curent.data() +
-                                                  + 120000 +
+                                                  + 120 +
                                                   settings.delay.vvodsd.data() +
                                                   settings.delay.vvosod.data()
                                                   );
@@ -1839,34 +1838,74 @@
                     {
                         if ( vr.temp.vvoInvert.data() == 0 )
                         {
-                            if ( out.BVV.vvo1On.data() == 0 && vr.temp.vvo1On.data() == 1 )
+                            if ( vr.temp.vvo1On.data() == 1 )
                             {
-                                out.BVV.vvo1On.setData( 1 );
-                                vr.timout.vvo1ResponseTime.setData(
-                                                  sys.time.curent.data() +
-                                                  settings.delay.vvord.data() );
+                                if ( out.BVV.vvo1On.data() == 0 )
+                                {
+                                    out.BVV.vvo1On.setData( 1 );
+                                    vr.timout.vvo1ResponseTime.setData(
+                                                      sys.time.curent.data() +
+                                                      settings.delay.vvord.data() );
+                                }
+                            } else
+                            {
+                                if ( out.BVV.vvo1On.data() == 1 )
+                                {
+                                    out.BVV.vvo1On.setData( 0 );
+                                    vr.timout.vvo1ResponseTime.setData( 0 );
+                                }
                             }
-                            if ( out.BVV.vvo2On.data() == 0 && vr.temp.vvo2On.data() == 1 )
+                            if ( vr.temp.vvo2On.data() == 1 )
                             {
-                                out.BVV.vvo2On.setData( 1 );
-                                vr.timout.vvo2ResponseTime.setData(
-                                                  sys.time.curent.data() +
-                                                  settings.delay.vvord.data() );
+                                if ( out.BVV.vvo2On.data() == 0 )
+                                {
+                                    out.BVV.vvo2On.setData( 1 );
+                                    vr.timout.vvo2ResponseTime.setData(
+                                                      sys.time.curent.data() +
+                                                      settings.delay.vvord.data() );
+                                }
+                            } else
+                            {
+                                if ( out.BVV.vvo2On.data() == 1 )
+                                {
+                                    out.BVV.vvo2On.setData( 0 );
+                                    vr.timout.vvo2ResponseTime.setData( 0 );
+                                }
                             }
                         } else {
-                            if ( out.BVV.vvo1On.data() == 0 && vr.temp.vvo2On.data() == 1 )
+                            if ( vr.temp.vvo2On.data() == 1 )
                             {
-                                out.BVV.vvo1On.setData( 1 );
-                                vr.timout.vvo1ResponseTime.setData(
-                                                  sys.time.curent.data() +
-                                                  settings.delay.vvord.data() );
+                                if ( out.BVV.vvo1On.data() == 0 )
+                                {
+                                    out.BVV.vvo1On.setData( 1 );
+                                    vr.timout.vvo1ResponseTime.setData(
+                                                      sys.time.curent.data() +
+                                                      settings.delay.vvord.data() );
+                                }
+                            } else
+                            {
+                                if ( out.BVV.vvo1On.data() == 1 )
+                                {
+                                    out.BVV.vvo1On.setData( 0 );
+                                    vr.timout.vvo1ResponseTime.setData( 0 );
+                                }
                             }
-                            if ( out.BVV.vvo2On.data() == 0 && vr.temp.vvo1On.data() == 1 )
+                            if ( vr.temp.vvo1On.data() == 1 )
                             {
-                                out.BVV.vvo2On.setData( 1 );
-                                vr.timout.vvo2ResponseTime.setData(
-                                                  sys.time.curent.data() +
-                                                  settings.delay.vvord.data() );
+                                if ( out.BVV.vvo2On.data() == 0 )
+                                {
+                                    out.BVV.vvo2On.setData( 1 );
+                                    vr.timout.vvo2ResponseTime.setData(
+                                                      sys.time.curent.data() +
+                                                      settings.delay.vvord.data() );
+                                }
+                            } else
+                            {
+                                if ( out.BVV.vvo2On.data() == 1 )
+                                {
+                                    out.BVV.vvo2On.setData( 0 );
+                                    vr.timout.vvo2ResponseTime.setData( 0 );
+                                }
                             }
                         }
 
@@ -1953,6 +1992,11 @@
                     }
 
                     out.BVV.pompOn.setData( 0 );
+
+                    /*При выключении сбрасываем время ожидания ответа, поскольку когда отключим ВВО,
+                    а это время не сбросится получим ошибку овета*/
+                    vr.timout.vvo1ResponseTime.setData( 0 );
+                    vr.timout.vvo2ResponseTime.setData( 0 );
                 }
 
                 if ( vr.timout.vvo1ResponseTime.data() > 0 )
@@ -2198,13 +2242,14 @@
                 "vr.msg.Umin",
                 "vr.msg.Umax",
                 "display.BVV.umax_zrk",
+                "display.BVV.r_insulation",
                 "display.BVV.crash"
                 ],
             "processing":"
                 /* Переводит пеереводит электрооборудование в режим АВАРИЯ.
                    По последним данным, взводим этот сигнал только если БВВ не выставил АВАРИЮ.
                    Если он выставил, условия не анализируем и свой фаулт сбрасываем.
-                */
+                */                
                 if ( (    ( vr.msg.ImaxGeneral.data() == 1 )
                        || ( vr.msg.Umin.data() == 1 )
                        || ( vr.msg.Umax.data() == 1 )

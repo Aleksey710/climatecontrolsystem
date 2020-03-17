@@ -197,36 +197,35 @@ void ModbusRequest::setModbusData(T *values, int deviceState)
         const int id = i.key();
         ScriptObject *scriptObject = i.value();
 
-<<<<<<< HEAD
-	if(deviceState == 1)
-	{
-		int16_t value = static_cast<int16_t>(values[id - m_startAddress]);
+        if(deviceState == 1)
+        {
+            int16_t value = static_cast<int16_t>(values[id - m_startAddress]);
 
-                //values[id - m_startAddress] :
-                //---------------------------------------------
-                //std::numeric_limits<uint16_t>::max(); //65535
-                //---------------------------------------------
-                //0
-                //---------------------------------------------
-                //;
-	
+                    //values[id - m_startAddress] :
+                    //---------------------------------------------
+                    //std::numeric_limits<uint16_t>::max(); //65535
+                    //---------------------------------------------
+                    //0
+                    //---------------------------------------------
+                    //;
 
-		//--------------------------------------------------
-		QMetaObject::invokeMethod(scriptObject,
-		                          "setData",
-		                          Qt::QueuedConnection,
-		                          //Qt::DirectConnection,
-		                          Q_ARG(double, value));
 
-		//scriptObject->setData( value);
-		//--------------------------------------------------
-		SEND_TO_LOG( QString("%1 - setModbusData : [%2]-[%3] device(%4)")
-		             .arg(objectName())
-		             .arg(scriptObject->fullName())
-		             .arg(value)
-		             .arg( (deviceState == 1) ? "connect" : "disconnect" ) );
-	}
-=======
+            //--------------------------------------------------
+            QMetaObject::invokeMethod(scriptObject,
+                                      "setData",
+                                      Qt::QueuedConnection,
+                                      //Qt::DirectConnection,
+                                      Q_ARG(double, value));
+
+            //scriptObject->setData( value);
+            //--------------------------------------------------
+            SEND_TO_LOG( QString("%1 - setModbusData : [%2]-[%3] device(%4)")
+                         .arg(objectName())
+                         .arg(scriptObject->fullName())
+                         .arg(value)
+                         .arg( (deviceState == 1) ? "connect" : "disconnect" ) );
+        }
+/*
         uint16_t value = (deviceState == 1) ?
                             values[id - m_startAddress] :
                                 //---------------------------------------------
@@ -250,7 +249,7 @@ void ModbusRequest::setModbusData(T *values, int deviceState)
                      .arg(scriptObject->fullName())
                      .arg(value)
                      .arg( (deviceState == 1) ? "connect" : "disconnect" ) );
->>>>>>> 571e090a762899a1bf4d4634f722495c19bb7d77
+*/
     }
 }
 //------------------------------------------------------------------------------------

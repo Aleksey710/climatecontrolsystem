@@ -360,4 +360,6 @@ void AbstractArchiveFrame::startRemoveData()
                 m_removeRecordsFromArchiveWidget = nullptr;
             });
         });
+
+    Q_UNUSED(checkPasswordWidget);
 }

@@ -78,7 +78,12 @@ void MultiMsgWidget::display()
     //    vr.msg.automodeDisabledNvo - Не можливий авто.режим НВО
 
     //    vr.msg.automodeDisabledManual - Не можливий авто.режим НВО/ВВО
-
+/*
+qDebug() << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+         << m_regStateMap["vr.msg.automodeDisabledManual"]
+         << m_regStateMap["vr.msg.automodeDisabledVvo"]
+         << m_regStateMap["vr.msg.automodeDisabledNvo"];
+*/
     if(m_regStateMap["vr.msg.automodeDisabledManual"] == 1)
     {
         setText("Не можливий авто.режим НВО/ВВО");

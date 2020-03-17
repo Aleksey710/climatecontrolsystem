@@ -58,6 +58,7 @@ class ScriptObject : public QObject, protected QScriptable
         //--------------------------------------------------
         Q_INVOKABLE inline void setData(const double &__value)
             {
+                QMutexLocker locker(&m_mutex);
                 if( value != __value )
                 //if( !approximatelyEqualAbsRel(value, __value) )
                 //if( !qFuzzyCompare(value, __value) )
@@ -93,6 +94,9 @@ class ScriptObject : public QObject, protected QScriptable
 
         double      value;
         QString     stringValue;
+
+    private:
+        QMutex      m_mutex;
 
     private:
         // https://ravesli.com/urok-42-operatory-sravneniya/

@@ -141,10 +141,14 @@
             { "lineComment":"---------------------------------------------------------------------" },
             { "lineComment":"Переменные блокировки авторежима" },
                 { "name":"vr.msg.automodeDisabled", "title":"Запрет авторежима.",                   "value": 0 },
+                { "name":"vr.msg.automodeDisabledNvo", "title":"Запрет авторежима. NVO",            "value": 0 },
+                { "name":"vr.msg.automodeDisabledVvo", "title":"Запрет авторежима. VVO",            "value": 0 },
+                { "name":"vr.msg.automodeDisabledManual", "title":"Запрет авторежима. Manual",      "value": 0 },
                 { "name":"vr.msg.manualModeOn",     "title":"Ручний режим увімкнено.",              "value": 0 },
             { "lineComment":"---------------------------------------------------------------------" },
             { "lineComment":"Переменные вспомогательные" },
                 { "name":"vr.msg.u3000Error",           "title":"Отсутсвует напряжение 3000В (1 – отсуствует, 0 -  присутствует).", "value": 0 },
+                { "name":"vr.msg.u3000ErrorTemp",       "title":"Отсутсвует напряжение 3000В (временна) (1 – отсуствует, 0 -  присутствует).", "value": 0 },
                 { "name":"vr.temp.temp_T_ust",          "title":"Временная переменная для хранения Т уст",                          "value": 0 },
                 { "name":"vr.msg.A9ConnErrorLastState", "title":"Флаг - Последнее состояние подключения А9 (1-обрыв)",              "value": 0 },
             { "lineComment":"---------------------------------------------------------------------" },
@@ -262,7 +266,7 @@
                 "out.BVV.fault"
                 ],
             "processing":"
-                if ( modbus.BVV.device.data() == 1 )
+                if ( vr.msg.BVVConnError.data() != 1 )
                 {
                     var outData;
                     outData = modbus.BVV.r40000.data();
@@ -309,7 +313,7 @@
 
                     modbus.BVV.r40000.setData( outData );
 
-                } else if ( vr.msg.BVVConnError.data() == 1 ){
+                } else {
                     modbus.BVV.r40000.setData( 0 );
                 }
                 "
@@ -1284,14 +1288,38 @@
                 "vr.msg.t_kotl"
                 ],
             "processing":"
-                if(    vr.temp.vvo1ResponseError.data() == 1
-                    || vr.temp.vvo2ResponseError.data() == 1
-                    || vr.temp.nvoResponseError.data() == 1
-                    || vr.kotl.overheat.data() == 1
-                    || vr.msg.t_nv.data() == 1
+                var errorVvo = 0;
+                var errorNvo = 0;
+                var errorManual = 0;
+
+                if (   vr.msg.t_nv.data() == 1
                     || vr.msg.t_sal.data() == 1
                     || vr.msg.t_pr.data() == 1
-                    || vr.msg.t_kotl.data() == 1
+                    || vr.msg.t_kotl.data() == 1 )
+                {
+                    errorVvo = 1;
+                    errorNvo = 1;
+                    errorManual = 1;
+                }
+
+                if(    vr.temp.vvo1ResponseError.data() == 1
+                    || vr.temp.vvo2ResponseError.data() == 1 )
+                {
+                    errorVvo = 1;
+                }
+
+                if( vr.temp.nvoResponseError.data() == 1 )
+                {
+                    errorNvo = 1;
+                }
+
+                vr.msg.automodeDisabledVvo.setData( errorVvo );
+                vr.msg.automodeDisabledNvo.setData( errorNvo );
+                vr.msg.automodeDisabledManual.setData( errorManual )
+
+                if(    errorVvo == 1
+                    || errorNvo == 1
+                    || vr.kotl.overheat.data() == 1
                   )
                 {
                     vr.msg.automodeDisabled.setData( 1 );
@@ -1310,25 +1338,27 @@
                 "display.BVV.automode"
                 ],
             "processing":"
-                if(    display.BVV.automode.data() == 0
-                    && (    display.BVV.VVO_1.data() == 1
-                         || display.BVV.VVO_2.data() == 1
-                         || display.BVV.NVO.data() == 1
-                         || display.BVV.ventilation.data() == 1 )
-                )
-                {
-                    if ( vr.msg.manualModeOn.data() == 0 )
+                   if(    display.BVV.automode.data() == 0
+                        && (    display.BVV.VVO_1.data() == 1
+                             || display.BVV.VVO_2.data() == 1
+                             || display.BVV.NVO.data() == 1
+                             || display.BVV.ventilation.data() == 1 )
+                    )
                     {
-                        vr.msg.manualModeOn.setData( 1 );
-                        /*Запись в журнал*/
-                        archive( 52 );
-                    }
-                }else{
-                    if ( vr.msg.manualModeOn.data() == 1 )
+                        if ( vr.msg.manualModeOn.data() == 0 )
+                        {
+                            vr.msg.manualModeOn.setData( 1 );
+                            /*Запись в журнал*/
+                            archive( 52 );
+                        }
+                    } else
                     {
-                        vr.msg.manualModeOn.setData( 0 );
-                        /*Запись в журнал*/
-                        archive( 53 );
+                        if ( vr.msg.manualModeOn.data() == 1 )
+                        {
+                            vr.msg.manualModeOn.setData( 0 );
+                            /*Запись в журнал*/
+                            archive( 53 );
+                        }
                     }
                 }
                 "
@@ -1628,8 +1658,14 @@
                 "display.BVV.cooling" ],
             "processing":"
                 /* При отсутвии 3000В нужно выводить сообщение о его отсутствии на экран и журнал*/
-                if ( modbus.BVV.device.data() == 1 )
+                if ( vr.msg.BVVConnError.data( ) == 0 )
                 {
+                    /*Востанавливаем состояние, которое было до потери связи*/
+                    if ( vr.msg.u3000ErrorTemp.data( ) == 1 )
+                    {
+                        vr.msg.u3000Error.setData( 1 );
+                    }
+
                     if (    ( display.BVV.automode.data() == 1 )
                          && ( vr.msg.automodeDisabled.data() == 0 )
                          && (    vr.temp.vvo1ResponseError.data() == 0
@@ -1642,7 +1678,15 @@
                          && ( display.temp.t_kotl.data() < vr.temp.vvokotlon.data() ) )
                     {
 
-                        if ( display.BVV.u3000.data()  == 1 ) {
+                        if ( display.BVV.u3000.data()  == 1 )
+                        {
+
+                            if ( vr.msg.u3000Error.data( ) == 1 )
+                            {
+                                vr.msg.u3000Error.setData( 0 );
+                                vr.msg.u3000ErrorTemp.setData( 0 );
+                            }
+
                             if ( display.temp.t_nv.data() <= settings.temp.vvohoton.data() )
                             {
                                 vr.temp.vvo1On.setData( 1 );
@@ -1657,11 +1701,21 @@
                             if ( vr.msg.u3000Error.data( ) != 1 )
                             {
                                 vr.msg.u3000Error.setData( 1 );
+                                vr.msg.u3000ErrorTemp.setData( 1 );
                                 /*Запись в журнал*/
                                 archive( 3 );
                             }
                         }
+                    } else
+                    {
+                        vr.msg.u3000Error.setData( 0 );
+                        vr.msg.u3000ErrorTemp.setData( 0 );
                     }
+                } else
+                {
+                    /*Если пропала связь, кроме этой информации на экране ничего не должно быть,
+                      поэтому скрываем надпись, по потом востановим */
+                    vr.msg.u3000Error.setData( 0 );
                 }
                 "
         },
@@ -2206,6 +2260,7 @@
                     display.temp.t_ust.setData( 24 );
                     settings.temp.sut.setData( 24 );
                 }
+                modbus.A9.r40001.setData( settings.temp.sut.data() );
                 "
         },
         {

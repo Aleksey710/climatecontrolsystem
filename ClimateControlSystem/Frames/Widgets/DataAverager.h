@@ -44,6 +44,9 @@ class DataAverager : public QObject
         ScriptObject *m_dataScriptObject;
 
         QVector<double> m_valueArray;
+
+        //! счетчик пришедших данных
+        int m_dataCount;
 };
 //------------------------------------------------------------------------------------
 #endif // DATAAVERAGER_H

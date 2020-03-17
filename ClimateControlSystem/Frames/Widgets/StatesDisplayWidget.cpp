@@ -52,7 +52,7 @@ void StatesDisplayWidget::setupRow1()
 {
     MsgWidget *lowColumn1MsgWidget = new MsgWidget("vr.msg.BVVConnError",
                                                    "Перейти в резервний режим управління",
-                                                   /*"#FFFFFF",*/ "#FF0000");
+                                                   "#FFFFFF", "#FF0000");
     MsgWidget *lowColumn2MsgWidget = nullptr;
 
 //    MsgWidget *highColumn1MsgWidget = new MsgWidget("vr.msg.automodeDisabled",

@@ -14,6 +14,8 @@ CheckPasswordWidget::CheckPasswordWidget(std::function<void()> function,
 
     ui->lePassword->setEchoMode(QLineEdit::Password);
 
+    ui->lePassword->setFocus();
+
     setWindowModality ( Qt::WindowModality::ApplicationModal );
     setAttribute(Qt::WA_DeleteOnClose);
     show();

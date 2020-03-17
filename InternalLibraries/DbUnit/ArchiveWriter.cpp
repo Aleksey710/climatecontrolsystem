@@ -132,7 +132,7 @@ ArchiveMsg ArchiveWriter::createArchiveMsg(const int &msgId, const double &value
     case 38:    return ArchiveMsg(ArchiveJournalType::ClimateDeviceAuto,
                                   QString("Нагрів вимкнено")); break;
     //--------------------
-    case 39:    return ArchiveMsg(ArchiveJournalType::ClimateDeviceAuto,            // !!!
+    case 39:    return ArchiveMsg(ArchiveJournalType::ElectricalEquipment,            // !!!
                                   QString("Відсутній зв’язок з БУТ")); break;
     //--------------------
     case 40:    return ArchiveMsg(ArchiveJournalType::ClimateDeviceAuto,

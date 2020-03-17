@@ -6,7 +6,8 @@ DataAverager::DataAverager(const QString &dataScriptObjectName,
                            QObject *parent)
              : QObject(parent),
                m_curentIndex ( 0 ),
-               m_dataScriptObject ( nullptr )
+               m_dataScriptObject ( nullptr ),
+               m_dataCount ( 0 )
 {
     ScriptObject *scriptObject = ScriptUnit::getScriptObject(averageSizeScriptObjectName);
 
@@ -28,7 +29,6 @@ DataAverager::DataAverager(const QString &dataScriptObjectName,
     QTimer *timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &DataAverager::setData);
     timer->start(1000);
-
 }
 //------------------------------------------------------------------------------------
 //!
@@ -39,25 +39,31 @@ DataAverager::~DataAverager()
 //------------------------------------------------------------------------------------
 //!
 void DataAverager::setData()
-{
-    if(m_dataScriptObject)
-        m_valueArray[m_curentIndex] = m_dataScriptObject->data();
-
-    m_curentIndex++;
-
-    if(m_curentIndex == m_valueArray.size())
+{    
+    if(m_dataCount > m_valueArray.size())
     {
-       m_curentIndex = 0;
-    }
+        if(m_dataScriptObject)
+            m_valueArray[m_curentIndex] = m_dataScriptObject->data();
 
-    double value = 0.0;
+        m_curentIndex++;
 
-    for (int i = 0; i < m_valueArray.size(); ++i)
+        if(m_curentIndex == m_valueArray.size())
+        {
+           m_curentIndex = 0;
+        }
+
+        double value = 0.0;
+
+        for (int i = 0; i < m_valueArray.size(); ++i)
+        {
+            value = value + m_valueArray.at(i);
+        }
+
+        value = value/m_valueArray.size();
+
+        emit dataUpdate(value);
+    } else
     {
-        value = value + m_valueArray.at(i);
+        m_dataCount++;
     }
-
-    value = value/m_valueArray.size();
-
-    emit dataUpdate(value);
 }

@@ -64,6 +64,8 @@ void MultiMsgWidget::scriptObjectSetup(const QString &scriptObjectName)
             {
                 m_regStateMap[scriptObjectName] = 0;
             }
+
+            display();
         });
 
         display();

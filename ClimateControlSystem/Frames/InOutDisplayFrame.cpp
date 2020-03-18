@@ -46,6 +46,7 @@ InOutDisplayFrame::InOutDisplayFrame(QWidget *parent)
                  );
 
     //--------------------------------------
+
     setupDigDisplay("display.BVV.u3000",         ui->le_u3000);
     setupDigDisplay("display.BVV.VVO_1",         ui->le_VVO_1);
     setupDigDisplay("display.BVV.VVO_2",         ui->le_VVO_2);
@@ -72,7 +73,6 @@ InOutDisplayFrame::InOutDisplayFrame(QWidget *parent)
     setupDigDisplay("out.BVV.fault",             ui->le_out_alarm);
 
     //setupDisplay("vr.test.sys_time",            ui->le_out_alarm);
-
     //--------------------------------------
 
     SEND_TO_LOG( QString("%1 - создан").arg(objectName()) );

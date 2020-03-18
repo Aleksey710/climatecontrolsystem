@@ -30,6 +30,9 @@ ItemEditSettingsWidget::ItemEditSettingsWidget(const QVariant &value,
         close();
         deleteLater();
     });
+
+    //! Открывать всегда в одном месте
+    move(20,20);
 }
 //------------------------------------------------------------------------------------
 //!

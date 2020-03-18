@@ -76,8 +76,8 @@ class ModbusMasterUnit : public QObject
                            const QJsonObject &deviceJsonObject);
 
     private:
-        ModbusThreadController  *m_modbusThreadController;
-        //ModbusMasterHandler     *m_handler;
+        //ModbusThreadController  *m_modbusThreadController;
+        ModbusMasterHandler     *m_handler;
 
 //-------------------------------------------
 #ifdef CIRCULAR_PROCESSING_REQUEST

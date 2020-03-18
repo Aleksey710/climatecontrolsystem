@@ -55,6 +55,13 @@ class ModbusMasterHandler : public QObject
                                            int,
                                            int) );
 
+
+        void errorHandler(ModbusRequest *modbusRequest);
+
+        template < typename T >
+        void setDataErrorHandler(ModbusRequest *modbusRequest);
+
+
     private:
 
 

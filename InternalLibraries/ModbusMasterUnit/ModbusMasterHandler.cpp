@@ -77,7 +77,10 @@ void ModbusMasterHandler::exequteRequest(ModbusRequest *modbusRequest)
     //-----------------------------------------------------------------
 
     modbus_set_debug(ctx, TRUE);
-    modbus_set_error_recovery(ctx, (modbus_error_recovery_mode)(MODBUS_ERROR_RECOVERY_LINK | MODBUS_ERROR_RECOVERY_PROTOCOL));
+
+    //modbus_set_error_recovery(ctx, (modbus_error_recovery_mode)(MODBUS_ERROR_RECOVERY_LINK | MODBUS_ERROR_RECOVERY_PROTOCOL));
+    //modbus_set_error_recovery(ctx, MODBUS_ERROR_RECOVERY_NONE);
+
     modbus_set_slave(ctx, modbusRequest->serverAddress());
 
     uint32_t sec_to = 0;
@@ -94,6 +97,8 @@ void ModbusMasterHandler::exequteRequest(ModbusRequest *modbusRequest)
     {
         SEND_TO_LOG( QString("%1 - Connection failed: %2").arg(objectName()).arg(modbus_strerror(errno)) );
         modbus_free(ctx);
+
+        errorHandler(modbusRequest);
 
         emit exequted();
         return ;
@@ -125,6 +130,43 @@ void ModbusMasterHandler::exequteRequest(ModbusRequest *modbusRequest)
     modbus_free(ctx);
 
     emit exequted();
+}
+//------------------------------------------------------------------------------------
+//!
+void ModbusMasterHandler::errorHandler(ModbusRequest *modbusRequest)
+{
+    SEND_TO_LOG( QString("%1 - errorHandler").arg(objectName()) );
+
+    switch (modbusRequest->functionCode())
+    {
+        case 0x01: setDataErrorHandler<uint8_t>  (modbusRequest); break;
+        case 0x02: setDataErrorHandler<uint8_t>  (modbusRequest); break;
+        case 0x03: setDataErrorHandler<uint16_t> (modbusRequest); break;
+        case 0x04: setDataErrorHandler<uint16_t> (modbusRequest); break;
+//            case 0x05: setDataErrorHandler           (modbusRequest); break;
+//            case 0x06: setDataErrorHandler           (modbusRequest); break;
+        case 0x0F: setDataErrorHandler<uint8_t>  (modbusRequest); break;
+        case 0x10: setDataErrorHandler<uint16_t> (modbusRequest); break;
+
+        default:
+            SEND_TO_LOG( QString("%1 - Попытка обработки ошибки неизвестной функции [%2]")
+                         .arg(objectName()).arg(modbusRequest->functionCode()) );
+            break;
+    }
+}
+//------------------------------------------------------------------------------------
+//!
+template < typename T >
+void ModbusMasterHandler::setDataErrorHandler(ModbusRequest *modbusRequest)
+{
+    int nb = modbusRequest->number();
+
+    T* dest = (T*) malloc(nb * sizeof(T));
+    memset(dest, 0, nb * sizeof(T));
+
+    modbusRequest->setModbusDataComplex<T>(dest, -1);
+
+    free(dest);
 }
 //------------------------------------------------------------------------------------
 //!

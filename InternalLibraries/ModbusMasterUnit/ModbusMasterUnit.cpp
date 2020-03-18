@@ -4,8 +4,8 @@
 //!
 ModbusMasterUnit::ModbusMasterUnit(QObject *parent)
                  :QObject(parent),
-                  m_modbusThreadController ( new ModbusThreadController(this) )
-                  //m_handler ( new ModbusMasterHandler(this) )
+                  //m_modbusThreadController ( new ModbusThreadController(this) )
+                  m_handler ( new ModbusMasterHandler(this) )
 #ifdef CIRCULAR_PROCESSING_REQUEST
                   ,m_pauseTimer ( new QTimer(this) )
                   ,m_curentRequestId ( 0 )
@@ -26,8 +26,8 @@ ModbusMasterUnit::ModbusMasterUnit(QObject *parent)
 
         //! При получении сигнала о выполнении запроса
         //! Запустить таймер паузы
-        //connect(m_handler, &ModbusMasterHandler::exequted, [=](){
-        connect(m_modbusThreadController, &ModbusThreadController::exequted, [=](){
+        connect(m_handler, &ModbusMasterHandler::exequted, [=](){
+        //connect(m_modbusThreadController, &ModbusThreadController::exequted, [=](){
 
             //! После окончания паузы запустить на выполнение следующий запрос
             if(m_curentRequestId == 0)
@@ -86,8 +86,8 @@ void ModbusMasterUnit::excuteNextRequest()
         m_curentRequestId++;
 
         //--------------------------------------------------
-        //m_handler->exequteRequest(request);
-        m_modbusThreadController->exequteRequest(request);
+        m_handler->exequteRequest(request);
+        //m_modbusThreadController->exequteRequest(request);
     }
 }
 #endif // CIRCULAR_PROCESSING_REQUES

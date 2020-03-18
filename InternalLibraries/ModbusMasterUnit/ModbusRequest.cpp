@@ -159,7 +159,9 @@ void ModbusRequest::setModbusDataComplex(T *values, int deviceState)
     {
         // Устройство не работало и не работает
         case 0:
-            //!
+            if(m_deviceScriptObject)
+                { m_deviceScriptObject->setData(deviceState); }
+            setModbusData(values, deviceState);
             break;
         // Обрыв связи - Сначала изменить состояние устройства, потом данные
         case 1:
@@ -177,6 +179,8 @@ void ModbusRequest::setModbusDataComplex(T *values, int deviceState)
             break;
         // Нормальная работа (работало и работает) - изменить данные
         case 3:
+            if(m_deviceScriptObject)
+                { m_deviceScriptObject->setData(deviceState); }
             setModbusData(values, deviceState);
             break;
         default:

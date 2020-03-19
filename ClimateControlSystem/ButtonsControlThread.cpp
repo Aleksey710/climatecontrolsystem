@@ -81,7 +81,11 @@ void ButtonsControlThread::run()
         if(bt_off_state == 0)                           m_longPressedCount = 0;
 
         /* 7s/500ms = 14 */
-        if(m_longPressedCount > 14)                     bt_off_long_pressed();
+        if(m_longPressedCount > 14)
+        {
+            m_longPressedCount = 0;
+            bt_off_long_pressed();
+        }
         //---------------------------------------------------
         /*
         qDebug() << "ButtonsControlThread"

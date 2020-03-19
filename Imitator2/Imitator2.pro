@@ -57,8 +57,8 @@ HEADERS += \
     serial-config.h \
     slave-data.h \
     slave.h \
-    ui_mainwindow.h \
-    ui_mainwindowATOR.h
+#    ui_mainwindow.h \
+#    ui_mainwindowATOR.h
 
 
 FORMS += \

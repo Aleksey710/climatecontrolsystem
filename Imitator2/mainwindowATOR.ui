@@ -122,6 +122,9 @@
              <property name="text">
               <string>u3000</string>
              </property>
+             <property name="checked">
+              <bool>true</bool>
+             </property>
             </widget>
            </item>
            <item row="0" column="1">
@@ -298,7 +301,7 @@
               </sizepolicy>
              </property>
              <property name="text">
-              <string>2020</string>
+              <string>1820</string>
              </property>
              <property name="maxLength">
               <number>32767</number>
@@ -375,7 +378,7 @@
               </sizepolicy>
              </property>
              <property name="text">
-              <string>18</string>
+              <string>210</string>
              </property>
              <property name="maxLength">
               <number>32767</number>
@@ -527,7 +530,7 @@
               </sizepolicy>
              </property>
              <property name="text">
-              <string>47</string>
+              <string>74</string>
              </property>
              <property name="maxLength">
               <number>32767</number>
@@ -640,7 +643,7 @@
               </sizepolicy>
              </property>
              <property name="text">
-              <string>110</string>
+              <string>65435</string>
              </property>
              <property name="maxLength">
               <number>32767</number>
@@ -659,7 +662,7 @@
               </sizepolicy>
              </property>
              <property name="text">
-              <string>240</string>
+              <string>1100</string>
              </property>
              <property name="maxLength">
               <number>32767</number>
@@ -870,6 +873,36 @@
              </property>
              <property name="placeholderText">
               <string>Hexadecimal A-F, a-f, 0-9.</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="3">
+            <widget class="QCheckBox" name="cbRespVVO1">
+             <property name="text">
+              <string>RespVVO1</string>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="3">
+            <widget class="QCheckBox" name="cbRespVVO2">
+             <property name="text">
+              <string>RespVVO2</string>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="3">
+            <widget class="QCheckBox" name="cbRespNVO">
+             <property name="text">
+              <string>RespNVO</string>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
              </property>
             </widget>
            </item>
@@ -1216,7 +1249,7 @@
               </sizepolicy>
              </property>
              <property name="text">
-              <string>0</string>
+              <string>63</string>
              </property>
              <property name="maxLength">
               <number>32767</number>
@@ -1389,7 +1422,7 @@
               </sizepolicy>
              </property>
              <property name="text">
-              <string>0</string>
+              <string>1820</string>
              </property>
              <property name="maxLength">
               <number>32767</number>

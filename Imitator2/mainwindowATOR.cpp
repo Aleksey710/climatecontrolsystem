@@ -261,6 +261,34 @@ void MainWindowATOR::onVVODigOut(const QString &text)
     ui->cbFaultOn->setChecked(  text.toInt() & 0x0010 );
     ui->cbBpOn->setChecked(     text.toInt() & 0x0020 );
     ui->cbPvvOn->setChecked(    text.toInt() & 0x0400 );
+
+    //Формирование отклика
+    if (ui->cbRespNVO->isChecked())
+    {
+        if ( ui->cbNVO->isChecked() != ui->cbNvoOn->isChecked() )
+        {
+            ui->cbNVO->setChecked( ui->cbNvoOn->isChecked() );
+            onVVOReg0();
+        }
+    }
+    if (ui->cbRespVVO1->isChecked())
+    {
+        if ( ui->cbVVO_1->isChecked() != ui->cbVvo1On->isChecked() )
+        {
+            ui->cbVVO_1->setChecked( ui->cbVvo1On->isChecked() );
+            onVVOReg0();
+        }
+
+    }
+    if (ui->cbRespVVO2->isChecked())
+    {
+        if ( ui->cbVVO_2->isChecked() != ui->cbVvo2On->isChecked() )
+        {
+            ui->cbVVO_2->setChecked( ui->cbVvo2On->isChecked() );
+            onVVOReg0();
+        }
+    }
+
 }
 /*
 void MainWindowATOR::onCurrentConnectTypeChanged(int index)

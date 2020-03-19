@@ -5,6 +5,7 @@
 /bin/DataModel
 /bin/ClimateControlSystem
 /bin/Imitator
+/bin/Imitator2
 
 
 Makefile

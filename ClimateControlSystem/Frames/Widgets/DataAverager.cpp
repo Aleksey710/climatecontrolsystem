@@ -77,8 +77,10 @@ void DataAverager::setData()
 #else
     m_dataCount++;
 
-    if(m_dataCount == m_valueArray.size())
+    if(m_dataCount >= m_valueArray.size())
     {
+        m_dataCount = 0;
+
         for (int i = 0; i < m_valueArray.size(); ++i)
         {
             value = value + m_valueArray.at(i);

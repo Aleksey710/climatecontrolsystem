@@ -205,9 +205,12 @@ void ModbusMasterHandler::exequteWrite( modbus_t *ctx,
 
     T* dest = modbusRequest->modbusData<T>();
 
+    //-----------
     int rc = function(ctx, addr,nb, dest);
+    modbusRequest->setDeviceState( ((rc == -1) ? -1 : 1) );
 
-    modbusRequest->setModbusDataComplex<T>(dest, (rc == -1) ? -1 : 1);
+    //modbusRequest->setModbusDataComplex<T>(dest, (rc == -1) ? -1 : 1);
+    //-----------
 
     free(dest);
 }

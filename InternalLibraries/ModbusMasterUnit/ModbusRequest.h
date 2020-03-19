@@ -60,6 +60,8 @@ class ModbusRequest : public QObject
         template < typename T >
         void setModbusDataComplex(T *values, int deviceState);
 
+        void setDeviceState(int deviceState);
+
     public slots:
 
     signals:

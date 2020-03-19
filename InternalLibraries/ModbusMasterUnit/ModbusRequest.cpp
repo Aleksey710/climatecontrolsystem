@@ -159,14 +159,12 @@ void ModbusRequest::setModbusDataComplex(T *values, int deviceState)
     {
         // Устройство не работало и не работает
         case 0:
-            if(m_deviceScriptObject)
-                { m_deviceScriptObject->setData(deviceState); }
+            setDeviceState(deviceState);
             setModbusData(values, deviceState);
             break;
         // Обрыв связи - Сначала изменить состояние устройства, потом данные
         case 1:
-            if(m_deviceScriptObject)
-                { m_deviceScriptObject->setData(deviceState); }
+            setDeviceState(deviceState);
             //----------------------------------
             setModbusData(values, deviceState);
             break;
@@ -174,18 +172,23 @@ void ModbusRequest::setModbusDataComplex(T *values, int deviceState)
         case 2:
             setModbusData(values, deviceState);
             //----------------------------------
-            if(m_deviceScriptObject)
-                { m_deviceScriptObject->setData(deviceState); }
+            setDeviceState(deviceState);
             break;
         // Нормальная работа (работало и работает) - изменить данные
         case 3:
-            if(m_deviceScriptObject)
-                { m_deviceScriptObject->setData(deviceState); }
+            setDeviceState(deviceState);
             setModbusData(values, deviceState);
             break;
         default:
             break;
     }
+}
+//------------------------------------------------------------------------------------
+//!
+void ModbusRequest::setDeviceState(int deviceState)
+{
+    if(m_deviceScriptObject)
+        { m_deviceScriptObject->setData(deviceState); }
 }
 //------------------------------------------------------------------------------------
 //! Запись значений в скриптовые регистры

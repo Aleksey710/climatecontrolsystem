@@ -50,12 +50,16 @@ class ButtonsControlThread : public QThread
         void bt_4_released();
         void bt_off_released();
 
+        void bt_off_long_pressed();
+
     private:
         int m_bt_1_state;
         int m_bt_2_state;
         int m_bt_3_state;
         int m_bt_4_state;
         int m_bt_off_state;
+
+        int m_longPressedCount;
 
 };
 //------------------------------------------------------------------------------------

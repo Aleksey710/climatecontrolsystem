@@ -8,7 +8,8 @@ ButtonsControlThread::ButtonsControlThread(QObject *parent)
                       m_bt_2_state ( 0 ),
                       m_bt_3_state ( 0 ),
                       m_bt_4_state ( 0 ),
-                      m_bt_off_state ( 0 )
+                      m_bt_off_state ( 0 ),
+                      m_longPressedCount ( 0 )
 {
 #ifdef __arm__
 
@@ -57,7 +58,7 @@ void ButtonsControlThread::run()
         if(m_bt_4_state == 1 && bt_4_state == 0)
             emit bt_4_pressed();
 
-        if(m_bt_off_state == 1 && bt_off_state == 0)
+        if(m_bt_off_state == 1 && bt_off_state == 0)                    
             emit bt_off_pressed();
         //---------------------------------------------------
         if(m_bt_1_state == 0 && bt_1_state == 1)
@@ -74,6 +75,13 @@ void ButtonsControlThread::run()
 
         if(m_bt_off_state == 0 && bt_off_state == 1)
             emit bt_off_released();
+
+        //---------------------------------------------------
+        if(m_bt_off_state == 1 && bt_off_state == 1)    m_longPressedCount++;
+        if(bt_off_state == 0)                           m_longPressedCount = 0;
+
+        /* 7s/500ms = 14 */
+        if(m_longPressedCount > 14)                     bt_off_long_pressed();
         //---------------------------------------------------
         /*
         qDebug() << "ButtonsControlThread"

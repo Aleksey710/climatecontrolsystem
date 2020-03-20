@@ -40,7 +40,8 @@ class AbstractFrame : public QWidget
 
         void setupDisplay(const QString &name, QLabel *label);
 
-        void setupDisplay(const QString &name,
+        void setupDisplay(const QString &dataRegName,
+                          const QString &deviceRegName,
                           QLineEdit *lineEdit,
                           const QString &averageSizeScriptObjectName = QString());
 
@@ -59,7 +60,9 @@ class AbstractFrame : public QWidget
                                                              const QString &averageSizeScriptObjectName = QString());
 
 
-        void setupDigDisplay(const QString &name, QLineEdit *lineEdit);
+        void setupDigDisplay(const QString &dataRegName,
+                             const QString &deviceRegName,
+                             QLineEdit *lineEdit);
 
         void setupDateDisplay(const QString &yearName,
                               const QString &monthName,

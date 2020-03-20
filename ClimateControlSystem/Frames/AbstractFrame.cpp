@@ -59,70 +59,88 @@ void AbstractFrame::setupDisplay(const QString &name, QLabel *label)
 }
 //------------------------------------------------------------------------------------
 //!
-void AbstractFrame::setupDisplay(const QString &name,
+void AbstractFrame::setupDisplay(const QString &dataRegName,
+                                 const QString &deviceRegName,
                                  QLineEdit *lineEdit,
                                  const QString &averageSizeScriptObjectName)
 {
+    ScriptObject *dataScriptObject = ScriptUnit::getScriptObject(dataRegName);
+    ScriptObject *devScriptObject = ScriptUnit::getScriptObject(deviceRegName);
+
+    std::function<void(const double &)> handler = [=](const double &value)
+    {
+        if(devScriptObject != nullptr &&
+           devScriptObject->data() == -1)
+        {
+            lineEdit->setText(QString("Обрив датчика"));
+        } else
+        {
+            lineEdit->setText(QString("%1").arg( round(value*10)/10 ));
+        }
+    };
+
+    //! Если усреднять
     if( !averageSizeScriptObjectName.isEmpty() )
     {
-        DataAverager *dataAverager = new DataAverager(name,
+        DataAverager *dataAverager = new DataAverager(dataRegName,
                                                       averageSizeScriptObjectName,
                                                       lineEdit);
 
-        connect(dataAverager, &DataAverager::dataUpdate, [=](const double value){
-            //if(value == std::numeric_limits<quint16>::max())
-            if(value == 65535)
-            {
-                lineEdit->setText(QString("Обрив датчика"));
-            } else
-            {
-                lineEdit->setText(QString("%1").arg( round(value*10)/10 ));
-            }
+        connect(dataAverager, &DataAverager::dataUpdate, [=](const double &value){
+            handler(value);
         });
     } else
     {
-        ScriptObject *scriptObject = ScriptUnit::getScriptObject(name);
-
-        if(scriptObject)
+        if(dataScriptObject)
         {
-            connect(scriptObject, &ScriptObject::dataChanged, [=](){
-                double value = scriptObject->data();
-                //if(value == std::numeric_limits<quint16>::max())
-                if(value == 65535)
-                {
-                    lineEdit->setText(QString("Обрив датчика"));
-                } else
-                {
-                    lineEdit->setText(QString("%1").arg( round(value*10)/10 ));
-                }
+            connect(dataScriptObject, &ScriptObject::dataChanged, [=](){
+                double value = dataScriptObject->data();
+                handler(value);
             });
 
             //! Начальная инициализация виджета
-            scriptObject->dataChanged();
+            dataScriptObject->dataChanged();
         }
     }
 }
 //------------------------------------------------------------------------------------
 //!
-void AbstractFrame::setupDigDisplay(const QString &name, QLineEdit *lineEdit)
+void AbstractFrame::setupDigDisplay(const QString &dataRegName,
+                                    const QString &deviceRegName,
+                                    QLineEdit *lineEdit)
 {
-    ScriptObject *scriptObject = ScriptUnit::getScriptObject(name);
+    ScriptObject *dataScriptObject = ScriptUnit::getScriptObject(dataRegName);
+    ScriptObject *devScriptObject = ScriptUnit::getScriptObject(deviceRegName);
 
-    if(scriptObject)
+    std::function<void()> handler = [=]()
     {
-        connect(scriptObject, &ScriptObject::dataChanged, [=](){
-
-            if( scriptObject->data() )
+        if(devScriptObject != nullptr &&
+           devScriptObject->data() == -1)
+        {
+            lineEdit->setText(QString("Обрив датчика"));
+        } else
+        {
+            if( dataScriptObject->data() )
             {
                 lineEdit->setText(QString("Увiмкнено"));
             } else
             {
                 lineEdit->setText(QString("Вимкнено"));
             }
-        });
+        }
+    };
+
+    if(dataScriptObject)
+    {
+        connect(dataScriptObject, &ScriptObject::dataChanged, [=](){ handler(); });
 
         //! Начальная инициализация виджета
-        scriptObject->dataChanged();
+        dataScriptObject->dataChanged();
+    }
+
+    if(devScriptObject)
+    {
+        connect(devScriptObject, &ScriptObject::dataChanged, [=](){ handler(); });
     }
 }
 //------------------------------------------------------------------------------------

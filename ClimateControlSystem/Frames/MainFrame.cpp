@@ -18,6 +18,7 @@ MainFrame::MainFrame(QWidget *parent)
                                                                    "В",
                                                                    "settings.lim.mivn",
                                                                    "settings.lim.mavn",
+                                                                   false,
                                                                    "settings.avg.volt");
 
     GigitalIndicatorWidget *widget1 = createGigitalIndicatorWidget("display.U_I.I_bat",
@@ -25,6 +26,7 @@ MainFrame::MainFrame(QWidget *parent)
                                                                    "А",
                                                                    "settings.lim.micb",
                                                                    "settings.lim.macb",
+                                                                   false,
                                                                    "settings.avg.bat");
 
     GigitalIndicatorWidget *widget2 = createGigitalIndicatorWidget("display.U_I.I_gen",
@@ -32,13 +34,15 @@ MainFrame::MainFrame(QWidget *parent)
                                                                    "А",
                                                                    "settings.lim.micg",
                                                                    "settings.lim.macg",
+                                                                   false,
                                                                    "settings.avg.gen");
 
     m_tUstWidget = createGigitalIndicatorWidget("display.temp.t_ust",
                                                 "Корекцiя температури",
                                                 "°C",
                                                 22,
-                                                26);
+                                                26,
+                                                false);
 
     ScriptObject *settingsScriptObject = ScriptUnit::getScriptObject("settings.temp.sut");
     ScriptObject *displayScriptObject = ScriptUnit::getScriptObject("display.temp.t_ust");
@@ -54,6 +58,7 @@ MainFrame::MainFrame(QWidget *parent)
                                                                    "°C",
                                                                    "settings.lim.miti",
                                                                    "settings.lim.mati",
+                                                                   true,
                                                                    "settings.avg.coupe");
 
     GigitalIndicatorWidget *widget5 = createGigitalIndicatorWidget("display.temp.t_nv",
@@ -61,6 +66,7 @@ MainFrame::MainFrame(QWidget *parent)
                                                                    "°C",
                                                                    "settings.lim.mito",
                                                                    "settings.lim.mato",
+                                                                   true,
                                                                    "settings.avg.out");
 
     DateTimeWidget *dateTimeWidget = new DateTimeWidget();

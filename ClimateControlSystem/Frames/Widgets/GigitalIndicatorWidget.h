@@ -33,6 +33,7 @@ class GigitalIndicatorWidget : public QWidget
                                         const QString &measureTitle,
                                         const int minimum,
                                         const int maximum,
+                                        const bool onlyT,
                                         QWidget *parent = nullptr);
         virtual ~GigitalIndicatorWidget();
 
@@ -54,6 +55,7 @@ class GigitalIndicatorWidget : public QWidget
 
 
     private:
+        bool m_onlyT;
 
 };
 //------------------------------------------------------------------------------------

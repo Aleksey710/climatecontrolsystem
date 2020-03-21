@@ -155,6 +155,7 @@ GigitalIndicatorWidget* AbstractFrame::createGigitalIndicatorWidget(const QStrin
                                                                     const QString &measureTitle,
                                                                     const QString &minimumRegData,
                                                                     const QString &maximumRegData,
+                                                                    const bool onlyT,
                                                                     const QString &averageSizeScriptObjectName)
 {
     int minimum = 0;
@@ -182,6 +183,7 @@ GigitalIndicatorWidget* AbstractFrame::createGigitalIndicatorWidget(const QStrin
                                         measureTitle,
                                         minimum,
                                         maximum,
+                                        onlyT,
                                         averageSizeScriptObjectName);
 }
 //------------------------------------------------------------------------------------
@@ -191,12 +193,14 @@ GigitalIndicatorWidget* AbstractFrame::createGigitalIndicatorWidget(const QStrin
                                                                     const QString &measureTitle,
                                                                     const int minimum,
                                                                     const int maximum,
+                                                                    const bool onlyT,
                                                                     const QString &averageSizeScriptObjectName)
 {
     GigitalIndicatorWidget *displayWidget = new GigitalIndicatorWidget(title,
                                                                        measureTitle,
                                                                        minimum,
-                                                                       maximum);
+                                                                       maximum,
+                                                                       onlyT);
 
     if( !averageSizeScriptObjectName.isEmpty() )
     {

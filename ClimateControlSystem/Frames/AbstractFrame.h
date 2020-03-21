@@ -57,6 +57,7 @@ class AbstractFrame : public QWidget
                                                              const QString &measureTitle,
                                                              const QString &minimumRegData,
                                                              const QString &maximumRegData,
+                                                             const bool onlyT,
                                                              const QString &averageSizeScriptObjectName = QString());
 
         GigitalIndicatorWidget* createGigitalIndicatorWidget(const QString &name,
@@ -64,6 +65,7 @@ class AbstractFrame : public QWidget
                                                              const QString &measureTitle,
                                                              const int minimum,
                                                              const int maximum,
+                                                             const bool onlyT,
                                                              const QString &averageSizeScriptObjectName = QString());
 
 

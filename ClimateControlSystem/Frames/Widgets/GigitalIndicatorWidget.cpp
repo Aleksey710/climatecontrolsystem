@@ -5,12 +5,14 @@ GigitalIndicatorWidget::GigitalIndicatorWidget(const QString &title,
                                                const QString &measureTitle,
                                                const int minimum,
                                                const int maximum,
+                                               const bool onlyT,
                                                QWidget *parent)
                        :QWidget(parent),
                         m_mainLayout ( new QGridLayout() ),
                         m_dataLabel ( new QLabel(measureTitle) ),
                         m_measureTitle ( measureTitle ),
-                        m_digitalStripIndicator ( new DigitalStripIndicator(minimum, maximum) )
+                        m_digitalStripIndicator ( new DigitalStripIndicator(minimum, maximum) ),
+                        m_onlyT ( onlyT )
 {
     setObjectName("GigitalIndicatorWidget");
 
@@ -85,8 +87,8 @@ double GigitalIndicatorWidget::data()
 //!
 void GigitalIndicatorWidget::setData(const double &value)
 {
-    //if(value == std::numeric_limits<quint16>::max())
-    if(value >= 1000)
+    if(value >= 1000 &&
+       m_onlyT)
     {
         m_digitalStripIndicator->setData(0);
         m_dataLabel->setText(QString("Обрив датчика"));

@@ -114,7 +114,7 @@ void DigitalStripIndicator::paintEvent(QPaintEvent *)
         m_curentData = m_minimum;
 
     //---------------------
-    //if( !m_isError )
+    if( !m_isError )
     {
         //! Нарисовать данные
         if ( m_minimum >= 0 &&
@@ -161,19 +161,18 @@ void DigitalStripIndicator::paintEvent(QPaintEvent *)
             painter.drawRect(0, 0, m_curentData*percent, stripHeight);
         }
     }
-/*
     else
     {
 
         // отображение ошибки
         painter.drawText(QRect(0, 0, width(), stripHeight+indentHeight+digHeight),
                          Qt::AlignCenter,
-                         QString("Error[%1]").arg(m_curentData)
+                         //QString("Error[%1]").arg(m_curentData)
+                         QString("Обрив датчика")
                          );
 
         //qDebug() << "Отображение ошибки" << m_minimum << m_curentData << m_maximum;
     }
-*/
 }
 //------------------------------------------------------------------------------------
 //!

@@ -86,7 +86,7 @@ double GigitalIndicatorWidget::data()
 void GigitalIndicatorWidget::setData(const double &value)
 {
     //if(value == std::numeric_limits<quint16>::max())
-    if(value == 1000)
+    if(value >= 1000)
     {
         m_digitalStripIndicator->setData(0);
         m_dataLabel->setText(QString("Обрив датчика"));

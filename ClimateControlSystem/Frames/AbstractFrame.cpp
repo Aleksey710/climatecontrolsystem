@@ -36,7 +36,8 @@ void AbstractFrame::setupStringDisplay(const QString &name, QLabel *label)
 }
 //------------------------------------------------------------------------------------
 //!
-void AbstractFrame::setupDisplay(const QString &name, QLabel *label)
+void AbstractFrame::setupDisplay(const QString &name,
+                                 QLabel *label)
 {
     ScriptObject *scriptObject = ScriptUnit::getScriptObject(name);
 
@@ -44,8 +45,8 @@ void AbstractFrame::setupDisplay(const QString &name, QLabel *label)
     {
         connect(scriptObject, &ScriptObject::dataChanged, [=](){
             double value = scriptObject->data();
-            //if(value == std::numeric_limits<quint16>::max())
-            if(value == 65535)
+
+            if(value >= 1000)
             {
                 label->setText(QString("Обрив датчика"));
             } else
@@ -69,8 +70,11 @@ void AbstractFrame::setupDisplay(const QString &dataRegName,
 
     std::function<void(const double &)> handler = [=](const double &value)
     {
-        if(devScriptObject != nullptr &&
-           devScriptObject->data() == -1)
+        if( (devScriptObject != nullptr &&
+             devScriptObject->data() == -1) ||
+            //-----------------------------------
+            ( value >= 1000 )
+          )
         {
             lineEdit->setText(QString("Обрив датчика"));
         } else
@@ -94,8 +98,7 @@ void AbstractFrame::setupDisplay(const QString &dataRegName,
         if(dataScriptObject)
         {
             connect(dataScriptObject, &ScriptObject::dataChanged, [=](){
-                double value = dataScriptObject->data();
-                handler(value);
+                handler( dataScriptObject->data() );
             });
 
             //! Начальная инициализация виджета

@@ -6,7 +6,7 @@ MultiMsgWidget::MultiMsgWidget(QWidget *parent)
                :AbstractMsgWidget(QString(), parent)
 {
     QString color               = "#FFFFFF";
-    QString backgroundColor     = "#FF0000";
+    QString backgroundColor     = /*"#FFFFFF",*/ QString();
 
     setStyleSheet(QString(
         "QLabel{ "

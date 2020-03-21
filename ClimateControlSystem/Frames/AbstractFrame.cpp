@@ -65,13 +65,15 @@ void AbstractFrame::setupDisplay(const QString &dataRegName,
                                  QLineEdit *lineEdit,
                                  const QString &averageSizeScriptObjectName)
 {
+    Q_UNUSED (deviceRegName);
+
     ScriptObject *dataScriptObject = ScriptUnit::getScriptObject(dataRegName);
-    ScriptObject *devScriptObject = ScriptUnit::getScriptObject(deviceRegName);
+    //ScriptObject *devScriptObject = ScriptUnit::getScriptObject(deviceRegName);
 
     std::function<void(const double &)> handler = [=](const double &value)
     {
-        if( (devScriptObject != nullptr &&
-             devScriptObject->data() == -1) ||
+        if( //(devScriptObject != nullptr &&
+            // devScriptObject->data() == -1) ||
             //-----------------------------------
             ( value >= 1000 )
           )

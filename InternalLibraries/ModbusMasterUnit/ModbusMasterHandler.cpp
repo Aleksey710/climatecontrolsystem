@@ -76,7 +76,8 @@ void ModbusMasterHandler::exequteRequest(ModbusRequest *modbusRequest)
 */
     //-----------------------------------------------------------------
 
-    modbus_set_debug(ctx, TRUE);
+    //modbus_set_debug(ctx, TRUE);
+    modbus_set_debug(ctx, FALSE);
 
     //modbus_set_error_recovery(ctx, (modbus_error_recovery_mode)(MODBUS_ERROR_RECOVERY_LINK | MODBUS_ERROR_RECOVERY_PROTOCOL));
     //modbus_set_error_recovery(ctx, MODBUS_ERROR_RECOVERY_NONE);

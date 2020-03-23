@@ -145,6 +145,8 @@
                 { "name":"vr.msg.automodeDisabledVvo", "title":"Запрет авторежима. VVO",            "value": 0 },
                 { "name":"vr.msg.automodeDisabledManual", "title":"Запрет авторежима. Manual",      "value": 0 },
                 { "name":"vr.msg.manualModeOn",     "title":"Ручний режим увімкнено.",              "value": 0 },
+                { "name":"vr.BVV.automode",         "title":"Значение дискретного входа 'Автоматичний режим'. ",               "value": 0 },
+                { "name":"vr.BVV.automodeTmpCmd",   "title":"Команды, которые выдавались на момент выключения сигнала 'Автоматичний режим'. ", "value": 0 },
             { "lineComment":"---------------------------------------------------------------------" },
             { "lineComment":"Переменные вспомогательные" },
                 { "name":"vr.msg.u3000Error",           "title":"Отсутсвует напряжение 3000В (1 – отсуствует, 0 -  присутствует).", "value": 0 },
@@ -312,7 +314,6 @@
                     }
 
                     modbus.BVV.r40000.setData( outData );
-
                 } else {
                     modbus.BVV.r40000.setData( 0 );
                 }
@@ -837,8 +838,9 @@
                 }
                 "
         },
+
         {
-            "name":"set_automode",
+            "name":"set_automodeTmp",
             "sources":[
                 "modbus.BVV.device",
                 "vr.msg.BVVConnError",
@@ -849,27 +851,53 @@
                 {
                     if ( ( modbus.BVV.r30000.data() & 32 ) > 0 )
                     {
-                        if ( display.BVV.automode.data() == 0 )
-                        {
-                            display.BVV.automode.setData( 1 );
-                            /*Запись в журнал*/
-                            archive( 16 );
-                        }
+                        vr.BVV.automode.setData( 1 );
+                        vr.BVV.automodeTmpCmd.setData( 0 );
                     } else
                     {
-                        if ( display.BVV.automode.data() == 1 )
-                        {
-                            display.BVV.automode.setData( 0 );
-                            /*Запись в журнал*/
-                            archive( 17 );
-                        }
+                        /*Запоминаем состояние сигналов о включении НВО и ВВО1 и ВВО2*/
+                        vr.BVV.automodeTmpCmd.setData( modbus.BVV.r30000.data() & 0x0E );
+
+                        vr.BVV.automode.setData( 0 );
                     }
                 } else if ( vr.msg.BVVConnError.data() == 1 )
                 {
-                    display.BVV.automode.setData( 0 );
+                    vr.BVV.automode.setData( 0 );
+                    vr.BVV.automodeTmpCmd.setData( 0 );
                 }
                 "
         },
+
+        {
+            "name":"set_automode",
+            "sources":[
+                "vr.BVV.automode",
+                "modbus.BVV.r30000"
+                ],
+            "processing":"
+                if ( vr.BVV.automode.data() > 0 )
+                {
+                    if ( display.BVV.automode.data() == 0 )
+                    {
+                        display.BVV.automode.setData( 1 );
+                        /*Запись в журнал*/
+                        archive( 16 );
+                    }
+                } else if ( ( modbus.BVV.r30000.data() & vr.BVV.automodeTmpCmd.data() )  == 0 )
+                {
+                    /* Отключаем индикацию автоматического режима только тогда, когда сняли все сигналы,
+                       которые выдавались на момент выключения режима авто
+                    */
+                    if ( display.BVV.automode.data() == 1 )
+                    {
+                        display.BVV.automode.setData( 0 );
+                        /*Запись в журнал*/
+                        archive( 17 );
+                    }
+                }
+                "
+        },
+
         {
             "name":"set_crash",
             "sources":[
@@ -1043,7 +1071,7 @@
                 {
                     display.BVV.condWorked.setData(0);
                 }"
-        },
+        },                
         {
             "name":"set_cooling",
             "sources":[
@@ -1060,7 +1088,13 @@
                         {
                             display.BVV.cooling.setData( 1 );
                             /*Запись в журнал*/
-                            archive( 35 );
+                            if ( display.BVV.automode.data() == 1 )
+                            {
+                                archive( 35 );
+                            } else
+                            {
+                                archive( 66 );
+                            }
                         }
                     } else
                     {
@@ -1068,13 +1102,20 @@
                         {
                             display.BVV.cooling.setData( 0 );
                             /*Запись в журнал*/
-                            archive( 36 );
+                            if ( display.BVV.automode.data() == 1 )
+                            {
+                                archive( 36 );
+                            } else
+                            {
+                                archive( 67 );
+                            }
                         }
                     }
                 } else if ( vr.msg.BVVConnError.data() == 1 )
                 {
                     display.BVV.cooling.setData(0);
-                }"
+                }
+                "
         },
         {
             "name":"set_heater",
@@ -1285,7 +1326,8 @@
                 "vr.msg.t_nv",
                 "vr.msg.t_sal",
                 "vr.msg.t_pr",
-                "vr.msg.t_kotl"
+                "vr.msg.t_kotl",
+                "display.BVV.automode"
                 ],
             "processing":"
                 var errorVvo = 0;
@@ -1297,9 +1339,16 @@
                     || vr.msg.t_pr.data() == 1
                     || vr.msg.t_kotl.data() == 1 )
                 {
-                    errorVvo = 1;
-                    errorNvo = 1;
-                    errorManual = 1;
+                    if( display.BVV.automode.data() == 1 )
+                    {
+                        errorVvo = 1;
+                        errorNvo = 1;
+                    } else
+                    {
+                        errorManual = 1;
+                    }
+
+
                 }
 
                 if(    vr.temp.vvo1ResponseError.data() == 1
@@ -1317,8 +1366,7 @@
                 vr.msg.automodeDisabledNvo.setData( errorNvo );
                 vr.msg.automodeDisabledManual.setData( errorManual )
 
-                if(    errorVvo == 1
-                    || errorNvo == 1
+                if( ( errorVvo == 1 && errorNvo == 1 )
                     || vr.kotl.overheat.data() == 1
                   )
                 {
@@ -1367,7 +1415,7 @@
             "sources":[
                 "modbus.BVV.device",
                 "vr.msg.BVVConnError",
-                "display.BVV.automode",
+                "vr.BVV.automode",
                 "vr.msg.automodeDisabled",
                 "vr.temp.nvoResponseError",
                 "display.BVV.generator",
@@ -1379,7 +1427,7 @@
             "processing":"
                 if ( modbus.BVV.device.data() == 1 )
                 {
-                    if (     ( display.BVV.automode.data() == 1 )
+                    if (     ( vr.BVV.automode.data() == 1 )
                           && ( vr.msg.automodeDisabled.data() == 0 )
                           && ( vr.temp.nvoResponseError.data() == 0 )
                           && ( display.BVV.generator.data() == 1 )
@@ -1453,8 +1501,11 @@
                     }
                 } else
                 {
-                    vr.timout.dlhon.setData( 0 );
-                    vr.timout.nvoResponseTime.setData( 0 );
+                    if ( vr.temp.nvoOn.data() == 0 && out.BVV.nvoOn.data() == 0 )
+                    {
+                        vr.timout.dlhon.setData( 0 );
+                        vr.timout.nvoResponseTime.setData( 0 );
+                    }
                 }
 
                 if ( vr.timout.nvoResponseTime.data() > 0 )
@@ -1464,6 +1515,7 @@
                         if ( sys.time.curent.data() < vr.timout.nvoResponseTime.data() )
                         {
                             vr.temp.nvoResponseError.setData( 0 );
+                            vr.timout.nvoResponseTime.setData( 0 );
                         }
                     } else
                     {
@@ -1485,7 +1537,7 @@
             "sources":[
                 "modbus.BVV.device",
                 "vr.msg.BVVConnError",
-                "display.BVV.automode",
+                "vr.BVV.automode",
                 "vr.msg.automodeDisabled",
                 "display.BVV.generator",
                 "display.temp.t_nv",
@@ -1497,7 +1549,7 @@
             "processing":"
                 if ( modbus.BVV.device.data() == 1 )
                 {
-                    if (      ( display.BVV.automode.data() == 0 )
+                    if (      ( vr.BVV.automode.data() == 0 )
                            || ( vr.msg.automodeDisabled.data() == 1 )
                            || ( vr.temp.nvoResponseError.data() == 1 )
                            || ( display.BVV.generator.data()== 0 )
@@ -1579,7 +1631,7 @@
                             if ( vr.kotl.overheat.data() == 0 )
                             {
                                 vr.kotl.overheat.setData( 1 );
-                                if ( display.BVV.automode.data() == 1 )
+                                if ( vr.BVV.automode.data() == 1 )
                                 {
                                     archive( 2, settings.temp.bt.data() );
                                 } else
@@ -1645,7 +1697,7 @@
             "name":"checkVVO_On",
             "sources":[
                 "modbus.BVV.device",
-                "display.BVV.automode",
+                "vr.BVV.automode",
                 "vr.msg.automodeDisabled",
                 "vr.temp.vvo1ResponseError",
                 "vr.temp.vvo2ResponseError",
@@ -1658,7 +1710,7 @@
                 "display.BVV.cooling" ],
             "processing":"
                 /* При отсутвии 3000В нужно выводить сообщение о его отсутствии на экран и журнал*/
-                if ( vr.msg.BVVConnError.data( ) == 0 )
+                if ( modbus.BVV.device.data() == 1 )
                 {
                     /*Востанавливаем состояние, которое было до потери связи*/
                     if ( vr.msg.u3000ErrorTemp.data( ) == 1 )
@@ -1666,7 +1718,7 @@
                         vr.msg.u3000Error.setData( 1 );
                     }
 
-                    if (    ( display.BVV.automode.data() == 1 )
+                    if (    ( vr.BVV.automode.data() == 1 )
                          && ( vr.msg.automodeDisabled.data() == 0 )
                          && (    vr.temp.vvo1ResponseError.data() == 0
                               || vr.temp.vvo2ResponseError.data() == 0 )
@@ -1711,7 +1763,7 @@
                         vr.msg.u3000Error.setData( 0 );
                         vr.msg.u3000ErrorTemp.setData( 0 );
                     }
-                } else
+                } else if ( vr.msg.BVVConnError.data( ) == 1 )
                 {
                     /*Если пропала связь, кроме этой информации на экране ничего не должно быть,
                       поэтому скрываем надпись, по потом востановим */
@@ -1724,7 +1776,7 @@
             "sources":[
                 "modbus.BVV.device",
                 "vr.msg.BVVConnError",
-                "display.BVV.automode",
+                "vr.BVV.automode",
                 "vr.msg.automodeDisabled",
                 "vr.temp.vvo1ResponseError",
                 "vr.temp.vvo2ResponseError",
@@ -1739,7 +1791,7 @@
             /* При наличии 3000В или отсутсвия условий для включения ВВО нужно скрывать сообщение сообщение о его отсутствии с экрана*/
                 if ( modbus.BVV.device.data() == 1 )
                 {
-                    if (     ( display.BVV.automode.data() == 0 )
+                    if (     ( vr.BVV.automode.data() == 0 )
                           || ( vr.msg.automodeDisabled.data()  == 1 )
                           || (    vr.temp.vvo1ResponseError.data() == 1
                                && vr.temp.vvo2ResponseError.data() == 1 )
@@ -2006,6 +2058,7 @@
                         if ( sys.time.curent.data() < vr.timout.vvo1ResponseTime.data() )
                         {
                             vr.temp.vvo1ResponseError.setData( 0 );
+                            vr.timout.vvo1ResponseTime.setData( 0 );
                         }
                     } else
                     {
@@ -2029,6 +2082,7 @@
                         if ( sys.time.curent.data() < vr.timout.vvo2ResponseTime.data() )
                         {
                             vr.temp.vvo2ResponseError.setData( 0 );
+                            vr.timout.vvo2ResponseTime.setData( 0 );
                         }
                     } else
                     {
@@ -2085,6 +2139,10 @@
                         vr.timout.ImaxBat.setData( 0 );
                         vr.msg.ImaxBat.setData( 0 );
                     }
+                } else if ( vr.msg.BVVConnError.data() == 1 )
+                {
+                    vr.timout.ImaxBat.setData( 0 );
+                    vr.msg.ImaxBat.setData( 0 );
                 }
                 "
         },
@@ -2131,6 +2189,10 @@
                         vr.timout.Umax.setData( 0 );
                         vr.msg.Umax.setData( 0 );
                     }
+                } else if ( vr.msg.BVVConnError.data() == 1 )
+                {
+                    vr.timout.Umax.setData( 0 );
+                    vr.msg.Umax.setData( 0 );
                 }
                 "
         },
@@ -2173,6 +2235,10 @@
                         vr.timout.Umin.setData( 0 );
                         vr.msg.Umin.setData( 0 );
                     }
+                } else if ( vr.msg.BVVConnError.data() == 1 )
+                {
+                    vr.timout.Umin.setData( 0 );
+                    vr.msg.Umin.setData( 0 );
                 }
                 "
         },
@@ -2192,6 +2258,7 @@
                 mcg         235        - максимальний струм генератора, А
                 imcg        2          - інтервал перевищення струму генератора, мСек
                 */
+
                 if ( modbus.BVV.device.data() == 1 )
                 {
                     if ( display.U_I.I_gen.data() >= settings.gen.mcg.data() )
@@ -2215,6 +2282,10 @@
                         vr.timout.Imax.setData( 0 );
                         vr.msg.Imax.setData( 0 );
                     }
+                } else if ( vr.msg.BVVConnError.data() == 1 )
+                {
+                    vr.timout.Imax.setData( 0 );
+                    vr.msg.Imax.setData( 0 );
                 }
                 "
         },

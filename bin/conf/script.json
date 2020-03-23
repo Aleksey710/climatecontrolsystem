@@ -2439,13 +2439,15 @@
                       ],
             "processing":"
                 //if(sys.time.curent.data()%2)
-                if(buttons.buttons.F1 == 1 ||
-                   buttons.buttons.F2 == 1)
+                if(buttons.buttons.F1.data() == 1 ||
+                   buttons.buttons.F2.data() == 1)
                 {
                     archive( 18 );
                     setCoolerMode( 0 );
-                } else if (buttons.buttons.F3 == 1 ||
-                           buttons.buttons.F4 == 1)
+                }
+                //else
+                if (buttons.buttons.F3.data() == 1 ||
+                    buttons.buttons.F4.data() == 1)
                 {
                     archive( 19 );
                     setCoolerMode( 1 );

@@ -231,12 +231,12 @@ QScriptValue getCpuT(QScriptContext *context, QScriptEngine *engine)
 //------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------
 //!
-QScriptValue shutDownNow(QScriptContext *context, QScriptEngine *engine)
+QScriptValue systemShutdown(QScriptContext *context, QScriptEngine *engine)
 {
     Q_UNUSED(context);
     Q_UNUSED(engine);
 
-    //SEND_TO_LOG( "ShutDownNow" );
+    //SEND_TO_LOG( "systemShutdown" );
 
     //! Выключение из командной строки
     static const QString setDateCommandString = QString("sudo poweroff");

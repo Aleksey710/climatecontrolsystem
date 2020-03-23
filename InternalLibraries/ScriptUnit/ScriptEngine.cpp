@@ -50,8 +50,8 @@ void ScriptEngine::appendCommon()
     QScriptValue getCpuT_sv = newFunction( getCpuT );
     globalObject().setProperty("getCpuT", getCpuT_sv);
 
-    QScriptValue shutDownNow_sv = newFunction( shutDownNow );
-    globalObject().setProperty("shutDownNow", shutDownNow_sv);
+    QScriptValue systemShutdown_sv = newFunction( systemShutdown );
+    globalObject().setProperty("systemShutdown", systemShutdown_sv);
 
 
     //------------------------------------------------------------------------------------

@@ -66,6 +66,6 @@ QScriptValue getCpuT(QScriptContext *context, QScriptEngine *engine);
 
 //------------------------------------
 // Функция нормального завершения работы
-QScriptValue shutDownNow(QScriptContext *context, QScriptEngine *engine);
+QScriptValue systemShutdown(QScriptContext *context, QScriptEngine *engine);
 //------------------------------------------------------------------------------------
 #endif // CUSTOMFUNCTIONS_H

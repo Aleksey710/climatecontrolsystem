@@ -42,14 +42,18 @@ CarInformationFrame::CarInformationFrame(QWidget *parent)
 
     //-------------------------------------------------
 
-    setupDisplay("modbus.BVV.r40028",  ui->lbBvvVersion);
+    setupDisplay("modbus.BVV.r40028",
+                 false,
+                 ui->lbBvvVersion);
 
     setupDateDisplay("modbus.BVV.r40029",       // year
                      "modbus.BVV.r40030",       // month
                      "modbus.BVV.r40031",       // day
                      ui->lbBvvDateVersion);
 
-    setupDisplay("modbus.A9.r40028",  ui->lbButVersion);
+    setupDisplay("modbus.A9.r40028",
+                 false,
+                 ui->lbButVersion);
 
     setupDateDisplay("modbus.A9.r40029",        // year
                      "modbus.A9.r40030",        // month
@@ -60,9 +64,13 @@ CarInformationFrame::CarInformationFrame(QWidget *parent)
 
     setupStringDisplay("settings.wagon.num",  ui->lbVagon);
 
-    setupDisplay("settings.wagon.dd",   ui->lbStartUseDate);
+    setupDisplay("settings.wagon.dd",
+                 false,
+                 ui->lbStartUseDate);
 
-    setupDisplay("display.wagon.res",  ui->lbWorkTime);
+    setupDisplay("display.wagon.res",
+                 false,
+                 ui->lbWorkTime);
 
     //-------------------------------------------------
     SEND_TO_LOG( QString("%1 - создан").arg(objectName()) );

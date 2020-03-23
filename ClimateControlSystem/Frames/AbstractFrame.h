@@ -38,18 +38,14 @@ class AbstractFrame : public QWidget
     protected:
         void setupStringDisplay(const QString &name, QLabel *label);
 
-        void setupDisplay(const QString &name, QLabel *label);
+        void setupDisplay(const QString &name,
+                          const bool onlyT,
+                          QLabel *label);
 
         void setupDisplay(const QString &dataRegName,
                           const QString &deviceRegName,
                           QLineEdit *lineEdit,
-                          const QString &minimumRegData,
-                          const QString &maximumRegData,
-                          const QString &averageSizeScriptObjectName);
-
-        void setupDisplay(const QString &dataRegName,
-                          const QString &deviceRegName,
-                          QLineEdit *lineEdit,
+                          const bool onlyT,
                           const QString &averageSizeScriptObjectName = QString());
 
         GigitalIndicatorWidget* createGigitalIndicatorWidget(const QString &name,

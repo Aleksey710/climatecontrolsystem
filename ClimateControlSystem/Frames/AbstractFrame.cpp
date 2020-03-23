@@ -37,6 +37,7 @@ void AbstractFrame::setupStringDisplay(const QString &name, QLabel *label)
 //------------------------------------------------------------------------------------
 //!
 void AbstractFrame::setupDisplay(const QString &name,
+                                 const bool onlyT,
                                  QLabel *label)
 {
     ScriptObject *scriptObject = ScriptUnit::getScriptObject(name);
@@ -46,7 +47,8 @@ void AbstractFrame::setupDisplay(const QString &name,
         connect(scriptObject, &ScriptObject::dataChanged, [=](){
             double value = scriptObject->data();
 
-            if(value >= 1000)
+            if( onlyT &&
+                ( value >= 1000 ) )
             {
                 label->setText(QString("Обрив датчика"));
             } else
@@ -63,6 +65,7 @@ void AbstractFrame::setupDisplay(const QString &name,
 void AbstractFrame::setupDisplay(const QString &dataRegName,
                                  const QString &deviceRegName,
                                  QLineEdit *lineEdit,
+                                 const bool onlyT,
                                  const QString &averageSizeScriptObjectName)
 {
     Q_UNUSED (deviceRegName);
@@ -74,6 +77,7 @@ void AbstractFrame::setupDisplay(const QString &dataRegName,
     {
         if( //(devScriptObject != nullptr &&
             // devScriptObject->data() == -1) ||
+            onlyT &&
             //-----------------------------------
             ( value >= 1000 )
           )
@@ -119,11 +123,11 @@ void AbstractFrame::setupDigDisplay(const QString &dataRegName,
 
     std::function<void()> handler = [=]()
     {
-        if(devScriptObject != nullptr &&
-           devScriptObject->data() == -1)
-        {
-            lineEdit->setText(QString("Обрив датчика"));
-        } else
+//        if(devScriptObject != nullptr &&
+//           devScriptObject->data() == -1)
+//        {
+//            lineEdit->setText(QString("Обрив датчика"));
+//        } else
         {
             if( dataScriptObject->data() )
             {

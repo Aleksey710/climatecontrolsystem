@@ -21,27 +21,58 @@ InOutDisplayFrame::InOutDisplayFrame(QWidget *parent)
 //                  );
 
     //--------------------------------------
-    setupDisplay("display.temp.t_ust",  "modbus.BVV.device",   ui->le_t_ust);
-    setupDisplay("display.temp.t_sal",  "modbus.BVV.device",   ui->le_t_sal
+    setupDisplay("display.temp.t_ust",
+                 "modbus.BVV.device",
+                 ui->le_t_ust,
+                 false
+                 );
+
+    setupDisplay("display.temp.t_sal",
+                 "modbus.BVV.device",
+                 ui->le_t_sal,
+                 true
                  //,"settings.avg.coupe"
                  );
-    setupDisplay("display.temp.t_pr",   "modbus.BVV.device",   ui->le_t_pr
+
+    setupDisplay("display.temp.t_pr",
+                 "modbus.BVV.device",
+                 ui->le_t_pr,
+                 true
                  //,"settings.avg.airflow"
                  );
-    setupDisplay("display.temp.t_nv",   "modbus.BVV.device",   ui->le_t_nv
+
+    setupDisplay("display.temp.t_nv",
+                 "modbus.BVV.device",
+                 ui->le_t_nv,
+                 true
                  //,"settings.avg.out"
                  );
-    setupDisplay("display.temp.t_kotl", "modbus.BVV.device",   ui->le_t_kotl
+
+    setupDisplay("display.temp.t_kotl",
+                 "modbus.BVV.device",
+                 ui->le_t_kotl,
+                 true
                  //,"settings.avg.boiler"
                  );
 
-    setupDisplay("display.U_I.I_bat",   "modbus.BVV.device",   ui->le_I_bat
+    setupDisplay("display.U_I.I_bat",
+                 "modbus.BVV.device",
+                 ui->le_I_bat,
+                 false
                  //,"settings.avg.volt"
                  );
-    setupDisplay("display.U_I.U_net",   "modbus.BVV.device",   ui->le_U_net
+
+    setupDisplay("display.U_I.U_net",
+                 "modbus.BVV.device",
+                 ui->le_U_net,
+                 false
                  //,"settings.avg.bat"
                  );
-    setupDisplay("display.U_I.I_gen",   "modbus.BVV.device",   ui->le_I_gen
+
+    setupDisplay("display.U_I.I_gen",
+                 "modbus.BVV.device",
+                 ui->le_I_gen,
+                 false
                  //,"settings.avg.gen"
                  );
 

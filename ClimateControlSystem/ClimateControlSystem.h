@@ -41,7 +41,7 @@ class ClimateControlSystem : public QObject
 
 
     private:
-        void coolerSetup();
+
 
     private:
         DbUnit                 m_dbUnit;

@@ -1,6 +1,7 @@
 #include "ButtonsWidget.h"
 
 #include "ScriptUnit.h"
+#include "ScriptObject.h"
 //------------------------------------------------------------------------------------
 //!
 ButtonsWidget::ButtonsWidget(QWidget *parent)
@@ -129,14 +130,19 @@ ButtonsWidget::ButtonsWidget(QWidget *parent)
             m_pgDownFrameButton->click();
     });
 
+    //-----------------------------------------
+    /*
     connect(m_buttonsControlThread, &ButtonsControlThread::bt_off_pressed, [=](){
-
         //! Выключение из командной строки
         static const QString setDateCommandString = QString("sudo poweroff");
 
         QProcess::startDetached( setDateCommandString );
     });
+    */
 
+    setupButtonScript();
+
+    //-----------------------------------------
     m_buttonsControlThread->start();
 }
 //------------------------------------------------------------------------------------
@@ -145,6 +151,56 @@ ButtonsWidget::~ButtonsWidget()
 {
     m_buttonsControlThread->terminate();
     m_buttonsControlThread->wait();
+}
+//------------------------------------------------------------------------------------
+//!
+void ButtonsWidget::setupButtonScript()
+{
+    ScriptObject *F1_scriptObject = ScriptUnit::getScriptObject("buttons.buttons.F1");
+
+    connect(m_buttonsControlThread, &ButtonsControlThread::bt_1_pressed, [=](){
+        if(F1_scriptObject) F1_scriptObject->setData(1);
+    });
+    connect(m_buttonsControlThread, &ButtonsControlThread::bt_1_released, [=](){
+        if(F1_scriptObject) F1_scriptObject->setData(0);
+    });
+    //-----------------------------------------
+    ScriptObject *F2_scriptObject = ScriptUnit::getScriptObject("buttons.buttons.F2");
+
+    connect(m_buttonsControlThread, &ButtonsControlThread::bt_2_pressed, [=](){
+        if(F2_scriptObject) F2_scriptObject->setData(1);
+    });
+    connect(m_buttonsControlThread, &ButtonsControlThread::bt_2_released, [=](){
+        if(F2_scriptObject) F2_scriptObject->setData(0);
+    });
+    //-----------------------------------------
+    ScriptObject *F3_scriptObject = ScriptUnit::getScriptObject("buttons.buttons.F3");
+
+    connect(m_buttonsControlThread, &ButtonsControlThread::bt_3_pressed, [=](){
+        if(F3_scriptObject) F3_scriptObject->setData(1);
+    });
+    connect(m_buttonsControlThread, &ButtonsControlThread::bt_3_released, [=](){
+        if(F3_scriptObject) F3_scriptObject->setData(0);
+    });
+    //-----------------------------------------
+    ScriptObject *F4_scriptObject = ScriptUnit::getScriptObject("buttons.buttons.F4");
+
+    connect(m_buttonsControlThread, &ButtonsControlThread::bt_4_pressed, [=](){
+        if(F4_scriptObject) F4_scriptObject->setData(1);
+    });
+    connect(m_buttonsControlThread, &ButtonsControlThread::bt_4_released, [=](){
+        if(F4_scriptObject) F4_scriptObject->setData(0);
+    });
+    //-----------------------------------------
+    ScriptObject *Off_scriptObject = ScriptUnit::getScriptObject("buttons.buttons.Off");
+
+    connect(m_buttonsControlThread, &ButtonsControlThread::bt_off_pressed, [=](){
+        if(Off_scriptObject) Off_scriptObject->setData(1);
+    });
+    connect(m_buttonsControlThread, &ButtonsControlThread::bt_off_released, [=](){
+        if(Off_scriptObject) Off_scriptObject->setData(0);
+    });
+    //-----------------------------------------
 }
 //------------------------------------------------------------------------------------
 //!

@@ -16,7 +16,7 @@
 #include <functional>
 
 #include <bitset>
-
+#include <QProcess>
 
 
 #include "Log.h"
@@ -64,5 +64,8 @@ extern std::function<float()> getCpuTFunction;
 float getCpuTWorker();
 QScriptValue getCpuT(QScriptContext *context, QScriptEngine *engine);
 
+//------------------------------------
+// Функция нормального завершения работы
+QScriptValue shutDownNow(QScriptContext *context, QScriptEngine *engine);
 //------------------------------------------------------------------------------------
 #endif // CUSTOMFUNCTIONS_H

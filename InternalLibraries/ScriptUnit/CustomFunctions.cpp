@@ -228,13 +228,23 @@ QScriptValue getCpuT(QScriptContext *context, QScriptEngine *engine)
 
     return engine->newVariant( value );
 }
+//------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------
+//!
+QScriptValue shutDownNow(QScriptContext *context, QScriptEngine *engine)
+{
+    Q_UNUSED(context);
+    Q_UNUSED(engine);
 
+    //SEND_TO_LOG( "ShutDownNow" );
 
+    //! Выключение из командной строки
+    static const QString setDateCommandString = QString("sudo poweroff");
 
+    QProcess::startDetached( setDateCommandString );
 
-
-
-
+    return QScriptValue();
+}
 
 
 

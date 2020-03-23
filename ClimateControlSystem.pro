@@ -128,6 +128,15 @@ ClimateControlSystem.depends = \
 # https://www.element14.com/community/community/raspberry-pi/raspberrypi2/blog/2015/04/08/setting-up-an-xfce-desktop-environment-on-pi
 # https://help.ubuntu.ru/wiki/lightdm  ЯРКОСТЬ
 #
+###############################################################################
+# Пособия на тему...
+# https://4pda.ru/forum/index.php?showtopic=308317&st=11000
 #
+###############################################################################
+# как отключить скринсейвер
+# sudo nano /etc/lightdm/lightdm.conf
+# А потом не добавить, а раскомментировать:
+# xserver-command=X
+# И изменить на:
+# xserver-command=X -s 0 -dpms
 #
-

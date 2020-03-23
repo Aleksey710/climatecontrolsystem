@@ -1,6 +1,13 @@
 {
     "data":[
         { "lineComment":"------------------------------------------------------------------------------------------------------" },
+        { "lineComment":"При нажатии кнопки переменная принимает значение 1, отпускание - 0" },
+            { "name":"buttons.buttons.F1",      "title":"Функциональная кнопка F1",                         "value": 0 },
+            { "name":"buttons.buttons.F2",      "title":"Функциональная кнопка F2",                         "value": 0 },
+            { "name":"buttons.buttons.F3",      "title":"Функциональная кнопка F3",                         "value": 0 },
+            { "name":"buttons.buttons.F4",      "title":"Функциональная кнопка F4",                         "value": 0 },
+            { "name":"buttons.buttons.Off",     "title":"Функциональная кнопка Off",                        "value": 0 },
+        { "lineComment":"------------------------------------------------------------------------------------------------------" },
         { "lineComment":"Данные внешних устройств" },
             { "name":"modbus.BVV.device",       "title":"Состояние устройства БВВ",                         "value": 0 },
             { "name":"modbus.BVV.r30000",       "title":"Регистр дискретных входов 1",                      "value": 0 },
@@ -2420,19 +2427,28 @@
             "
         },
         {
+
             "comment":"ТЕСТ!!!",
             "name":"test",
-            "sources":[ "sys.time.curent" ],
+            "sources":[ "sys.time.curent",
+                        "buttons.buttons.F1",
+                        "buttons.buttons.F2",
+                        "buttons.buttons.F3",
+                        "buttons.buttons.F4",
+                        "buttons.buttons.Off"
+                      ],
             "processing":"
-                if(sys.time.curent.data()%2)
+                //if(sys.time.curent.data()%2)
+                if(buttons.buttons.F1 == 1 ||
+                   buttons.buttons.F2 == 1)
                 {
-                    //archive( 18 );
-                    //setCoolerMode( 0 );
-                } else
+                    archive( 18 );
+                    setCoolerMode( 0 );
+                } else if (buttons.buttons.F3 == 1 ||
+                           buttons.buttons.F4 == 1)
                 {
-                    //archive( 19 );
-                    //archive( 19 );
-                    //setCoolerMode( 1 );
+                    archive( 19 );
+                    setCoolerMode( 1 );
                 }
               "
         }

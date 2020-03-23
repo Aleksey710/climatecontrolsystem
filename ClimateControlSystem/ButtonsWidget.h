@@ -43,6 +43,8 @@ class ButtonsWidget : public QWidget
         void minusClicked();
 
     private:
+        void setupButtonScript();
+
         void setButtonState(bool mainFrameButtonState,
                             bool nextFrameButtonState,
                             bool pgUpFrameButtonState,

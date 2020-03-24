@@ -53,6 +53,28 @@ ClimateControlSystem::ClimateControlSystem(QObject *parent)
     };
 
     //-------------------------------------------------------------------
+    //! Задать функцию установки яркости
+    SetScreenBrightness = [&](const int &value){
+
+        Q_UNUSED(value);
+        //SEND_TO_LOG( QString("ClimateControlSystem - SetScreenBrightness[%1]").arg(value) );
+#ifdef __arm__
+
+        if(value < 0 ||
+           value > 1024)
+        {
+            // Writes the value to the PWM register for the given pin.
+            // The Raspberry Pi has one on-board PWM pin, pin 1 (BMC_GPIO 18, Phys 12) and
+            // the range is 0-1024. Other PWM devices may have other PWM ranges.
+            //
+            // This function is not able to control the Pi’s on-board PWM when in Sys mode.
+            pwmWrite (1, value) ;
+        }
+
+#endif // __arm__
+    };
+
+    //-------------------------------------------------------------------
     ScriptObject *scriptObject = ScriptUnit::getScriptObject("settings.password.new");
 
     if(scriptObject)

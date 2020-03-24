@@ -15,6 +15,13 @@ ButtonsControlThread::ButtonsControlThread(QObject *parent)
 
     wiringPiSetup() ;
 
+    // http://wiringpi.com/reference/core-functions/
+    pullUpDnControl (BUTTON_1_PIN,      PUD_OFF) ;
+    pullUpDnControl (BUTTON_2_PIN,      PUD_OFF) ;
+    pullUpDnControl (BUTTON_3_PIN,      PUD_OFF) ;
+    pullUpDnControl (BUTTON_4_PIN,      PUD_OFF) ;
+    pullUpDnControl (BUTTON_OFF_PIN,    PUD_OFF) ;
+
     pinMode (BUTTON_1_PIN,      INPUT) ;
     pinMode (BUTTON_2_PIN,      INPUT) ;
     pinMode (BUTTON_3_PIN,      INPUT) ;

@@ -58,6 +58,13 @@ void setCoolerModeWorker(const bool &value);
 QScriptValue setCoolerMode(QScriptContext *context, QScriptEngine *engine);
 
 //------------------------------------
+// Задать яркость экрана
+extern std::function<void(const int &)> SetScreenBrightness;
+
+void setScreenBrightnessWorker(const int &value);
+QScriptValue setScreenBrightness(QScriptContext *context, QScriptEngine *engine);
+
+//------------------------------------
 // Получить температуру процессора
 extern std::function<float()> getCpuTFunction;
 

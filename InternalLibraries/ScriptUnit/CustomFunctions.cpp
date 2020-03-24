@@ -192,6 +192,33 @@ QScriptValue setCoolerMode(QScriptContext *context, QScriptEngine *engine)
 //------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------
 //!
+std::function<void(const int &)> SetScreenBrightness;
+//------------------------------------------------------------------------------------
+//!
+void setScreenBrightnessWorker(const int &value)
+{
+    if(SetScreenBrightness)
+    {
+        SetScreenBrightness(value);
+    }
+}
+//------------------------------------------------------------------------------------
+//!
+QScriptValue setScreenBrightness(QScriptContext *context, QScriptEngine *engine)
+{
+    Q_UNUSED(engine);
+
+    const int value = context->argument(0).toUInt16();
+
+    //SEND_TO_LOG( QString("setScreenBrightness(%1)").arg(value) );
+
+    setScreenBrightnessWorker(value);
+
+    return QScriptValue();
+}
+//------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------
+//!
 inline int v_stoi(std::string &arg, int def)
 {
     try {

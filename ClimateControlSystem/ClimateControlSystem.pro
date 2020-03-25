@@ -83,6 +83,7 @@ HEADERS += \
     Frames/Widgets/GigitalIndicatorWidget.h \
     Frames/Widgets/MsgWidget.h \
     Frames/Widgets/MultiMsgWidget.h \
+    Frames/Widgets/QLobel.h \
     Frames/Widgets/RowMsgWidget.h \
     Frames/Widgets/StatesDisplayWidget.h \
     MainDisplayWidget.h \

@@ -4,19 +4,20 @@
 #include <QWidget>
 #include <QStyleOption>
 #include <QPainter>
+#include "QLobel.h"
 #include <QLabel>
 
 #include "ScriptUnit.h"
 #include "ScriptObject.h"
 //------------------------------------------------------------------------------------
 //!
-class AbstractMsgWidget : public QLabel
+class AbstractMsgWidget : public QLobel
 {
         Q_OBJECT
     public:
         explicit AbstractMsgWidget(const QString &msg,
                                    QWidget *parent = nullptr)
-                :QLabel(msg, parent)
+                :QLobel(msg, parent)
             {}
 
         virtual ~AbstractMsgWidget()

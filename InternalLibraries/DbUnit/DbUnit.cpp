@@ -631,6 +631,10 @@ void DbUnit::createWagonGroup(QStringList &queryStringList)
         "INSERT INTO `data` (`group_id`,`name`,`title`,`value`) "
         "VALUES ((SELECT `id` FROM `groups` WHERE `name`='wagon'), "
         "'res', 'Використаний ресурсу мотогодин у хвилинах','0');");
+    queryStringList.append(
+        "INSERT INTO `data` (`group_id`,`name`,`title`,`data_type_id`,`value`) "
+        "VALUES ((SELECT `id` FROM `groups` WHERE `name`='wagon'), "
+        "'comdate', 'Введення вагона в експлуатацію, формат \"рррр-мм-дд\"',2,'2020-04-01');");
 }
 //------------------------------------------------------------------------------------
 //!

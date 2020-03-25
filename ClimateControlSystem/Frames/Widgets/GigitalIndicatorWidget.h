@@ -56,7 +56,7 @@ class GigitalIndicatorWidget : public QWidget
 
     private:
         bool m_onlyT;
-
+        int m_obrivSensorValue;
 };
 //------------------------------------------------------------------------------------
 #endif // DIGITALINDICATORWIDGET_H

@@ -79,8 +79,15 @@ void WorkTimeArchiveFrame::updateData()
             QString dt  = sqlQuery.value(0).toString();
             QString msg = sqlQuery.value(1).toString();
 
+            qDebug() << dt << msg;
+
             if(msg == "Увімкнення")
             {
+                if(lastIsOn)
+                {
+                    rowList.append(curentRow);
+                }
+
                 curentRow = RowOnOff(dt,msg);
 
                 lastIsOn = true;
@@ -90,14 +97,11 @@ void WorkTimeArchiveFrame::updateData()
                 {
                     curentRow.column2->setText(dt);
                     curentRow.column3->setText(msg);
-
-                    rowList.append(curentRow);
                 } else
                 {
-                    curentRow = RowOnOff("","",dt,msg);
-                    rowList.append(curentRow);
+                    curentRow = RowOnOff("","",dt,msg);                    
                 }
-
+                rowList.append(curentRow);
                 lastIsOn = false;
             }
         }
@@ -124,6 +128,14 @@ void WorkTimeArchiveFrame::resetRowList(const QList<RowOnOff> &rowList)
         m_tableWidget->setItem(row, 1, curentRow.column1);
         m_tableWidget->setItem(row, 2, curentRow.column2);
         m_tableWidget->setItem(row, 3, curentRow.column3);
+
+//        qDebug() << row
+//                 << curentRow.column0->text()
+//                 << curentRow.column1->text()
+//                 << curentRow.column2->text()
+//                 << curentRow.column3->text()
+//                    ;
+
     }
 
     m_tableWidget->resizeColumnsToContents();

@@ -79,7 +79,7 @@ void WorkTimeArchiveFrame::updateData()
             QString dt  = sqlQuery.value(0).toString();
             QString msg = sqlQuery.value(1).toString();
 
-            qDebug() << dt << msg;
+            //qDebug() << dt << msg;
 
             if(msg == "Увімкнення")
             {

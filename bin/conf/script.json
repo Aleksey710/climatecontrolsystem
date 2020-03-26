@@ -2414,8 +2414,8 @@
                     // потому что функция set_display_wagon_res не вызывается в этом случае.
                     display.wagon.res.setData( settings.wagon.res.data() / 60 );
 
-                    /*Запись в журнал*/
-                    archive( 18 );
+                    /*Запись в журнал о ВКЛЮЧЕНИИ*/
+                    archive( 19 );
 
                     vr.shutdownDelay.delayActivated.setData( 0 );
                     vr.shutdownDelay.receiveRequestTime.setData( 0 );
@@ -2578,6 +2578,7 @@
                         "buttons.buttons.Off"
                       ],
             "processing":"
+            /*
                 //if(sys.time.curent.data()%2)
                 if(buttons.buttons.F1.data() == 1 ||
                    buttons.buttons.F2.data() == 1)
@@ -2592,6 +2593,7 @@
                     archive( 19 );
                     setCoolerMode( 1 );
                 }
+            */
             "
         }
     ]

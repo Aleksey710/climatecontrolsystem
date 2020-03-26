@@ -43,12 +43,6 @@ class ScriptUnit : public QObject
 
         static ScriptObject* getScriptObject(const QString &name);
 
-        inline static void systemActivation()
-            { if(m_scriptEnginePtr) m_scriptEnginePtr->evaluate( m_systemActivationFunctionText ); }
-
-        inline static void systemShutdown()
-            { if(m_scriptEnginePtr) m_scriptEnginePtr->evaluate( m_systemShutdownFunctionText ); }
-
     signals:
         void archiveMessage(const int &msgId, const double &value);
 
@@ -78,10 +72,6 @@ class ScriptUnit : public QObject
         ScriptEngine m_scriptEngine;
 
         static QHash<QString, ScriptObject*> m_rootObjects;
-
-        //------------------
-        static QString m_systemActivationFunctionText;
-        static QString m_systemShutdownFunctionText;
 
 };
 //------------------------------------------------------------------------------------

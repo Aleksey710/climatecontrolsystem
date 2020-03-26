@@ -1,4 +1,7 @@
 #include "GigitalIndicatorWidget.h"
+
+#include "ScriptObject.h"
+#include "ScriptUnit.h"
 //------------------------------------------------------------------------------------
 //!
 GigitalIndicatorWidget::GigitalIndicatorWidget(const QString &title,
@@ -12,10 +15,20 @@ GigitalIndicatorWidget::GigitalIndicatorWidget(const QString &title,
                         m_dataLabel ( new QLabel(measureTitle) ),
                         m_measureTitle ( measureTitle ),
                         m_digitalStripIndicator ( new DigitalStripIndicator(minimum, maximum) ),
-                        m_onlyT ( onlyT )
+                        m_onlyT ( onlyT ),
+                        m_obrivSensorValue ( 1000 )
 {
     setObjectName("GigitalIndicatorWidget");
 
+    //----------------------------------------------
+    ScriptObject *scriptObject = ScriptUnit::getScriptObject("settings.temp.sev");
+
+    if(scriptObject)
+    {
+        m_obrivSensorValue = static_cast<int>( scriptObject->data() );
+    }
+
+    //----------------------------------------------
     m_mainLayout->setMargin(1);
     m_mainLayout->setVerticalSpacing(1);
     m_mainLayout->setHorizontalSpacing(1);
@@ -87,7 +100,7 @@ double GigitalIndicatorWidget::data()
 //!
 void GigitalIndicatorWidget::setData(const double &value)
 {
-    if(value >= 1000 &&
+    if(value >= m_obrivSensorValue &&
        m_onlyT)
     {
         m_digitalStripIndicator->setData(0);

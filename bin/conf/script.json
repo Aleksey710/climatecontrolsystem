@@ -186,6 +186,19 @@
                 { "name":"out.BVV.fault",  "title":"Авария (по Imax, Umax, Umin)", "value": 0 },
                 { "name":"out.BVV.bpOn",   "title":"Включение БП", "value": 0 },
                 { "name":"out.BVV.pvvOn",  "title":"Повернення (с БВВ привключении)", "value": 0 },
+        { "lineComment":"------------------------------------------------------------------------------------------------------" },
+
+        { "lineComment":"------------------------------------------------------------------------------------------------------" },
+        { "lineComment":"Данные для посчета наработки" },
+            { "name":"vr.WorkedHours.startTime",      "title":"Время начала работы программы", "value": 0 },
+            { "name":"vr.WorkedHours.nextUpdateTime", "title":"Время следующего обновления наработки", "value": 0 },
+        { "lineComment":"------------------------------------------------------------------------------------------------------" },
+
+        { "lineComment":"------------------------------------------------------------------------------------------------------" },
+        { "lineComment":"Данные для реализации задержки на выключение" },
+            { "name":"vr.shutdownDelay.receiveRequestTime", "title":"Время получения запроса на выключение",       "value": 0 },
+            { "name":"vr.shutdownDelay.delayActivated",     "title":"Задержка активирована",                       "value": 0 },
+            { "name":"vr.shutdownDelay.shutdownExec",       "title":"Признак того, что попытка вызова функции systemShutdown() произошла", "value": 0 },
         { "lineComment":"------------------------------------------------------------------------------------------------------" }
     ],
     "functions":[
@@ -701,7 +714,7 @@
                 "modbus.BVV.r30000"
                 ],
             "processing":"
-                if ( modbus.BVV.device.data() == 1)
+                if ( modbus.BVV.device.data() == 1 )
                 {
                     if ( ( modbus.BVV.r30000.data() & 2 ) > 0 )
                     {
@@ -945,7 +958,13 @@
             "processing":"
                 if( modbus.BVV.device.data() == 1 )
                 {
-                    display.BVV.elEquipmentOn.setData( ( modbus.BVV.r30000.data() & 128 ) > 0 );
+                    if ( ( modbus.BVV.r30000.data() & 128 ) > 0 )
+                    {
+                        display.BVV.elEquipmentOn.setData( 1 );
+                    } else
+                    {
+                        display.BVV.elEquipmentOn.setData( 0 );
+                    }
                 } else if ( vr.msg.BVVConnError.data() == 1 )
                 {
                     display.BVV.elEquipmentOn.setData(0);
@@ -2344,6 +2363,145 @@
                 "
         },
         {
+
+            "comment":"Подсчет времени наработки",
+            "name":"WorkedHours_pool",
+            "sources":[
+                "sys.time.curent"
+                ],
+            "processing":"
+
+                //------------------------------------------------------
+                // Обновление времени наработки.
+                // Время наработки хранится в регистре settings.wagon.res,
+                // а время начала работы в регистре vr.WorkedHours.startTime.
+                // При онавление разница между текущим временен и времененм начала раоты
+                // учитвается во времени наработки, а временем начала работы начинает считаться
+                // текущее время
+                function updateWagonRes()
+                {
+                    var delta = sys.time.curent.data( );
+                    delta = sys.time.curent.data( ) - vr.WorkedHours.startTime.data( );  // Время которое прошло с момента последнего сохранения
+                    delta = settings.wagon.res.data() + ( delta / 60 );                  // Время в секундах, а наработка хранится в минутах
+                    settings.wagon.res.setData( delta );
+
+                    vr.WorkedHours.startTime.setData( sys.time.curent.data() );
+                };
+
+                //----------------------------------------------------------
+                // Расчитываем время до следующего обновления наработки.
+                // Обновления раз в час, время на экране в часах, время наработки в базе в минутах,
+                // системное время в секундах.
+                function setNextUpdateTime()
+                {
+                    var resMin = settings.wagon.res.data() % 60 ; // Узнаем сколько минут прошло от последнегообновления.
+                    resMin = 60 - resMin ; // Узнаем сколько минут осталось до того, что бы наработка перевалила за следующий шаг.
+                    resMin = resMin * 60 ; // Переводим минуты в секунды
+                    vr.WorkedHours.nextUpdateTime.setData(  sys.time.curent.data() + resMin ); // Устанавливаем время следующего обновления наработки
+                };
+
+
+                // Фиксируем время запуска системы
+                if( vr.WorkedHours.startTime.data() == 0 )
+                {
+                    // При включении, считаем временем начала работы - текущее время
+                    vr.WorkedHours.startTime.setData( sys.time.curent.data() );
+
+                    setNextUpdateTime();
+
+                    // Устанавливаем регистр отображения тут, поскольку при старте settings.wagon.res
+                    // создается ранеше чем display.wagon.res и начальное значение в него не попадает,
+                    // потому что функция set_display_wagon_res не вызывается в этом случае.
+                    display.wagon.res.setData( settings.wagon.res.data() / 60 );
+
+                    /*Запись в журнал*/
+                    archive( 18 );
+
+                    vr.shutdownDelay.delayActivated.setData( 0 );
+                    vr.shutdownDelay.receiveRequestTime.setData( 0 );
+
+                } else
+                {
+
+                    //-------------------------------------------------------------
+                    // Алгоритм обновления данных о наработке
+                    // Поскольку на экране время наработки индицируется в часах,
+                    // обновляем ее раз в час
+                    //-------------------------------------------------------------
+                    if ( vr.WorkedHours.nextUpdateTime.data() < sys.time.curent.data() )
+                    {
+                         updateWagonRes();
+
+                        // Нужно подумать, нужно ли писать в базу каждый час, все равно перед выключением сохраняется.
+                        // saveSettings('wagon','res', settings.wagon.res.data() );
+                        //-------------------------------------------------------
+
+                        setNextUpdateTime();
+                    }
+
+                    //-------------------------------------------------------------
+                    // Алгоритм обработки запроса на выключение системы
+                    //-------------------------------------------------------------
+
+                    // Запрос может формироватся не по одному сигналу, поэтому соберем
+                    // их в одной переменной, которую дальше будем обрабатывать.
+                    // 1) Пропадание силнала 'ЭО включено' является запросом
+                    // 2) Появление сигнала кнопки OFF является запросом
+                    // 3) Сигнал 'ЭО включено' должен анализироватся только при наличии связи
+                    var request = (    (    display.BVV.elEquipmentOn.data() == 0
+                                         && modbus.BVV.device.data() == 1 )
+                                    || buttons.buttons.Off.data() == 1   )        ?    1    :    0;
+
+                    // Если режим задержки не активрован ожидаем запроса на активацию
+                    if ( vr.shutdownDelay.delayActivated.data( ) == 0 )
+                    {
+                        if ( request == 1 )
+                        {
+                            vr.shutdownDelay.delayActivated.setData( 1 );
+
+                            // Ожидаем 7 с до выключения
+                            vr.shutdownDelay.receiveRequestTime.setData( sys.time.curent.data() + 7 );
+
+                            vr.shutdownDelay.shutdownExec.setData( 0 );
+                        }
+                    } else
+                    {
+                        // Если режим активирован, ожидаем или окончания задержки
+                        // и выключаем систему, или отмены запроса
+                        if ( request == 1 )
+                        {
+                            if( vr.shutdownDelay.receiveRequestTime.data( ) < sys.time.curent.data( ) )
+                            {
+                                if ( vr.shutdownDelay.shutdownExec.data() == 0 )
+                                {
+                                     updateWagonRes();
+
+                                    // Перед выключение сохраняем обязательно.
+                                    saveSettings('wagon','res', settings.wagon.res.data() );
+                                    //-------------------------------------------------------
+
+                                    setNextUpdateTime();
+
+                                    // Запись в журнал не делаем, поскольку она делается в программе в деструкторе при ее щавершении.
+                                    //archive( 19 );
+
+                                    // Здесь должно быть выключени системы, пока для отладки сделаю запись в дебаговую переменну.
+                                    systemShutdown();
+
+                                    vr.shutdownDelay.shutdownExec.setData( 1 );
+                                }
+                            }
+                        } else
+                        {
+                            vr.shutdownDelay.delayActivated.setData( 0 );
+                            vr.shutdownDelay.receiveRequestTime.setData( 0 );
+                        }
+                    }
+
+                }
+                "
+        },
+        {
             "comment":"При изменении температуры уставки - Отобразить и Запись в базу
                        При разрыве связи с A9 - Отобразить и НЕ ПИСАТЬ в базу",
             "name":"save_settings_temp_sut",
@@ -2406,24 +2564,6 @@
                 {
                     setCoolerMode( 0 );
                 }
-            "
-        },
-        {
-            "comment":"Вызывается после окончания инициализации скриптового движка",
-            "name":"systemActivation",
-            "sources":[],
-            "processing":"
-                /*Запись в журнал*/
-                archive( 18 );
-            "
-        },
-        {
-            "comment":"Вызывается при нажатии кнопки - Завершить работу",
-            "name":"systemShutdown",
-            "sources":[],
-            "processing":"
-                /*Запись в журнал*/
-                archive( 19 );
             "
         },
         {

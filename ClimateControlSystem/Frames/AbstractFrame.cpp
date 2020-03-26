@@ -3,7 +3,8 @@
 //------------------------------------------------------------------------------------
 //!
 AbstractFrame::AbstractFrame(QWidget *parent)
-              :QWidget(parent)
+              :QWidget(parent),
+               m_obrivSensorValue ( 1000 )
 {
     setStyleSheet(//"font: 12px; "
                   //"font-weight: bold; "
@@ -11,6 +12,13 @@ AbstractFrame::AbstractFrame(QWidget *parent)
                   "padding: 0px, 0px, 0px, 0px; "
                   //"border:  1px solid black; "
                   );
+
+    ScriptObject *scriptObject = ScriptUnit::getScriptObject("settings.temp.sev");
+
+    if(scriptObject)
+    {
+        m_obrivSensorValue = static_cast<int>( scriptObject->data() );
+    }
 }
 //------------------------------------------------------------------------------------
 //!
@@ -48,7 +56,7 @@ void AbstractFrame::setupDisplay(const QString &name,
             double value = scriptObject->data();
 
             if( onlyT &&
-                ( value >= 1000 ) )
+                ( value >= m_obrivSensorValue ) )
             {
                 label->setText(QString("Обрив датчика"));
             } else
@@ -79,7 +87,7 @@ void AbstractFrame::setupDisplay(const QString &dataRegName,
             // devScriptObject->data() == -1) ||
             onlyT &&
             //-----------------------------------
-            ( value >= 1000 )
+            ( value >= m_obrivSensorValue )
           )
         {
             lineEdit->setText(QString("Обрив датчика"));

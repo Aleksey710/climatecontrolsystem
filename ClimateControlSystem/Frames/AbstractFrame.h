@@ -76,7 +76,8 @@ class AbstractFrame : public QWidget
     signals:
 
 
-    private:
+    protected:
+        int m_obrivSensorValue;
 
 };
 //------------------------------------------------------------------------------------

@@ -2487,7 +2487,9 @@
                                     archive( 18 );
 
                                     // Здесь должно быть выключени системы, пока для отладки сделаю запись в дебаговую переменну.
-                                    systemShutdown();
+                                    setTimeout( function(){
+                                        systemShutdown();
+                                    }, 1000);
 
                                     vr.shutdownDelay.shutdownExec.setData( 1 );
                                 }

@@ -265,10 +265,16 @@ QScriptValue systemShutdown(QScriptContext *context, QScriptEngine *engine)
 
     //SEND_TO_LOG( "systemShutdown" );
 
-    //! Выключение из командной строки
-    static const QString setDateCommandString = QString("sudo poweroff");
+    //! Задержка, для выполнения сопутствующих задач
+    QTimer::singleShot(1000, [=](){
+        //! Выключение из командной строки
+        static const QString setDateCommandString = QString("sudo poweroff");
 
-    QProcess::startDetached( setDateCommandString );
+        QProcess::startDetached( setDateCommandString );
+
+        // Попытка завершить работу приложения
+        qApp->quit();
+    });
 
     return QScriptValue();
 }

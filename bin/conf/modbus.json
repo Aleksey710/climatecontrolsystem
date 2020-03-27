@@ -36,8 +36,8 @@
             {
                 "isUsed": true,
                 "serverAddress":8,
-                "title":"БВВ Хранимые регистры (holding registers). Чтение.",
-                "functionCode":3,
+                "title":"БВВ входные регистры (input registers). Чтение.",
+                "functionCode":4,
                 "registers" : [
                     { "id":28, "name":"modbus.BVV.r40028", "title":"Версия встроенного ПО БВВ [40028]" },
                     { "id":29, "name":"modbus.BVV.r40029", "title":"Год прошивки [40029]" },
@@ -57,8 +57,8 @@
             {
                 "isUsed": true,
                 "serverAddress":16,
-                "title":"A9 Хранимые регистры (holding registers)",
-                "functionCode":3,
+                "title":"A9 входные регистры (input registers)",
+                "functionCode":4,
                 "registers" : [
                     { "id":28, "name":"modbus.A9.r40028", "title":"Версия встроенного ПО БУТ" },
                     { "id":29, "name":"modbus.A9.r40029", "title":"Год прошивки" },

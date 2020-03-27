@@ -62,11 +62,11 @@ CarInformationFrame::CarInformationFrame(QWidget *parent)
 
     setupStringDisplay("settings.wagon.sv",   ui->lbSoftVersion);
 
+    setupStringDisplay("settings.wagon.dd",   ui->lbSoftDate);
+
     setupStringDisplay("settings.wagon.num",  ui->lbVagon);
 
-    setupDisplay(/*"settings.wagon.dd"*/"settings.wagon.comdate",
-                 false,
-                 ui->lbStartUseDate);
+    setupStringDisplay("settings.wagon.comdate", ui->lbStartUseDate);
 
     setupDisplay("display.wagon.res",
                  false,

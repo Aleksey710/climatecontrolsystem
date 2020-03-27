@@ -12,6 +12,8 @@
 #include <QScriptEngine>
 #include <QScriptContext>
 #include <QScriptValue>
+#include <QTimer>
+
 #include <stdlib.h>
 #include <functional>
 

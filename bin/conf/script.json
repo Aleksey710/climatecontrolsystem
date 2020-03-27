@@ -2414,8 +2414,8 @@
                     // потому что функция set_display_wagon_res не вызывается в этом случае.
                     display.wagon.res.setData( settings.wagon.res.data() / 60 );
 
-                    /*Запись в журнал*/
-                    archive( 18 );
+                    /*Запись в журнал о ВКЛЮЧЕНИИ*/
+                    archive( 19 );
 
                     vr.shutdownDelay.delayActivated.setData( 0 );
                     vr.shutdownDelay.receiveRequestTime.setData( 0 );
@@ -2482,8 +2482,9 @@
 
                                     setNextUpdateTime();
 
-                                    // Запись в журнал не делаем, поскольку она делается в программе в деструкторе при ее щавершении.
-                                    //archive( 19 );
+                                    // Запись в журнал не делаем, поскольку она делается в программе в деструкторе при ее завершении.
+                                    /*Запись в журнал о ВЫКЛЮЧЕНИИ*/
+                                    archive( 18 );
 
                                     // Здесь должно быть выключени системы, пока для отладки сделаю запись в дебаговую переменну.
                                     systemShutdown();
@@ -2497,7 +2498,6 @@
                             vr.shutdownDelay.receiveRequestTime.setData( 0 );
                         }
                     }
-
                 }
                 "
         },

@@ -46,7 +46,7 @@ int main(int argc, char *argv[])
     loggerSetup(argc, argv);
 
     //---------------------------------------------------
-    QString logFileName = QString("/var/log/ClimateControlSystem/СlimateControlSystem.log");
+    QString logFileName = QString("/var/log/ClimateControlSystem/ClimateControlSystem.log");
     el::Loggers::reconfigureAllLoggers(el::ConfigurationType::Filename,
                                        logFileName.toLatin1().data());
     //---------------------------------------------------

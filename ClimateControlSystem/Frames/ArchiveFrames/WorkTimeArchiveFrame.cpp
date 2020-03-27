@@ -68,7 +68,7 @@ void WorkTimeArchiveFrame::updateData()
                      .arg(objectName()).arg(queryString()).arg(err.text()))
     } else
     {
-        bool lastIsOn = false;
+        bool lastIsOn = true;
 
         RowOnOff curentRow;
         QList<RowOnOff> rowList;
@@ -83,12 +83,12 @@ void WorkTimeArchiveFrame::updateData()
 
             if(msg == "Увімкнення")
             {
+                curentRow = RowOnOff(dt,msg);
+
                 if(lastIsOn)
                 {
                     rowList.append(curentRow);
                 }
-
-                curentRow = RowOnOff(dt,msg);
 
                 lastIsOn = true;
             } else if(msg == "Вимкнення")

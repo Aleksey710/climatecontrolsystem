@@ -45,9 +45,9 @@ void DateTimeSetup::setDateTime()
     //-----------------------------------------------------------------
     //! Установка даты из командной строки
     //! sudo date -s "2020-03-30 01:20:00"
-    static const QString setDateCommandString =
+    const QString setDateCommandString =
         QString("sudo date -s \"%1\"")
-            .arg(QDateTime::currentDateTime().toString("yyyy-MM-dd HH:mm:ss"));
+            .arg(dateTime.toString("yyyy-MM-dd HH:mm:ss"));
 
     QProcess::startDetached( setDateCommandString );
     //-----------------------------------------------------------------

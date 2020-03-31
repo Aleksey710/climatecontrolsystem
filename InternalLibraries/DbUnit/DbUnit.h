@@ -58,6 +58,8 @@ class DbUnit : public QObject
                 m_archiveWriter.saveStringSettings(groupe, param, value);
             }
 
+        void clearDb();
+
     private:
         void openDb();
         void createDb();

@@ -133,7 +133,7 @@ void AbstractArchiveFrame::pgUp()
     if(m_tableView)
     {
         int sliderPosition = m_tableView->verticalScrollBar()->sliderPosition();
-        m_tableView->verticalScrollBar()->setSliderPosition(sliderPosition-19);
+        m_tableView->verticalScrollBar()->setSliderPosition(sliderPosition-18);
 
         m_tableView->update();
     }
@@ -162,7 +162,7 @@ void AbstractArchiveFrame::pgDown()
     if(m_tableView)
     {
         int sliderPosition = m_tableView->verticalScrollBar()->sliderPosition();
-        m_tableView->verticalScrollBar()->setSliderPosition(sliderPosition+19);
+        m_tableView->verticalScrollBar()->setSliderPosition(sliderPosition+18);
 
         m_tableView->update();
     }

@@ -87,7 +87,8 @@ ClimateControlSystem::ClimateControlSystem(QObject *parent)
     }
 
     //-------------------------------------------------------------------
-
+    //! Настроить очистку базы
+    setupDbSizeControl();
 
     //-------------------------------------------------------------------
     SEND_TO_LOG( QString("ClimateControlSystem - создан") );
@@ -121,7 +122,32 @@ void ClimateControlSystem::setPassword()
 }
 //------------------------------------------------------------------------------------
 //!
+void ClimateControlSystem::setupDbSizeControl()
+{
+    QTimer *timer = new QTimer(this);
 
+    connect(timer, &QTimer::timeout, [=](){
+
+        SEND_TO_LOG( QString("ClimateControlSystem - clearDb() timeout") );
+
+        QFileInfo fileInfo("./conf/db.sqlite");
+
+        if(fileInfo.exists())
+        {
+            qint64 size = fileInfo.size();
+
+            if(size > CRITICAL_DB_SIZE)
+            {
+                SEND_TO_LOG( QString("ClimateControlSystem - clearDb()") );
+                m_dbUnit.clearDb();
+            }
+        }
+    });
+
+    timer->start(1*60*1000);
+}
+//------------------------------------------------------------------------------------
+//!
 
 
 

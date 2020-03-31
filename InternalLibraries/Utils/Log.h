@@ -34,7 +34,12 @@
     #define SEND_TO_LOG(msg) qDebug() << QString(msg);
 #else
     #ifdef easylogging
-        #define SEND_TO_LOG(msg) (LOG(INFO) << QString((msg)));
+        //#define SEND_TO_LOG(msg) (LOG(INFO) << QString((msg)));
+        #define SEND_TO_LOG(msg) (qDebug() \
+            << QDateTime::currentDateTime().toString("yyyy.MM.DD hh:mm:ss.zzz") \
+            << " - " \
+            << QString((msg)));
+
     #else
         const QString logFileName = "/var/log/usod/USOD.log";
 

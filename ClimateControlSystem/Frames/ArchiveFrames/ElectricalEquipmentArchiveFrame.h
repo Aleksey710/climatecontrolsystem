@@ -37,7 +37,10 @@ class ElectricalEquipmentArchiveFrame : public AbstractArchiveFrame
                 "strftime('%Y-%m-%d %H:%M:%S',`datetime`/1000,'unixepoch', 'localtime') AS dt, "
                 "`msg` "
                 "FROM `%1` "
-                "ORDER BY `dt` DESC;").arg("electrical_equipment_events");
+                "ORDER BY `dt` DESC "
+                "LIMIT 54 "
+                ";"
+            ).arg("electrical_equipment_events");
         }
 };
 //------------------------------------------------------------------------------------

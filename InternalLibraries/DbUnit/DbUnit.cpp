@@ -806,3 +806,43 @@ void DbUnit::createArchiveTable(const QString &tableName,
 */
     //--------------------------------------
 }
+//------------------------------------------------------------------------------------
+//!
+void DbUnit::clearDb()
+{
+    QStringList tableList({
+        "climate_device_auto_events",
+        "climate_device_manual_events",
+        "electrical_equipment_events",
+        //"electrical_equipment_operating_time",
+        "work_time_events"
+        });
+
+    QStringList queryStringList;
+
+    for (int i = 0; i < tableList.size(); ++i)
+    {
+        QString tableName = tableList.at(i);
+
+        queryStringList.append( QString(
+            "DELETE FROM `%1` "
+            "WHERE `datetime`< "
+            "(SELECT datetime "
+            "FROM `%1` "
+            "ORDER BY `datetime` DESC "
+            "LIMIT 1 OFFSET 50 ) "
+            ";"
+            ).arg(tableName) );
+    }
+
+    exequteQueryList(queryStringList);
+}
+
+
+
+
+
+
+
+
+

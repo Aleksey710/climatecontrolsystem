@@ -26,6 +26,7 @@ WorkTimeArchiveFrame::WorkTimeArchiveFrame(QWidget *parent)
     m_tableWidget->horizontalHeader()->setStretchLastSection(true);
 
     m_tableWidget->verticalHeader()->setDefaultSectionSize(20);
+    m_tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
     m_mainLayout->addWidget(m_tableWidget);
 
@@ -83,11 +84,13 @@ void WorkTimeArchiveFrame::updateData()
 
             if(msg == "Увімкнення")
             {
-                curentRow = RowOnOff(dt,msg);
-
                 if(lastIsOn)
                 {
                     rowList.append(curentRow);
+                    curentRow = RowOnOff(dt,msg);
+                } else
+                {
+                    curentRow = RowOnOff(dt,msg);
                 }
 
                 lastIsOn = true;
@@ -117,7 +120,7 @@ void WorkTimeArchiveFrame::updateData()
 //!
 void WorkTimeArchiveFrame::resetRowList(const QList<RowOnOff> &rowList)
 {
-    m_tableWidget->clearContents();
+    m_tableWidget->clear();
     m_tableWidget->setRowCount(rowList.size());
 
     for (int row = 0; row < rowList.size(); ++row)

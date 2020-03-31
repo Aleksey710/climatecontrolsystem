@@ -37,7 +37,9 @@ class ClimateDeviceAutoArchiveFrame : public AbstractArchiveFrame
                 "strftime('%Y-%m-%d %H:%M:%S',`datetime`/1000,'unixepoch', 'localtime') AS dt, "
                 "`msg` "
                 "FROM `%1` "
-                "ORDER BY `dt` DESC;").arg("climate_device_auto_events");
+                "ORDER BY `dt` DESC "
+                "LIMIT 50 "
+                ";").arg("climate_device_auto_events");
         }
 
 };

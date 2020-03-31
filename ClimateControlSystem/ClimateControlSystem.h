@@ -3,6 +3,9 @@
 //------------------------------------------------------------------------------------
 //#include <>
 //#include <>
+//#include <>
+//#include <>
+#include <QFileInfo>
 #include <QProcess>
 #include <QString>
 #include <QObject>
@@ -27,6 +30,9 @@
 class ClimateControlSystem : public QObject
 {
         Q_OBJECT
+
+        static const qint64 CRITICAL_DB_SIZE = 64535;
+
     public:
         explicit ClimateControlSystem(QObject *parent = nullptr);
         virtual ~ClimateControlSystem();
@@ -41,7 +47,7 @@ class ClimateControlSystem : public QObject
 
 
     private:
-
+        void setupDbSizeControl();
 
     private:
         DbUnit                 m_dbUnit;

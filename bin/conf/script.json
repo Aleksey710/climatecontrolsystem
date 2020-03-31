@@ -2578,7 +2578,7 @@
                         "buttons.buttons.Off"
                       ],
             "processing":"
-
+/*
                 if(sys.time.curent.data()%2)
                 //if(buttons.buttons.F1.data() == 1 ||
                 //   buttons.buttons.F2.data() == 1)
@@ -2593,7 +2593,7 @@
                     archive( 19 );
                     setCoolerMode( 1 );
                 }
-
+*/
             "
         }
     ]

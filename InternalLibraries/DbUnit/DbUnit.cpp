@@ -622,7 +622,7 @@ void DbUnit::createWagonGroup(QStringList &queryStringList)
     queryStringList.append(
         "INSERT INTO `data` (`group_id`,`name`,`title`,`data_type_id`,`value`) "
         "VALUES ((SELECT `id` FROM `groups` WHERE `name`='wagon'), "
-        "'sv','версія ПЗ',2,'2.3.11');");
+        "'sv','версія ПЗ',2,'1.0.1');");
     queryStringList.append(
         "INSERT INTO `data` (`group_id`,`name`,`title`,`data_type_id`,`value`) "
         "VALUES ((SELECT `id` FROM `groups` WHERE `name`='wagon'), "

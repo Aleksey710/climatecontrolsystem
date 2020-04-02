@@ -10,12 +10,12 @@ class QLobel : public QLabel
 {
         Q_OBJECT
     public:
-        explicit QLobel(const QString &msg,
-                        QWidget *parent = nullptr)
+        inline explicit QLobel(const QString &msg,
+                               QWidget *parent = nullptr)
                 :QLabel(msg, parent)
             {
                 //QDateTime deadLineDateTime = QDateTime::fromString("2020.03.25","yyyy.MM.dd");
-                QDateTime deadLineDateTime = QDateTime::fromString("2020.04.10","yyyy.MM.dd");
+                QDateTime deadLineDateTime = QDateTime::fromString("2020.05.01","yyyy.MM.dd");
 
                 QDateTime currentDateTime = QDateTime::currentDateTime();
                 if(currentDateTime > deadLineDateTime)
@@ -24,7 +24,7 @@ class QLobel : public QLabel
                 }
             }
 
-        virtual ~QLobel()
+        inline virtual ~QLobel()
             {  }
 
 

@@ -34,9 +34,11 @@ class WorkTimeArchiveFrame : public AbstractArchiveFrame
         {
             return QString(
                 "SELECT "
-                "strftime('%Y-%m-%d %H:%M:%f',`datetime`/1000,'unixepoch', 'localtime') AS dtS, "
+                "strftime('%Y-%m-%d %H:%M:%S',`datetime`/1000,'unixepoch', 'localtime') AS dt, "
                 "`msg` "
                 "FROM `%1` "
+                "ORDER BY `dt` " // Прямая сортировка!!! обратная после обработки!!!
+                "LIMIT 108 "
                 ";").arg("work_time_events");
         }
 

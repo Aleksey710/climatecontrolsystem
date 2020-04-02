@@ -121,24 +121,33 @@ void WorkTimeArchiveFrame::updateData()
 void WorkTimeArchiveFrame::resetRowList(const QList<RowOnOff> &rowList)
 {
     m_tableWidget->clear();
-    m_tableWidget->setRowCount(rowList.size());
+    //m_tableWidget->setRowCount(rowList.size());
 
-    for (int row = 0; row < rowList.size(); ++row)
+    for (int i = 0; i < rowList.size(); ++i)
     {
-        RowOnOff curentRow = rowList.at(row);
+        RowOnOff curentRow = rowList.at(i);
 
-        m_tableWidget->setItem(row, 0, curentRow.column0);
-        m_tableWidget->setItem(row, 1, curentRow.column1);
-        m_tableWidget->setItem(row, 2, curentRow.column2);
-        m_tableWidget->setItem(row, 3, curentRow.column3);
+        int row = (rowList.size() - 1) - i;
 
-//        qDebug() << row
-//                 << curentRow.column0->text()
-//                 << curentRow.column1->text()
-//                 << curentRow.column2->text()
-//                 << curentRow.column3->text()
-//                    ;
+        qDebug() << row
+                 << curentRow.column0->text()
+                 << curentRow.column1->text()
+                 << curentRow.column2->text()
+                 << curentRow.column3->text()
+                    ;
 
+        if( curentRow.column0->text().isEmpty() &&
+            curentRow.column1->text().isEmpty() &&
+            curentRow.column2->text().isEmpty() &&
+            curentRow.column3->text().isEmpty() )
+        {
+        } else
+        {
+            m_tableWidget->setItem(row, 0, curentRow.column0);
+            m_tableWidget->setItem(row, 1, curentRow.column1);
+            m_tableWidget->setItem(row, 2, curentRow.column2);
+            m_tableWidget->setItem(row, 3, curentRow.column3);
+        }
     }
 
     m_tableWidget->resizeColumnsToContents();
@@ -148,7 +157,7 @@ void WorkTimeArchiveFrame::resetRowList(const QList<RowOnOff> &rowList)
 void WorkTimeArchiveFrame::pgUp()
 {
     int sliderPosition = m_tableWidget->verticalScrollBar()->sliderPosition();
-    m_tableWidget->verticalScrollBar()->setSliderPosition(sliderPosition-19);
+    m_tableWidget->verticalScrollBar()->setSliderPosition(sliderPosition-18);
 
     m_tableWidget->update();
 }
@@ -157,7 +166,7 @@ void WorkTimeArchiveFrame::pgUp()
 void WorkTimeArchiveFrame::pgDown()
 {
     int sliderPosition = m_tableWidget->verticalScrollBar()->sliderPosition();
-    m_tableWidget->verticalScrollBar()->setSliderPosition(sliderPosition+19);
+    m_tableWidget->verticalScrollBar()->setSliderPosition(sliderPosition+18);
 
     m_tableWidget->update();
 }

@@ -42,7 +42,7 @@ class ElectricalEquipmentOperatingTimeArchiveFrame : public AbstractArchiveFrame
                 "`events`.`event_group_id`=`event_groups`.`id` AND "
                 "`events`.`event_type_id`=`event_types`.`id` "
                 "ORDER BY `dt` DESC "
-                "LIMIT 50 "
+                "LIMIT 54 "
                 ";");
         }
 

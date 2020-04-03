@@ -38,7 +38,7 @@ class ClimateDeviceAutoArchiveFrame : public AbstractArchiveFrame
                 "`msg` "
                 "FROM `%1` "
                 "ORDER BY `dt` DESC "
-                "LIMIT 50 "
+                "LIMIT 54 "
                 ";").arg("climate_device_auto_events");
         }
 

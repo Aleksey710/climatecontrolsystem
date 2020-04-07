@@ -60,9 +60,16 @@ ClimateControlSystem::ClimateControlSystem(QObject *parent)
         //SEND_TO_LOG( QString("ClimateControlSystem - SetScreenBrightness[%1]").arg(value) );
 #ifdef __arm__
 
-        if(value < 0 ||
-           value > 1024)
+        if(value > 1 ||
+           value < 7)
         {
+            value = 440 + value*10;
+
+            const QString command = QString("gpio -g mode 18 pwm; gpio pwmc 1000; gpio -g pwm 18 %1").arg(value);
+
+            QProcess::startDetached( command );
+        }
+/*
             // Writes the value to the PWM register for the given pin.
             // The Raspberry Pi has one on-board PWM pin, pin 1 (BMC_GPIO 18, Phys 12) and
             // the range is 0-1024. Other PWM devices may have other PWM ranges.
@@ -76,8 +83,7 @@ ClimateControlSystem::ClimateControlSystem(QObject *parent)
 //            #set the pin as PWM
 //            gpio pwmc 1000
 //            gpio -g pwm 18 X #change the brightness, X ranges 0~1024
-        }
-
+*/
 #endif // __arm__
     };
 

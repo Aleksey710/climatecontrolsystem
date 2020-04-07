@@ -6,6 +6,7 @@
 /bin/ClimateControlSystem
 /bin/Imitator
 /bin/Imitator2
+/bin/conf/db.sqlite
 
 
 Makefile

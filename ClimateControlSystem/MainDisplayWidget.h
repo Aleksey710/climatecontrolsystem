@@ -42,6 +42,7 @@
 #include "NumericKeypadWidget.h"
 #include "DateTimeSetup.h"
 #include "CheckPasswordWidget.h"
+#include "SetScreenBrightnessForm.h"
 //#include ""
 //#include ""
 //#include ""
@@ -72,6 +73,7 @@ class MainDisplayWidget : public QWidget
 
     private slots:
         void startEditSettings();
+        void startEditScreenBrightness();
 
     private:
         void setupFrames();

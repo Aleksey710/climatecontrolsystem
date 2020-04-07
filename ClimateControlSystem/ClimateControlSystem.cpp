@@ -69,6 +69,13 @@ ClimateControlSystem::ClimateControlSystem(QObject *parent)
             //
             // This function is not able to control the Pi’s on-board PWM when in Sys mode.
             pwmWrite (1, value) ;
+
+            //--------------------------------------------------------
+//            gpio -g pwm 18 1024
+//            gpio -g mode 18 pwm
+//            #set the pin as PWM
+//            gpio pwmc 1000
+//            gpio -g pwm 18 X #change the brightness, X ranges 0~1024
         }
 
 #endif // __arm__

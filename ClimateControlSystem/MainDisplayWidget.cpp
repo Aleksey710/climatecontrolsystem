@@ -84,6 +84,11 @@ MainDisplayWidget::MainDisplayWidget(QWidget *parent)
                      this, &MainDisplayWidget::startEditSettings);
 
     //-----------------------------------------------------------
+    QShortcut *shortcutSetScreenBrightness = new QShortcut(QKeySequence("Ctrl+L"), this);
+    QObject::connect(shortcutSetScreenBrightness, &QShortcut::activated,
+                     this, &MainDisplayWidget::startEditScreenBrightness);
+
+    //-----------------------------------------------------------
     SEND_TO_LOG("MainDisplayWidget - создан");
     show();
 }
@@ -274,7 +279,27 @@ void MainDisplayWidget::startEditSettings()
 
     Q_UNUSED(checkPasswordWidget);
 }
+//------------------------------------------------------------------------------------
+//!
+void MainDisplayWidget::startEditScreenBrightness()
+{
+    if(m_menuConfigEditFrame)
+        return;
 
+    CheckPasswordWidget *checkPasswordWidget =
+        new CheckPasswordWidget([=](){
+            SetScreenBrightnessForm *setScreenBrightnessForm = new SetScreenBrightnessForm();
+
+            setScreenBrightnessForm->show();
+
+            //----------------------------------------------------
+            connect(setScreenBrightnessForm, &QWidget::destroyed,[=](){
+
+            });
+        });
+
+    Q_UNUSED(checkPasswordWidget);
+}
 
 
 

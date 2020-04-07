@@ -24,15 +24,14 @@ SetScreenBrightnessForm::SetScreenBrightnessForm(QWidget *parent)
         Q_UNUSED(value);
         SEND_TO_LOG( QString("SetScreenBrightnessForm - set screen brightness[%1]").arg(value) );
 #ifdef __arm__
-        if(value < 0 ||
-           value > 1024)
+        if(value > 1 ||
+           value < 7)
         {
-            // https://github.com/WiringPi/WiringPi/blob/master/examples/pwm.c
+            value = 440 + value*10;
 
-            pinMode (1, PWM_OUTPUT) ;
+            const QString command = QString("gpio -g mode 18 pwm; gpio pwmc 1000; gpio -g pwm 18 %1").arg(value);
 
-            pwmWrite (1, value) ;
-            delay (1) ;
+            QProcess::startDetached( command );
         }
 #endif // __arm__
     });

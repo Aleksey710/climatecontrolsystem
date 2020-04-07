@@ -27,19 +27,12 @@ SetScreenBrightnessForm::SetScreenBrightnessForm(QWidget *parent)
         if(value < 0 ||
            value > 1024)
         {
-            // Writes the value to the PWM register for the given pin.
-            // The Raspberry Pi has one on-board PWM pin, pin 1 (BMC_GPIO 18, Phys 12) and
-            // the range is 0-1024. Other PWM devices may have other PWM ranges.
-            //
-            // This function is not able to control the Pi’s on-board PWM when in Sys mode.
-            pwmWrite (1, value) ;
+            // https://github.com/WiringPi/WiringPi/blob/master/examples/pwm.c
 
-            //--------------------------------------------------------
-//            gpio -g pwm 18 1024
-//            gpio -g mode 18 pwm
-//            #set the pin as PWM
-//            gpio pwmc 1000
-//            gpio -g pwm 18 X #change the brightness, X ranges 0~1024
+            pinMode (1, PWM_OUTPUT) ;
+
+            pwmWrite (1, value) ;
+            delay (1) ;
         }
 #endif // __arm__
     });

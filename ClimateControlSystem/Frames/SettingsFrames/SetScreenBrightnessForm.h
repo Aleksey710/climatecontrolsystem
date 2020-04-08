@@ -18,7 +18,8 @@
 #endif
 // */
 #include "Log.h"
-
+#include "ScriptObject.h"
+#include "ScriptUnit.h"
 //------------------------------------------------------------------------------------
 namespace Ui {
 class SetScreenBrightnessForm;

@@ -17,15 +17,21 @@ SetScreenBrightnessForm::SetScreenBrightnessForm(QWidget *parent)
 
     setWindowModality(Qt::ApplicationModal);
 
+    //-------------------------------------------------
+    ScriptObject *dataScriptObject = ScriptUnit::getScriptObject("settings.screen.max");
 
+    if(dataScriptObject)
+        ui->sbBrightness->setValue(static_cast<int>(dataScriptObject->data()));
+
+    //-------------------------------------------------
     connect(ui->pbSet, &QPushButton::released, [=](){
-        int value = ui->leBrightness->text().toInt();
+        int value = ui->sbBrightness->value();
 
         Q_UNUSED(value);
         SEND_TO_LOG( QString("SetScreenBrightnessForm - set screen brightness[%1]").arg(value) );
 #ifdef __arm__
-        if(value > 1 ||
-           value < 7)
+        if(value >= 0 ||
+           value <= 7)
         {
             value = 440 + value*10;
 

@@ -65,7 +65,7 @@ ClimateControlSystem::ClimateControlSystem(QObject *parent)
         if(_value >= 0 ||
            _value <= 7)
         {
-            int _value = 440 + _value*10;
+            _value = 440 + _value*10;
 
             const QString command1 = QString("gpio -g mode 18 pwm; ");
             const QString command2 = QString("gpio pwmc 1000; ");

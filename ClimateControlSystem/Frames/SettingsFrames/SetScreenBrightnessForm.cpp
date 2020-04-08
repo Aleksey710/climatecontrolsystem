@@ -29,9 +29,13 @@ SetScreenBrightnessForm::SetScreenBrightnessForm(QWidget *parent)
         {
             value = 440 + value*10;
 
-            const QString command = QString("gpio -g mode 18 pwm; gpio pwmc 1000; gpio -g pwm 18 %1").arg(value);
+            const QString command1 = QString("gpio -g mode 18 pwm; ");
+            const QString command2 = QString("gpio pwmc 1000; ");
+            const QString command3 = QString("gpio -g pwm 18 %1").arg(value);
 
-            QProcess::startDetached( command );
+            QProcess::startDetached( command1 );
+            QProcess::startDetached( command2 );
+            QProcess::startDetached( command3 );
         }
 #endif // __arm__
     });

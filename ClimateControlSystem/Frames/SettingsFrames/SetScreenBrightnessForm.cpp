@@ -25,19 +25,19 @@ SetScreenBrightnessForm::SetScreenBrightnessForm(QWidget *parent)
 
     //-------------------------------------------------
     connect(ui->pbSet, &QPushButton::released, [=](){
-        int value = ui->sbBrightness->value();
+        int _value = ui->sbBrightness->value();
 
-        Q_UNUSED(value);
-        SEND_TO_LOG( QString("SetScreenBrightnessForm - set screen brightness[%1]").arg(value) );
+        Q_UNUSED(_value);
+        SEND_TO_LOG( QString("SetScreenBrightnessForm - set screen brightness[%1]").arg(_value) );
 #ifdef __arm__
-        if(value >= 0 ||
-           value <= 7)
+        if(_value >= 0 ||
+           _value <= 7)
         {
-            value = 440 + value*10;
+            _value = 440 + _value*10;
 
             const QString command1 = QString("gpio -g mode 18 pwm; ");
             const QString command2 = QString("gpio pwmc 1000; ");
-            const QString command3 = QString("gpio -g pwm 18 %1").arg(value);
+            const QString command3 = QString("gpio -g pwm 18 %1").arg(_value);
 
             QProcess::startDetached( command1 );
             QProcess::startDetached( command2 );

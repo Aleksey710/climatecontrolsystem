@@ -76,6 +76,7 @@ HEADERS += \
     Frames/SettingsFrames/MenuConfigEditFrame.h \
     Frames/SettingsFrames/NumericButton.h \
     Frames/SettingsFrames/NumericKeypadWidget.h \
+    Frames/SettingsFrames/SetScreenBrightnessForm.h \
     Frames/Widgets/AbstractMsgWidget.h \
     Frames/Widgets/CheckPasswordWidget.h \
     Frames/Widgets/DateTimeWidget.h \
@@ -108,6 +109,7 @@ SOURCES += main.cpp \
     Frames/SettingsFrames/MenuConfigEditFrame.cpp \
     Frames/SettingsFrames/NumericButton.cpp \
     Frames/SettingsFrames/NumericKeypadWidget.cpp \
+    Frames/SettingsFrames/SetScreenBrightnessForm.cpp \
     Frames/Widgets/CheckPasswordWidget.cpp \
     Frames/Widgets/DateTimeWidget.cpp \
     Frames/Widgets/DigitalStripIndicator.cpp \
@@ -128,6 +130,7 @@ FORMS += \
     Frames/InOutDisplayFrame.ui \
     Frames/SettingsFrames/DateTimeSetup.ui \
     Frames/SettingsFrames/ItemEditSettingsWidget.ui \
+    Frames/SettingsFrames/SetScreenBrightnessForm.ui \
     Frames/Widgets/CheckPasswordWidget.ui
 
 

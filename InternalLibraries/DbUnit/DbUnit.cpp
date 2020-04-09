@@ -289,7 +289,7 @@ void DbUnit::createOffsetGroup(QStringList &queryStringList)
     queryStringList.append(
         "INSERT INTO `data` (`group_id`,`name`,`title`,`value`) "
         "VALUES ((SELECT `id` FROM `groups` WHERE `name`='offset'), "
-        "'af', 'Корекція дельт для припливної вентиляції', 0.0);");
+        "'af', 'Корекція дельт для температури припливної вентиляції', 0.0);");
     queryStringList.append(
         "INSERT INTO `data` (`group_id`,`name`,`title`,`value`) "
         "VALUES ((SELECT `id` FROM `groups` WHERE `name`='offset'), "
@@ -298,6 +298,22 @@ void DbUnit::createOffsetGroup(QStringList &queryStringList)
         "INSERT INTO `data` (`group_id`,`name`,`title`,`value`) "
         "VALUES ((SELECT `id` FROM `groups` WHERE `name`='offset'), "
         "'tb', 'Корекція дельт для температури котла', 0.0);");
+    queryStringList.append(
+        "INSERT INTO `data` (`group_id`,`name`,`title`,`value`) "
+        "VALUES ((SELECT `id` FROM `groups` WHERE `name`='offset'), "
+        "'tc_mb', 'Корекція дельт для окремих датчикiв температури купе', 0.0);");
+    queryStringList.append(
+        "INSERT INTO `data` (`group_id`,`name`,`title`,`value`) "
+        "VALUES ((SELECT `id` FROM `groups` WHERE `name`='offset'), "
+        "'af_mb', 'Корекція дельт для окремих датчикiв температури припливної вентиляції', 0.0);");
+    queryStringList.append(
+        "INSERT INTO `data` (`group_id`,`name`,`title`,`value`) "
+        "VALUES ((SELECT `id` FROM `groups` WHERE `name`='offset'), "
+        "'to_mb', 'Корекція дельт для окремих датчикiв температури зовнішнього повітря', 0.0);");
+    queryStringList.append(
+        "INSERT INTO `data` (`group_id`,`name`,`title`,`value`) "
+        "VALUES ((SELECT `id` FROM `groups` WHERE `name`='offset'), "
+        "'tb_mb', 'Корекція дельт для окремих датчикiв температури котла', 0.0);");
     queryStringList.append(
         "INSERT INTO `data` (`group_id`,`name`,`title`,`value`) "
         "VALUES ((SELECT `id` FROM `groups` WHERE `name`='offset'), "
@@ -317,7 +333,7 @@ void DbUnit::createOffsetGroup(QStringList &queryStringList)
     queryStringList.append(
         "INSERT INTO `data` (`group_id`,`name`,`title`,`value`) "
         "VALUES ((SELECT `id` FROM `groups` WHERE `name`='offset'), "
-        "'cmf', 'Коефіцієнт нахилу(матеріалу) для припливної вентиляції', 1.0);");
+        "'cmf', 'Коефіцієнт нахилу(матеріалу) для температури припливної вентиляції', 1.0);");
     queryStringList.append(
         "INSERT INTO `data` (`group_id`,`name`,`title`,`value`) "
         "VALUES ((SELECT `id` FROM `groups` WHERE `name`='offset'), "
@@ -326,6 +342,22 @@ void DbUnit::createOffsetGroup(QStringList &queryStringList)
         "INSERT INTO `data` (`group_id`,`name`,`title`,`value`) "
         "VALUES ((SELECT `id` FROM `groups` WHERE `name`='offset'), "
         "'cmb', 'Коефіцієнт нахилу(матеріалу) для температури котла', 1.0);");
+    queryStringList.append(
+        "INSERT INTO `data` (`group_id`,`name`,`title`,`value`) "
+        "VALUES ((SELECT `id` FROM `groups` WHERE `name`='offset'), "
+        "'cmc_mb', 'Коефіцієнт нахилу(матеріалу) для окремих датчикiв температури купе', 1.0);");
+    queryStringList.append(
+        "INSERT INTO `data` (`group_id`,`name`,`title`,`value`) "
+        "VALUES ((SELECT `id` FROM `groups` WHERE `name`='offset'), "
+        "'cmf_mb', 'Коефіцієнт нахилу(матеріалу) для окремих датчикiв температури припливної вентиляції', 1.0);");
+    queryStringList.append(
+        "INSERT INTO `data` (`group_id`,`name`,`title`,`value`) "
+        "VALUES ((SELECT `id` FROM `groups` WHERE `name`='offset'), "
+        "'cmo_mb', 'Коефіцієнт нахилу(матеріалу) для окремих датчикiв температури зовнішнього повітря', 1.0);");
+    queryStringList.append(
+        "INSERT INTO `data` (`group_id`,`name`,`title`,`value`) "
+        "VALUES ((SELECT `id` FROM `groups` WHERE `name`='offset'), "
+        "'cmb_mb', 'Коефіцієнт нахилу(матеріалу) для окремих датчикiв температури котла', 1.0);");
     queryStringList.append(
         "INSERT INTO `data` (`group_id`,`name`,`title`,`value`) "
         "VALUES ((SELECT `id` FROM `groups` WHERE `name`='offset'), "

@@ -205,6 +205,7 @@ void ModbusMasterUnit::connectionParsing(const QJsonObject &connectionJsonObject
         if( deviceJsonObject.value("isExternal").toBool() )
         {
             //! Проверить режим работы
+            //! Використання датчикiв температри БВВ true(1) або false(0) - використання окремих датчикiв.
             ScriptObject *scriptObject = ScriptUnit::getScriptObject("settings.temp.useBVV");
 
             if(scriptObject)
@@ -212,7 +213,7 @@ void ModbusMasterUnit::connectionParsing(const QJsonObject &connectionJsonObject
                 double value = scriptObject->data();
 
                 //! Если режим работы регламентирует использование
-                if(value == 1)
+                if(value == 0)
                 {
                     SEND_TO_LOG( QString("%1 - Режим использования внешнего датчика (use BVV)").arg(objectName()) );
                     deviceParsing(modbusConnectionSettings, deviceJsonObject);

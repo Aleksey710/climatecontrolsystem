@@ -67,6 +67,8 @@ ModbusMasterUnit::~ModbusMasterUnit()
 //!
 void ModbusMasterUnit::excuteNextRequest()
 {
+    SEND_TO_LOG( QString("%1 - ========================================================================== excuteNextRequest").arg(objectName()) );
+
     //! Если в конфигурации существуют корректно описанные запросы
     if(m_requestList.size() > 0)
     {
@@ -79,8 +81,8 @@ void ModbusMasterUnit::excuteNextRequest()
         //--------------------------------------------------
         ModbusRequest *request = m_requestList.at(m_curentRequestId);
 
-//        SEND_TO_LOG( QString("%1 - Выполнение запроса [%2]-[%3]")
-//                     .arg(objectName()).arg(m_curentRequestId).arg(request->objectName()) );
+        SEND_TO_LOG( QString("%1 - Выполнение запроса [%2]-[%3]")
+                     .arg(objectName()).arg(m_curentRequestId).arg(request->objectName()) );
 
         //--------------------------------------------------
         m_curentRequestId++;

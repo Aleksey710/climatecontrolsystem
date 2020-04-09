@@ -264,6 +264,11 @@ QString Slave::getInputRegisterDescription(quint16 address) const
 //------------------------------------------------------------------------------
 bool Slave::checkRequest(QByteArray data)
 {
+    qDebug() << "Slave::checkRequest" << data;
+
+//    if(data.size() < 6)
+//        return false;
+
     if (!checkFuncCode(data.at(FUNC)))
     {
         logPrint("ERROR: Invalid function code " + QString::number(data.at(FUNC)));

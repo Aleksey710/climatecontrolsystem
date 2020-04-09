@@ -17,6 +17,7 @@
 #define SLAVE_H
 
 #include    <QObject>
+#include    <QDebug>
 #include    <QMap>
 
 #include    "request.h"

@@ -86,7 +86,7 @@ void ModbusMasterHandler::exequteRequest(ModbusRequest *modbusRequest)
 
     uint32_t sec_to = 0;
     uint32_t usec_to = 5*1000;
-    modbus_get_response_timeout(ctx, &sec_to, &usec_to);
+    modbus_set_response_timeout(ctx, sec_to, usec_to);
 
 #ifdef __arm__
     //modbus_enable_rpi(ctx,TRUE);

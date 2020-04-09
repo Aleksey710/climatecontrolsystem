@@ -91,6 +91,13 @@ ClimateControlSystem.depends = \
 # Сенсорный экран
 # https://www.waveshare.com/w/upload/5/56/PWM_control_backlight_manual.pdf
 # https://www.waveshare.com/wiki/7inch_HDMI_LCD_(B)
+#
+# Задать яркость (рабочий диапазон 450 - 510)
+# gpio -g pwm 18 1024
+# gpio -g mode 18 pwm
+# gpio pwmc 1000
+# gpio -g pwm 18 %1
+#
 ###############################################################################
 # Часто не требуется использовать графическую оболочку в Linux
 # Теперь правильнее отключать графическую оболочку в systemd.
@@ -121,6 +128,7 @@ ClimateControlSystem.depends = \
 # update-rc.d -f используемый-DM defaults
 ###############################################################################
 # https://losst.ru/nastrojka-linghtdm-v-linux
+#
 ###############################################################################
 # lubuntu-desktop xubuntu-desktop kubuntu-desktop mate-desktop cinnamon-desktop
 # apt list --installed | grep desktop
@@ -134,9 +142,22 @@ ClimateControlSystem.depends = \
 #
 ###############################################################################
 # как отключить скринсейвер
-# sudo nano /etc/lightdm/lightdm.conf
-# А потом не добавить, а раскомментировать:
-# xserver-command=X
-# И изменить на:
-# xserver-command=X -s 0 -dpms
+# /home/pi/.config/lxsession/LXDE/autostart
+# убрать #@xscreensaver -no-splash
 #
+###############################################################################
+# Запустить рабочий стол
+# killall lxpanel
+# lxpanel
+#
+###############################################################################
+
+#
+###############################################################################
+# Комбинации горячих кнопок
+# QKeySequence("Ctrl+E")        - меню настроек
+#    QKeySequence("Ctrl+s")     - экспорт арахива(сохранить в файл)
+#    QKeySequence("Ctrl+r")     - очистить архив
+# QKeySequence("Ctrl+L")        - меню яркости
+#
+###############################################################################

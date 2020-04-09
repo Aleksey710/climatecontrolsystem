@@ -205,27 +205,20 @@ void ModbusMasterUnit::connectionParsing(const QJsonObject &connectionJsonObject
         if( deviceJsonObject.value("isExternal").toBool() )
         {
             //! Проверить режим работы
-            ScriptObject *scriptObject = ScriptUnit::getScriptObject("settings"); // ПРОПИСАТЬ ПРАВИЛЬНУЮ ПЕРЕМЕННУЮ РЕЖИМА РАБОТЫ!!!!
-
-            bool isUsing = false;
+            ScriptObject *scriptObject = ScriptUnit::getScriptObject("settings.temp.useBVV");
 
             if(scriptObject)
             {
                 double value = scriptObject->data();
 
+                //! Если режим работы регламентирует использование
                 if(value == 1)
                 {
-                    isUsing = true;
+                    SEND_TO_LOG( QString("%1 - Режим использования внешнего датчика (use BVV)").arg(objectName()) );
+                    deviceParsing(modbusConnectionSettings, deviceJsonObject);
                 }
-
-                SEND_TO_LOG( QString("%1 - Режим использования внешнего датчика").arg(objectName()) );
             }
 
-            //! Если режим работы регламентирует использование
-            if(isUsing)
-            {
-                deviceParsing(modbusConnectionSettings, deviceJsonObject);
-            }
         } else
         {
             deviceParsing(modbusConnectionSettings, deviceJsonObject);

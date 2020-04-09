@@ -199,7 +199,14 @@
             { "name":"vr.shutdownDelay.receiveRequestTime", "title":"Время получения запроса на выключение",       "value": 0 },
             { "name":"vr.shutdownDelay.delayActivated",     "title":"Задержка активирована",                       "value": 0 },
             { "name":"vr.shutdownDelay.shutdownExec",       "title":"Признак того, что попытка вызова функции systemShutdown() произошла", "value": 0 },
+        { "lineComment":"------------------------------------------------------------------------------------------------------" },
+
+        { "lineComment":"------------------------------------------------------------------------------------------------------" },
+        { "lineComment":"Данные для реализации алгоритма управления яркостью" },
+            { "name":"vr.ScreenBrightness.CurLevel",  "title":"Текущий уровень яркости",           "value": 0 },
+            { "name":"vr.ScreenBrightness.delay",     "title":"Задержка до уменьшения яркости",    "value": 0 },
         { "lineComment":"------------------------------------------------------------------------------------------------------" }
+
     ],
     "functions":[
         {
@@ -2410,8 +2417,8 @@
                     setNextUpdateTime();
 
                     // Устанавливаем регистр отображения тут, поскольку при старте settings.wagon.res
-                    // создается ранеше чем display.wagon.res и начальное значение в него не попадает,
-                    // потому что функция set_display_wagon_res не вызывается в этом случае.
+                    // создается раньше чем display.wagon.res и начальное значение в него не попадает,
+                    // потому, что функция set_display_wagon_res не вызывается в этом случае.
                     display.wagon.res.setData( settings.wagon.res.data() / 60 );
 
                     /*Запись в журнал о ВКЛЮЧЕНИИ*/
@@ -2419,6 +2426,23 @@
 
                     vr.shutdownDelay.delayActivated.setData( 0 );
                     vr.shutdownDelay.receiveRequestTime.setData( 0 );
+
+
+                    /*========================Управление яркостью=============================*/
+                    // При включении устанавливаем максимальный уровень и если включен режим
+                    // сохранения экрана, задаем время до  установления минимального уровня
+                    //
+
+                    vr.ScreenBrightness.CurLevel.setData( settings.screen.max.data() );
+                    setScreenBrightness( vr.ScreenBrightness.CurLevel.data() );
+
+                    if( settings.screen.opt.data() > 0 )
+                    {
+                        var val = sys.time.curent.data( ) + settings.screen.delay.data();
+                        vr.ScreenBrightness.delay.setData( val );
+                    }
+
+                    /*=========================================================================*/
 
                 } else
                 {
@@ -2566,6 +2590,66 @@
                 }
             "
         },
+
+        {
+            "comment":"Функция ожидает нажтие клавиш и устанавливает максимальную яркость",
+            "name":"setScreenBrightnessMax",
+            "sources":[
+                        "buttons.buttons.F1",
+                        "buttons.buttons.F2",
+                        "buttons.buttons.F3",
+                        "buttons.buttons.F4"
+                      ],
+            "processing":"
+                if( settings.screen.opt.data() > 0 )
+                {
+                    if (    buttons.buttons.F1.data() == 1
+                         || buttons.buttons.F2.data() == 1
+                         || buttons.buttons.F3.data() == 1
+                         || buttons.buttons.F4.data() == 1 )
+                    {
+                        var val = sys.time.curent.data( ) + settings.screen.delay.data();
+                        vr.ScreenBrightness.delay.setData( val );
+
+                        vr.ScreenBrightness.CurLevel.setData( settings.screen.max.data() );
+                        setScreenBrightness( vr.ScreenBrightness.CurLevel.data() );
+                    }
+                }
+            "
+        },
+
+        {
+            "comment":"Функция считает время от последнего нажатия клавиши и уменьшает яркость",
+            "name":"setScreenBrightnessMin",
+            "sources":[ "sys.time.curent" ],
+            "processing":"
+                if( settings.screen.opt.data() > 0 && vr.ScreenBrightness.delay.data( ) > 0 )
+                {
+                    if ( vr.ScreenBrightness.delay.data( ) <= sys.time.curent.data( )  )
+                    {
+                        vr.ScreenBrightness.delay.setData( 0 );
+                        vr.ScreenBrightness.CurLevel.setData( settings.screen.min.data() );
+                        setScreenBrightness( vr.ScreenBrightness.CurLevel.data() );
+                    }
+                }
+            "
+        },
+        {
+
+            "comment":"Имитация нажатия клавиш, после того как уменьшили яркость",
+            "name":"testScreenBrightness",
+            "sources":[ "sys.time.curent" ],
+            "processing":"
+/*
+                if ( vr.ScreenBrightness.CurLevel.data() == 4 )
+                {
+                    buttons.buttons.F1.setData( 1 );
+                    buttons.buttons.F1.setData( 0 );
+                }
+*/
+            "
+        },
+
         {
 
             "comment":"ТЕСТ!!!",

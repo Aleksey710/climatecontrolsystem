@@ -17,7 +17,7 @@
         "numberOfRetries": 1,
         "devices" : [
             {
-                "isUsed": true,
+                "isExternal": false,
                 "serverAddress":8,
                 "title":"БВВ Входные регистры (input registers)",
                 "functionCode":4,
@@ -34,7 +34,7 @@
                 ]
             },
             {
-                "isUsed": true,
+                "isExternal": false,
                 "serverAddress":8,
                 "title":"БВВ входные регистры (input registers). Чтение.",
                 "functionCode":4,
@@ -46,7 +46,7 @@
                 ]
             },
             {
-                "isUsed": true,
+                "isExternal": false,
                 "serverAddress":8,
                 "title":"БВВ Хранимые регистры (holding registers). Запись.",
                 "functionCode":16,
@@ -55,7 +55,7 @@
                 ]
             },
             {
-                "isUsed": true,
+                "isExternal": false,
                 "serverAddress":16,
                 "title":"A9 входные регистры (input registers)",
                 "functionCode":4,
@@ -67,7 +67,7 @@
                 ]
             },
             {
-                "isUsed": true,
+                "isExternal": false,
                 "serverAddress":16,
                 "title":"A9 Хранимые регистры (holding registers)",
                 "functionCode":16,
@@ -76,7 +76,7 @@
                 ]
             },
             {
-                "isUsed": false,
+                "isExternal": true,
                 "serverAddress":17,
                 "title":"Датчик температури салону",
                 "functionCode":4,
@@ -85,7 +85,7 @@
                 ]
             },
             {
-                "isUsed": false,
+                "isExternal": true,
                 "serverAddress":18,
                 "title":"Датчик температура зовнішня",
                 "functionCode":4,
@@ -94,7 +94,7 @@
                 ]
             },
             {
-                "isUsed": false,
+                "isExternal": true,
                 "serverAddress":19,
                 "title":"Датчик температура приток",
                 "functionCode":4,
@@ -103,7 +103,7 @@
                 ]
             },
             {
-                "isUsed": false,
+                "isExternal": true,
                 "serverAddress":20,
                 "title":"Датчик температура котла",
                 "functionCode":4,

@@ -201,8 +201,32 @@ void ModbusMasterUnit::connectionParsing(const QJsonObject &connectionJsonObject
     {
         const QJsonObject deviceJsonObject = value.toObject();
 
-        //! Если есть признак использования - обработать
-        if( deviceJsonObject.value("isUsed").toBool() )
+        //! Если есть признак внешнего датчика
+        if( deviceJsonObject.value("isExternal").toBool() )
+        {
+            //! Проверить режим работы
+            ScriptObject *scriptObject = ScriptUnit::getScriptObject("settings"); // ПРОПИСАТЬ ПРАВИЛЬНУЮ ПЕРЕМЕННУЮ РЕЖИМА РАБОТЫ!!!!
+
+            bool isUsing = false;
+
+            if(scriptObject)
+            {
+                double value = scriptObject->data();
+
+                if(value == 1)
+                {
+                    isUsing = true;
+                }
+
+                SEND_TO_LOG( QString("%1 - Режим использования внешнего датчика").arg(objectName()) );
+            }
+
+            //! Если режим работы регламентирует использование
+            if(isUsing)
+            {
+                deviceParsing(modbusConnectionSettings, deviceJsonObject);
+            }
+        } else
         {
             deviceParsing(modbusConnectionSettings, deviceJsonObject);
         }

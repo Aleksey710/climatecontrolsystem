@@ -382,7 +382,7 @@
                        vr.msg.t_sal.setData( 0 );
                     }
                 } else {
-                    if ( modbus.Tsal.device.data() )
+                    if ( modbus.Tsal.device.data() == 1 )
                     {
                         display.temp.t_sal.setData(
                             settings.offset.cmc_mb.data()  *
@@ -449,7 +449,7 @@
                        vr.msg.t_pr.setData( 0 );
                     }
                 } else {
-                    if (modbus.Tpr.device.data()) {
+                    if ( modbus.Tpr.device.data()  == 1 ) {
                         display.temp.t_pr.setData(
                             settings.offset.cmf_mb.data() *
                             (modbus.Tpr.r30000.data()/settings.offset.oc.data())
@@ -515,7 +515,7 @@
                     }
                 } else
                 {
-                    if (modbus.Tnv.device.data())
+                    if ( modbus.Tnv.device.data() == 1 )
                     {
                         display.temp.t_nv.setData(
                             settings.offset.cmo_mb.data() *
@@ -583,7 +583,7 @@
                     }
                 } else
                 {
-                    if (modbus.Tkotl.device.data() == 1 )
+                    if ( modbus.Tkotl.device.data() == 1 )
                     {
                         display.temp.t_kotl.setData(
                             settings.offset.cmb_mb.data()  *

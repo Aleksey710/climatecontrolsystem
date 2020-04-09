@@ -315,25 +315,26 @@ void ScriptUnit::setupFunctions(const QJsonArray &jsonArray)
         QString functionText = functionJsonObject.value("processing").toString();
 
         //------------------------------------------
-        QScriptSyntaxCheckResult scriptSyntaxCheckResult = m_scriptEngine.checkSyntax(functionText);
-
-        if(scriptSyntaxCheckResult.state() != QScriptSyntaxCheckResult::Valid)
-        {
-            SEND_TO_LOG( QString("%1 - ERROR (Ошибка в тексте функции [%2] - %3) \r\n"
-                                 "%4")
-                         .arg(objectName())
-                         .arg(name)
-                         .arg(QString("line: %1, column %2 (%3)")
-                              .arg(scriptSyntaxCheckResult.errorLineNumber())
-                              .arg(scriptSyntaxCheckResult.errorColumnNumber())
-                              .arg(scriptSyntaxCheckResult.errorMessage())
-                              )
-                         .arg(functionText)
-                         );
-        }
-        //------------------------------------------
         if( !functionText.isEmpty() )
         {
+            //------------------------------------------
+            QScriptSyntaxCheckResult scriptSyntaxCheckResult = m_scriptEngine.checkSyntax(functionText);
+
+            if(scriptSyntaxCheckResult.state() != QScriptSyntaxCheckResult::Valid)
+            {
+                SEND_TO_LOG( QString("%1 - ERROR (Ошибка в тексте функции [%2] - %3) \r\n"
+                                     "%4")
+                             .arg(objectName())
+                             .arg(name)
+                             .arg(QString("line: %1, column %2 (%3)")
+                                  .arg(scriptSyntaxCheckResult.errorLineNumber())
+                                  .arg(scriptSyntaxCheckResult.errorColumnNumber())
+                                  .arg(scriptSyntaxCheckResult.errorMessage())
+                                  )
+                             .arg(functionText)
+                             );
+                continue;
+            }
             //------------------------------------------
             QJsonArray sourcesArray = functionJsonObject.value("sources").toArray();
 
@@ -347,6 +348,7 @@ void ScriptUnit::setupFunctions(const QJsonArray &jsonArray)
                 {
                     SEND_TO_LOG( QString("%1 - ERROR (Несуществующий источник [%2])")
                                  .arg(objectName()).arg( sourceName ) );
+                    continue;
                 } else
                 {
                     connect(scriptObject, &ScriptObject::dataChanged,[this, functionText](){

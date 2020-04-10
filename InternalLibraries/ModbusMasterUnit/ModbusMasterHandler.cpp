@@ -85,7 +85,7 @@ void ModbusMasterHandler::exequteRequest(ModbusRequest *modbusRequest)
     modbus_set_slave(ctx, modbusRequest->serverAddress());
 
     uint32_t sec_to = 0;
-    uint32_t usec_to = 5*1000;
+    uint32_t usec_to = 20*1000;
     modbus_set_response_timeout(ctx, sec_to, usec_to);
 
 #ifdef __arm__

@@ -111,23 +111,41 @@ ButtonsWidget::ButtonsWidget(QWidget *parent)
 
     connect(m_buttonsControlThread, &ButtonsControlThread::bt_1_pressed, [=](){
         if(m_mainFrameButton->isVisible())
-            m_mainFrameButton->click();
+        {
+            //m_mainFrameButton->click();
+            QMetaObject::invokeMethod(m_mainFrameButton, "click", Qt::QueuedConnection);
+        }
     });
     connect(m_buttonsControlThread, &ButtonsControlThread::bt_2_pressed, [=](){
         if(m_nextFrameButton->isVisible())
-            m_nextFrameButton->click();
+        {
+            //m_nextFrameButton->click();
+            QMetaObject::invokeMethod(m_nextFrameButton, "click", Qt::QueuedConnection);
+        }
     });
     connect(m_buttonsControlThread, &ButtonsControlThread::bt_3_pressed, [=](){
         if(m_minusFrameButton->isVisible())
-            m_minusFrameButton->click();
+        {
+            //m_minusFrameButton->click();
+            QMetaObject::invokeMethod(m_minusFrameButton, "click", Qt::QueuedConnection);
+        }
         if(m_pgUpFrameButton->isVisible())
-            m_pgUpFrameButton->click();
+        {
+            //m_pgUpFrameButton->click();
+            QMetaObject::invokeMethod(m_pgUpFrameButton, "click", Qt::QueuedConnection);
+        }
     });
     connect(m_buttonsControlThread, &ButtonsControlThread::bt_4_pressed, [=](){
         if(m_plusFrameButton->isVisible())
-            m_plusFrameButton->click();
+        {
+            //m_plusFrameButton->click();
+            QMetaObject::invokeMethod(m_plusFrameButton, "click", Qt::QueuedConnection);
+        }
         if(m_pgDownFrameButton->isVisible())
-            m_pgDownFrameButton->click();
+        {
+            //m_pgDownFrameButton->click();
+            QMetaObject::invokeMethod(m_pgDownFrameButton, "click", Qt::QueuedConnection);
+        }
     });
 
     //-----------------------------------------
@@ -159,46 +177,86 @@ void ButtonsWidget::setupButtonScript()
     ScriptObject *F1_scriptObject = ScriptUnit::getScriptObject("buttons.buttons.F1");
 
     connect(m_buttonsControlThread, &ButtonsControlThread::bt_1_pressed, [=](){
-        if(F1_scriptObject) F1_scriptObject->setData(1);
+        if(F1_scriptObject)
+        {
+            //F1_scriptObject->setData(1);
+            QMetaObject::invokeMethod(F1_scriptObject, "setData", Qt::QueuedConnection, Q_ARG(double, 1));
+        }
     });
     connect(m_buttonsControlThread, &ButtonsControlThread::bt_1_released, [=](){
-        if(F1_scriptObject) F1_scriptObject->setData(0);
+        if(F1_scriptObject)
+        {
+            //F1_scriptObject->setData(0);
+            QMetaObject::invokeMethod(F1_scriptObject, "setData", Qt::QueuedConnection, Q_ARG(double, 0));
+        }
     });
     //-----------------------------------------
     ScriptObject *F2_scriptObject = ScriptUnit::getScriptObject("buttons.buttons.F2");
 
     connect(m_buttonsControlThread, &ButtonsControlThread::bt_2_pressed, [=](){
-        if(F2_scriptObject) F2_scriptObject->setData(1);
+        if(F2_scriptObject)
+        {
+            //F2_scriptObject->setData(1);
+            QMetaObject::invokeMethod(F2_scriptObject, "setData", Qt::QueuedConnection, Q_ARG(double, 1));
+        }
     });
     connect(m_buttonsControlThread, &ButtonsControlThread::bt_2_released, [=](){
-        if(F2_scriptObject) F2_scriptObject->setData(0);
+        if(F2_scriptObject)
+        {
+            //F2_scriptObject->setData(0);
+            QMetaObject::invokeMethod(F2_scriptObject, "setData", Qt::QueuedConnection, Q_ARG(double, 0));
+        }
     });
     //-----------------------------------------
     ScriptObject *F3_scriptObject = ScriptUnit::getScriptObject("buttons.buttons.F3");
 
     connect(m_buttonsControlThread, &ButtonsControlThread::bt_3_pressed, [=](){
-        if(F3_scriptObject) F3_scriptObject->setData(1);
+        if(F3_scriptObject)
+        {
+            //F3_scriptObject->setData(1);
+            QMetaObject::invokeMethod(F3_scriptObject, "setData", Qt::QueuedConnection, Q_ARG(double, 1));
+        }
     });
     connect(m_buttonsControlThread, &ButtonsControlThread::bt_3_released, [=](){
-        if(F3_scriptObject) F3_scriptObject->setData(0);
+        if(F3_scriptObject)
+        {
+            //F3_scriptObject->setData(0);
+            QMetaObject::invokeMethod(F3_scriptObject, "setData", Qt::QueuedConnection, Q_ARG(double, 0));
+        }
     });
     //-----------------------------------------
     ScriptObject *F4_scriptObject = ScriptUnit::getScriptObject("buttons.buttons.F4");
 
     connect(m_buttonsControlThread, &ButtonsControlThread::bt_4_pressed, [=](){
-        if(F4_scriptObject) F4_scriptObject->setData(1);
+        if(F4_scriptObject)
+        {
+            //F4_scriptObject->setData(1);
+            QMetaObject::invokeMethod(F4_scriptObject, "setData", Qt::QueuedConnection, Q_ARG(double, 1));
+        }
     });
     connect(m_buttonsControlThread, &ButtonsControlThread::bt_4_released, [=](){
-        if(F4_scriptObject) F4_scriptObject->setData(0);
+        if(F4_scriptObject)
+        {
+            //F4_scriptObject->setData(0);
+            QMetaObject::invokeMethod(F4_scriptObject, "setData", Qt::QueuedConnection, Q_ARG(double, 0));
+        }
     });
     //-----------------------------------------
     ScriptObject *Off_scriptObject = ScriptUnit::getScriptObject("buttons.buttons.Off");
 
     connect(m_buttonsControlThread, &ButtonsControlThread::bt_off_pressed, [=](){
-        if(Off_scriptObject) Off_scriptObject->setData(1);
+        if(Off_scriptObject)
+        {
+            //Off_scriptObject->setData(1);
+            QMetaObject::invokeMethod(Off_scriptObject, "setData", Qt::QueuedConnection, Q_ARG(double, 1));
+        }
     });
     connect(m_buttonsControlThread, &ButtonsControlThread::bt_off_released, [=](){
-        if(Off_scriptObject) Off_scriptObject->setData(0);
+        if(Off_scriptObject)
+        {
+            //Off_scriptObject->setData(0);
+            QMetaObject::invokeMethod(Off_scriptObject, "setData", Qt::QueuedConnection, Q_ARG(double, 0));
+        }
     });
     //-----------------------------------------
 }

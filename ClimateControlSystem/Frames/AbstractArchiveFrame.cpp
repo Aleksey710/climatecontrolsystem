@@ -17,6 +17,9 @@
 #include <QDataStream>
 #include <QModelIndex>
 //------------------------------------------------------------------------------------
+QFileSystemWatcher* AbstractArchiveFrame::m_fsWatcher = nullptr;
+QList<QString> AbstractArchiveFrame::m_flashDirList;
+//------------------------------------------------------------------------------------
 //!
 AbstractArchiveFrame::AbstractArchiveFrame(QWidget *parent)
                     : AbstractFrame(parent),
@@ -24,6 +27,18 @@ AbstractArchiveFrame::AbstractArchiveFrame(QWidget *parent)
                       m_tableView ( nullptr ),
                       m_removeRecordsFromArchiveWidget ( nullptr )
 {    
+    if( !m_fsWatcher )
+    {
+        m_fsWatcher = new QFileSystemWatcher(this);
+
+        //устанавливаем слежку на файл
+        //m_fsWatcher->addPath("/home/alexandr/test.txt");
+        m_fsWatcher->addPath("/mnt");
+
+        connect(m_fsWatcher, SIGNAL(directoryChanged(const QString &)),
+                this, SLOT(updateFlashMountList(const QString &)));
+    }
+
     QShortcut *shortcutSave = new QShortcut(QKeySequence("Ctrl+s"), this);
     QObject::connect(shortcutSave, &QShortcut::activated,
                      this, &AbstractArchiveFrame::startSaveData);
@@ -49,6 +64,12 @@ AbstractArchiveFrame::AbstractArchiveFrame(QWidget *parent)
 //------------------------------------------------------------------------------------
 //!
 AbstractArchiveFrame::~AbstractArchiveFrame()
+{
+
+}
+//------------------------------------------------------------------------------------
+//!
+void AbstractArchiveFrame::updateFlashMountList(const QString &path)
 {
 
 }
@@ -180,6 +201,8 @@ void AbstractArchiveFrame::startSaveData()
     treeView->setRootIsDecorated(false);
 */
 
+    QFileSystemWatcher fw;
+
     QString fileName;
 
     //fileName = QFileDialog::getSaveFileName(
@@ -258,8 +281,6 @@ void AbstractArchiveFrame::startSaveData()
         }
 
         QTextStream out(&file);
-        //out.setVersion(QDataStream::Qt_5_7);
-        //out << contacts;
 
         out << "<!DOCTYPE html>";
         out << "<html>";

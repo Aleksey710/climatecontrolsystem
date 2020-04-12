@@ -5,7 +5,7 @@
 #include <QWidget>
 #include <QTableView>
 #include <QSqlQueryModel>
-//#include <>
+#include <QFileSystemWatcher>
 //#include <>
 //#include <>
 //#include <>
@@ -46,12 +46,20 @@ class AbstractArchiveFrame : public AbstractFrame
         virtual QString headLabel() = 0; //{ return QString(); }
         virtual QString queryString() = 0; //{ return QString(); }
 
+    private slots:
+        void updateFlashMountList(const QString &path);
+
 
     protected:
         QSqlQueryModel *m_model;
         QTableView *m_tableView;
 
         RemoveRecordsFromArchiveWidget *m_removeRecordsFromArchiveWidget;
+
+        //-----------------------------------------------
+        static QFileSystemWatcher *m_fsWatcher;
+
+        static QList<QString> m_flashDirList;
 };
 //------------------------------------------------------------------------------------
 #endif // ABSTRACTARCHIVEFRAME_H

@@ -12,8 +12,8 @@ LIBS += -L$$ROOT_PATH/lib \
 #############################################################
 if ( contains( CONFIG, USE_CCACHE ) ) {
 
-    QMAKE_CC    = ccache gcc
-    QMAKE_CXX   = ccache g++
+#    QMAKE_CC    = ccache gcc
+#    QMAKE_CXX   = ccache g++
 
 } else {
 

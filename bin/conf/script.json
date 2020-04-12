@@ -145,6 +145,14 @@
                 { "name":"vr.timout.BVVConnError", "title":"Время формирования задержки на установку признака отсутствия связи с БВВ.",       "value": 0 },
                 { "name":"vr.msg.A9ConnError",     "title":"Нет связи с А9 (БУТ).",                                                           "value": 0 },
                 { "name":"vr.timout.A9ConnError",  "title":"Время формирования задержки на установку признака отсутствия связи с А9 (БУТ).",  "value": 0 },
+                { "name":"vr.msg.TsalConnError",     "title":"Нет связи с внешним датчиком температуры салона.",                                     "value": 0 },
+                { "name":"vr.timout.TsalConnError",  "title":"Время формирования задержки на установку признака отсутствия связи с внешним датчиком температуры салона.",  "value": 0 },
+                { "name":"vr.msg.TnvConnError",     "title":"Нет связи с внешним датчиком температуры наружного воздуха.",                                     "value": 0 },
+                { "name":"vr.timout.TnvConnError",  "title":"Время формирования задержки на установку признака отсутствия связи с внешним датчиком температуры наружного воздуха.",  "value": 0 },
+                { "name":"vr.msg.TprConnError",     "title":"Нет связи с внешним датчиком температуры приточного воздуха.",                                     "value": 0 },
+                { "name":"vr.timout.TprConnError",  "title":"Время формирования задержки на установку признака отсутствия связи с внешним датчиком температуры приточного воздуха.",  "value": 0 },
+                { "name":"vr.msg.TkotlConnError",     "title":"Нет связи с внешним датчиком температуры котла.",                                     "value": 0 },
+                { "name":"vr.timout.TkotlConnError",  "title":"Время формирования задержки на установку признака отсутствия связи с внешним датчиком температуры котла.",  "value": 0 },
             { "lineComment":"---------------------------------------------------------------------" },
             { "lineComment":"Переменные блокировки авторежима" },
                 { "name":"vr.msg.automodeDisabled", "title":"Запрет авторежима.",                   "value": 0 },
@@ -286,6 +294,126 @@
                 "
         },
         {
+            "name":"setTsalConnError",
+            "sources":[ "sys.time.curent" ],
+            "processing":"
+                /* Контроль обрыва связи внешнего датчика температуры салона*/
+                /* Отсутствие связи интерпретируем как обрыв*/
+                if ( settings.temp.useBVV.data() < 1 )
+                {
+                    if ( modbus.Tsal.device.data() < 1 )
+                    {
+                         if ( vr.timout.TsalConnError.data() == 0 )
+                         {
+                             /*Запуск счетчика*/
+                             vr.timout.TsalConnError.setData( sys.time.curent.data() + 3 );
+                         } else if ( sys.time.curent.data() >= vr.timout.TsalConnError.data() )
+                         {
+                             /*Запись в журнал и вывод на экран*/
+                             if ( vr.msg.TsalConnError.data() == 0 )
+                             {
+                                 vr.msg.TsalConnError.setData( 1 );
+                             }
+                         }
+                     } else
+                     {
+                         vr.timout.TsalConnError.setData( 0 );
+                         vr.msg.TsalConnError.setData( 0 );
+                     }
+                }
+                "
+        },
+        {
+            "name":"setTnvConnError",
+            "sources":[ "sys.time.curent" ],
+            "processing":"
+                /* Контроль обрыва связи внешнего датчика температуры наружного воздуха*/
+                /* Отсутствие связи интерпретируем как обрыв*/
+                if ( settings.temp.useBVV.data() < 1 )
+                {
+                    if ( modbus.Tnv.device.data() < 1 )
+                    {
+                         if ( vr.timout.TnvConnError.data() == 0 )
+                         {
+                             /*Запуск счетчика*/
+                             vr.timout.TnvConnError.setData( sys.time.curent.data() + 3 );
+                         } else if ( sys.time.curent.data() >= vr.timout.TnvConnError.data() )
+                         {
+                             /*Запись в журнал и вывод на экран*/
+                             if ( vr.msg.TnvConnError.data() == 0 )
+                             {
+                                 vr.msg.TnvConnError.setData( 1 );
+                             }
+                         }
+                     } else
+                     {
+                         vr.timout.TnvConnError.setData( 0 );
+                         vr.msg.TnvConnError.setData( 0 );
+                     }
+                }
+                "
+        },
+        {
+            "name":"setTprConnError",
+            "sources":[ "sys.time.curent" ],
+            "processing":"
+                /* Контроль обрыва связи внешнего датчика температуры приточного воздуха*/
+                /* Отсутствие связи интерпретируем как обрыв*/
+                if ( settings.temp.useBVV.data() < 1 )
+                {
+                    if ( modbus.Tpr.device.data() < 1 )
+                    {
+                         if ( vr.timout.TprConnError.data() == 0 )
+                         {
+                             /*Запуск счетчика*/
+                             vr.timout.TprConnError.setData( sys.time.curent.data() + 3 );
+                         } else if ( sys.time.curent.data() >= vr.timout.TprConnError.data() )
+                         {
+                             /*Запись в журнал и вывод на экран*/
+                             if ( vr.msg.TprConnError.data() == 0 )
+                             {
+                                 vr.msg.TprConnError.setData( 1 );
+                             }
+                         }
+                     } else
+                     {
+                         vr.timout.TprConnError.setData( 0 );
+                         vr.msg.TprConnError.setData( 0 );
+                     }
+                }
+                "
+        },
+        {
+            "name":"setTkotlConnError",
+            "sources":[ "sys.time.curent" ],
+            "processing":"
+                /* Контроль обрыва связи внешнего датчика температуры котла*/
+                /* Отсутствие связи интерпретируем как обрыв*/
+                if ( settings.temp.useBVV.data() < 1 )
+                {
+                    if ( modbus.Tkotl.device.data() < 1 )
+                    {
+                         if ( vr.timout.TkotlConnError.data() == 0 )
+                         {
+                             /*Запуск счетчика*/
+                             vr.timout.TkotlConnError.setData( sys.time.curent.data() + 3 );
+                         } else if ( sys.time.curent.data() >= vr.timout.TkotlConnError.data() )
+                         {
+                             /*Запись в журнал и вывод на экран*/
+                             if ( vr.msg.TkotlConnError.data() == 0 )
+                             {
+                                 vr.msg.TkotlConnError.setData( 1 );
+                             }
+                         }
+                     } else
+                     {
+                         vr.timout.TkotlConnError.setData( 0 );
+                         vr.msg.TkotlConnError.setData( 0 );
+                     }
+                }
+                "
+        },
+        {
             "name":"setBVVr40000",
             "sources":[
                 "out.BVV.vvo1On",
@@ -353,7 +481,8 @@
                 "modbus.BVV.r30002",
                 "vr.msg.BVVConnError",
                 "modbus.Tsal.device",
-                "modbus.Tsal.r30000"
+                "modbus.Tsal.r30000",
+                "vr.msg.TsalConnError"
                 ],
             "processing":"
                 if ( settings.temp.useBVV.data() == 1 )
@@ -401,8 +530,9 @@
                         {
                             vr.msg.t_sal.setData( 0 );
                         }
-                    } else {
-                       display.temp.t_sal.setData( 0 );
+                    } else if ( vr.msg.TsalConnError.data() == 1 ) {
+                       // В случае обрыва внешнего датчика устанавливаем значение регистра равныз значению обрыва датчика
+                       display.temp.t_sal.setData( settings.temp.sev.data() );
                        if ( vr.msg.t_sal.data() < 1 )
                        {
                            /*Запись в журнал*/
@@ -420,7 +550,8 @@
                 "modbus.BVV.r30003",
                 "vr.msg.BVVConnError",
                 "modbus.Tpr.device",
-                "modbus.Tpr.r30000"
+                "modbus.Tpr.r30000",
+                "vr.msg.TprConnError"
                 ],
             "processing":"
                 if ( settings.temp.useBVV.data() == 1 )
@@ -467,8 +598,9 @@
                         {
                             vr.msg.t_pr.setData( 0 );
                         }
-                    } else {
-                       display.temp.t_pr.setData( 0 );
+                    } else if ( vr.msg.TprConnError.data() == 1 ) {
+                       // В случае обрыва внешнего датчика устанавливаем значение регистра равныз значению обрыва датчика
+                       display.temp.t_pr.setData( settings.temp.sev.data() );
                        if ( vr.msg.t_pr.data() < 1 )
                        {
                            /*Запись в журнал*/
@@ -485,7 +617,8 @@
                 "modbus.BVV.r30004",
                 "vr.msg.BVVConnError",
                 "modbus.Tnv.device",
-                "modbus.Tnv.r30000"
+                "modbus.Tnv.r30000",
+                "vr.msg.TnvConnError"
                 ],
             "processing":"
                 if ( settings.temp.useBVV.data() == 1 )
@@ -534,9 +667,10 @@
                         {
                             vr.msg.t_nv.setData( 0 );
                         }
-                    } else
+                    } else if ( vr.msg.TnvConnError.data() == 1 )
                     {
-                       display.temp.t_nv.setData( 0 );
+                       // В случае обрыва внешнего датчика устанавливаем значение регистра равныз значению обрыва датчика
+                       display.temp.t_nv.setData( settings.temp.sev.data() );
                        if ( vr.msg.t_nv.data() < 1 )
                        {
                            /*Запись в журнал*/
@@ -553,7 +687,8 @@
                 "modbus.BVV.r30005",
                 "vr.msg.BVVConnError",
                 "modbus.Tkotl.device",
-                "modbus.Tkotl.r30000"
+                "modbus.Tkotl.r30000",
+                "vr.msg.TkotlConnError"
                 ],
             "processing":"
                 if ( settings.temp.useBVV.data() == 1 )
@@ -602,9 +737,10 @@
                         {
                             vr.msg.t_kotl.setData( 0 );
                         }
-                    } else
+                    } else if ( vr.msg.TkotlConnError.data() == 1 )
                     {
-                       display.temp.t_kotl.setData( 0 );
+                       // В случае обрыва внешнего датчика устанавливаем значение регистра равныз значению обрыва датчика
+                       display.temp.t_kotl.setData( settings.temp.sev.data() );
                        if ( vr.msg.t_kotl.data() < 1 )
                        {
                            /*Запись в журнал*/

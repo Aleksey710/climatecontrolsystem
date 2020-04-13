@@ -49,7 +49,6 @@ class AbstractArchiveFrame : public AbstractFrame
         virtual QString queryString() = 0; //{ return QString(); }
 
     private slots:
-        void updateFlashMountList(const QString &path);
 
 
     protected:
@@ -58,11 +57,6 @@ class AbstractArchiveFrame : public AbstractFrame
         QTableWidget *m_tableWidget;
 
         RemoveRecordsFromArchiveWidget *m_removeRecordsFromArchiveWidget;
-
-        //-----------------------------------------------
-        static QFileSystemWatcher *m_fsWatcher;
-
-        static QList<QString> m_flashDirList;
 };
 //------------------------------------------------------------------------------------
 #endif // ABSTRACTARCHIVEFRAME_H

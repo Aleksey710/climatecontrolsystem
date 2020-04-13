@@ -20,9 +20,6 @@
 #include <QTimer>
 #include <QDateTime>
 //------------------------------------------------------------------------------------
-QFileSystemWatcher* AbstractArchiveFrame::m_fsWatcher = nullptr;
-QList<QString> AbstractArchiveFrame::m_flashDirList;
-//------------------------------------------------------------------------------------
 //!
 AbstractArchiveFrame::AbstractArchiveFrame(QWidget *parent)
                     : AbstractFrame(parent),
@@ -31,18 +28,6 @@ AbstractArchiveFrame::AbstractArchiveFrame(QWidget *parent)
                       m_tableWidget ( nullptr ),
                       m_removeRecordsFromArchiveWidget ( nullptr )
 {    
-    if( !m_fsWatcher )
-    {
-        m_fsWatcher = new QFileSystemWatcher(this);
-
-        //устанавливаем слежку на файл
-        //m_fsWatcher->addPath("/home/alexandr/test.txt");
-        m_fsWatcher->addPath("/media/pi");
-
-        connect(m_fsWatcher, SIGNAL(directoryChanged(const QString &)),
-                this, SLOT(updateFlashMountList(const QString &)));
-    }
-
     QShortcut *shortcutSave = new QShortcut(QKeySequence("Ctrl+s"), this);
     QObject::connect(shortcutSave, &QShortcut::activated,
                      this, &AbstractArchiveFrame::startSaveData);
@@ -70,27 +55,6 @@ AbstractArchiveFrame::AbstractArchiveFrame(QWidget *parent)
 AbstractArchiveFrame::~AbstractArchiveFrame()
 {
 
-}
-//------------------------------------------------------------------------------------
-//!
-void AbstractArchiveFrame::updateFlashMountList(const QString &path)
-{
-    Q_UNUSED(path);
-
-    m_flashDirList.clear();
-
-    QDir mediaDir = QDir("/media/pi");
-
-    m_flashDirList = mediaDir.entryList(QDir::Dirs);
-
-//    foreach (QString subdir, m_flashDirList)
-//    {
-//        if (subdir == "." || subdir == "..") {
-//           continue;
-//        }
-//    }
-
-    qDebug() << m_flashDirList;
 }
 //------------------------------------------------------------------------------------
 //!
@@ -236,11 +200,15 @@ void AbstractArchiveFrame::startSaveData( )
 
     //---------------------------------------------------------------
 #ifdef __arm__
-    for (int i = 0; i < m_flashDirList.size(); ++i)
+    QDir mediaDir = QDir("/media/pi");
+
+    QList<QString> flashDirList = mediaDir.entryList(QDir::Dirs);
+
+    for (int i = 0; i < flashDirList.size(); ++i)
     {
         //-----------------------------------
         QString fileName = QString("/media/pi/%1/%2-%3.html")
-                .arg(m_flashDirList.at(i))
+                .arg(flashDirList.at(i))
                 .arg(QDateTime::currentDateTimeUtc().toString("yyyy-MM-dd hh:mm"))
                 .arg(headLabel());
 
@@ -303,6 +271,8 @@ void AbstractArchiveFrame::startSaveData( )
 //!
 void AbstractArchiveFrame::saveDataTo(const QString &fileName)
 {
+    SEND_TO_LOG( QString("%1 - сохранение журнала %2").arg(objectName()).arg(fileName) );
+
     //------------------------------------------------
     if (fileName.isEmpty())
     {

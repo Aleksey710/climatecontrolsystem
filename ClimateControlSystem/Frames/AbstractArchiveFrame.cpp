@@ -187,7 +187,7 @@ void AbstractArchiveFrame::startSaveData( )
     flashDirList.removeAll(".");
     flashDirList.removeAll("..");
 
-    qDebug() << flashDirList;
+    //qDebug() << flashDirList;
 
     for (int i = 0; i < flashDirList.size(); ++i)
     {
@@ -258,7 +258,6 @@ void AbstractArchiveFrame::saveDataTo(const QString &fileName)
 {
     SEND_TO_LOG( QString("%1 - сохранение журнала %2").arg(objectName()).arg(fileName) );
 
-    qDebug() << fileName;
     //------------------------------------------------
     if (fileName.isEmpty())
     {
@@ -267,7 +266,8 @@ void AbstractArchiveFrame::saveDataTo(const QString &fileName)
         QFile file(fileName);
         if (!file.open(QIODevice::WriteOnly))
         {
-            QMessageBox::information(this, tr("Неможливо вiдкрити файл"),
+            QMessageBox::information(this, QString("Неможливо вiдкрити файл:\n"
+                                                   "%1").arg(fileName),
                 file.errorString());
 
             return;

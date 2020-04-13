@@ -1,5 +1,6 @@
 #include "AbstractArchiveFrame.h"
 
+#include <QApplication>
 #include <QGridLayout>
 #include <QSqlRelationalTableModel>
 #include <QSqlTableModel>
@@ -16,6 +17,8 @@
 #include <QIODevice>
 #include <QDataStream>
 #include <QModelIndex>
+#include <QTimer>
+#include <QDateTime>
 //------------------------------------------------------------------------------------
 QFileSystemWatcher* AbstractArchiveFrame::m_fsWatcher = nullptr;
 QList<QString> AbstractArchiveFrame::m_flashDirList;
@@ -33,7 +36,7 @@ AbstractArchiveFrame::AbstractArchiveFrame(QWidget *parent)
 
         //устанавливаем слежку на файл
         //m_fsWatcher->addPath("/home/alexandr/test.txt");
-        m_fsWatcher->addPath("/mnt");
+        m_fsWatcher->addPath("/media/pi");
 
         connect(m_fsWatcher, SIGNAL(directoryChanged(const QString &)),
                 this, SLOT(updateFlashMountList(const QString &)));
@@ -71,12 +74,29 @@ AbstractArchiveFrame::~AbstractArchiveFrame()
 //!
 void AbstractArchiveFrame::updateFlashMountList(const QString &path)
 {
+    Q_UNUSED(path);
 
+    m_flashDirList.clear();
+
+    QDir mediaDir = QDir("/media/pi");
+
+    m_flashDirList = mediaDir.entryList(QDir::Dirs);
+
+    foreach (QString subdir, m_flashDirList)
+    {
+        if (subdir == "." || subdir == "..") {
+           continue;
+        }
+    }
 }
 //------------------------------------------------------------------------------------
 //!
 void AbstractArchiveFrame::setup()
 {
+    //! Дать возможность обработаться накопившимся событиям
+    //! Для уменьшения замирания
+    QApplication::processEvents();
+
     //-----------------------------------------------------------------
     QGridLayout *mainLayout = new QGridLayout;
 
@@ -190,52 +210,47 @@ void AbstractArchiveFrame::pgDown()
 }
 //------------------------------------------------------------------------------------
 //!
-void AbstractArchiveFrame::startSaveData()
+void AbstractArchiveFrame::startSaveData( )
 {
-    //qDebug() << "AbstractArchiveFrame::startSaveData()";
 /*
-    QTreeView + QFileSystemModel, а потом сделай что-нибудь вроде:
-
-    QString path = "/your/directory";
-    treeView->setRootIndex(model.setRootPath(path));
-    treeView->setRootIsDecorated(false);
-*/
-
-    QFileSystemWatcher fw;
-
-    QString fileName;
-
     //fileName = QFileDialog::getSaveFileName(
     QFileDialog fileDialog;
 
     Qt::WindowModality windowModality = Qt::ApplicationModal;
     fileDialog.setWindowModality(windowModality);
-//    (
-////------------------------------------------------
-///* parent */                this
-////------------------------------------------------
-///* caption */               ,tr("Зберегти даннi у файл")
-////------------------------------------------------
-//#ifdef __arm__
-///* dir */                   ,QString("/home/pi/%1-%2.html")
-//                            .arg(QDateTime::currentDateTime().toString("yyyy-MM-dd hh_mm_ss"))
-//                            .arg(headLabel())
-//#else
-///* dir */                   ,QString("./%1-%2.html")
-//                            .arg(QDateTime::currentDateTime().toString("yyyy-MM-dd hh_mm_ss"))
-//                            .arg(headLabel())
-//#endif
-////------------------------------------------------
-///* filter */                ,tr("html (*.html);;All Files (*)")
-////------------------------------------------------
-/////* selectedFilter */        ,nullptr
-////------------------------------------------------
-/////* options */               ,QFileDialog::ShowDirsOnly |
-////                            QFileDialog::DontUseNativeDialog |
-////                            QFileDialog::ReadOnly
-////------------------------------------------------
-//                            );
+*/
+    //---------------------------------------------------------------
+    QLabel *label = new QLabel("Йде збереження журналу до файлу");
+    label->setWindowModality(Qt::ApplicationModal);
+    label->setAlignment(Qt::AlignCenter);
+    label->setGeometry(200,200,400,200);
+    label->show();
 
+#ifdef __arm__
+    for (int i = 0; i < m_flashDirList.size(); ++i)
+    {
+        //! Дать возможность обработаться накопившимся событиям
+        //! Для уменьшения замирания
+        QApplication::processEvents();
+
+        //-----------------------------------
+        QString fileName = QString("/media/pi/%1/%2-%3.html")
+                .arg(m_flashDirList.at(i))
+                .arg(QDateTime::currentDateTimeUtc().toString("yyyy-MM-dd hh:mm"))
+                .arg(headLabel());
+
+        saveDataTo(fileName);
+    }
+#else
+    QString fileName = QString("%2-%3.html")
+                        .arg(QDateTime::currentDateTimeUtc().toString("yyyy-MM-dd hh:mm"))
+                        .arg(headLabel());
+
+    saveDataTo(fileName);
+#endif // __arm__
+
+    //---------------------------------------------------------------
+/*
     QList<QUrl> urls;
     urls << QUrl::fromLocalFile("/home/grey");
 
@@ -254,7 +269,6 @@ void AbstractArchiveFrame::startSaveData()
                          QFileDialog::DontUseNativeDialog,
                          true);
 
-
     connect(&fileDialog, &QFileDialog::directoryEntered, [&](const QString & directory){
 
         if(fileDialog.directory() == directory)
@@ -266,7 +280,19 @@ void AbstractArchiveFrame::startSaveData()
     //------------------------------------------------
     if (fileDialog.exec())
         fileName = fileDialog.selectedFiles().at(0);
+*/
 
+    //! Удалить транспарант о сохранении
+    QTimer::singleShot(2*1000, [label](){
+
+        label->deleteLater();
+
+    });
+}
+//------------------------------------------------------------------------------------
+//!
+void AbstractArchiveFrame::saveDataTo(const QString &fileName)
+{
     //------------------------------------------------
     if (fileName.isEmpty())
     {

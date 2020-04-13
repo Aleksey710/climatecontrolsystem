@@ -285,10 +285,7 @@ void AbstractArchiveFrame::saveDataTo(const QString &fileName)
         return;
     } else {
         QFile file(fileName);
-        if (!file.open(QIODevice::WriteOnly |
-                       QIODevice::Text |
-                       QIODevice::Unbuffered |
-                       QIODevice::NewOnly))
+        if (!file.open(QIODevice::WriteOnly))
         {
             QMessageBox::information(this, tr("Неможливо вiдкрити файл"),
                 file.errorString());
@@ -364,9 +361,12 @@ void AbstractArchiveFrame::saveDataTo(const QString &fileName)
 
             out << "</tr>";
         }
+
         out << "</table>";
         out << "</body>";
         out << "</html>";
+
+        file.flush();
     }
 }
 //------------------------------------------------------------------------------------

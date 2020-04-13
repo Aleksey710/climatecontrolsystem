@@ -197,6 +197,8 @@ void AbstractArchiveFrame::startSaveData( )
                 .arg(QDateTime::currentDateTimeUtc().toString("yyyy-MM-dd_hh-mm"))
                 .arg(headLabel());
 
+        fileName= "xxx.xxx";
+
         saveDataTo(fileName);
 
         //-----------------------------------

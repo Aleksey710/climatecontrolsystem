@@ -28,6 +28,7 @@ AbstractArchiveFrame::AbstractArchiveFrame(QWidget *parent)
                     : AbstractFrame(parent),
                       m_model ( nullptr ),
                       m_tableView ( nullptr ),
+                      m_tableWidget ( nullptr ),
                       m_removeRecordsFromArchiveWidget ( nullptr )
 {    
     if( !m_fsWatcher )
@@ -82,12 +83,14 @@ void AbstractArchiveFrame::updateFlashMountList(const QString &path)
 
     m_flashDirList = mediaDir.entryList(QDir::Dirs);
 
-    foreach (QString subdir, m_flashDirList)
-    {
-        if (subdir == "." || subdir == "..") {
-           continue;
-        }
-    }
+//    foreach (QString subdir, m_flashDirList)
+//    {
+//        if (subdir == "." || subdir == "..") {
+//           continue;
+//        }
+//    }
+
+    qDebug() << m_flashDirList;
 }
 //------------------------------------------------------------------------------------
 //!
@@ -226,13 +229,15 @@ void AbstractArchiveFrame::startSaveData( )
     label->setGeometry(200,200,400,200);
     label->show();
 
+    //---------------------------------------------------------------
+    //! Дать возможность обработаться накопившимся событиям
+    //! Для уменьшения замирания
+    QApplication::processEvents();
+
+    //---------------------------------------------------------------
 #ifdef __arm__
     for (int i = 0; i < m_flashDirList.size(); ++i)
     {
-        //! Дать возможность обработаться накопившимся событиям
-        //! Для уменьшения замирания
-        QApplication::processEvents();
-
         //-----------------------------------
         QString fileName = QString("/media/pi/%1/%2-%3.html")
                 .arg(m_flashDirList.at(i))
@@ -240,6 +245,11 @@ void AbstractArchiveFrame::startSaveData( )
                 .arg(headLabel());
 
         saveDataTo(fileName);
+
+        //-----------------------------------
+        //! Дать возможность обработаться накопившимся событиям
+        //! Для уменьшения замирания
+        QApplication::processEvents();
     }
 #else
     QString fileName = QString("%2-%3.html")
@@ -330,18 +340,47 @@ void AbstractArchiveFrame::saveDataTo(const QString &fileName)
         out << "<table style=\"width:40%\">";
 
         //-------------------------------------
-        QAbstractItemModel *model = m_tableView->model();
+        QAbstractItemModel *model = nullptr;
+
+        bool isWorkTimeArchiveFrame = false;
+        if(objectName() == "WorkTimeArchiveFrame")
+        {
+            isWorkTimeArchiveFrame= true;
+            model = m_tableWidget->model();
+        } else
+        {
+            model = m_tableView->model();
+        }
 
         for(int row = 0; row < model->rowCount(); ++row)
         {
             out << "<tr>";
 
-            QString date    = model->data( model->index(row, 0, m_tableView->rootIndex()) ).toString();
-            QString msg     = model->data( model->index(row, 1, m_tableView->rootIndex()) ).toString();
-
             out << QString("<td>%1</td>").arg(row);
-            out << QString("<td>%1</td>").arg(date);
-            out << QString("<td>%1</td>").arg(msg);
+
+            if(isWorkTimeArchiveFrame)
+            {
+                QString date1    = model->data( model->index(row, 0, m_tableWidget->rootIndex()) ).toString();
+                QString msg1     = model->data( model->index(row, 1, m_tableWidget->rootIndex()) ).toString();
+
+                out << QString("<td>%1</td>").arg(date1);
+                out << QString("<td>%1</td>").arg(msg1);
+
+                QString date2    = model->data( model->index(row, 2, m_tableWidget->rootIndex()) ).toString();
+                QString msg2     = model->data( model->index(row, 3, m_tableWidget->rootIndex()) ).toString();
+
+                out << QString("<td>%1</td>").arg(date2);
+                out << QString("<td>%1</td>").arg(msg2);
+            } else
+            {
+                QString date    = model->data( model->index(row, 0, m_tableView->rootIndex()) ).toString();
+                QString msg     = model->data( model->index(row, 1, m_tableView->rootIndex()) ).toString();
+
+                out << QString("<td>%1</td>").arg(row);
+
+                out << QString("<td>%1</td>").arg(date);
+                out << QString("<td>%1</td>").arg(msg);
+            }
 
             out << "</tr>";
         }

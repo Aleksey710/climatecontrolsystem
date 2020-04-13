@@ -4,9 +4,10 @@
 #include <QObject>
 #include <QWidget>
 #include <QTableView>
+#include <QTableWidget>
 #include <QSqlQueryModel>
 #include <QFileSystemWatcher>
-//#include <>
+
 //#include <>
 //#include <>
 
@@ -54,6 +55,7 @@ class AbstractArchiveFrame : public AbstractFrame
     protected:
         QSqlQueryModel *m_model;
         QTableView *m_tableView;
+        QTableWidget *m_tableWidget;
 
         RemoveRecordsFromArchiveWidget *m_removeRecordsFromArchiveWidget;
 

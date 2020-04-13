@@ -50,7 +50,6 @@ class WorkTimeArchiveFrame : public AbstractArchiveFrame
 
     private:
         QGridLayout *m_mainLayout;
-        QTableWidget *m_tableWidget;
 
         //---------------------------------------------
         struct RowOnOff {

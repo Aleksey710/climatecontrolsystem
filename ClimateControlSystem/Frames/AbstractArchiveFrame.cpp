@@ -210,7 +210,7 @@ void AbstractArchiveFrame::startSaveData( )
     for (int i = 0; i < flashDirList.size(); ++i)
     {
         //-----------------------------------
-        QString fileName = QString("/media/pi/'%1'/%2-%3.html")
+        QString fileName = QString("/media/pi/'%1'/'%2-%3.html'")
                 .arg(flashDirList.at(i))
                 .arg(QDateTime::currentDateTimeUtc().toString("yyyy-MM-dd_hh-mm"))
                 .arg(headLabel());
@@ -282,7 +282,10 @@ void AbstractArchiveFrame::saveDataTo(const QString &fileName)
         return;
     } else {
         QFile file(fileName);
-        if (!file.open(QIODevice::WriteOnly))
+        if (!file.open(QIODevice::WriteOnly |
+                       QIODevice::Text |
+                       QIODevice::Unbuffered |
+                       QIODevice::NewOnly))
         {
             QMessageBox::information(this, tr("Неможливо вiдкрити файл"),
             file.errorString());

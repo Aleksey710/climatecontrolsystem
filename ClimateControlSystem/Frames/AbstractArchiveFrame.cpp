@@ -179,26 +179,6 @@ void AbstractArchiveFrame::pgDown()
 //!
 void AbstractArchiveFrame::startSaveData( )
 {
-/*
-    //fileName = QFileDialog::getSaveFileName(
-    QFileDialog fileDialog;
-
-    Qt::WindowModality windowModality = Qt::ApplicationModal;
-    fileDialog.setWindowModality(windowModality);
-*/
-    //---------------------------------------------------------------
-    QLabel *label = new QLabel("Йде збереження журналу до файлу");
-    label->setWindowModality(Qt::ApplicationModal);
-    label->setAlignment(Qt::AlignCenter);
-    label->setGeometry(200,200,400,200);
-    label->show();
-
-    //---------------------------------------------------------------
-    //! Дать возможность обработаться накопившимся событиям
-    //! Для уменьшения замирания
-    QApplication::processEvents();
-
-    //---------------------------------------------------------------
 #ifdef __arm__
     QDir mediaDir = QDir("/media/pi");
 
@@ -234,6 +214,13 @@ void AbstractArchiveFrame::startSaveData( )
 
     //---------------------------------------------------------------
 /*
+    //fileName = QFileDialog::getSaveFileName(
+    QFileDialog fileDialog;
+
+    Qt::WindowModality windowModality = Qt::ApplicationModal;
+    fileDialog.setWindowModality(windowModality);
+
+    //---------------------------------------------------------------
     QList<QUrl> urls;
     urls << QUrl::fromLocalFile("/home/grey");
 
@@ -264,13 +251,6 @@ void AbstractArchiveFrame::startSaveData( )
     if (fileDialog.exec())
         fileName = fileDialog.selectedFiles().at(0);
 */
-
-    //! Удалить транспарант о сохранении
-    QTimer::singleShot(2*1000, [label](){
-
-        label->deleteLater();
-
-    });
 }
 //------------------------------------------------------------------------------------
 //!
@@ -293,6 +273,19 @@ void AbstractArchiveFrame::saveDataTo(const QString &fileName)
             return;
         }
 
+        //---------------------------------------------------------------
+        QLabel *label = new QLabel("Йде збереження журналу до файлу");
+        label->setWindowModality(Qt::ApplicationModal);
+        label->setAlignment(Qt::AlignCenter);
+        label->setGeometry(200,200,400,200);
+        label->show();
+
+        //---------------------------------------------------------------
+        //! Дать возможность обработаться накопившимся событиям
+        //! Для уменьшения замирания
+        QApplication::processEvents();
+
+        //---------------------------------------------------------------
         QTextStream out(&file);
 
         out << "<!DOCTYPE html>";
@@ -367,6 +360,13 @@ void AbstractArchiveFrame::saveDataTo(const QString &fileName)
         out << "</html>";
 
         file.flush();
+
+        //! Удалить транспарант о сохранении
+        QTimer::singleShot(2*1000, [label](){
+
+            label->deleteLater();
+
+        });
     }
 }
 //------------------------------------------------------------------------------------

@@ -210,9 +210,9 @@ void AbstractArchiveFrame::startSaveData( )
     for (int i = 0; i < flashDirList.size(); ++i)
     {
         //-----------------------------------
-        QString fileName = QString("/media/pi/\"%1\"/%2-%3.html")
+        QString fileName = QString("/media/pi/'%1'/%2-%3.html")
                 .arg(flashDirList.at(i))
-                .arg(QDateTime::currentDateTimeUtc().toString("yyyy-MM-dd hh:mm"))
+                .arg(QDateTime::currentDateTimeUtc().toString("yyyy-MM-dd_hh-mm"))
                 .arg(headLabel());
 
         saveDataTo(fileName);
@@ -224,7 +224,7 @@ void AbstractArchiveFrame::startSaveData( )
     }
 #else
     QString fileName = QString("%2-%3.html")
-                        .arg(QDateTime::currentDateTimeUtc().toString("yyyy-MM-dd hh:mm"))
+                        .arg(QDateTime::currentDateTimeUtc().toString("yyyy-MM-dd_hh-mm"))
                         .arg(headLabel());
 
     saveDataTo(fileName);

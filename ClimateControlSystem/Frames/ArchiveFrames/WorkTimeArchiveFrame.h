@@ -22,9 +22,11 @@ class WorkTimeArchiveFrame : public AbstractArchiveFrame
         virtual ~WorkTimeArchiveFrame();
 
     public slots:
-        void pgUp();
-        void pgDown();
+        void pgUp() override;
+        void pgDown() override;
         void updateData();
+
+        void updateCountLabelData() override;
 
     private:
         virtual QString headLabel() override

@@ -23,6 +23,7 @@
 //!
 AbstractArchiveFrame::AbstractArchiveFrame(QWidget *parent)
                     : AbstractFrame(parent),
+                      m_countLabel ( nullptr ),
                       m_model ( nullptr ),
                       m_tableView ( nullptr ),
                       m_tableWidget ( nullptr ),
@@ -71,8 +72,15 @@ void AbstractArchiveFrame::setup()
     //-----------------------------------------------------------------
     QLabel *titleLabel = new QLabel( headLabel() );
 
-    mainLayout->addWidget(titleLabel);
+    mainLayout->addWidget(titleLabel,0,0);
 
+    //-----------------------------------------------------------------
+    m_countLabel = new QLabel( "count" );
+    m_countLabel->setAlignment(Qt::AlignRight|Qt::AlignVCenter);
+    mainLayout->addWidget(m_countLabel,0,1);
+
+    connect(this, &AbstractArchiveFrame::updateModelData,
+            this, &AbstractArchiveFrame::updateCountLabelData);
     //-----------------------------------------------------------------
     m_tableView = new QTableView();
 
@@ -97,7 +105,7 @@ void AbstractArchiveFrame::setup()
         "}");
     */
 
-    mainLayout->addWidget(m_tableView);
+    mainLayout->addWidget(m_tableView,1,0,1,-1);
 
     //-----------------------------------------------------------------
     m_model = new QSqlQueryModel(this);
@@ -116,6 +124,19 @@ void AbstractArchiveFrame::setup()
 
     //-----------------------------------------------------------------
     setLayout(mainLayout);
+}
+//------------------------------------------------------------------------------------
+//!
+void AbstractArchiveFrame::updateCountLabelData()
+{
+    int sliderPosition = m_tableView->verticalScrollBar()->sliderPosition();
+
+    int allPg           = m_model->rowCount()/NUMBER_OF_LINES_ON_SCREEN;
+    int curentPg        = allPg-((m_model->rowCount()-sliderPosition)/NUMBER_OF_LINES_ON_SCREEN)+1;
+
+    m_countLabel->setText(QString("%1/%2")
+                          .arg( curentPg )
+                          .arg( allPg ));
 }
 //------------------------------------------------------------------------------------
 //!
@@ -141,10 +162,13 @@ void AbstractArchiveFrame::pgUp()
     if(m_tableView)
     {
         int sliderPosition = m_tableView->verticalScrollBar()->sliderPosition();
-        m_tableView->verticalScrollBar()->setSliderPosition(sliderPosition-18);
+        m_tableView->verticalScrollBar()->setSliderPosition(sliderPosition-NUMBER_OF_LINES_ON_SCREEN);
 
         m_tableView->update();
     }
+
+    //--------------------------------------------------
+    updateCountLabelData();
 }
 //------------------------------------------------------------------------------------
 //!
@@ -170,10 +194,13 @@ void AbstractArchiveFrame::pgDown()
     if(m_tableView)
     {
         int sliderPosition = m_tableView->verticalScrollBar()->sliderPosition();
-        m_tableView->verticalScrollBar()->setSliderPosition(sliderPosition+18);
+        m_tableView->verticalScrollBar()->setSliderPosition(sliderPosition+NUMBER_OF_LINES_ON_SCREEN);
 
         m_tableView->update();
     }
+
+    //--------------------------------------------------
+    updateCountLabelData();
 }
 //------------------------------------------------------------------------------------
 //!
@@ -191,6 +218,14 @@ void AbstractArchiveFrame::startSaveData( )
     flashDirList.removeAll("..");
 
     //qDebug() << flashDirList;
+
+    if(flashDirList.size() == 0)
+    {
+        QMessageBox::information(this,
+                                 QString("Не знайдено носiя"),
+                                 QString("Не знайдено носiя")
+                                 );
+    }
 
     for (int i = 0; i < flashDirList.size(); ++i)
     {

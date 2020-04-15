@@ -179,6 +179,9 @@ void AbstractArchiveFrame::pgDown()
 //!
 void AbstractArchiveFrame::startSaveData( )
 {
+    QString fileName = QString("'%1-%1.html'")
+                        .arg(QDateTime::currentDateTimeUtc().toString("yyyy.MM.dd_hh-mm"))
+                        .arg(headLabel());
 #ifdef __arm__
     QDir mediaDir = QDir("/media/pi");
 
@@ -192,10 +195,7 @@ void AbstractArchiveFrame::startSaveData( )
     for (int i = 0; i < flashDirList.size(); ++i)
     {
         //-----------------------------------
-        QString fileName = QString("'/media/pi/%1/%2-%3.html'")
-                .arg(flashDirList.at(i))
-                .arg(QDateTime::currentDateTimeUtc().toString("yyyy-MM-dd_hh-mm"))
-                .arg(headLabel());
+        fileName.prepend( QString("/media/pi/'%1'/").arg(flashDirList.at(i)) );
 
         saveDataTo(fileName);
 
@@ -205,10 +205,6 @@ void AbstractArchiveFrame::startSaveData( )
         QApplication::processEvents();
     }
 #else
-    QString fileName = QString("%2-%3.html")
-                        .arg(QDateTime::currentDateTimeUtc().toString("yyyy-MM-dd_hh-mm"))
-                        .arg(headLabel());
-
     saveDataTo(fileName);
 #endif // __arm__
 
@@ -266,9 +262,15 @@ void AbstractArchiveFrame::saveDataTo(const QString &fileName)
         QFile file(fileName);
         if (!file.open(QIODevice::WriteOnly))
         {
-            QMessageBox::information(this, QString("Неможливо вiдкрити файл:\n"
-                                                   "%1").arg(fileName),
-                file.errorString());
+            QMessageBox::information(this,
+                                     QString("Неможливо вiдкрити файл"),
+                                     QString("Неможливо вiдкрити файл:\n<br>"
+                                             "%1\n<br>"
+                                             "%2\n<br>"
+                                             )
+                                     .arg(fileName)
+                                     .arg(file.errorString())
+                                     );
 
             return;
         }

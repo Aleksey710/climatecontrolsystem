@@ -179,7 +179,7 @@ void AbstractArchiveFrame::pgDown()
 //!
 void AbstractArchiveFrame::startSaveData( )
 {
-    QString fileName = QString("'%1-%1.html'")
+    QString fileName = QString("%1-%2.html")
                         .arg(QDateTime::currentDateTimeUtc().toString("yyyy.MM.dd_hh-mm"))
                         .arg(headLabel());
 #ifdef __arm__
@@ -195,7 +195,7 @@ void AbstractArchiveFrame::startSaveData( )
     for (int i = 0; i < flashDirList.size(); ++i)
     {
         //-----------------------------------
-        fileName.prepend( QString("/media/pi/'%1'/").arg(flashDirList.at(i)) );
+        fileName.prepend( QString("/media/pi/%1/").arg(flashDirList.at(i)) );
 
         saveDataTo(fileName);
 
@@ -205,6 +205,8 @@ void AbstractArchiveFrame::startSaveData( )
         QApplication::processEvents();
     }
 #else
+    fileName.prepend("./LINUX MINT/");
+
     saveDataTo(fileName);
 #endif // __arm__
 
@@ -265,8 +267,8 @@ void AbstractArchiveFrame::saveDataTo(const QString &fileName)
             QMessageBox::information(this,
                                      QString("Неможливо вiдкрити файл"),
                                      QString("Неможливо вiдкрити файл:\n<br>"
-                                             "%1\n<br>"
-                                             "%2\n<br>"
+                                             "%1\n"
+                                             "%2\n"
                                              )
                                      .arg(fileName)
                                      .arg(file.errorString())

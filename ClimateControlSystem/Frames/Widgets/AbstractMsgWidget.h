@@ -11,13 +11,13 @@
 #include "ScriptObject.h"
 //------------------------------------------------------------------------------------
 //!
-class AbstractMsgWidget : public QLobel
+class AbstractMsgWidget : public QLabel
 {
         Q_OBJECT
     public:
         explicit AbstractMsgWidget(const QString &msg,
                                    QWidget *parent = nullptr)
-                :QLobel(msg, parent)
+                :QLabel(msg, parent)
             {}
 
         virtual ~AbstractMsgWidget()

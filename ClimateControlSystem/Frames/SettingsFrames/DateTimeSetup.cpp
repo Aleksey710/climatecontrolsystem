@@ -39,7 +39,8 @@ void DateTimeSetup::setDateTime()
 
     QDateTime dateTime(date, time);
 
-    qDebug() << "DateTimeSetup::setDateTime()" << dateTime;
+    qDebug() << "DateTimeSetup::setDateTime()\n"
+                "sudo date -s \"" << dateTime.toString("yyyy-MM-dd HH:mm:ss") << "\"";
 
 #ifdef __arm__
     //-----------------------------------------------------------------
@@ -62,7 +63,11 @@ void DateTimeSetup::setDateTime()
     //QProcess::startDetached( setSystemDateTime );
 
     //static const QString readFromRealTimeClock  = "sudo hwclock -r";
-    static const QString writeToRealTimeClock   = "sudo hwclock -w";
+    //static const QString writeToRealTimeClock   = "sudo hwclock -w";
+    // sudo hwclock --set --date="2011-04-17 16:45:05"
+    static const QString writeToRealTimeClock   = QString("sudo hwclock --set --date=\"%1\"")
+            .arg(dateTime.toString("yyyy-MM-dd HH:mm:ss"));
+
     QProcess::startDetached( writeToRealTimeClock );
     //-----------------------------------------------------------------
 #endif // __arm__

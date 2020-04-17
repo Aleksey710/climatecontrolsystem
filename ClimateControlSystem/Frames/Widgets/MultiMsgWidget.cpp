@@ -88,13 +88,13 @@ qDebug() << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
 */
     if(m_regStateMap["vr.msg.automodeDisabledManual"] == 1)
     {
-        setText("Не можливий авто.режим НВО/ВВО");
+        setText("Не можливий авто.режим НВО / ВВО");
         setVisible(true);
         emit displayed(true);
     } else if(m_regStateMap["vr.msg.automodeDisabledVvo"] == 1 &&
               m_regStateMap["vr.msg.automodeDisabledNvo"] == 1)
     {
-        setText("Не можливий авто.режим НВО | ВВО");
+        setText("Не можливий авто.режим НВО / ВВО");
         setVisible(true);
         emit displayed(true);
     } else if(m_regStateMap["vr.msg.automodeDisabledVvo"] == 1)

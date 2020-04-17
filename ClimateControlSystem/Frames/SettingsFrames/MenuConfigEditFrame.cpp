@@ -86,7 +86,7 @@ MenuConfigEditFrame::~MenuConfigEditFrame()
 //!
 void MenuConfigEditFrame::setupTimeConfigButton()
 {
-    QPushButton *button = new QPushButton("Настройка дати i часу");
+    QPushButton *button = new QPushButton("Налаштування дати i часу");
 
     button->setStyleSheet(
         "QPushButton{ "

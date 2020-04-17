@@ -394,47 +394,47 @@ void DbUnit::createTempGroup(QStringList &queryStringList)
     queryStringList.append(
         "INSERT INTO `data` (`group_id`,`name`,`title`,`value`) "
         "VALUES ((SELECT `id` FROM `groups` WHERE `name`='temp'), "
-        "'tpo', 'Зовнішня температура необхідна для включення насоса, °C', -10);");
+        "'tpo', 'Зовнішня температура необхідна для увімкнення насоса, °C', -10);");
     queryStringList.append(
         "INSERT INTO `data` (`group_id`,`name`,`title`,`value`) "
         "VALUES ((SELECT `id` FROM `groups` WHERE `name`='temp'), "
-        "'onnvo', 'Зовнішня температура необхідна для включення НВО, °C', 15);");
+        "'onnvo', 'Зовнішня температура необхідна для увімкнення НВО, °C', 15);");
     queryStringList.append(
         "INSERT INTO `data` (`group_id`,`name`,`title`,`value`) "
         "VALUES ((SELECT `id` FROM `groups` WHERE `name`='temp'), "
-        "'onlvhd', 'Гістерезис температури для включення НВО, °C', 2);");
+        "'onlvhd', 'Гістерезис температури для увімкнення НВО, °C', 2);");
     queryStringList.append(
         "INSERT INTO `data` (`group_id`,`name`,`title`,`value`) "
         "VALUES ((SELECT `id` FROM `groups` WHERE `name`='temp'), "
-        "'offlvhd', 'Гістерезис температури для виключення НВО, °C', 1);");
+        "'offlvhd', 'Гістерезис температури для вимкнення НВО, °C', 1);");
     queryStringList.append(
         "INSERT INTO `data` (`group_id`,`name`,`title`,`value`) "
         "VALUES ((SELECT `id` FROM `groups` WHERE `name`='temp'), "
-        "'offnvo', 'зовнішня температура необхідна для виключення НВО, °C', 15);");
+        "'offnvo', 'зовнішня температура необхідна для вимкнення НВО, °C', 15);");
     queryStringList.append(
         "INSERT INTO `data` (`group_id`,`name`,`title`,`value`) "
         "VALUES ((SELECT `id` FROM `groups` WHERE `name`='temp'), "
-        "'vvohefon', 'Гістерезис для температури уставки для включення ВВО', 2);");
+        "'vvohefon', 'Гістерезис для температури уставки для увімкнення ВВО', 2);");
     queryStringList.append(
         "INSERT INTO `data` (`group_id`,`name`,`title`,`value`) "
         "VALUES ((SELECT `id` FROM `groups` WHERE `name`='temp'), "
-        "'vvohefoff', 'Гістерезис для температури уставки для відключення ВВО', 1);");
+        "'vvohefoff', 'Гістерезис для температури уставки для вимкнення ВВО', 1);");
     queryStringList.append(
         "INSERT INTO `data` (`group_id`,`name`,`title`,`value`) "
         "VALUES ((SELECT `id` FROM `groups` WHERE `name`='temp'), "
-        "'vvootfdon', 'зовнішня температура необхідна для ввімкненя другої групи ВВО', -10);");
+        "'vvootfdon', 'Зовнішня температура необхідна для увімкнення другої групи ВВО', -10);");
     queryStringList.append(
         "INSERT INTO `data` (`group_id`,`name`,`title`,`value`) "
         "VALUES ((SELECT `id` FROM `groups` WHERE `name`='temp'), "
-        "'vvootfdoff', 'Зовнішня температура необхідна для вимкненя другої групи ВВО', -8);");
+        "'vvootfdoff', 'Зовнішня температура необхідна для вимкнення другої групи ВВО', -8);");
     queryStringList.append(
         "INSERT INTO `data` (`group_id`,`name`,`title`,`value`) "
         "VALUES ((SELECT `id` FROM `groups` WHERE `name`='temp'), "
-        "'vvohoton', 'Зовнішня температура необхідна для ввімкненяя ВВО', 5);");
+        "'vvohoton', 'Зовнішня температура необхідна для увімкнення ВВО', 5);");
     queryStringList.append(
         "INSERT INTO `data` (`group_id`,`name`,`title`,`value`) "
         "VALUES ((SELECT `id` FROM `groups` WHERE `name`='temp'), "
-        "'vvohotoff', 'Зовнішня температура необхідна для вимкненя ВВО', 6);");
+        "'vvohotoff', 'Зовнішня температура необхідна для вимкнення ВВО', 6);");
     queryStringList.append(
         "INSERT INTO `data` (`group_id`,`name`,`title`,`value`) "
         "VALUES ((SELECT `id` FROM `groups` WHERE `name`='temp'), "

@@ -42,22 +42,22 @@ CarInformationFrame::CarInformationFrame(QWidget *parent)
 
     //-------------------------------------------------
 
-    setupDisplay("modbus.BVV.r40028",
+    setupDisplay("display.BVV.version",
                  false,
                  ui->lbBvvVersion);
 
-    setupDateDisplay("modbus.BVV.r40029",       // year
-                     "modbus.BVV.r40030",       // month
-                     "modbus.BVV.r40031",       // day
+    setupDateDisplay("display.BVV.year",      // year
+                     "display.BVV.month",     // month
+                     "display.BVV.day",       // day
                      ui->lbBvvDateVersion);
 
-    setupDisplay("modbus.A9.r40028",
+    setupDisplay("display.A9.version",
                  false,
                  ui->lbButVersion);
 
-    setupDateDisplay("modbus.A9.r40029",        // year
-                     "modbus.A9.r40030",        // month
-                     "modbus.A9.r40031",        // day
+    setupDateDisplay("display.A9.year",       // year
+                     "display.A9.month",      // month
+                     "display.A9.day",        // day
                      ui->lbButDateVersion);
 
     setupStringDisplay("settings.wagon.sv",   ui->lbSoftVersion);

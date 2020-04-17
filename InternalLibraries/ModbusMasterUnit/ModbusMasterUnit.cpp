@@ -78,16 +78,6 @@ void ModbusMasterUnit::exequtedHandler()
 //!
 void ModbusMasterUnit::excuteNextRequest()
 {
-    QObject * obj = this->sender();
-    QString objName;
-    if ( obj == Q_NULLPTR )
-    {
-        objName = "NULL";
-    } else
-    {
-        objName = sender()->objectName();
-    }
-qDebug() << "TIM 1" << QDateTime::currentDateTime().toString("hh:mm:ss.zzz") << m_curentRequestId << objName;
     SEND_TO_LOG( QString("%1 - ======================================================= excuteNextRequest").arg(objectName()) );
 
     //--------------------------------------------------
@@ -108,7 +98,6 @@ qDebug() << "TIM 1" << QDateTime::currentDateTime().toString("hh:mm:ss.zzz") << 
     //--------------------------------------------------
     m_handler->exequteRequest(request);
     //m_modbusThreadController->exequteRequest(request);
-qDebug() << "TIM 2" << QDateTime::currentDateTime().toString("hh:mm:ss.zzz");
 }
 #endif // CIRCULAR_PROCESSING_REQUES
 //------------------------------------------------------------------------------------

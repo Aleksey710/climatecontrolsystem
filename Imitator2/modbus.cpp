@@ -165,13 +165,25 @@ void ModbusNetwork::sendData(QByteArray data)
 //------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------
+/*
+// Оригинальная
 void ModbusNetwork::receive()
 {
     QByteArray data = serialPort->readAll();
 
     emit sendDataToSlaves(data);
 }
+*/
+void ModbusNetwork::receive()
+{
+    QByteArray data = serialPort->readAll();
+    while( serialPort->waitForReadyRead( 10 ) )
+    {
+        data.append( serialPort->readAll() );
+    }
 
+    emit sendDataToSlaves(data);
+}
 //------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------

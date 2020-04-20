@@ -68,10 +68,23 @@ CarInformationFrame::CarInformationFrame(QWidget *parent)
 
     setupStringDisplay("settings.wagon.comdate", ui->lbStartUseDate);
 
+    //-------------------------------------------------
+    /*
     setupDisplay("display.wagon.res",
                  false,
                  ui->lbWorkTime);
+    */
+    //-------------------------------------------------
+    ScriptObject *scriptObject = ScriptUnit::getScriptObject("display.wagon.res");
 
+    if(scriptObject)
+    {
+        connect(scriptObject, &ScriptObject::dataChanged, [=](){
+
+            int int_value = scriptObject->data();
+            ui->lbWorkTime->setText(QString("%1").arg( int_value ));
+        });
+    }
     //-------------------------------------------------
     SEND_TO_LOG( QString("%1 - создан").arg(objectName()) );
 }

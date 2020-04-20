@@ -134,7 +134,6 @@ void AbstractArchiveFrame::updateCountLabelData()
     int allPg           = m_model->rowCount()/NUMBER_OF_LINES_ON_SCREEN;
 
     int curentPg        = allPg-((m_model->rowCount()-sliderPosition)/NUMBER_OF_LINES_ON_SCREEN)+1;
-     ;
 
     m_countLabel->setText( QString("%1/%2")
                            .arg( (curentPg == 0) ? 1 : curentPg )

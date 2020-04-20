@@ -56,9 +56,9 @@ void DateTimeSetup::setDateTime()
                          "%1\n"
                          "").arg(writeToRealTimeClock) );
 
-    QProcess::startDetached( writeToRealTimeClock );
+    //QProcess::startDetached( writeToRealTimeClock );
 
-    //std::system(writeToRealTimeClock.toLatin1());
+    std::system(writeToRealTimeClock.toLatin1());
 
     //-----------------------------------------------------------------
 #endif // __arm__

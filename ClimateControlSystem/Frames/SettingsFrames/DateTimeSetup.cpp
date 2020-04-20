@@ -44,7 +44,8 @@ void DateTimeSetup::setDateTime()
     //static const QString readFromRealTimeClock  = "sudo hwclock -r";
     //static const QString writeToRealTimeClock   = "sudo hwclock -w";
     //-----------------------------------------------------------------
-    //! Записать время в RTC ; Задать системное время из часов реального времени
+    //!
+    //!
     //! sudo hwclock --set --date="2011-04-17 16:45:05 ; sudo hwclock -s
     QString writeToRealTimeClock   =
         QString("sudo hwclock --set --date=\"%1\" ; sudo hwclock -s")
@@ -55,9 +56,9 @@ void DateTimeSetup::setDateTime()
                          "%1\n"
                          "").arg(writeToRealTimeClock) );
 
-    //QProcess::startDetached( writeToRealTimeClock );
+    QProcess::startDetached( writeToRealTimeClock );
 
-    std::system(writeToRealTimeClock.toLatin1());
+    //std::system(writeToRealTimeClock.toLatin1());
 
     //-----------------------------------------------------------------
 #endif // __arm__

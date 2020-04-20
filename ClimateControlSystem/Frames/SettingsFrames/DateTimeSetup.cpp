@@ -41,19 +41,12 @@ void DateTimeSetup::setDateTime()
 
 #ifdef __arm__
     //-----------------------------------------------------------------
-//    //! Установка времени из командной строки
-//    //! sudo date +%T -s "11:14:00"
-//    static const QString setTimeCommandString =
-//        QString("sudo date +%T -s \"\"")
-//            .arg(QDateTime::currentDateTime().toString("HH:mm:ss"));
-//    QProcess::startDetached( setTimeCommandString );
-    //-----------------------------------------------------------------
     //static const QString readFromRealTimeClock  = "sudo hwclock -r";
     //static const QString writeToRealTimeClock   = "sudo hwclock -w";
     //-----------------------------------------------------------------
     //! Записать время в RTC ; Задать системное время из часов реального времени
     //! sudo hwclock --set --date="2011-04-17 16:45:05 ; sudo hwclock -s
-    static const QString writeToRealTimeClock   =
+    QString writeToRealTimeClock   =
         QString("sudo hwclock --set --date=\"%1\" ; sudo hwclock -s")
             .arg(dateTime.toString("yyyy-MM-dd HH:mm:ss"));
 

@@ -132,14 +132,14 @@ void AbstractArchiveFrame::updateCountLabelData()
     int sliderPosition = m_tableView->verticalScrollBar()->sliderPosition();
 
     int allPg           = m_model->rowCount()/NUMBER_OF_LINES_ON_SCREEN;
-    allPg               = (allPg == 0) ? 1 : allPg ;
 
     int curentPg        = allPg-((m_model->rowCount()-sliderPosition)/NUMBER_OF_LINES_ON_SCREEN)+1;
-    curentPg            = (curentPg == 0) ? 1 : curentPg ;
+     ;
 
-    m_countLabel->setText(QString("%1/%2")
-                          .arg( curentPg )
-                          .arg( allPg ));
+    m_countLabel->setText( QString("%1/%2")
+                           .arg( (curentPg == 0) ? 1 : curentPg )
+                           .arg( (allPg == 0) ? 1 : allPg )
+                          );
 }
 //------------------------------------------------------------------------------------
 //!

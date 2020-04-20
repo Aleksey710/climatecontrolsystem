@@ -78,6 +78,8 @@ ClimateControlSystem.depends = \
 # sudo hwclock --set --date="2020-04-20 12:40:05"
 # Время из RTC
 # sudo hwclock
+#
+#sudo hwclock --set --date="2011-04-17 16:45:05 ; sudo hwclock -s
 ###############################################################################
 # Настройка заставки
 # https://raspberry-projects.com/pi/pi-operating-systems/raspbian/custom-boot-up-screen
@@ -155,6 +157,8 @@ ClimateControlSystem.depends = \
 # killall lxpanel
 # lxpanel
 #
+#/home/pi/.config/lxsession/LXDE/autostart
+# Закоментировать @lxpanel
 ###############################################################################
 
 #

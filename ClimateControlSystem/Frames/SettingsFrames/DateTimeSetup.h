@@ -8,6 +8,10 @@
 #include <QDebug>
 #include <QProcess>
 
+#include <cstdlib>
+#include <fstream>
+#include <iostream>
+
 #include <Log.h>
 //------------------------------------------------------------------------------------
 namespace Ui {

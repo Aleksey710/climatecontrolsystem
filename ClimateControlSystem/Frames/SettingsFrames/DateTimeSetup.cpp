@@ -39,7 +39,7 @@ void DateTimeSetup::setDateTime()
 
     QDateTime dateTime(date, time);
 
-//#ifdef __arm__
+#ifdef __arm__
     //-----------------------------------------------------------------
 //    //! Установка времени из командной строки
 //    //! sudo date +%T -s "11:14:00"

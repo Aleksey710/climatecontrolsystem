@@ -39,18 +39,7 @@ void DateTimeSetup::setDateTime()
 
     QDateTime dateTime(date, time);
 
-    qDebug() << "DateTimeSetup::setDateTime()\n"
-                "sudo date -s \"" << dateTime.toString("yyyy-MM-dd HH:mm:ss") << "\"";
-
-#ifdef __arm__
-    //-----------------------------------------------------------------
-    //! Установка даты из командной строки
-    //! sudo date -s "2020-03-30 01:20:00"
-    const QString setDateCommandString =
-        QString("sudo date -s \"%1\"")
-            .arg(dateTime.toString("yyyy-MM-dd HH:mm:ss"));
-
-    QProcess::startDetached( setDateCommandString );
+//#ifdef __arm__
     //-----------------------------------------------------------------
 //    //! Установка времени из командной строки
 //    //! sudo date +%T -s "11:14:00"
@@ -59,16 +48,26 @@ void DateTimeSetup::setDateTime()
 //            .arg(QDateTime::currentDateTime().toString("HH:mm:ss"));
 //    QProcess::startDetached( setTimeCommandString );
     //-----------------------------------------------------------------
-    //static const QString setSystemDateTime = "";
-    //QProcess::startDetached( setSystemDateTime );
-
     //static const QString readFromRealTimeClock  = "sudo hwclock -r";
     //static const QString writeToRealTimeClock   = "sudo hwclock -w";
+    //-----------------------------------------------------------------
+    // Записать время в RTC
     // sudo hwclock --set --date="2011-04-17 16:45:05"
     static const QString writeToRealTimeClock   = QString("sudo hwclock --set --date=\"%1\"")
             .arg(dateTime.toString("yyyy-MM-dd HH:mm:ss"));
 
+    SEND_TO_LOG( QString("DateTimeSetup::setDateTime - [%1]").arg(writeToRealTimeClock) );
+
     QProcess::startDetached( writeToRealTimeClock );
+
+    //-----------------------------------------------------------------
+    //! Задать системное время из часов реального времени
+    //! sudo hwclock -s
+    const QString setDateCommandString = QString("sudo hwclock -s");
+
+    SEND_TO_LOG( QString("DateTimeSetup::setDateTime - [%1]").arg(setDateCommandString) );
+
+    QProcess::startDetached( setDateCommandString );
     //-----------------------------------------------------------------
 #endif // __arm__
 

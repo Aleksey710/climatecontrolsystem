@@ -63,16 +63,21 @@ ClimateControlSystem.depends = \
 ###############################################################################
 # https://pimylifeup.com/raspberry-pi-rtc/
 # read time directly from rtc module
-# hwclock -r
+# sudo hwclock -r
 
 # update rtc module time from system time (system time should be regularly updated by ntp from the internet if your pi is networked):
-# hwclock -w
+# sudo hwclock -w
 
 # update system time from the rtc module (this should happen on startup):
-# hwclock -s
+# sudo hwclock -s
 
 # and the most fun of all - monitor the "drift" between your system clock and the rtc module:
-# hwclock -c
+# sudo hwclock -c
+
+# Прописать время в RTC
+# sudo hwclock --set --date="2020-04-20 12:40:05"
+# Время из RTC
+# sudo hwclock
 ###############################################################################
 # Настройка заставки
 # https://raspberry-projects.com/pi/pi-operating-systems/raspbian/custom-boot-up-screen
@@ -161,3 +166,25 @@ ClimateControlSystem.depends = \
 # QKeySequence("Ctrl+L")        - меню яркости
 #
 ###############################################################################
+# Отключить WiFi
+#sudo ifconfig wlan0 down
+#sudo ifconfig wlan0 up
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

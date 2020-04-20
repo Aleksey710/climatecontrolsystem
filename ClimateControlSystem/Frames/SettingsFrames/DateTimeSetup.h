@@ -8,7 +8,7 @@
 #include <QDebug>
 #include <QProcess>
 
-
+#include <Log.h>
 //------------------------------------------------------------------------------------
 namespace Ui {
 class DateTimeSetup;

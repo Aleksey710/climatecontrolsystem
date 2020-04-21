@@ -696,7 +696,7 @@ void DbUnit::createScreenGroup(QStringList &queryStringList)
     queryStringList.append(
         "INSERT INTO `data` (`group_id`,`name`,`title`,`value`) "
         "VALUES ((SELECT `id` FROM `groups` WHERE `name`='screen'), "
-        "'delay', 'Затримка(мс)', 120000);");
+        "'delay', 'Затримка(с)', 120);");
 }
 //------------------------------------------------------------------------------------
 //!

@@ -11,6 +11,8 @@
 #include <QFont>
 #include <QList>
 #include <QShortcut>
+#include <QCursor>
+//#include <>
 //#include <>
 //#include <>
 

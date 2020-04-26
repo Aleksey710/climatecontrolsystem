@@ -1,5 +1,9 @@
 #include "MainDisplayWidget.h"
 
+#ifdef FULL_SCREEN
+ //   #undef FULL_SCREEN
+#endif
+
 //------------------------------------------------------------------------------------
 //!
 MainDisplayWidget::MainDisplayWidget(QWidget *parent)
@@ -22,7 +26,7 @@ MainDisplayWidget::MainDisplayWidget(QWidget *parent)
 
     //-----------------------------------------
     //! Создать главный слой - разделение меню и отображения
-    m_mainLayout = new QVBoxLayout();
+    m_mainLayout = new QVBoxLayout(this);
 
     m_mainLayout->setMargin(0);
 
@@ -69,7 +73,6 @@ MainDisplayWidget::MainDisplayWidget(QWidget *parent)
 
     //-----------------------------------------------------------
     setupFrames();
-
     setupMenu();
     //-----------------------------------------------------------
 #ifndef FULL_SCREEN
@@ -171,7 +174,6 @@ void MainDisplayWidget::setupMenu()
 
     connect(this, &MainDisplayWidget::frameChanged,
             m_buttonsWidget, &ButtonsWidget::setFrameName);
-
     m_mainLayout->addWidget(m_buttonsWidget);
 
     //-------------------------------------------------------------------
@@ -263,18 +265,23 @@ void MainDisplayWidget::startEditSettings()
     CheckPasswordWidget *checkPasswordWidget =
         new CheckPasswordWidget([=](){
             m_menuConfigEditFrame = new MenuConfigEditFrame(m_menuItemDataList);
+            m_menuConfigEditFrame->setAttribute(Qt::WA_DeleteOnClose);
 
             //! Скрыть
             m_framesList[m_curentFrameId]->setHidden(true);
 
+            m_frameLayout->removeWidget(m_framesList[m_curentFrameId]);
             m_frameLayout->addWidget( m_menuConfigEditFrame );
 
             emit frameChanged(FrameName::MenuConfigEdit);
 
             //----------------------------------------------------
             connect(m_menuConfigEditFrame, &QWidget::destroyed,[=](){
+
+                m_frameLayout->removeWidget( m_menuConfigEditFrame );
+                m_frameLayout->addWidget( m_framesList[m_curentFrameId] );
                 m_menuConfigEditFrame = nullptr;
-                //! Скрыть
+
                 m_framesList[m_curentFrameId]->setHidden(false);
 
                 emit frameChanged(m_framesList[m_curentFrameId]->frameName());

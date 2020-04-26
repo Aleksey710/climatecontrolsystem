@@ -84,13 +84,17 @@ void WorkTimeArchiveFrame::updateData()
             QString dt  = sqlQuery.value(0).toString();
             QString msg = sqlQuery.value(1).toString();
 
-            //qDebug() << dt << msg;
+            //qDebug() << "!!!!!updateData" << dt << msg;
 
             if(msg == "Увімкнення")
             {
                 if(lastIsOn)
                 {
-                    rowList.append(curentRow);
+                    if( (!curentRow.column0->text().isEmpty()) &&
+                        (!curentRow.column1->text().isEmpty()) )
+                    {
+                        rowList.append(curentRow);
+                    }
                     curentRow = RowOnOff(dt,msg);
                 } else
                 {
@@ -111,6 +115,13 @@ void WorkTimeArchiveFrame::updateData()
                 rowList.append(curentRow);
                 lastIsOn = false;
             }
+        }
+
+        if ( lastIsOn )
+        {
+           curentRow.column2->setText("");
+           curentRow.column3->setText("");
+           rowList.append(curentRow);
         }
 
         //------------------------------------------------------------

@@ -57,6 +57,9 @@ void ModbusMasterUnit::setupEndHandler()
 
     //! Запустить таймер циклов
     m_requestPeriodTimer->start(PERIOD_REQUEST_MS);
+    m_elapsedTimeRoutins.invalidate();
+    m_elapsedTimeBetween.start();
+    m_elapsedTimePeriod.start();
 
 #endif // CIRCULAR_PROCESSING_REQUES
 }
@@ -67,9 +70,27 @@ void ModbusMasterUnit::exequtedHandler()
     //! Если не все запросы цикла были выполнены
     if(m_curentRequestId < m_requestList.size())
     {
+        qint64 nextRequstTime = PERIOD_BETWEEN_REQUEST_MS;
+        if ( m_elapsedTimeRoutins.isValid() )
+        {
+            qint64 exequtedTime = m_elapsedTimeRoutins.elapsed();
+            nextRequstTime = PERIOD_BETWEEN_REQUEST_MS - exequtedTime;
+            if ( nextRequstTime < 5 )
+            {
+                    SEND_TO_LOG(
+                        QString("!!!! excuteNextRequest - veri long exequted %1 ms (next req time %2 ms replaced by %3 ms)"
+                                  ).arg(exequtedTime).arg(nextRequstTime).arg(PERIOD_BETWEEN_REQUEST_MS) );
+                    nextRequstTime = PERIOD_BETWEEN_REQUEST_MS;
+            }
+            m_elapsedTimeRoutins.invalidate();
+        } else {
+            SEND_TO_LOG( QString("!!!!ModbusMasterUnit::exequtedHandler - elapsedTime invalid)") );
+        }
+
         //! Запустить таймер паузы между запросами,
         //! по окнчании которого - запустить на выполнение следующий запрос
-        QTimer::singleShot(PERIOD_BETWEEN_REQUEST_MS, this, &ModbusMasterUnit::excuteNextRequest);
+        QTimer::singleShot( nextRequstTime, this, &ModbusMasterUnit::excuteNextRequest );
+        //QTimer::singleShot( PERIOD_BETWEEN_REQUEST_MS, this, &ModbusMasterUnit::excuteNextRequest );
     }
 }
 //------------------------------------------------------------------------------------
@@ -78,7 +99,19 @@ void ModbusMasterUnit::exequtedHandler()
 //!
 void ModbusMasterUnit::excuteNextRequest()
 {
-    SEND_TO_LOG( QString("%1 - ======================================================= excuteNextRequest").arg(objectName()) );
+    QString periodStr("");
+    if ( sender() != nullptr )
+    {
+        periodStr = periodStr.number(m_elapsedTimePeriod.restart());
+    }
+
+    m_elapsedTimeRoutins.start();
+
+
+    SEND_TO_LOG( QString("%1 - %2 %3===================================================== excuteNextRequest")
+                    .arg(objectName())
+                    .arg(m_elapsedTimeBetween.restart())
+                    .arg(periodStr) );
 
     //--------------------------------------------------
     if(m_curentRequestId >= m_requestList.size())

@@ -21,6 +21,7 @@ DateTimeSetup::DateTimeSetup(QWidget *parent)
                                      QDate(2120,12,31));
 
     ui->calendarWidget->setSelectedDate( QDateTime::currentDateTime().date() );
+    ui->calendarWidget->showSelectedDate();
 
     ui->timeEdit->setTime( QDateTime::currentDateTime().time() );
 }

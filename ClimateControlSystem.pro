@@ -16,8 +16,8 @@ SUBDIRS += ClimateControlSystem
 
 !contains(QMAKE_HOST.arch, __arm__):{
     message("Not ARM platform")
-    linux:SUBDIRS += Imitator
-    linux:SUBDIRS += Imitator2
+#    linux:SUBDIRS += Imitator
+#    linux:SUBDIRS += Imitator2
 }
 
 InternalLibraries.depends = \

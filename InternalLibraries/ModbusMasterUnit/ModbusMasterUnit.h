@@ -17,6 +17,7 @@
 #include <QSemaphore>
 #include <QMutex>
 #include <QMutexLocker>
+#include <QElapsedTimer>
 
 //#include <>
 //#include <>
@@ -83,6 +84,10 @@ class ModbusMasterUnit : public QObject
         //ModbusThreadController  *m_modbusThreadController;
         ModbusMasterHandler     *m_handler;
 
+        QElapsedTimer           m_elapsedTimeRoutins;
+        QElapsedTimer           m_elapsedTimeBetween;
+        QElapsedTimer           m_elapsedTimePeriod;
+
 //-------------------------------------------
 #ifdef CIRCULAR_PROCESSING_REQUEST
         QTimer *m_requestPeriodTimer;
@@ -91,8 +96,7 @@ class ModbusMasterUnit : public QObject
         QList<ModbusRequest*> m_requestList;
 
         const static int PERIOD_REQUEST_MS          = 1000;
-        //const static int PERIOD_BETWEEN_REQUEST_MS  = 200;
-        const static int PERIOD_BETWEEN_REQUEST_MS  = 5;
+        const static int PERIOD_BETWEEN_REQUEST_MS  = 90;
 
         static int m_curentRequestId;
 #else

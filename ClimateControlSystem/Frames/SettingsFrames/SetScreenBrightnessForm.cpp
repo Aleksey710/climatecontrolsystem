@@ -30,23 +30,26 @@ SetScreenBrightnessForm::SetScreenBrightnessForm(QWidget *parent)
         Q_UNUSED(_value);
         SEND_TO_LOG( QString("SetScreenBrightnessForm - set screen brightness[%1]").arg(_value) );
 #ifdef __arm__
-        if(_value >= 0 ||
+        if(_value >= 0 &&
            _value <= 7)
         {
             _value = 460 + (510-460)/7*_value;
 
-            const QString command1 = QString("gpio -g pwm 18 1024");
-            const QString command2 = QString("gpio -g mode 18 pwm");
-            const QString command3 = QString("gpio pwmc 1000");
             const QString command4 = QString("gpio -g pwm 18 %1").arg(_value);
 
-            QProcess::startDetached( command1 );
-            QProcess::startDetached( command2 );
-            QProcess::startDetached( command3 );
             QProcess::startDetached( command4 );
         }
 #endif // __arm__
     });
+
+#ifdef __arm__
+    const QString command1 = QString("gpio -g pwm 18 1024");
+    const QString command2 = QString("gpio -g mode 18 pwm");
+    const QString command3 = QString("gpio pwmc 1000");
+    QProcess::startDetached( command1 );
+    QProcess::startDetached( command2 );
+    QProcess::startDetached( command3 );
+#endif // __arm__
 
     connect(ui->pbClose, &QPushButton::released, [=](){
         close();

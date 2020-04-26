@@ -349,11 +349,11 @@ void DbUnit::createOffsetGroup(QStringList &queryStringList)
     queryStringList.append(
         "INSERT INTO `data` (`group_id`,`name`,`title`,`value`) "
         "VALUES ((SELECT `id` FROM `groups` WHERE `name`='offset'), "
-        "'cmf_mb', 'Коефіцієнт нахилу(матеріалу) для окремих датчикiв температури припливної вентиляції', 1.0);");
+        "'cmf_mb', 'Коефіцієнт нахилу для окремих датчикiв припливної вентиляції', 1.0);");
     queryStringList.append(
         "INSERT INTO `data` (`group_id`,`name`,`title`,`value`) "
         "VALUES ((SELECT `id` FROM `groups` WHERE `name`='offset'), "
-        "'cmo_mb', 'Коефіцієнт нахилу(матеріалу) для окремих датчикiв температури зовнішнього повітря', 1.0);");
+        "'cmo_mb', 'Коефіцієнт нахилу для окремих датчикiв зовнішнього повітря', 1.0);");
     queryStringList.append(
         "INSERT INTO `data` (`group_id`,`name`,`title`,`value`) "
         "VALUES ((SELECT `id` FROM `groups` WHERE `name`='offset'), "
@@ -467,7 +467,7 @@ void DbUnit::createTempGroup(QStringList &queryStringList)
     queryStringList.append(
         "INSERT INTO `data` (`group_id`,`name`,`title`,`value`) "
         "VALUES ((SELECT `id` FROM `groups` WHERE `name`='temp'), "
-        "'useBVV', 'Використання датчикiв температри БВВ true(1) або false(0) - використання окремих датчикiв.', 1);");
+        "'useBVV', 'Датчики температри БВВ - true(1), окремi датчики - false(0)', 1);");
 }
 //------------------------------------------------------------------------------------
 //!

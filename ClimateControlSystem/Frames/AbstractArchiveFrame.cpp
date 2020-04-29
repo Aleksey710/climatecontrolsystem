@@ -231,10 +231,9 @@ void AbstractArchiveFrame::startSaveData( )
 
     for (int i = 0; i < flashDirList.size(); ++i)
     {
-        //-----------------------------------
-        fileName.prepend( QString("/media/pi/%1/").arg(flashDirList.at(i)) );
+        QString fullFileName = QString("/media/pi/%1/%2").arg(flashDirList.at(i)).arg(fileName);
 
-        saveDataTo(fileName);
+        saveDataTo(fullFileName);
 
         //-----------------------------------
         //! Дать возможность обработаться накопившимся событиям
@@ -303,9 +302,9 @@ void AbstractArchiveFrame::saveDataTo(const QString &fileName)
         {
             QMessageBox::information(this,
                                      QString("Неможливо вiдкрити файл"),
-                                     QString("Неможливо вiдкрити файл:\n<br>"
-                                             "%1\n"
-                                             "%2\n"
+                                     QString("Неможливо вiдкрити файл:\n\n"
+                                             "%1\n\n"
+                                             "%2"
                                              )
                                      .arg(fileName)
                                      .arg(file.errorString())

@@ -44,7 +44,7 @@ class AbstractArchiveFrame : public AbstractFrame
         virtual void pgDown();
 
         void startSaveData();
-        void saveDataTo(const QString &fileName);
+        bool saveDataTo(const QString &fileName);
         void startRemoveData();
 
     protected:

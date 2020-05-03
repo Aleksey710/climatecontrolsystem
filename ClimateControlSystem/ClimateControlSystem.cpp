@@ -1,4 +1,5 @@
 #include "ClimateControlSystem.h"
+#include "SettingsFrames/SetScreenBrightnessForm.h"
 
 //------------------------------------------------------------------------------------
 //!
@@ -55,35 +56,13 @@ ClimateControlSystem::ClimateControlSystem(QObject *parent)
     //-------------------------------------------------------------------
     //! Задать функцию установки яркости
     SetScreenBrightness = [&](const int &value){
-
-        Q_UNUSED(value);
-
-        //SEND_TO_LOG( QString("ClimateControlSystem - SetScreenBrightness[%1]").arg(value) );
-#ifdef __arm__
-        int _value = value;
-
-        if(_value >= 0 &&
-           _value <= 7)
-        {
-            _value = 460 + (510-460)/7*_value;
-
-            const QString command4 = QString("gpio -g pwm 18 %1").arg(_value);
-
-            QProcess::startDetached( command4 );
-        }
-#endif // __arm__
+        SetScreenBrightnessForm::setBrightnessLevel( value );
     };
-#ifdef __arm__
-    {
-        const QString command1 = QString("gpio -g pwm 18 1024");
-        const QString command2 = QString("gpio -g mode 18 pwm");
-        const QString command3 = QString("gpio pwmc 1000");
-        QProcess::startDetached( command1 );
-        QProcess::startDetached( command2 );
-        QProcess::startDetached( command3 );
-    }
-#endif // __arm__
-    SetScreenBrightness(7);
+
+    // Настройка ШИМ
+    SetScreenBrightnessForm::initPWM( );
+    SetScreenBrightness( BRIGHTNESS_LEVEL_MAX );
+
     //-------------------------------------------------------------------
     ScriptObject *scriptObject = ScriptUnit::getScriptObject("settings.password.new");
 

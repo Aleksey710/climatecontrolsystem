@@ -233,7 +233,10 @@ void AbstractArchiveFrame::startSaveData( )
     {
         QString fullFileName = QString("/media/pi/%1/%2").arg(flashDirList.at(i)).arg(fileName);
 
-        saveDataTo(fullFileName);
+        if ( saveDataTo(fullFileName) )
+        {   // Сохраняем толко на одну флешку, поэтому как только получилось, выходим из цикла.
+            break;
+        }
 
         //-----------------------------------
         //! Дать возможность обработаться накопившимся событиям
@@ -288,29 +291,35 @@ void AbstractArchiveFrame::startSaveData( )
 }
 //------------------------------------------------------------------------------------
 //!
-void AbstractArchiveFrame::saveDataTo(const QString &fileName)
+bool AbstractArchiveFrame::saveDataTo(const QString &fileName)
 {
+    bool result =  false;
     SEND_TO_LOG( QString("%1 - сохранение журнала %2").arg(objectName()).arg(fileName) );
 
     //------------------------------------------------
     if (fileName.isEmpty())
     {
-        return;
+        return result;
     } else {
         QFile file(fileName);
         if (!file.open(QIODevice::WriteOnly))
         {
-            QMessageBox::information(this,
-                                     QString("Неможливо вiдкрити файл"),
-                                     QString("Неможливо вiдкрити файл:\n\n"
-                                             "%1\n\n"
-                                             "%2"
-                                             )
-                                     .arg(fileName)
-                                     .arg(file.errorString())
-                                     );
+            SEND_TO_LOG( QString("%1 - Неможливо вiдкрити файл: '%2', ошибка: '%3'")
+                         .arg(objectName())
+                         .arg(fileName)
+                         .arg(file.errorString()) );
 
-            return;
+//            QMessageBox::information(this,
+//                                     QString("Неможливо вiдкрити файл"),
+//                                     QString("Неможливо вiдкрити файл:\n\n"
+//                                             "%1\n\n"
+//                                             "%2"
+//                                             )
+//                                     .arg(fileName)
+//                                     .arg(file.errorString())
+//                                     );
+
+            return result;
         }
 
         //---------------------------------------------------------------
@@ -407,7 +416,10 @@ void AbstractArchiveFrame::saveDataTo(const QString &fileName)
             label->deleteLater();
 
         });
+
+        result =  true;
     }
+    return result;
 }
 //------------------------------------------------------------------------------------
 //!

@@ -1,5 +1,7 @@
 #include "MainDisplayWidget.h"
 
+#include <QMessageBox>
+
 #ifdef FULL_SCREEN
  //   #undef FULL_SCREEN
 #endif
@@ -90,6 +92,10 @@ MainDisplayWidget::MainDisplayWidget(QWidget *parent)
     QShortcut *shortcutSetScreenBrightness = new QShortcut(QKeySequence("Ctrl+L"), this);
     QObject::connect(shortcutSetScreenBrightness, &QShortcut::activated,
                      this, &MainDisplayWidget::startEditScreenBrightness);
+
+    QShortcut *shortcutUnmount = new QShortcut(QKeySequence("Ctrl+U"), this);
+    QObject::connect(shortcutUnmount, &QShortcut::activated,
+                     this, &MainDisplayWidget::umountFlash);
 
     //-----------------------------------------------------------
     SEND_TO_LOG("MainDisplayWidget - создан");
@@ -312,6 +318,65 @@ void MainDisplayWidget::startEditScreenBrightness()
     Q_UNUSED(checkPasswordWidget);
 }
 
+void MainDisplayWidget::umountFlash()
+{
+
+    QDir mediaDir("/media/pi");
+    {
+        QList<QString> flashDirList = mediaDir.entryList(QDir::Dirs);
+
+        flashDirList.removeAll(".");
+        flashDirList.removeAll("..");
+
+        foreach(QString folder, flashDirList)
+        {
+            QString cmd = QString("sudo umount /media/pi/%1").arg(folder);
+            int result = 0;
+#ifdef __arm__
+            result = QProcess::execute( cmd );
+#endif
+            qDebug() << "MainDisplayWidget::umountFlash" << cmd << result;
+        }
+    }
+    {
+        QList<QString> flashDirList = mediaDir.entryList(QDir::Dirs);
+
+        flashDirList.removeAll(".");
+        flashDirList.removeAll("..");
+
+        QString msg;
+        QMessageBox::Icon icon;
+        if ( flashDirList.isEmpty() )
+        {
+            msg = QString("Флеш диск можна видалити");
+            icon = QMessageBox::Information;
+        } else {
+            msg = QString("Не вiдмонтованi наступнi диски:\n");
+            foreach(QString folder, flashDirList)
+            {
+                msg += folder + QString("\n");
+            }
+            icon = QMessageBox::Warning;
+        }
+
+        QMessageBox * msgBox = new QMessageBox(
+                    icon,
+                    "Вiдмонтуваня диску",
+                    msg);
+
+        QFont f = msgBox->font();
+        f.setPointSize(12);
+        msgBox->setFont( f );
+
+        msgBox->show();
+
+        //! Удалить транспарант о сохранении
+        QTimer::singleShot(3*1000, [msgBox](){
+            msgBox->deleteLater();
+        });
+    }
+}
+//------------------------------------------------------------------------------------
 
 
 

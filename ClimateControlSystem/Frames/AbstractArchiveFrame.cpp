@@ -219,30 +219,49 @@ void AbstractArchiveFrame::startSaveData( )
     flashDirList.removeAll(".");
     flashDirList.removeAll("..");
 
-    //qDebug() << flashDirList;
-
     if(flashDirList.size() == 0)
     {
-        QMessageBox::information(this,
-                                 QString("Не знайдено носiя"),
-                                 QString("Не знайдено носiя")
-                                 );
-    }
+        QMessageBox * msgBox = new QMessageBox(
+                    QMessageBox::Warning,
+                    "Збереження журналу до файлу",
+                    "Не знайдено носiя.");
+        QFont f = msgBox->font();
+        f.setPointSize(12);
+        msgBox->setFont( f );
 
-    for (int i = 0; i < flashDirList.size(); ++i)
-    {
-        QString fullFileName = QString("/media/pi/%1/%2").arg(flashDirList.at(i)).arg(fileName);
+        msgBox->show();
+    } else {
+        int i;
+        for ( i = 0; i < flashDirList.size(); ++i)
+        {
+            QString fullFileName = QString("/media/pi/%1/%2").arg(flashDirList.at(i)).arg(fileName);
 
-        if ( saveDataTo(fullFileName) )
-        {   // Сохраняем толко на одну флешку, поэтому как только получилось, выходим из цикла.
-            break;
+            if ( saveDataTo(fullFileName) )
+            {   // Сохраняем толко на одну флешку, поэтому как только получилось, выходим из цикла.
+                break;
+            }
+
+            //-----------------------------------
+            //! Дать возможность обработаться накопившимся событиям
+            //! Для уменьшения замирания
+            QApplication::processEvents();
         }
 
-        //-----------------------------------
-        //! Дать возможность обработаться накопившимся событиям
-        //! Для уменьшения замирания
-        QApplication::processEvents();
+        if ( i == flashDirList.size() )
+        {
+            QMessageBox * msgBox = new QMessageBox(
+                        QMessageBox::Warning,
+                        "Збереження журналу до файлу",
+                        "Не вдалося зберегти журнал до файлу.");
+            QFont f = msgBox->font();
+            f.setPointSize(12);
+            msgBox->setFont( f );
+
+            msgBox->show();
+        }
     }
+
+
 #else
     fileName.prepend("./LINUX MINT/");
 
@@ -308,26 +327,19 @@ bool AbstractArchiveFrame::saveDataTo(const QString &fileName)
                          .arg(objectName())
                          .arg(fileName)
                          .arg(file.errorString()) );
-
-//            QMessageBox::information(this,
-//                                     QString("Неможливо вiдкрити файл"),
-//                                     QString("Неможливо вiдкрити файл:\n\n"
-//                                             "%1\n\n"
-//                                             "%2"
-//                                             )
-//                                     .arg(fileName)
-//                                     .arg(file.errorString())
-//                                     );
-
             return result;
         }
 
         //---------------------------------------------------------------
-        QLabel *label = new QLabel("Йде збереження журналу до файлу");
-        label->setWindowModality(Qt::ApplicationModal);
-        label->setAlignment(Qt::AlignCenter);
-        label->setGeometry(200,200,400,200);
-        label->show();
+        QMessageBox * msgBox = new QMessageBox(
+                    QMessageBox::Information,
+                    "Збереження журналу до файлу",
+                    QString("Йде збереження журналу до файлу:\n%1" ).arg( fileName )
+                    );
+        QFont f = msgBox->font();
+        f.setPointSize(12);
+        msgBox->setFont( f );
+        msgBox->show();
 
         //---------------------------------------------------------------
         //! Дать возможность обработаться накопившимся событиям
@@ -411,10 +423,8 @@ bool AbstractArchiveFrame::saveDataTo(const QString &fileName)
         file.flush();
 
         //! Удалить транспарант о сохранении
-        QTimer::singleShot(2*1000, [label](){
-
-            label->deleteLater();
-
+        QTimer::singleShot(3*1000, [msgBox](){
+            msgBox->deleteLater();
         });
 
         result =  true;

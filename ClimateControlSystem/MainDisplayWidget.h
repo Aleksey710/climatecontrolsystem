@@ -76,6 +76,7 @@ class MainDisplayWidget : public QWidget
     private slots:
         void startEditSettings();
         void startEditScreenBrightness();
+        void umountFlash();
 
     private:
         void setupFrames();

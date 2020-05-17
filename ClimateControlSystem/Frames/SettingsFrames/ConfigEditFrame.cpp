@@ -114,6 +114,15 @@ void ConfigEditFrame::onClicked(const QModelIndex &index)
             } else
             {
                 updateModelData();
+
+                // Изменение настроек в скриптовых объектах.
+                QString scriptObjectName = QString("settings.%1.%2").arg(m_groupName).arg(name);
+                ScriptObject *dataScriptObject = ScriptUnit::getScriptObject(scriptObjectName);
+                if(dataScriptObject)
+                {
+                    dataScriptObject->setData( editSettingsWidget->value().toDouble() );
+                }
+
             }
 
             //----------------------------------------------------

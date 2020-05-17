@@ -199,8 +199,8 @@
 
         { "lineComment":"------------------------------------------------------------------------------------------------------" },
         { "lineComment":"Данные для посчета наработки" },
-            { "name":"vr.WorkedHours.startTime",      "title":"Время начала работы программы", "value": 0 },
-            { "name":"vr.WorkedHours.nextUpdateTime", "title":"Время следующего обновления наработки", "value": 0 },
+            { "name":"vr.WorkedHours.startTime",        "title":"Время начала работы программы", "value": 0 },
+            { "name":"vr.WorkedHours.nextUpdateTime",   "title":"Время следующего обновления наработки", "value": 0 },
         { "lineComment":"------------------------------------------------------------------------------------------------------" },
 
         { "lineComment":"------------------------------------------------------------------------------------------------------" },
@@ -2749,6 +2749,18 @@
                 "
         },
         {
+            "name":"WorkedHours_resetStartTime",
+            "sources":[
+                "settings.wagon.res"
+                ],
+            "processing":"
+                /* При изменении времени, устанавливаем время начала наработки - текущее.
+                   Измениться оно может только в настройках или в функции WorkedHours_pool.
+                */
+                vr.WorkedHours.startTime.setData( sys.time.curent.data() );
+                "
+        },
+        {
 
             "comment":"Подсчет времени наработки",
             "name":"WorkedHours_pool",
@@ -2761,7 +2773,7 @@
                 // Обновление времени наработки.
                 // Время наработки хранится в регистре settings.wagon.res,
                 // а время начала работы в регистре vr.WorkedHours.startTime.
-                // При онавление разница между текущим временен и времененм начала раоты
+                // При обнавлении разница между текущим временем и времененм начала раоты
                 // учитвается во времени наработки, а временем начала работы начинает считаться
                 // текущее время
                 function updateWagonRes()
@@ -2771,7 +2783,9 @@
                     delta = settings.wagon.res.data() + ( delta / 60 );                  // Время в секундах, а наработка хранится в минутах
                     settings.wagon.res.setData( delta );
 
-                    vr.WorkedHours.startTime.setData( sys.time.curent.data() );
+                    // Теперь эта строка не нужна.
+                    // При изменении settings.wagon.res, вызовется функция WorkedHours_resetStartTime
+                    //vr.WorkedHours.startTime.setData( sys.time.curent.data() );
                 };
 
                 //----------------------------------------------------------

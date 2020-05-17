@@ -334,7 +334,9 @@ bool AbstractArchiveFrame::saveDataTo(const QString &fileName)
         QMessageBox * msgBox = new QMessageBox(
                     QMessageBox::Information,
                     "Збереження журналу до файлу",
-                    QString("Йде збереження журналу до файлу:\n%1" ).arg( fileName )
+                    QString("Йде збереження журналу до файлу:\n%1\n\n%2" )
+                           .arg( fileName )
+                           .arg("Перед вилученням флеш-накопичувача натисніть 'Ctrl+u'")
                     );
         QFont f = msgBox->font();
         f.setPointSize(12);
@@ -423,7 +425,8 @@ bool AbstractArchiveFrame::saveDataTo(const QString &fileName)
         file.flush();
 
         //! Удалить транспарант о сохранении
-        QTimer::singleShot(3*1000, [msgBox](){
+        //! Было 3 секунды, попросили сделать в два раза больше.
+        QTimer::singleShot(6*1000, [msgBox](){
             msgBox->deleteLater();
         });
 

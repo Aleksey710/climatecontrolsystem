@@ -23,7 +23,7 @@ ClimateControlSystem::ClimateControlSystem(QObject *parent)
     //! Связать функцию архивирования в скрипте с функцией непосредственной работы с базой
     SaveSettingsFunction = [&](const QString &groupe, const QString &param, const double &value){
 
-        //SEND_TO_LOG( QString("ClimateControlSystem - ArchiveFunction[%1][%2]").arg(msgId).arg(value) );
+        //SEND_TO_LOG( QString("ClimateControlSystem - SaveSettingsFunction[%1][%2][%3]").arg(groupe).arg(param).arg(value) );
         m_dbUnit.saveSettings(groupe, param, value);
     };
 
@@ -31,7 +31,7 @@ ClimateControlSystem::ClimateControlSystem(QObject *parent)
     //! Связать функцию архивирования в скрипте с функцией непосредственной работы с базой
     SaveStringSettingsFunction = [&](const QString &groupe, const QString &param, const QString &value){
 
-        //SEND_TO_LOG( QString("ClimateControlSystem - ArchiveFunction[%1][%2]").arg(msgId).arg(value) );
+        //SEND_TO_LOG( QString("ClimateControlSystem - SaveStringSettingsFunction[%1][%2][%3]").arg(groupe).arg(param).arg(value) );
         m_dbUnit.saveStringSettings(groupe, param, value);
     };
 

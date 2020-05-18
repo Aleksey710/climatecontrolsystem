@@ -173,9 +173,45 @@ ClimateControlSystem.depends = \
 # Отключить WiFi
 #sudo ifconfig wlan0 down
 #sudo ifconfig wlan0 up
+###############################################################################
+# Рабочий метод - убирает загрузочные сообщения при загрузке
+# https://scribles.net/customizing-boot-up-screen-on-raspberry-pi/
+# Remove text message under splash image:
+# Open “/usr/share/plymouth/themes/pix/pix.script” as root.
 
+# sudo nano /usr/share/plymouth/themes/pix/pix.script
+# Then, remove (or comment out) four lines below:
+# message_sprite = Sprite();
+# message_sprite.SetPosition(screen_width * 0.1, screen_height * 0.9, 10000);
+#      my_image = Image.Text(text, 1, 1, 1);
+#       message_sprite.SetImage(my_image);
+#Note : This is a quick and dirty method I found. It works, but there might be better way.
 
+#Remove Boot Messages
+#Open “/boot/cmdline.txt” as root.
+#sudo nano /boot/cmdline.txt
+#Then, replace “console=tty1” with “console=tty3”. This redirects boot messages to tty3.
 
+#Remove other things
+#Still in “/boot/cmdline.txt”, add below at the end of the line
+
+#splash quiet plymouth.ignore-serial-consoles logo.nologo vt.global_cursor_default=0
+#Here are brief explanations.
+#‘splash’ : enables splash image
+#‘quiet’ : disable boot message texts
+#‘plymouth.ignore-serial-consoles’ : not sure about this but seems it’s required when use Plymouth.
+#‘logo.nologo’ : removes Raspberry Pi logo in top left corner.
+#‘vt.global_cursor_default=0’ : removes blinking cursor.
+
+#Note : The first three should be there by default, but make sure if those exist.
+
+#Replace Splash Image
+#Now, everything unwanted images and texts are gone. Let’s replace the default splash image (/usr/share/plymouth/themes/pix/splash.png) with your own splash image.
+
+#sudo cp ~/my_splash.png /usr/share/plymouth/themes/pix/splash.png
+#Note : As described in above assumption, “my_splash.png” should be your new splash image.
+
+###############################################################################
 
 
 

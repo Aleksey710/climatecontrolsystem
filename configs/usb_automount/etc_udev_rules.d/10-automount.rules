@@ -1,0 +1,7 @@
+#SUBSYSTEM=="block", KERNEL=="sd[a-z][0-9]", ACTION=="add",    RUN+="/bin/mkdir -p /media/%k"
+#SUBSYSTEM=="block", KERNEL=="sd[a-z][0-9]", ACTION=="add",    RUN+="/bin/mount /dev/%k /media/%k -O uid=1000"
+#SUBSYSTEM=="block", KERNEL=="sd[a-z][0-9]", ACTION=="remove", RUN+="/bin/umount /media/%k"
+#SUBSYSTEM=="block", KERNEL=="sd[a-z][0-9]", ACTION=="remove", RUN+="/bin/rm -r /media/%k"
+
+#ACTION=="add",    SUBSYSTEM=="block",KERNEL=="sd*[!0-9]",RUN+="/root/mount_manager/mount_manager add"
+#ACTION=="remove", SUBSYSTEM=="block",KERNEL=="sd*[!0-9]",RUN+="/root/mount_manager/mount_manager remove"

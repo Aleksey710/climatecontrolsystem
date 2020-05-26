@@ -27,6 +27,7 @@ InternalLibraries.depends = \
 ClimateControlSystem.depends = \
     InternalLibraries \
 
+###############################################################################
 # sudo apt install qtscript5-dev
 
 # sudo apt install \
@@ -34,7 +35,9 @@ ClimateControlSystem.depends = \
 # libqt5serialport5 \
 # libqt5serialbus5 \
 # libqt5sql5-sqlite \
-
+# pmount \
+#
+###############################################################################
 # Настройка времени
 # https://cdn-learn.adafruit.com/downloads/pdf/adding-a-real-time-clock-to-raspberry-pi.pdf
 
@@ -133,6 +136,26 @@ ClimateControlSystem.depends = \
 #
 # Вернуть всё на место:
 # update-rc.d -f используемый-DM defaults
+#
+###############################################################################
+# как отключить скринсейвер
+# /home/pi/.config/lxsession/LXDE/autostart
+# убрать #@xscreensaver -no-splash
+#
+###############################################################################
+# Запустить рабочий стол
+# killall lxpanel
+# lxpanel
+#
+#/etc/xdg/lxsession/LXDE-pi/autostart
+# Закоментировать все:
+# @lxpanel --profile LXDE-pi
+# @pcmanfm --desktop --profile LXDE-pi
+# @xscreensaver -no-splash
+#
+###############################################################################
+# Отключение lxpanel - отключает автомонтирование флэшек
+
 ###############################################################################
 # https://losst.ru/nastrojka-linghtdm-v-linux
 #
@@ -146,21 +169,6 @@ ClimateControlSystem.depends = \
 ###############################################################################
 # Пособия на тему...
 # https://4pda.ru/forum/index.php?showtopic=308317&st=11000
-#
-###############################################################################
-# как отключить скринсейвер
-# /home/pi/.config/lxsession/LXDE/autostart
-# убрать #@xscreensaver -no-splash
-#
-###############################################################################
-# Запустить рабочий стол
-# killall lxpanel
-# lxpanel
-#
-#/home/pi/.config/lxsession/LXDE/autostart
-# Закоментировать @lxpanel
-###############################################################################
-
 #
 ###############################################################################
 # Комбинации горячих кнопок

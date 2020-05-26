@@ -1,0 +1,7 @@
+#!/bin/bash
+PART=$1
+#FS_LABEL=`lsblk -o name,label | grep ${PART} | awk '{print $2}'`
+/usr/bin/pmount --umask 000 --noatime -w --sync /dev/${PART} /media/${PART}
+#notify-send -u normal "Подключен накопитель USB."
+/usr/local/bin/copylog /media/${PART}
+/usr/local/bin/armupdate /media/${PART}

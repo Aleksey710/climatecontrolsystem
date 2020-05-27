@@ -212,7 +212,8 @@ void AbstractArchiveFrame::startSaveData( )
                         .arg(QDateTime::currentDateTimeUtc().toString("yyyy.MM.dd_hh-mm"))
                         .arg(headLabel());
 #ifdef __arm__
-    QDir mediaDir = QDir("/media/pi");
+    //QDir mediaDir = QDir("/media/pi");
+    QDir mediaDir = QDir("/media");
 
     QList<QString> flashDirList = mediaDir.entryList(QDir::Dirs);
 
@@ -234,7 +235,8 @@ void AbstractArchiveFrame::startSaveData( )
         int i;
         for ( i = 0; i < flashDirList.size(); ++i)
         {
-            QString fullFileName = QString("/media/pi/%1/%2").arg(flashDirList.at(i)).arg(fileName);
+            //QString fullFileName = QString("/media/pi/%1/%2").arg(flashDirList.at(i)).arg(fileName);
+            QString fullFileName = QString("/media/%1/%2").arg(flashDirList.at(i)).arg(fileName);
 
             if ( saveDataTo(fullFileName) )
             {   // Сохраняем толко на одну флешку, поэтому как только получилось, выходим из цикла.

@@ -220,9 +220,13 @@ ClimateControlSystem.depends = \
 #Note : As described in above assumption, “my_splash.png” should be your new splash image.
 
 ###############################################################################
+# /boot/cmdline.txt
+# console=tty3 root=PARTUUID=d9b3f436-02 rootfstype=ext4 elevator=deadline fsck.repair=yes rootwait loglevel=0 quiet splash plymouth.ignore-serial-consoles$
 
 
 
+
+###############################################################################
 
 
 
